@@ -8,6 +8,7 @@
 #' @export
 #' @import dplyr
 #' @import sf
+#' @importFrom terra text
 
 #' @examples
 #' library(sf)
@@ -34,6 +35,9 @@
 #'           tx_sp_lvl = c('Newtonia leucocarpa','Lophira alata','Guibourtia tessmannii'),
 #'           plot_name = 'mbalmayo_pheno_observatory',
 #'           code_sp = c(12856, 1690, 5691))
+#'
+#' base::plot(crownFile$geometry, border = 'blue', lwd = 2)
+#' terra::text(terra::vect(crownFile), labels="id", halo = T, col = 'blue')
 #'
 #' check_crownFile(crownFile)
 
