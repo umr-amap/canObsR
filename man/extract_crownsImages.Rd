@@ -21,8 +21,13 @@ extract_crownsImages(
 
 \item{RGB_paths}{a list with the full paths to the RGB rasters.}
 
+\item{site}{chr. name of the site, p.e 'Mbalmayo'.}
+
 \item{date}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e '2022_09_25').
 The order of the dates should match with the order of the dates of the image in the RGB_paths.}
+
+\item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL, it will
+use and transform all the data into the crs of the first RGB image.}
 
 \item{directory}{chr. The path to the directory use to stored the images. The function
 will create the folder, It doesn't need to exists.}
@@ -33,9 +38,6 @@ by the height and width arguments.}
 \item{width}{if specific_quality = TRUE, the width of the device}
 
 \item{height}{if specific_quality = TRUE, the height of the device}
-
-\item{tx_sp_lvl}{chr. The name of the specie variable in the \code{sf} object crowns,
-p.e "specie".}
 }
 \description{
 The function extracts and save .jpeg images for each crown at each date.
@@ -69,19 +71,6 @@ extract_crownsImages(
    date = date,
    tx_sp_lvl = 'tx_sp_lvl',
    specific_quality = TRUE
-   )
-
-# Extraction with specific height and width
-
-extract_crownsImages(
-   crownFile = crownFile,
-   RGB_paths = RGB_paths,
-   directory = directory,
-   date = date,
-   tx_sp_lvl = 'tx_sp_lvl',
-   specific_quality = TRUE,
-   height = 500,
-   width = 430
    )
 
 }

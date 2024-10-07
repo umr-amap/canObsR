@@ -4,12 +4,13 @@
 #'
 #' @param crownFile A \code{sf} object with an 'id' variable. Each id must be unique
 #' @param RGB_paths a list with the full paths to the RGB rasters.
+#' @param site chr. name of the site, p.e 'Mbalmayo'.
 #' @param directory chr. The path to the directory use to stored the images. The function
 #' will create the folder, It doesn't need to exists.
 #' @param date chr. Vector with dates (format should be '%Y_%m_%d', p.e '2022_09_25').
 #' The order of the dates should match with the order of the dates of the image in the RGB_paths.
-#' @param tx_sp_lvl chr. The name of the specie variable in the \code{sf} object crowns,
-#'  p.e "specie".
+#' @param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL, it will
+#' use and transform all the data into the crs of the first RGB image.
 #' @param specific_quality Logical, if TRUE the quality of image will be determine
 #' by the height and width arguments.
 #' @param height if specific_quality = TRUE, the height of the device
@@ -44,19 +45,6 @@
 #'    date = date,
 #'    tx_sp_lvl = 'tx_sp_lvl',
 #'    specific_quality = TRUE
-#'    )
-#'
-#' # Extraction with specific height and width
-#'
-#' extract_crownsImages(
-#'    crownFile = crownFile,
-#'    RGB_paths = RGB_paths,
-#'    directory = directory,
-#'    date = date,
-#'    tx_sp_lvl = 'tx_sp_lvl',
-#'    specific_quality = TRUE,
-#'    height = 500,
-#'    width = 430
 #'    )
 #'
 #' }
