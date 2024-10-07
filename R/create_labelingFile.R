@@ -8,9 +8,6 @@
 #' @param save_xlsx log. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters
 #' @param directory The path where to save the xlsx file.
 #'
-#' @examples
-#' \dontrun{
-#' }
 #'
 #' @export
 #'

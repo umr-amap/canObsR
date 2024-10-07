@@ -26,8 +26,3 @@ create_labelingFile(
 \description{
 A function to create the xlsx file to do the labeling
 }
-\examples{
-\dontrun{
-}
-
-}

@@ -15,9 +15,11 @@ Config/testthat/edition: 3
 Imports: 
     dplyr,
     exactextractr,
+    grDevices,
     sf,
     stars,
     terra,
-    tidyr
+    tidyr,
+    writexl
 URL: https://github.com/hugolblc/managecrownsdata
 BugReports: https://github.com/hugolblc/managecrownsdata/issues
