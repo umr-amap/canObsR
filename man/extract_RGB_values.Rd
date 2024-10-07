@@ -5,7 +5,7 @@
 \title{Extract RGB metrics}
 \usage{
 extract_RGB_values(
-  crowns,
+  crownFile,
   RGB_paths,
   site = NULL,
   date = NULL,
@@ -21,6 +21,8 @@ extract_RGB_values(
 )
 }
 \arguments{
+\item{crownFile}{A sf object with the crowns delineation}
+
 \item{RGB_paths}{a list with the full paths to the RGB rasters.}
 
 \item{site}{chr. name of the site, p.e 'Mbalmayo'.}
@@ -36,18 +38,6 @@ When TRUE, specify the crowns which has not been extracting per date, because th
 
 \item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL, it will
 use and transform all the data into the crs of the first RGB image.}
-
-\item{colname_id}{chr. Specify the name of the variable id. By default 'id'}
-
-\item{colname_family}{chr. Specify the name of the variable id. By default 'family'}
-
-\item{colname_genus}{chr. Specify the name of the variable id. By default 'genus'}
-
-\item{colname_specie}{chr. Specify the name of the variable id. By default 'specie'}
-
-\item{colname_plot_name}{chr. Specify the name of the variable id. By default 'plot_name'}
-
-\item{colname_code_sp}{chr. Specify the name of the variable id. By default 'code_sp'}
 }
 \description{
 The function extracts RGB metrics (red, green, blue, sumrgb,
@@ -76,14 +66,7 @@ test <- extract_RGB_values(
    site = site,
    date = date,
    fun = 'all',
-   infos = TRUE,
-   colname_id = 'id',
-   colname_family = 'family',
-   colname_genus = 'genus',
-   colname_specie = 'specie',
-   colname_plot_name = 'plot_name',
-   colname_code_sp = 'code_sp'
-)
+   infos = TRUE)
 }
 
 }

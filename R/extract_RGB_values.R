@@ -5,6 +5,7 @@
 #' for the whole mosaics and then extracts the value at the crown scale using the \code{exactextractr::exact_extract}
 #' function. The mean and / or the variance can be extracted (see 'fun' parameter).
 #'
+#' @param crownFile A sf object with the crowns delineation
 #' @param RGB_paths a list with the full paths to the RGB rasters.
 #' @param site chr. name of the site, p.e 'Mbalmayo'.
 #' @param date chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
@@ -15,12 +16,6 @@
 #' When TRUE, specify the crowns which has not been extracting per date, because they were out of the image.
 #' @param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL, it will
 #' use and transform all the data into the crs of the first RGB image.
-#' @param colname_id chr. Specify the name of the variable id. By default 'id'
-#' @param colname_family chr. Specify the name of the variable id. By default 'family'
-#' @param colname_genus chr. Specify the name of the variable id. By default 'genus'
-#' @param colname_specie chr. Specify the name of the variable id. By default 'specie'
-#' @param colname_plot_name chr. Specify the name of the variable id. By default 'plot_name'
-#' @param colname_code_sp chr. Specify the name of the variable id. By default 'code_sp'
 #'
 #' @examples
 #' \dontrun{
@@ -43,14 +38,7 @@
 #'    site = site,
 #'    date = date,
 #'    fun = 'all',
-#'    infos = TRUE,
-#'    colname_id = 'id',
-#'    colname_family = 'family',
-#'    colname_genus = 'genus',
-#'    colname_specie = 'specie',
-#'    colname_plot_name = 'plot_name',
-#'    colname_code_sp = 'code_sp'
-#' )
+#'    infos = TRUE)
 #' }
 #'
 #' @export
@@ -70,7 +58,7 @@
 extract_RGB_values <-
 
    function(
-      crowns,
+      crownFile,
       RGB_paths,
       site = NULL,
       date = NULL,
@@ -85,16 +73,10 @@ extract_RGB_values <-
       colname_code_sp = 'code_sp'
    ){
 
-      if( 'date' %in% base::names(crowns) ) { crowns <- crowns %>% dplyr::select(-date) }
+      if( 'date' %in% base::names(crownFile) ) { crownFile <- crownFile %>% dplyr::select(-date) }
       if( infos ) { details <- list() }
       if(is.null(crs)) { crs = sf::st_crs(terra::rast(RGB_paths[1]))}
 
-      crowns <- crowns %>%  dplyr::rename(id := !!colname_id,
-                                          family := !!colname_family,
-                                          genus := !!colname_genus,
-                                          specie := !!colname_specie,
-                                          plot_name := !!colname_plot_name,
-                                          code_sp := !!colname_code_sp)
 
       for (i in 1:length(RGB_paths)){
 
@@ -107,7 +89,7 @@ extract_RGB_values <-
             sf::st_transform(crs = crs) %>%
             sf::st_as_sf()
 
-         crowns_i <- crowns %>% sf::st_transform(crs = crs)
+         crowns_i <- crownFile %>% sf::st_transform(crs = crs)
 
          within_crowns <- sf::st_join(bbox, crowns_i, join = st_contains) %>% .[['id']]
 
