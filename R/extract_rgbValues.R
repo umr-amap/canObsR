@@ -5,7 +5,7 @@
 #' for the whole mosaics and then extracts the value at the crown scale using the \code{exactextractr::exact_extract}
 #' function. The mean and / or the variance can be extracted (see 'fun' parameter).
 #'
-#' @param crownFile A sf object with the crowns delineation
+#' @param crownFile A \code{sf} object with the crowns delineation.
 #' @param RGB_paths a list with the full paths to the RGB rasters.
 #' @param site chr. name of the site, p.e 'Mbalmayo'.
 #' @param date chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
@@ -31,7 +31,7 @@
 #' crs = sf::st_crs(stars::read_stars(RGB_paths[1], proxy = TRUE))
 #' site = 'Mbalmayo'
 #'
-#' test <- extract_RGB_values(
+#' test <- extract_rgbValues(
 #'    crowns,
 #'    RGB_paths,
 #'    crs = crs,
@@ -55,17 +55,17 @@
 #' @importFrom tidyr gather
 #' @import dplyr
 #'
-extract_RGB_values <-
+extract_rgbValues <-
 
    function(
       crownFile,
       RGB_paths,
       site = NULL,
       date = NULL,
+      crs = NULL,
       fun = 'all',
-      infos = FALSE,
-      crs = NULL
-      ){
+      infos = FALSE
+   ){
 
       if( 'date' %in% base::names(crownFile) ) { crownFile <- crownFile %>% dplyr::select(-date) }
       if( infos ) { details <- list() }
