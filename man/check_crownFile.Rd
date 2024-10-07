@@ -10,7 +10,9 @@ check_crownFile(crownFile)
 \item{crownFile}{A sf object}
 }
 \value{
-Text that give you information about your file
+Text that give you information about your file.
+Indicates whether your file will be compatible or not  for the other functions of the package.
+Pay attention to the line starting with '-- ERROR --'.
 }
 \description{
 Check the crown file compatibility
@@ -18,6 +20,8 @@ Check the crown file compatibility
 \examples{
 library(sf)
 library(dplyr)
+library(terra)
+
 mean_lat <- 46.07998
 sd_lat <- 0.1
 mean_long <- 8.931849
@@ -38,6 +42,9 @@ crownFile <- sf::st_buffer(dat_sf, dist = 1000) \%>\%
           tx_sp_lvl = c('Newtonia leucocarpa','Lophira alata','Guibourtia tessmannii'),
           plot_name = 'mbalmayo_pheno_observatory',
           code_sp = c(12856, 1690, 5691))
+
+base::plot(crownFile$geometry, border = 'blue', lwd = 2)
+terra::text(terra::vect(crownFile), labels="id", halo = T, col = 'blue')
 
 check_crownFile(crownFile)
 }

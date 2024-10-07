@@ -2,7 +2,9 @@
 #'
 #' @param crownFile A sf object
 #'
-#' @return Text that give you information about your file
+#' @return Text that give you information about your file.
+#' Indicates whether your file will be compatible or not  for the other functions of the package.
+#' Pay attention to the line starting with '-- ERROR --'.
 #' @export
 #' @import dplyr
 #' @import sf
@@ -10,6 +12,8 @@
 #' @examples
 #' library(sf)
 #' library(dplyr)
+#' library(terra)
+#'
 #' mean_lat <- 46.07998
 #' sd_lat <- 0.1
 #' mean_long <- 8.931849
@@ -31,6 +35,9 @@
 #'           plot_name = 'mbalmayo_pheno_observatory',
 #'           code_sp = c(12856, 1690, 5691))
 #'
+#' base::plot(crownFile$geometry, border = 'blue', lwd = 2)
+#' terra::text(terra::vect(crownFile), labels="id", halo = T, col = 'blue')
+#'
 #' check_crownFile(crownFile)
 
 check_crownFile <- function(crownFile){
@@ -40,14 +47,26 @@ check_crownFile <- function(crownFile){
    vars <- names(crownFile)
    var_needed <- c('geometry', 'id', 'family', 'genus', 'specie', 'plot_name', 'code_sp')
 
-   var_check <- c()
+   var_check <- c(
+         '##########     VARIABLES CHECK     ##########',
+         '-                                           -'
+      )
 
    for (i in 1:length(var_needed)) {
-      var_check <- c(var_check,vars[i] %in% var_needed)
+
+      if (vars[i] %in% var_needed) {
+
+         checki <- paste('--- OK ----  :  ',vars[i])
+
+      } else {
+
+         checki <- paste('-- ERROR --  :  ',vars[i], 'variable missing or not well named')
+
+      }
+
+      var_check <- c(var_check, checki)
 
    }
-
-   var_missing <- var_needed[!var_check]
 
 
    # Check crs ---------------------------------------------------------------
@@ -57,7 +76,20 @@ check_crownFile <- function(crownFile){
 
    # Check double id ---------------------------------------------------------
 
-   duplicat_id <- crownFile$id[duplicated(crownFile$id)]
+   if (length(crownFile$id[duplicated(crownFile$id)]) == 0){
+
+      duplicat_id <- '--- OK ----  :  There is no duplicated id'
+
+         } else {
+
+      duplicat_id <- c('-- ERROR --  :  The following id are duplicated :',
+                           paste(crownFile$id[duplicated(crownFile$id)],
+                                 collapse = ','
+                           )
+                           )
+
+   }
+
 
 
    # Return ------------------------------------------------------------------
@@ -66,9 +98,20 @@ check_crownFile <- function(crownFile){
 
       cat(
          c(
-            paste(c('These variables are not found : ', paste(var_missing, collapse = ', ')), collapse = ''),
+            var_check,
+            c('-                                           -',
+              '-                                           -',
+              '##########           CRS           ##########',
+              '-                                           -'
+            ),
+
             paste(c('CRS', crs), collapse = ' : '),
-            paste(c('Following id are duplicated', duplicat_id), collapse = ' : ')
+            c('-                                           -',
+              '-                                           -',
+              '##########   DUPLICATED ID CHECK   ##########',
+              '-                                           -'
+            ),
+            duplicat_id
          ),
          sep = "\n"
 
