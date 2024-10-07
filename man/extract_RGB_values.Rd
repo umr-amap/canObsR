@@ -11,13 +11,7 @@ extract_RGB_values(
   date = NULL,
   fun = "all",
   infos = FALSE,
-  crs = NULL,
-  colname_id = "id",
-  colname_family = "family",
-  colname_genus = "genus",
-  colname_specie = "specie",
-  colname_plot_name = "plot_name",
-  colname_code_sp = "code_sp"
+  crs = NULL
 )
 }
 \arguments{
