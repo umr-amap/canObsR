@@ -35,9 +35,6 @@
 #'           plot_name = 'mbalmayo_pheno_observatory',
 #'           code_sp = c(12856, 1690, 5691))
 #'
-#' base::plot(crownFile$geometry, border = 'blue', lwd = 2)
-#' terra::text(terra::vect(crownFile), labels="id", halo = T, col = 'blue')
-#'
 #' check_crownFile(crownFile)
 
 check_crownFile <- function(crownFile){
