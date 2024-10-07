@@ -44,7 +44,7 @@ crownFile <- sf::st_buffer(dat_sf, dist = 1000) \%>\%
           code_sp = c(12856, 1690, 5691))
 
 base::plot(crownFile$geometry, border = 'blue', lwd = 2)
-terra::text(terra::vect(crownFile), labels="id", halo = T, col = 'blue')
+terra::text(terra::vect(crownFile), labels="id", halo = TRUE, col = 'blue')
 
 check_crownFile(crownFile)
 }
