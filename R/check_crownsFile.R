@@ -6,10 +6,7 @@
 #' Indicates whether your file will be compatible or not  for the other functions of the package.
 #' Pay attention to the line starting with '-- ERROR --'.
 #' @export
-#' @import dplyr
-#' @import sf
-#' @importFrom terra text
-#' @importFrom terra vect
+#' @importFrom sf st_crs
 
 #' @examples
 #' library(sf)
