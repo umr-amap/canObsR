@@ -9,6 +9,7 @@
 #' @import dplyr
 #' @import sf
 #' @importFrom terra text
+#' @importFrom terra vect
 
 #' @examples
 #' library(sf)
