@@ -17,39 +17,43 @@ extract_crownsImages(
 )
 }
 \arguments{
-\item{crownFile}{A \code{sf} object with an 'id' variable. Each id must be unique}
+\item{crownFile}{A \code{sf} object with an 'id' variable. Each id must be
+unique}
 
 \item{RGB_paths}{a list with the full paths to the RGB rasters.}
 
 \item{site}{chr. name of the site, p.e 'Mbalmayo'.}
 
-\item{date}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e '2022_09_25').
-The order of the dates should match with the order of the dates of the image in the RGB_paths.}
+\item{date}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
+'2022_09_25'). The order of the dates should match with the order of the
+dates of the image in the RGB_paths.}
 
-\item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL, it will
-use and transform all the data into the crs of the first RGB image.}
+\item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL,
+it will use and transform all the data into the crs of the first RGB image.}
 
-\item{directory}{chr. The path to the directory use to stored the images. The function
-will create the folder, It doesn't need to exists.}
+\item{directory}{chr. The path to the directory use to stored the images. The
+function will create the folder, It doesn't need to exists.}
 
-\item{specific_quality}{Logical, if TRUE the quality of image will be determine
-by the height and width arguments.}
+\item{specific_quality}{Logical, if TRUE the quality of image will be
+determine by the height and width arguments.}
 
 \item{width}{if specific_quality = TRUE, the width of the device}
 
 \item{height}{if specific_quality = TRUE, the height of the device}
 }
 \description{
-The function extracts and save .jpeg images for each crown at each date.
+The function extracts and save .jpeg images for each crown at
+each date.
 }
 \details{
-The extract_crownsImages() create one folder per id and save the images. The
-folder names are 'crown_\emph{the id}\emph{\emph{the specie name}' for exemple 'crown_5_Lophira alata'. The
-the images names are 'crown}\emph{the id}\emph{\emph{the specie name}}\emph{the date}.jpeg' for exemple
-'crown_5_Lophira alata_2022-11-08.jpeg'. The function upload square image with
-neighbouring tree and the title is add at the top, image size is 720\emph{825 pixels.
-When specific_quality is FALSE, the image size is 250}300 by default but it can be changed
-by specifying specific_quality as TRUE and complete height and width arguments.
+The extract_crownsImages() create one folder per id and save the
+images. The folder names are 'crown_\emph{the id}\emph{\emph{the specie name}' for exemple
+'crown_5_Lophira alata'. The the images names are 'crown}\emph{the id}\emph{\emph{the specie
+name}}\emph{the date}.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
+The function upload square image with neighbouring tree and the title is add
+at the top, image size is 720\emph{825 pixels. When specific_quality is FALSE, the
+image size is 250}300 by default but it can be changed by specifying
+specific_quality as TRUE and complete height and width arguments.
 }
 \examples{
 \dontrun{
@@ -58,8 +62,10 @@ library(tidyverse)
 
 directory <- 'C:/Users/2022hl001/Desktop/temp/test'
 crownFile <- st_read("/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg")
+site = 'Mbalmayo'
+crs = 'EPSG:32632'
 RGB_paths = list.files('F:/VIA/Cameroun/Mbalmayo/Pheno/RGB', pattern = "\\\\.tif$", full.names = TRUE)
-date <- as.Date (sapply( str_split( basename( RGB_paths ),'_' ), function(x) x[2] ), "\%Y\%m\%d")
+date <- as.Date (sapply( str_split( basename( RGB_paths ),'_' ), function(x) paste(x[2],x[3],x[4],sep = '') ), "\%Y\%m\%d")
 crownFile <- st_transform(crownFile, st_crs( read_stars(RGB_paths[1],proxy = T)))
 
 # Default parameters (quality of image : 720*825 pixels)
