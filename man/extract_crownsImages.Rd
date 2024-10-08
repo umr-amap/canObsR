@@ -65,7 +65,7 @@ crownFile <- st_read("/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg")
 site = 'Mbalmayo'
 crs = 'EPSG:32632'
 RGB_paths = list.files('F:/VIA/Cameroun/Mbalmayo/Pheno/RGB', pattern = "\\\\.tif$", full.names = TRUE)
-date <- as.Date (sapply( str_split( basename( RGB_paths ),'_' ), function(x) paste(x[2],x[3],x[4],sep = '') ), "\%Y\%m\%d")
+date <- as.Date (sapply( str_split( basename( RGB_paths ),'_' ), function(x) paste0(x[2],x[3],x[4]) ), "\%Y\%m\%d")
 crownFile <- st_transform(crownFile, st_crs( read_stars(RGB_paths[1],proxy = T)))
 
 # Default parameters (quality of image : 720*825 pixels)

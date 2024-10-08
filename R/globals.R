@@ -51,7 +51,7 @@ plot_nodata <- function(x) {
 }
 
 
-mosaic_bouamir_ajust <- function (RGB_path_tocorrect, model) {
+mosaic_bouamir_ajust <- function (RGB_path_tocorrect, RGB_path_model) {
 
    to_correct <- terra::rast(RGB_path_tocorrect)
    model <- terra::rast(RGB_path_model)
