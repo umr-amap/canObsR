@@ -112,15 +112,15 @@ extract_crownsImages <-
 
       if(site == 'Bouamir'){
 
-         img6 <- mosaic_bouamir_ajust(RGB_path_tocorrect = RGB_paths[6], RGB_path_model = RGB_paths[1])
-         img12 <- mosaic_bouamir_ajust(RGB_path_tocorrect = RGB_paths[12], RGB_path_model = RGB_paths[1])
+         img6 <- mosaic_bouamir_adjust(RGB_path_tocorrect = RGB_paths[6], RGB_path_model = RGB_paths[1])
+         img12 <- mosaic_bouamir_adjust(RGB_path_tocorrect = RGB_paths[12], RGB_path_model = RGB_paths[1])
 
       }
 
 
       for (i in 1:length(unique(crownFile$id))) {
 
-         tmp_id <- unique(crownFile$id)[i]
+         tmp_id <- crownFile$id[i]
          tmp_sp <- crownFile %>% dplyr::filter(id == tmp_id) %>% .[["tx_sp_lvl"]]
          tmp_crown <- crownFile %>% dplyr::filter(id == tmp_id)
          tmp_dir <- paste0(directory, "/crown_", tmp_id, "_", tmp_sp)
@@ -131,36 +131,41 @@ extract_crownsImages <-
 
          for (j in 1:length(RGB_paths)) {
 
-            if(site == 'Bouamir' & j %in% c(6,12)){
-
-               x <- NULL
-
-            } else {
-
-               x <- stars::read_stars(RGB_paths[j], proxy = T)[bbox][, , , 1:3]
-
-            }
+            x <- stars::read_stars(RGB_paths[j], proxy = T)[bbox][, , , 1:3]
 
             if (specific_quality == FALSE) {
-               grDevices::jpeg(file = file.path(paste0(tmp_dir,
-                                                       "/crown_", tmp_id, "_", tmp_sp, "_", date[j],
-                                                       ".jpeg")), height = 825, width = 720)
+               grDevices::jpeg(file = file.path(
+                  paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", date[j], ".jpeg")
+               ),
+               height = 825,
+               width = 720)
             }
 
             if (specific_quality == TRUE) {
-               grDevices::jpeg(file = file.path(paste0(tmp_dir,
-                                                       "/crown_", tmp_id, "_", tmp_sp, "_", date[j],
-                                                       ".jpeg")), width = width, height = height)
+               grDevices::jpeg(file = file.path(
+                  paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", date[j], ".jpeg")
+               ),
+               width = width,
+               height = height)
             }
 
-            if( tmp_id %in% within_crowns[[j]] & !is.null(x)) {
-
-               terra::plotRGB(terra::rast(x), main = paste(date[j], "     ", tmp_sp, "     id =", tmp_id), ext = bbox, axes = T)
-               base::plot(tmp_crown$geom, border = "red",lwd = 2, add = T)
+            if (!(tmp_id %in% within_crowns[[j]]) |
+                is.nan(mean(as.data.frame(x)[, 4], na.rm = T))) {
+               plot_nodata()
 
             } else {
-
-               plot_nodata()
+               terra::plotRGB(
+                  terra::rast(x),
+                  main = paste(date[j], "     ", tmp_sp, "     id =", tmp_id),
+                  ext = bbox,
+                  axes = T
+               )
+               base::plot(
+                  tmp_crown$geom,
+                  border = "red",
+                  lwd = 2,
+                  add = T
+               )
 
             }
 
