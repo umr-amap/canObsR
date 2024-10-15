@@ -34,9 +34,17 @@ arosics_in_r <- function(path_in, ref_filepath, out_dir_path,
                             )
 }
 
+#' Check the crown file compatibility
+#'
+#' @param crownFile A sf object
+#'
+#' @return Text that give you information about your file.
+#' Indicates whether your file will be compatible or not  for the other functions of the package.
+#' Pay attention to the line starting with '-- ERROR --'.
+#' @export
+#' @import reticulate
 
-
-arosics_in_r <- function(pathDIR, out_dir_ortho, out_dir_DEM = NULL, out_dir_project = NULL,
+Time_SIFT_in_r <- function(pathDIR, out_dir_ortho, out_dir_DEM = NULL, out_dir_project = NULL,
                          data_type = "RGB", resol_ref = 0.05, crs = "EPSG::32622",
                          site_name = "", calibrate_col = TRUE, sun_sensor = FALSE,
                          group_by_flight = FALSE, downscale_factor_alignement = 1L,
