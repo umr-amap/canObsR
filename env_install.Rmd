@@ -12,6 +12,7 @@ library(reticulate)
 ```
 
 ```{r using conda}
+library(reticulate)
 conda_create("pipeline_test_R", environment = "environment.yaml")
 use_condaenv("pipeline_test_R")
 ```
