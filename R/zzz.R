@@ -9,4 +9,6 @@
    }
 
    use_condaenv(env_name, required = TRUE)
+
+   source_python(system.file("__init__.py", package = "managecrownsdata"))
 }
