@@ -15,6 +15,7 @@ Imports:
     dplyr,
     exactextractr,
     grDevices,
+    reticulate,
     sf,
     stars,
     terra,

@@ -41,7 +41,7 @@ create_bbox_shp <- function(shp) {
 }
 
 
-plot_nodata <- function(x) {
+plot_nodata <- function() {
 
    base::plot(x = 0:10, y = 0:10, ann = F,bty = "n",type = "n",
               xaxt = "n", yaxt = "n")
