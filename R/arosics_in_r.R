@@ -19,6 +19,7 @@
 #' Indicates whether your file will be compatible or not  for the other functions of the package.
 #' Pay attention to the line starting with '-- ERROR --'.
 #' @export
+#' @importFrom reticulate source_python
 
 arosics_in_r <- function(path_in, ref_filepath, out_dir_path,
                          corr_type = "global", max_shift = 250L, max_iter = 100L,
@@ -27,7 +28,7 @@ arosics_in_r <- function(path_in, ref_filepath, out_dir_path,
                          dynamic_corr = FALSE, apply_matrix = FALSE) {
 
 
-   source_python(system.file("__init__.py", package = "managecrownsdata"))
+   reticulate::source_python(system.file("__init__.py", package = "managecrownsdata"))
 
    complete_arosics_process(path_in = path_in,
                             ref_filepath = ref_filepath,
