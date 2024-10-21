@@ -23,6 +23,6 @@ format_labels <- function(wideLabels) {
                     id = as.integer(id)) %>%
       dplyr::select(id, date, obs, phenophase, Comm, update, Usable_crown)
 
-   return(merge_data)
+   return(longLabels)
 
 }

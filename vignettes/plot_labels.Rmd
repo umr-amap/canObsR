@@ -23,7 +23,7 @@ library(DT)
 ```{r}
 data_quali <- read_excel(file.path(system.file(package="managecrownsdata"), 'labeling_file_Mbalmayo.xlsx'))
 
-datatable(merge_values, 
+datatable(data_quali, 
           class = 'cell-border stripe',
           rownames = FALSE,
           width = '100%', 
