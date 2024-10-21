@@ -21,9 +21,11 @@ library(DT)
 ```
 
 ```{r}
-data_quali <- read_excel(file.path(system.file(package="managecrownsdata"), 'labeling_file_Mbalmayo.xlsx'))
+wideLabels <- read_excel(file.path(system.file(package="managecrownsdata"), 'labeling_file_Mbalmayo.xlsx'))
 
-datatable(data_quali, 
+longLabels <- format_labels(wideLabels)
+
+datatable(longLabels, 
           class = 'cell-border stripe',
           rownames = FALSE,
           width = '100%', 

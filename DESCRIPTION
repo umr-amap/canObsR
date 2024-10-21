@@ -22,6 +22,7 @@ Imports:
     reticulate,
     sf,
     stars,
+    stringr,
     terra,
     tidyr,
     writexl
