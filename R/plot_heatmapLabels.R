@@ -4,9 +4,10 @@
 #'
 #'
 #' @param longLabels tibble
-#' @param specie chr
-#' @param genus chr
-#' @param family chr
+#' @param Specie chr
+#' @param Genus chr
+#' @param Family chr
+#' @param title chr
 #'
 #' @return return a ggplot
 #'
@@ -17,18 +18,18 @@
 #' @import ggplot2
 
 
-quali_heatmap <-
+plot_heatmapLabels <-
 
    function(longLabels, Specie = NULL, Genus = NULL, Family = NULL, title = NULL){
 
-      x <- stringr::str_split(data$phenophase, '\\;', simplify = T)
+      x <- stringr::str_split(longLabels$phenophase, '\\;', simplify = T)
 
-      data$phenophase <- x[,1]
-      if (ncol(x) == 2) { data$value2 <- x[,2] }
+      longLabels$phenophase <- x[,1]
+      if (ncol(x) == 2) { longLabels$value2 <- x[,2] }
 
-      data$id <- as.character(data$id)
-      data$phenophase <- as.factor(data$phenophase)
-      data$date <- as.factor(data$date)
+      longLabels$id <- as.character(longLabels$id)
+      longLabels$phenophase <- as.factor(longLabels$phenophase)
+      longLabels$date <- as.factor(longLabels$date)
 
       color <- c("D" = "yellow4",
                  "D?" = "yellow4",

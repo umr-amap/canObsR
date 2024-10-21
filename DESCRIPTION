@@ -17,6 +17,7 @@ Imports:
     dplyr,
     DT,
     exactextractr,
+    ggplot2,
     grDevices,
     readxl,
     reticulate,
