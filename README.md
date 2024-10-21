@@ -1,29 +1,20 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
-
 
 # managecrownsdata <a href="https://hugolblc.github.io/managecrownsdata/">
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-This R package aims at streamlining, standardizing and facilitating processing of repetead UAV surveys from R. It focuses (for now) on RGB data. It notably allows generating 3D and 4D mosaics & mosaics spatial alignment using state-of-the-art approaches,  provides tools to generate reference labels, segment crowns (?) and classify crown phenophases.
+This R package aims at streamlining, standardizing and facilitating
+processing of repetead UAV surveys from R. It focuses (for now) on RGB
+data. It notably allows generating 3D and 4D mosaics & mosaics spatial
+alignment using state-of-the-art approaches, provides tools to generate
+reference labels, segment crowns (?) and classify crown phenophases.
 
 ## Pre-installation (called once)
 
-```{r, eval=FALSE}
+``` r
 
 # Install miniconda
 install.packages('reticulate') # Install reticulate
@@ -52,13 +43,13 @@ conda_list()
 
 You can install the development version of managecrownsdata like so:
 
-```{r, eval=FALSE}
+``` r
 remotes::install_github("hugolblc/managecrownsdata")
 ```
 
 ## Use managecrownsdata (called before loading `managecrownsdata` )
 
-```{r, eval=FALSE}
+``` r
 # Restrt R session
 .rs.restartR()
 
@@ -68,13 +59,11 @@ Sys.setenv(RETICULATE_PYTHON= reticulate::conda_python('pipeline_test_R'))
 library(reticulate)
 
 use_condaenv(condaenv = "pipeline_test_R", conda = 'C:/Users/2022hl001/AppData/Local/r-miniconda/condabin/conda')
-
 ```
-
 
 ## Getting Started
 
-```{r, eval=FALSE}
+``` r
 library(managecrownsdata)
 
 arosics_in_r(path_in = 'E:/test_arosics/in', 
