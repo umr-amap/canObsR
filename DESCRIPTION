@@ -21,5 +21,5 @@ Imports:
     terra,
     tidyr,
     writexl
-URL: https://github.com/hugolblc/managecrownsdata
+URL: https://github.com/hugolblc/managecrownsdata, https://hugolblc.github.io/managecrownsdata/
 BugReports: https://github.com/hugolblc/managecrownsdata/issues
