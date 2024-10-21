@@ -22,10 +22,15 @@ plot_heatmapLabels <-
 
    function(longLabels, Specie = NULL, Genus = NULL, Family = NULL, title = NULL){
 
+      longLabels <- longLabels %>%
+         { if (!is.null(Specie)) dplyr::filter (., specie == Specie) else . } %>%
+         { if (!is.null(Genus)) dplyr::filter (., genus == Genus) else . } %>%
+         { if (!is.null(Family)) dplyr::filter (., family == Family) else . }
+
       x <- stringr::str_split(longLabels$phenophase, '\\;', simplify = T)
 
       longLabels$phenophase <- x[,1]
-      if (ncol(x) == 2) { longLabels$value2 <- x[,2] }
+      if (ncol(x) == 2) { longLabels$repro <- x[,2] }
 
       longLabels$id <- as.character(longLabels$id)
       longLabels$phenophase <- as.factor(longLabels$phenophase)
@@ -50,11 +55,6 @@ plot_heatmapLabels <-
                        "fl?" = 17,
                        "fr" = 21)
 
-      longLabels <- longLabels %>%
-         { if (!is.null(Specie)) dplyr::filter (., specie = Specie) else . } %>%
-         { if (!is.null(Genus)) dplyr::filter (., genus = Genus) else . } %>%
-         { if (!is.null(Family)) dplyr::filter (., family = Family) else . }
-
       if(is.null(title)) {
          title <- paste(Family, Genus, Specie)
       }
@@ -63,7 +63,7 @@ plot_heatmapLabels <-
       ggplot2::ggplot( longLabels, aes(date, id, fill = phenophase)) +
 
          ggplot2::geom_tile() +
-         {if (ncol(x) == 2)    ggplot2::geom_point ( aes(date, id, shape = value2, color = value2, size = 2) )} +
+         {if (ncol(x) == 2)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro, size = 2) )} +
 
          ggplot2::scale_fill_manual ( values = color ) +
          ggplot2::scale_color_manual ( values = color_pheno ) +
