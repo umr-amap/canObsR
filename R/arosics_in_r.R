@@ -1,12 +1,24 @@
 #' Check the crown file compatibility
 #'
-#' @param crownFile A sf object
-#'
+#' @param path_in xx
+#' @param ref_filepath xx
+#' @param out_dir_path xx
+#' @param corr_type xx
+#' @param max_shift xx
+#' @param max_iter xx
+#' @param grid_res xx
+#' @param window_size xx
+#' @param window_pos xx
+#' @param mp xx
+#' @param save_data xx
+#' @param save_vector_plot xx
+#' @param dynamic_corr xx
+#' @param apply_matrix xx
+
 #' @return Text that give you information about your file.
 #' Indicates whether your file will be compatible or not  for the other functions of the package.
 #' Pay attention to the line starting with '-- ERROR --'.
 #' @export
-#' @import reticulate
 
 arosics_in_r <- function(path_in, ref_filepath, out_dir_path,
                          corr_type = "global", max_shift = 250L, max_iter = 100L,

@@ -22,7 +22,33 @@ arosics_in_r(
 )
 }
 \arguments{
-\item{crownFile}{A sf object}
+\item{path_in}{xx}
+
+\item{ref_filepath}{xx}
+
+\item{out_dir_path}{xx}
+
+\item{corr_type}{xx}
+
+\item{max_shift}{xx}
+
+\item{max_iter}{xx}
+
+\item{grid_res}{xx}
+
+\item{window_size}{xx}
+
+\item{window_pos}{xx}
+
+\item{mp}{xx}
+
+\item{save_data}{xx}
+
+\item{save_vector_plot}{xx}
+
+\item{dynamic_corr}{xx}
+
+\item{apply_matrix}{xx}
 }
 \value{
 Text that give you information about your file.
