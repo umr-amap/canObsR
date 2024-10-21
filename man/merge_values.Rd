@@ -4,10 +4,10 @@
 \alias{merge_values}
 \title{Merge labels and rgb values}
 \usage{
-merge_values(labelsValues, rgbValues)
+merge_values(longLabels, rgbValues)
 }
 \arguments{
-\item{labelsValues}{A \code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.}
+\item{longLabels}{A \code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.}
 
 \item{rgbValues}{A \code{tibble} or \code{dataframe} with the rgb metrics values.}
 }
@@ -15,6 +15,6 @@ merge_values(labelsValues, rgbValues)
 A \code{tibble}
 }
 \description{
-A function to merge the labels from the xlsx file and the rgb metrics
+A function to merge the labels from long format and the rgb metrics
 values.
 }
