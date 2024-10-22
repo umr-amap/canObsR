@@ -1,6 +1,6 @@
 #' Check the crown file compatibility
 #'
-#' @param crownFile A sf object
+#' @param crownsFile A sf object
 #'
 #' @return Text that give you information about your file.
 #' Indicates whether your file will be compatible or not  for the other functions of the package.
@@ -26,7 +26,7 @@
 #'    sf::st_transform(3035)
 #'
 #' # Buffer circles by 100m
-#' crownFile <- sf::st_buffer(dat_sf, dist = 1000) %>%
+#' crownsFile <- sf::st_buffer(dat_sf, dist = 1000) %>%
 #'    dplyr::mutate(id = c(122,202,122),
 #'           family = c('Fabaceae', 'Ochnaceae', 'Fabaceae'),
 #'           gen = c('Newtonia','Lophira','Guibourtia'),
@@ -34,16 +34,16 @@
 #'           plot_name = 'mbalmayo_pheno_observatory',
 #'           code_sp = c(12856, 1690, 5691))
 #'
-#' base::plot(crownFile$geometry, border = 'blue', lwd = 2)
-#' terra::text(terra::vect(crownFile), labels="id", halo = TRUE, col = 'blue')
+#' base::plot(crownsFile$geometry, border = 'blue', lwd = 2)
+#' terra::text(terra::vect(crownsFile), labels="id", halo = TRUE, col = 'blue')
 #'
-#' check_crownFile(crownFile)
+#' check_crownsFile(crownsFile)
 
-check_crownFile <- function(crownFile){
+check_crownsFile <- function(crownsFile){
 
    # Check variables names ---------------------------------------------------
 
-   vars <- names(crownFile)
+   vars <- names(crownsFile)
    var_needed <- c('geometry', 'id', 'family', 'genus', 'specie', 'plot_name', 'code_sp')
 
    var_check <- c(
@@ -70,19 +70,19 @@ check_crownFile <- function(crownFile){
 
    # Check crs ---------------------------------------------------------------
 
-   crs <- sf::st_crs(crownFile)$input
+   crs <- sf::st_crs(crownsFile)$input
 
 
    # Check double id ---------------------------------------------------------
 
-   if (length(crownFile$id[duplicated(crownFile$id)]) == 0){
+   if (length(crownsFile$id[duplicated(crownsFile$id)]) == 0){
 
       duplicat_id <- '--- OK ----  :  There is no duplicated id'
 
          } else {
 
       duplicat_id <- c('-- ERROR --  :  The following id are duplicated :',
-                           paste(crownFile$id[duplicated(crownFile$id)],
+                           paste(crownsFile$id[duplicated(crownsFile$id)],
                                  collapse = ','
                            )
                            )
