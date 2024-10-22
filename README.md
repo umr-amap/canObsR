@@ -16,27 +16,22 @@ reference labels, segment crowns (?) and classify crown phenophases.
 
 ``` r
 
-# Install miniconda
-install.packages('reticulate') # Install reticulate
-options(timeout=100000000) 
-reticulate::install_miniconda(path = "C:/miniconda", update = T)
+# Install anaconda 'https://www.anaconda.com/'
 
+#Install reticulate 
+install.packages('reticulate')
 
-# Some checks
+#Install miniconda
 library(reticulate)
-py_config()
-py_discover_config()
-virtualenv_list()
-
+options(timeout=100000000) 
+install_miniconda()
 
 # Create a conda environment from the environment.yaml file
 conda_create(envname = "pipeline_test_R",
-             environment = 'C:/Users/2022hl001/Downloads/environment.yaml',
-             conda = 'C:/Users/2022hl001/AppData/Local/r-miniconda/condabin/conda')
+             environment = 'C:/Users/2022hl001/Downloads/environment.yaml')
 
-
-# Check if the environment has been created and listed when you call conda_list()
 conda_list()
+use_condaenv('pipeline_test_R', required = TRUE)
 ```
 
 ## Installation (called once)
@@ -58,7 +53,7 @@ Sys.setenv(RETICULATE_PYTHON= reticulate::conda_python('pipeline_test_R'))
 
 library(reticulate)
 
-use_condaenv(condaenv = "pipeline_test_R", conda = 'C:/Users/2022hl001/AppData/Local/r-miniconda/condabin/conda')
+use_condaenv(condaenv = "pipeline_test_R", conda = 'C:/Users/2022hl001/miniconda/_conda.exe')
 ```
 
 ## Getting Started
