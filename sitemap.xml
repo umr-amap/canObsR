@@ -1,19 +1,19 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>https://hugolblc.github.io/managecrownsdata/404.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/LICENSE-text.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/LICENSE.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/articles/index.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/articles/plot_labels.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/authors.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/index.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/reference/arosics_in_r.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/reference/check_crownFile.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/reference/create_labelingFile.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/reference/extract_crownsImages.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/reference/extract_rgbValues.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/reference/format_labels.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/reference/index.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/reference/merge_values.html</loc></url>
-<url><loc>https://hugolblc.github.io/managecrownsdata/reference/plot_heatmapLabels.html</loc></url>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/plot_labels.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/arosics_in_r.html</loc></url>
+<url><loc>/reference/check_crownFile.html</loc></url>
+<url><loc>/reference/create_labelingFile.html</loc></url>
+<url><loc>/reference/extract_crownsImages.html</loc></url>
+<url><loc>/reference/extract_rgbValues.html</loc></url>
+<url><loc>/reference/format_labels.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/merge_values.html</loc></url>
+<url><loc>/reference/plot_heatmapLabels.html</loc></url>
 </urlset>
 
