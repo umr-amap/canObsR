@@ -32,7 +32,7 @@ plot_heatmapLabels <-
          longLabels$phenophase[longLabels$phenophase == "NA"] <- NA
 
          longLabels <- longLabels %>% dplyr::mutate(na = dplyr::case_when(
-                                         length(unique(phenophase)) == 1 & is.na(unique(phenophase)) ~ TRUE,
+                                         length(unique(phenophase)) == 1 & NA %in% (unique(phenophase)) ~ TRUE,
                                          TRUE ~ FALSE)) %>%
             dplyr::filter(na == FALSE) %>%
             dplyr::ungroup()
