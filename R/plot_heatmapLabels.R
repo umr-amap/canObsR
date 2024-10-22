@@ -8,24 +8,37 @@
 #' @param Genus chr
 #' @param Family chr
 #' @param title chr
-#'
+#' @param na.rm logical Remove NA when TRUE
 #' @return return a ggplot
 #'
 #'
 #' @export
 #' @importFrom stringr str_split
-#' @importFrom dplyr filter
+#' @import dplyr
 #' @import ggplot2
 
 
 plot_heatmapLabels <-
 
-   function(longLabels, Specie = NULL, Genus = NULL, Family = NULL, title = NULL){
+   function(longLabels, Specie = NULL, Genus = NULL, Family = NULL, title = NULL, na.rm = FALSE){
 
       longLabels <- longLabels %>%
          { if (!is.null(Specie)) dplyr::filter (., specie == Specie) else . } %>%
          { if (!is.null(Genus)) dplyr::filter (., genus == Genus) else . } %>%
          { if (!is.null(Family)) dplyr::filter (., family == Family) else . }
+
+      if (na.rm == TRUE) {
+
+         longLabels$phenophase[longLabels$phenophase == "NA"] <- NA
+
+         longLabels <- longLabels %>% dplyr::mutate(na = dplyr::case_when(
+                                         length(unique(phenophase)) == 1 & is.na(unique(phenophase)) ~ TRUE,
+                                         TRUE ~ FALSE)) %>%
+            dplyr::filter(na == FALSE) %>%
+            dplyr::ungroup()
+
+
+      }
 
       x <- stringr::str_split(longLabels$phenophase, '\\;', simplify = T)
 

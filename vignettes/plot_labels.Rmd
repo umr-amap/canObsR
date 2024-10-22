@@ -33,5 +33,5 @@ datatable(longLabels,
 ```
 
 ```{r}
-plot_heatmapLabels(longLabels, Specie = 'Alstonia boonei', Genus = NULL, Family = NULL, title = NULL)
+plot_heatmapLabels(longLabels, Specie = 'Alstonia boonei', Genus = NULL, Family = NULL, title = NULL, na.rm = TRUE)
 ```
