@@ -29,9 +29,6 @@ install_miniconda()
 # Create a conda environment from the environment.yaml file
 conda_create(envname = "pipeline_test_R",
              environment = 'C:/Users/2022hl001/Downloads/environment.yaml')
-
-conda_list()
-use_condaenv('pipeline_test_R', required = TRUE)
 ```
 
 ## Installation (called once)
@@ -53,7 +50,7 @@ Sys.setenv(RETICULATE_PYTHON= reticulate::conda_python('pipeline_test_R'))
 
 library(reticulate)
 
-use_condaenv(condaenv = "pipeline_test_R", conda = 'C:/Users/2022hl001/miniconda/_conda.exe')
+use_condaenv(condaenv = "pipeline_test_R", required = TRUE)
 ```
 
 ## Getting Started
