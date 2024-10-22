@@ -8,11 +8,6 @@ development:
   mode: auto
 
 reference:
-- title: Generate mosaic
-  desc: >
-    The first step of the pipeline is to generate mosaics from individual images.
-  contents:
-
 - title: Align moasaic
   desc: >
     Align mosaics

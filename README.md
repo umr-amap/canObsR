@@ -31,7 +31,7 @@ conda_create(envname = "pipeline_test_R",
              environment = 'C:/Users/2022hl001/Downloads/environment.yaml')
 ```
 
-## Installation (called once)
+## Install package
 
 You can install the development version of managecrownsdata like so:
 
@@ -45,7 +45,7 @@ remotes::install_github("hugolblc/managecrownsdata")
 # Restrt R session
 .rs.restartR()
 
-# 
+# Set environment
 Sys.setenv(RETICULATE_PYTHON= reticulate::conda_python('pipeline_test_R'))
 
 library(reticulate)
