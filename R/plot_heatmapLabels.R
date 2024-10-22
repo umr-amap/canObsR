@@ -64,7 +64,7 @@ plot_heatmapLabels <-
 
          ggplot2::geom_tile() +
          {if (ncol(x) == 2)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro, size = 2) )} +
-         {if (ncol(x) == 2)    scale_alpha(guide = 'none') } +
+         {if (ncol(x) == 2)    scale_size(guide = 'none') } +
 
          ggplot2::scale_fill_manual ( values = color ) +
          ggplot2::scale_color_manual ( values = color_pheno ) +
