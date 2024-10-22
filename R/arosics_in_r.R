@@ -1,4 +1,7 @@
-#' Check the crown file compatibility
+#' Implement AROSICS in R
+#'
+#' @description
+#' R functions to implement the Python package [AROSICS](https://github.com/GFZ/arosics)
 #'
 #' @param path_in xx
 #' @param ref_filepath xx
@@ -14,10 +17,7 @@
 #' @param save_vector_plot xx
 #' @param dynamic_corr xx
 #' @param apply_matrix xx
-
-#' @return Text that give you information about your file.
-#' Indicates whether your file will be compatible or not  for the other functions of the package.
-#' Pay attention to the line starting with '-- ERROR --'.
+#'
 #' @export
 #' @importFrom reticulate source_python
 

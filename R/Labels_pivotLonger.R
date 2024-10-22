@@ -1,4 +1,4 @@
-#' Format labels values from wide data to long data
+#' Reformat table of labels from wide data to long data
 #'
 #' @description A function to format labels data from wide to long format
 #'
@@ -12,7 +12,7 @@
 #' @importFrom dplyr mutate
 #' @importFrom tidyr gather
 
-format_labels <- function(wideLabels) {
+Labels_pivotLonger <- function(wideLabels) {
 
    longLabels <- wideLabels %>%
       tidyr::gather(-c(id, obs, Comm, update, Usable_crown, n, site, specie, genus, family),

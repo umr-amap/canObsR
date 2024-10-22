@@ -3,7 +3,7 @@
 #' @description A fct function
 #'
 #'
-#' @param longLabels tibble
+#' @param longLabels A \code{tibble} or \code{dataframe} of long data format for labels
 #' @param Specie chr
 #' @param Genus chr
 #' @param Family chr
@@ -18,7 +18,7 @@
 #' @import ggplot2
 
 
-plot_heatmapLabels <-
+Labels_heatmap <-
 
    function(longLabels, Specie = NULL, Genus = NULL, Family = NULL, title = NULL, na.rm = FALSE){
 
@@ -29,9 +29,12 @@ plot_heatmapLabels <-
 
       if (na.rm == TRUE) {
 
-         longLabels$phenophase[longLabels$phenophase == "NA"] <- NA
 
          longLabels <- longLabels %>%
+            dplyr::mutate(
+               phenophase = dplyr::case_when(
+                  phenophase == 'NA' ~ NA,
+                  TRUE ~ phenophase)) %>%
             dplyr::group_by(id) %>%
             dplyr::mutate(
                na = dplyr::case_when(

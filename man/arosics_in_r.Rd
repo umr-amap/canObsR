@@ -2,7 +2,7 @@
 % Please edit documentation in R/arosics_in_r.R
 \name{arosics_in_r}
 \alias{arosics_in_r}
-\title{Check the crown file compatibility}
+\title{Implement AROSICS in R}
 \usage{
 arosics_in_r(
   path_in,
@@ -50,11 +50,6 @@ arosics_in_r(
 
 \item{apply_matrix}{xx}
 }
-\value{
-Text that give you information about your file.
-Indicates whether your file will be compatible or not  for the other functions of the package.
-Pay attention to the line starting with '-- ERROR --'.
-}
 \description{
-Check the crown file compatibility
+R functions to implement the Python package \href{https://github.com/GFZ/arosics}{AROSICS}
 }

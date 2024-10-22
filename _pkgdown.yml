@@ -8,9 +8,9 @@ development:
   mode: auto
 
 reference:
-- title: Align moasaic
+- title: Align moasaics with AROSICS
   desc: >
-    Align mosaics
+    R functions to implement the Python package [AROSICS](https://github.com/GFZ/arosics)
   contents:
   - arosics_in_r
 
