@@ -23,14 +23,14 @@ reference:
   - create_labelingFile
   - extract_crownsImages
   - extract_rgbValues
-  - format_labels
+  - Labels_pivotLonger
   - merge_values
 
 - title: Plots
   desc: >
     xxxx.
   contents:
-  - plot_heatmapLabels
+  - Labels_heatmap
 
 articles:
 - title: Building plots
