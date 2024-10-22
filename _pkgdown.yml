@@ -1,4 +1,44 @@
-url: ~
+url: https://hugolblc.github.io/managecrownsdata/
+
 template:
   bootstrap: 5
+  light-switch: true
 
+development:
+  mode: auto
+
+reference:
+- title: Generate mosaic
+  desc: >
+    The first step of the pipeline is to generate mosaics from individual images.
+  contents:
+
+- title: Align moasaic
+  desc: >
+    Align mosaics
+  contents:
+  - arosics_in_r
+
+- title: Extract crowns data
+  desc: >
+    Fine-tune the arrangement of plots by reordering or splitting axes into separate panels.
+    These functions allow for more detailed customization of plot layouts.
+  contents:
+  - check_crownsFile
+  - create_labelingFile
+  - extract_crownsImages
+  - extract_rgbValues
+  - format_labels
+  - merge_values
+
+- title: Plots
+  desc: >
+    xxxx.
+  contents:
+  - plot_heatmapLabels
+
+articles:
+- title: Building plots
+  navbar: ~
+  contents:
+  - plot_labels
