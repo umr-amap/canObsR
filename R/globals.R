@@ -36,6 +36,8 @@ create_bbox_shp <- function(shp) {
       bbox[1] = bbox[1] - add/2
    }
 
+   bbox <- bbox %>% st_as_sfc()
+
    return(bbox)
 
 }

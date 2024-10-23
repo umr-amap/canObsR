@@ -110,12 +110,12 @@ extract_crownsImages <-
 
       }
 
-      if(site == 'Bouamir'){
-
-         img6 <- mosaic_bouamir_adjust(RGB_path_tocorrect = RGB_paths[6], RGB_path_model = RGB_paths[1])
-         img12 <- mosaic_bouamir_adjust(RGB_path_tocorrect = RGB_paths[12], RGB_path_model = RGB_paths[1])
-
-      }
+      # if(site == 'Bouamir'){
+      #
+      #    img6 <- mosaic_bouamir_adjust(RGB_path_tocorrect = RGB_paths[6], RGB_path_model = RGB_paths[1])
+      #    img12 <- mosaic_bouamir_adjust(RGB_path_tocorrect = RGB_paths[12], RGB_path_model = RGB_paths[1])
+      #
+      # }
 
 
       for (i in 1:length(unique(crownFile$id))) {
@@ -150,7 +150,7 @@ extract_crownsImages <-
             }
 
             if (!(tmp_id %in% within_crowns[[j]]) |
-                is.nan(mean(as.data.frame(x)[, 4], na.rm = T))) {
+               is.nan(mean(as.data.frame(x)[, 4], na.rm = T))) {
                plot_nodata()
 
             } else {
