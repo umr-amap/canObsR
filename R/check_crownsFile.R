@@ -6,8 +6,9 @@
 #' Indicates whether your file will be compatible or not  for the other functions of the package.
 #' Pay attention to the line starting with '-- ERROR --'.
 #' @export
+#'
 #' @importFrom sf st_crs
-
+#'
 #' @examples
 #' library(sf)
 #' library(dplyr)

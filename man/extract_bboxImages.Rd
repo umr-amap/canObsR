@@ -24,7 +24,4 @@ One file will be export per date. If NULL, the vector will not be exported.}
 \description{
 This function extract the area of images covered by non NA values and return
 an \code{sf} object with one polygon per image.
-
-This function extract the area of images covered by non NA values and return
-an \code{sf} object with one polygon per image.
 }
