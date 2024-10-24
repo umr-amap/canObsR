@@ -33,7 +33,7 @@ check_availableCrowns <-
 
    # Check if the user added a crs, if not automatically find it from --------
 
-      if ( is.null(crs) ) {crs = sf::st_crs (sf::st_read (Bbox_path[1])) }
+      if ( is.null(crs) ) {crs = sf::st_crs (sf::st_read (path_in[1])) }
 
 
    # Create empty data we will fill in the loop ------------------------------
@@ -49,12 +49,12 @@ check_availableCrowns <-
 
    # In a loop, for each image bbox... ---------------------------------------
 
-      for (i in 1:length(Bbox_path)) {
+      for (i in 1:length(path_in)) {
 
 
          # Import bbox i -----------------------------------------------------------
 
-         bbox <- sf::st_read(Bbox_path[i])
+         bbox <- sf::st_read(path_in[i])
          bbox <- bbox %>% sf::st_transform(crs = crs)
 
 
