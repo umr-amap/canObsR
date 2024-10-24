@@ -68,7 +68,7 @@ specific_quality as TRUE and complete height and width arguments.
 
 library(tidyverse)
 
-directory <- 'C:/Users/2022hl001/Desktop/temp/test'
+path_out <- 'C:/Users/2022hl001/Desktop/temp/test'
 crownFile <- st_read("/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg")
 site = 'Mbalmayo'
 crs = 'EPSG:32632'
@@ -85,7 +85,7 @@ crownFile <- st_transform(crownFile, st_crs( read_stars(path_in[1],proxy = T)))
 extract_crownsImages(
    crownFile = crownFile,
    path_in = path_in,
-   directory = directory,
+   path_out = path_out,
    date = date,
    tx_sp_lvl = 'tx_sp_lvl',
    specific_quality = TRUE
@@ -96,7 +96,7 @@ extract_crownsImages(
 extract_crownsImages(
    crownFile = crownFile,
    path_in = path_in,
-   directory = directory,
+   path_out = path_out,
    date = date,
    tx_sp_lvl = 'tx_sp_lvl',
    specific_quality = FALSE,

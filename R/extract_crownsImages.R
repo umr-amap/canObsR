@@ -35,7 +35,7 @@
 #'
 #' library(tidyverse)
 #'
-#' directory <- 'C:/Users/2022hl001/Desktop/temp/test'
+#' path_out <- 'C:/Users/2022hl001/Desktop/temp/test'
 #' crownFile <- st_read("/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg")
 #' site = 'Mbalmayo'
 #' crs = 'EPSG:32632'
@@ -52,7 +52,7 @@
 #' extract_crownsImages(
 #'    crownFile = crownFile,
 #'    path_in = path_in,
-#'    directory = directory,
+#'    path_out = path_out,
 #'    date = date,
 #'    tx_sp_lvl = 'tx_sp_lvl',
 #'    specific_quality = TRUE
@@ -63,7 +63,7 @@
 #' extract_crownsImages(
 #'    crownFile = crownFile,
 #'    path_in = path_in,
-#'    directory = directory,
+#'    path_out = path_out,
 #'    date = date,
 #'    tx_sp_lvl = 'tx_sp_lvl',
 #'    specific_quality = FALSE,
@@ -107,7 +107,7 @@ extract_crownsImages <-
    ){
 
       crownFile <- crownFile %>% sf::st_transform(crs = crs)
-      bbox <- lapply(Bbox_path, st_read)
+      bbox <- lapply(path_bbox, st_read)
 
 
       for (i in 1:length(unique(crownFile$id))) {
@@ -116,7 +116,7 @@ extract_crownsImages <-
          tmp_sp <- crownFile$tx_sp_lvl[i]
          if(is.na(tmp_sp)){ tmp_sp <- paste(crownFile$tax_gen[i],'sp') }
          tmp_crown <- crownFile[i,]
-         tmp_dir <- paste0(directory, "/crown_", tmp_id, "_", tmp_sp)
+         tmp_dir <- paste0(path_out, "/crown_", tmp_id, "_", tmp_sp)
 
          dir.create(tmp_dir)
 
