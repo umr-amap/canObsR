@@ -5,33 +5,42 @@
 \title{Extract crowns images}
 \usage{
 extract_crownsImages(
-  crownFile,
-  RGB_paths,
+  path_images,
+  path_crownFile,
+  path_bbox,
+  path_out,
   site = NULL,
   date = NULL,
   crs = NULL,
-  directory = NULL,
+  parallel = FALSE,
+  update = FALSE,
   specific_quality = FALSE,
   width = 250,
   height = 300
 )
 }
 \arguments{
-\item{crownFile}{A \code{sf} object for the crowns with an 'id' variable.}
+\item{path_images}{A \code{sf} object for the crowns with an 'id' variable.}
 
-\item{RGB_paths}{a list with the full paths to the RGB rasters.}
+\item{path_crownFile}{a list with the full paths to the RGB rasters.}
+
+\item{path_bbox}{xx}
+
+\item{path_out}{chr. The path to the directory use to stored the images. The
+function will create the folder, It doesn't need to exists.}
 
 \item{site}{chr. name of the site, p.e 'Mbalmayo'.}
 
 \item{date}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
 '2022_09_25'). The order of the dates should match with the order of the
-dates of the image in the RGB_paths.}
+dates of the image in the path_in.}
 
 \item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL,
 it will use and transform all the data into the crs of the first RGB image.}
 
-\item{directory}{chr. The path to the directory use to stored the images. The
-function will create the folder, It doesn't need to exists.}
+\item{parallel}{xx}
+
+\item{update}{xx}
 
 \item{specific_quality}{Logical, if TRUE the quality of image will be
 determine by the height and width arguments.}
@@ -63,19 +72,19 @@ directory <- 'C:/Users/2022hl001/Desktop/temp/test'
 crownFile <- st_read("/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg")
 site = 'Mbalmayo'
 crs = 'EPSG:32632'
-RGB_paths = list.files('F:/VIA/Cameroun/Mbalmayo/Pheno/RGB', pattern = "\\\\.tif$", full.names = TRUE)
+path_in = list.files('F:/VIA/Cameroun/Mbalmayo/Pheno/RGB', pattern = "\\\\.tif$", full.names = TRUE)
 date <- as.Date (
 sapply(
-str_split(basename(RGB_paths),'_'), function(x) paste0(x[2],x[3],x[4])
+str_split(basename(path_in),'_'), function(x) paste0(x[2],x[3],x[4])
 ), "\%Y\%m\%d"
 )
-crownFile <- st_transform(crownFile, st_crs( read_stars(RGB_paths[1],proxy = T)))
+crownFile <- st_transform(crownFile, st_crs( read_stars(path_in[1],proxy = T)))
 
 # Default parameters (quality of image : 720*825 pixels)
 
 extract_crownsImages(
    crownFile = crownFile,
-   RGB_paths = RGB_paths,
+   path_in = path_in,
    directory = directory,
    date = date,
    tx_sp_lvl = 'tx_sp_lvl',
@@ -86,7 +95,7 @@ extract_crownsImages(
 
 extract_crownsImages(
    crownFile = crownFile,
-   RGB_paths = RGB_paths,
+   path_in = path_in,
    directory = directory,
    date = date,
    tx_sp_lvl = 'tx_sp_lvl',
