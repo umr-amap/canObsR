@@ -3,8 +3,7 @@
 #'@description The function extracts and save .jpeg images for each crown at
 #'  each date.
 #'
-#'@param crownFile A \code{sf} object with an 'id' variable. Each id must be
-#'  unique
+#'@param crownFile A \code{sf} object for the crowns with an 'id' variable.
 #'@param RGB_paths a list with the full paths to the RGB rasters.
 #'@param site chr. name of the site, p.e 'Mbalmayo'.
 #'@param directory chr. The path to the directory use to stored the images. The

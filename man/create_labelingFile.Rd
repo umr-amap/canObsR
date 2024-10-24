@@ -13,13 +13,13 @@ create_labelingFile(
 )
 }
 \arguments{
-\item{crownFile}{A \code{sf} object with the crowns delineation.}
+\item{crownFile}{A \code{sf} object for the crowns with an 'id' variable.}
 
 \item{site}{chr. name of the site, p.e 'Mbalmayo'.}
 
-\item{date}{chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').}
+\item{date}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e '2022_09_25').}
 
-\item{save_xlsx}{log. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters}
+\item{save_xlsx}{logical. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters}
 
 \item{directory}{The path where to save the xlsx file.}
 }

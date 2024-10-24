@@ -51,5 +51,5 @@ arosics_in_r(
 \item{apply_matrix}{xx}
 }
 \description{
-R functions to implement the Python package \href{https://github.com/GFZ/arosics}{AROSICS}
+R functions to implement the fonctions of the Python package \href{https://github.com/GFZ/arosics}{AROSICS}
 }

@@ -7,7 +7,7 @@
 check_crownsFile(crownsFile)
 }
 \arguments{
-\item{crownsFile}{A sf object}
+\item{crownsFile}{A \code{sf} object for the crowns with an 'id' variable.}
 }
 \value{
 Text that give you information about your file.
@@ -15,36 +15,6 @@ Indicates whether your file will be compatible or not  for the other functions o
 Pay attention to the line starting with '-- ERROR --'.
 }
 \description{
-Check the crown file compatibility
-}
-\examples{
-library(sf)
-library(dplyr)
-library(terra)
-
-mean_lat <- 46.07998
-sd_lat <- 0.1
-mean_long <- 8.931849
-sd_long <-  0.1
-
-set.seed(42)
-dat_sim <- data.frame(lat = rnorm(3, mean = mean_lat, sd = sd_lat),
-                      long = rnorm(3, mean = mean_long, sd = sd_long))
-
-dat_sf <- sf::st_as_sf(dat_sim, coords = c("long", "lat"), crs = 4326) \%>\%
-   sf::st_transform(3035)
-
-# Buffer circles by 100m
-crownsFile <- sf::st_buffer(dat_sf, dist = 1000) \%>\%
-   dplyr::mutate(id = c(122,202,122),
-          family = c('Fabaceae', 'Ochnaceae', 'Fabaceae'),
-          gen = c('Newtonia','Lophira','Guibourtia'),
-          tx_sp_lvl = c('Newtonia leucocarpa','Lophira alata','Guibourtia tessmannii'),
-          plot_name = 'mbalmayo_pheno_observatory',
-          code_sp = c(12856, 1690, 5691))
-
-base::plot(crownsFile$geometry, border = 'blue', lwd = 2)
-terra::text(terra::vect(crownsFile), labels="id", halo = TRUE, col = 'blue')
-
-check_crownsFile(crownsFile)
+Check the crown file compatibility with the \code{managecrownsdata} functions. Return text,
+that give informations about the file modifications needed.
 }

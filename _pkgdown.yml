@@ -8,18 +8,19 @@ development:
   mode: auto
 
 reference:
-- title: Align moasaics with AROSICS
+- title: Images proccessing
   desc: >
-    R functions to implement the Python package [AROSICS](https://github.com/GFZ/arosics)
+    R functions to proccess calibrateds UAV mosaic
   contents:
   - arosics_in_r
 
 - title: Extract crowns data
   desc: >
-    Fine-tune the arrangement of plots by reordering or splitting axes into separate panels.
-    These functions allow for more detailed customization of plot layouts.
+    R functions to extract the crowns observatory data
   contents:
+  - check_availableCrowns
   - check_crownsFile
+  - extract_bboxImages
   - create_labelingFile
   - extract_crownsImages
   - extract_rgbValues

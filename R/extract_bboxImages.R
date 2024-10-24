@@ -1,4 +1,4 @@
-#' Extract and export the non NA area of images
+#' Extract and export the non NA area of images.
 #'
 #' @description This function extract the area of images covered by non NA values and return
 #' an \code{sf} object with one polygon per image.

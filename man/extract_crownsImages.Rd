@@ -17,8 +17,7 @@ extract_crownsImages(
 )
 }
 \arguments{
-\item{crownFile}{A \code{sf} object with an 'id' variable. Each id must be
-unique}
+\item{crownFile}{A \code{sf} object for the crowns with an 'id' variable.}
 
 \item{RGB_paths}{a list with the full paths to the RGB rasters.}
 

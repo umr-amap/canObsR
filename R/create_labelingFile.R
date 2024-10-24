@@ -2,18 +2,18 @@
 #'
 #' @description A function to create the xlsx file to do the labeling
 #'
-#' @param crownFile A \code{sf} object with the crowns delineation.
+#' @param crownFile A \code{sf} object for the crowns with an 'id' variable.
 #' @param site chr. name of the site, p.e 'Mbalmayo'.
-#' @param date chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
-#' @param save_xlsx log. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters
+#' @param date chr. vector of dates (format should be 'YYYY_MM_DD', p.e '2022_09_25').
+#' @param save_xlsx logical. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters
 #' @param directory The path where to save the xlsx file.
-#'
 #'
 #' @export
 #'
 #' @import dplyr
 #' @importFrom writexl write_xlsx
-#'
+#' @importFrom magrittr "%>%"
+
 
 
 create_labelingFile <-
@@ -32,7 +32,7 @@ create_labelingFile <-
       new_col_list <- list()
 
       for (i in c('obs', date, 'Comm', 'update')) {
-         new_col_list[[i]] <- NA
+         new_col_list[[i]] <- NULL
       }
 
       # Create the empty labeling file from the crowns file. The order of the species

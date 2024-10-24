@@ -19,6 +19,7 @@ Imports:
     exactextractr,
     ggplot2,
     grDevices,
+    magrittr,
     readxl,
     reticulate,
     sf,

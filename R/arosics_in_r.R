@@ -1,7 +1,7 @@
 #' Implement AROSICS in R
 #'
 #' @description
-#' R functions to implement the Python package [AROSICS](https://github.com/GFZ/arosics)
+#' R functions to implement the fonctions of the Python package [AROSICS](https://github.com/GFZ/arosics)
 #'
 #' @param path_in xx
 #' @param ref_filepath xx

@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_bboxImages.R
 \name{extract_bboxImages}
 \alias{extract_bboxImages}
-\title{Extract and export the non NA area of images}
+\title{Extract and export the non NA area of images.}
 \usage{
 extract_bboxImages(RGB_paths, crs, date, directory = NULL, filename = NULL)
 }
