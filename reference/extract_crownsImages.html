@@ -69,8 +69,7 @@ each date.</p>
 
 
 <dl><dt id="arg-crownfile">crownFile<a class="anchor" aria-label="anchor" href="#arg-crownfile"></a></dt>
-<dd><p>A <code>sf</code> object with an 'id' variable. Each id must be
-unique</p></dd>
+<dd><p>A <code>sf</code> object for the crowns with an 'id' variable.</p></dd>
 
 
 <dt id="arg-rgb-paths">RGB_paths<a class="anchor" aria-label="anchor" href="#arg-rgb-paths"></a></dt>
@@ -129,7 +128,7 @@ specific_quality as TRUE and complete height and width arguments.</p>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">directory</span> <span class="op">&lt;-</span> <span class="st">'C:/Users/2022hl001/Desktop/temp/test'</span></span></span>
-<span class="r-in"><span><span class="va">crownFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="st">"/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">crownFile</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="st">"/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">site</span> <span class="op">=</span> <span class="st">'Mbalmayo'</span></span></span>
 <span class="r-in"><span><span class="va">crs</span> <span class="op">=</span> <span class="st">'EPSG:32632'</span></span></span>
 <span class="r-in"><span><span class="va">RGB_paths</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">'F:/VIA/Cameroun/Mbalmayo/Pheno/RGB'</span>, pattern <span class="op">=</span> <span class="st">"\\.tif$"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -138,7 +137,7 @@ specific_quality as TRUE and complete height and width arguments.</p>
 <span class="r-in"><span><span class="fu">str_split</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">RGB_paths</span><span class="op">)</span>,<span class="st">'_'</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,<span class="va">x</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,<span class="va">x</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span>, <span class="st">"%Y%m%d"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">crownFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">crownFile</span>, <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span> <span class="fu">read_stars</span><span class="op">(</span><span class="va">RGB_paths</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,proxy <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">crownFile</span> <span class="op">&lt;-</span> <span class="fu">st_transform</span><span class="op">(</span><span class="va">crownFile</span>, <span class="fu">st_crs</span><span class="op">(</span> <span class="fu">read_stars</span><span class="op">(</span><span class="va">RGB_paths</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,proxy <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Default parameters (quality of image : 720*825 pixels)</span></span></span>
 <span class="r-in"><span></span></span>
