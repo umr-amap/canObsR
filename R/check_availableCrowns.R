@@ -20,10 +20,11 @@
 #' @importFrom dplyr mutate
 #' @importFrom dplyr case_when
 #' @importFrom magrittr "%>%"
+#' @importFrom graphics dotchart
 
 check_availableCrowns <-
 
-   function(Bbox_path,
+   function(path_in,
             crownFile,
             date = NULL,
             crs = NULL)

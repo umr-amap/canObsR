@@ -4,9 +4,11 @@
 \alias{check_availableCrowns}
 \title{Check the number of crowns included in each image}
 \usage{
-check_availableCrowns(Bbox_path, crownFile, date = NULL, crs = NULL)
+check_availableCrowns(path_in, crownFile, date = NULL, crs = NULL)
 }
 \arguments{
+\item{path_in}{The path to the non NA Bbox return by the function \code{extract_bboxImages()}}
+
 \item{crownFile}{A \code{sf} object for the crowns with an 'id' variable.}
 
 \item{date}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
@@ -15,8 +17,6 @@ dates of the image in the RGB_paths.}
 
 \item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL,
 it will use and transform all the data into the crs of the first non NA bbox.}
-
-\item{path_in}{The path to the non NA Bbox return by the function \code{extract_bboxImages()}}
 }
 \value{
 A list with all the crowns id contained within images. The names of the list elements
