@@ -12,7 +12,7 @@
 #' @importFrom dplyr mutate
 #' @importFrom tidyr gather
 
-Labels_pivotLonger <- function(wideLabels) {
+pivot_Labels <- function(wideLabels) {
 
    longLabels <- wideLabels %>%
       tidyr::gather(-c(id, obs, Comm, update, Usable_crown, n, site, specie, genus, family),

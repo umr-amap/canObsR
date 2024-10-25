@@ -18,7 +18,7 @@
 #' @import ggplot2
 
 
-Labels_heatmap <-
+heatmap_Labels <-
 
    function(longLabels, Specie = NULL, Genus = NULL, Family = NULL, title = NULL, na.rm = FALSE){
 

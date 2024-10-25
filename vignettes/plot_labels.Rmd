@@ -23,7 +23,7 @@ library(DT)
 ```{r}
 wideLabels <- read_excel(file.path(system.file(package="managecrownsdata"), 'labeling_file_Mbalmayo.xlsx'))
 
-longLabels <- Labels_pivotLonger(wideLabels)
+longLabels <- pivot_Labels(wideLabels)
 
 datatable(longLabels, 
           class = 'cell-border stripe',
@@ -33,7 +33,7 @@ datatable(longLabels,
 ```
 
 ```{r}
-Labels_heatmap(longLabels,
+heatmap_Labels(longLabels,
                Specie = 'Alstonia boonei',
                na.rm = TRUE)
 ```
