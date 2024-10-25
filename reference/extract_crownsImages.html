@@ -53,11 +53,11 @@ each date.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extract_crownsImages</span><span class="op">(</span></span>
 <span>  <span class="va">path_images</span>,</span>
-<span>  <span class="va">crownFile</span>,</span>
+<span>  <span class="va">crownsFile</span>,</span>
 <span>  <span class="va">path_bbox</span>,</span>
 <span>  <span class="va">path_out</span>,</span>
 <span>  site <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  date <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dates <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  crs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  parallel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  N_cores <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -76,7 +76,7 @@ each date.</p>
 <dd><p>A <code>sf</code> object for the crowns with an 'id' variable.</p></dd>
 
 
-<dt id="arg-crownfile">crownFile<a class="anchor" aria-label="anchor" href="#arg-crownfile"></a></dt>
+<dt id="arg-crownsfile">crownsFile<a class="anchor" aria-label="anchor" href="#arg-crownsfile"></a></dt>
 <dd><p>a list with the full paths to the RGB rasters.</p></dd>
 
 
@@ -93,7 +93,7 @@ function will create the folder, It doesn't need to exists.</p></dd>
 <dd><p>chr. name of the site, p.e 'Mbalmayo'.</p></dd>
 
 
-<dt id="arg-date">date<a class="anchor" aria-label="anchor" href="#arg-date"></a></dt>
+<dt id="arg-dates">dates<a class="anchor" aria-label="anchor" href="#arg-dates"></a></dt>
 <dd><p>chr. Vector with dates (format should be '%Y_%m_%d', p.e
 '2022_09_25'). The order of the dates should match with the order of the
 dates of the image in the path_images</p></dd>
