@@ -54,7 +54,7 @@ an <code>sf</code> object with one polygon per image.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extract_bboxImages</span><span class="op">(</span></span>
 <span>  <span class="va">path_in</span>,</span>
 <span>  crs <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  date <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dates <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  directory <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  filename <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -73,12 +73,6 @@ an <code>sf</code> object with one polygon per image.</p>
 it will use and transform all the data into the crs of the first RGB image.</p></dd>
 
 
-<dt id="arg-date">date<a class="anchor" aria-label="anchor" href="#arg-date"></a></dt>
-<dd><p>chr. Vector with dates (format should be '%Y_%m_%d', p.e
-'2022_09_25'). The order of the dates should match with the order of the
-dates of the image in the path_in</p></dd>
-
-
 <dt id="arg-directory">directory<a class="anchor" aria-label="anchor" href="#arg-directory"></a></dt>
 <dd><p>chr. The path to the directory used to export the vectors.
 One file will be export per date. If NULL, the vector will not be exported.</p></dd>
@@ -86,6 +80,12 @@ One file will be export per date. If NULL, the vector will not be exported.</p><
 
 <dt id="arg-filename">filename<a class="anchor" aria-label="anchor" href="#arg-filename"></a></dt>
 <dd><p>logical. The name of the files.</p></dd>
+
+
+<dt id="arg-date">date<a class="anchor" aria-label="anchor" href="#arg-date"></a></dt>
+<dd><p>chr. Vector with dates (format should be '%Y_%m_%d', p.e
+'2022_09_25'). The order of the dates should match with the order of the
+dates of the image in the path_in</p></dd>
 
 </dl></div>
 
