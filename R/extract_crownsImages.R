@@ -64,21 +64,25 @@ extract_crownsImages <-
    ){
 
 
-   # Import and transform data -----------------------------------------------
+      # Import and transform data -----------------------------------------------
 
       if ( is.null(crs) ) {crs = sf::st_crs (crownsFile) }
       crownsFile <- crownsFile %>% sf::st_transform(crs = crs)
       bbox <- lapply(path_bbox, sf::st_read)
 
+      for (i in 1:length(bbox)){
+         bbox[[i]] <- bbox[[i]] %>% sf::st_transform(crs = crs)
+
+      }
+
 
       for (i in 1:length(unique(crownsFile$id))) {
 
-   # Extract data for each id and create the folder for the outputs ----------
+         # Extract data for each id and create the folder for the outputs ----------
 
-         bbox <- bbox %>% sf::st_transform(crs = crs)
          tmp_id <- crownsFile$id[i]
-         tmp_sp <- crownsFile$tx_sp_lvl[i]
-         if(is.na(tmp_sp)){ tmp_sp <- paste(crownsFile$tax_gen[i],'sp') }
+         tmp_sp <- crownsFile$specie[i]
+         if(is.na(tmp_sp)){ tmp_sp <- paste(crownsFile$genus[i],'sp') }
          tmp_crown <- crownsFile[i,]
          tmp_dir <- paste0(path_out, "/crown_", tmp_id, "_", tmp_sp)
 
@@ -89,7 +93,7 @@ extract_crownsImages <-
          for (j in 1:length(path_images)) {
 
 
-   # Define the file and the image size for the export -----------------------
+            # Define the file and the image size for the export -----------------------
 
             if (specific_quality == FALSE) {
                grDevices::jpeg(file = file.path(
@@ -110,7 +114,7 @@ extract_crownsImages <-
             if (as.logical(sf::st_contains(bbox[[j]], crown_bbox, sparse = F))) {
 
 
-      # If data are available, plot the crown -----------------------------------
+               # If data are available, plot the crown -----------------------------------
 
                x <- stars::read_stars(path_images[j], proxy = T)[crown_bbox][, , , 1:3]
 
@@ -131,11 +135,11 @@ extract_crownsImages <-
 
             } else {
 
-      # If data are not available, plot "NO DATA" -------------------------------
+               # If data are not available, plot "NO DATA" -------------------------------
 
                plot_nodata()
 
-               }
+            }
 
             grDevices::dev.off()
          }
