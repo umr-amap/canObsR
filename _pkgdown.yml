@@ -25,7 +25,6 @@ reference:
   - extract_bboxImages
   - extract_crownsImages
   - extract_rgbValues
-  - heatmap_Labels
   - merge_values
   - pivot_Labels
 
@@ -34,7 +33,7 @@ reference:
   desc: >
     xxxx.
   contents:
-  - Labels_heatmap
+  - heatmap_Labels
 
 articles:
 - title: Building plots
