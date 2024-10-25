@@ -19,7 +19,7 @@
 #' @import reticulate
 #'
 
-Time_SIFT_in_r <- function(pathDIR,
+time_SIFT_in_r <- function(pathDIR,
                            out_dir_ortho,
                            out_dir_DEM = NULL,
                            out_dir_project = NULL,

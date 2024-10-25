@@ -13,7 +13,7 @@ reference:
     R functions to proccess calibrateds UAV mosaic
   contents:
   - arosics_in_r
-  - Time_SIFT_in_r
+  - time_SIFT_in_r
 
 - title: Extract crowns data
   desc: >
