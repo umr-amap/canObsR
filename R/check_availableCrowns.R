@@ -4,7 +4,7 @@
 #' As the extend of images can changed from one image to another, this function return
 #' the number of crowns included in each image and the vector of the id for crowns in images.
 #'
-#' @param path_in The path to the non NA Bbox return by the function `extract_bboxImages()`
+#' @param path_bbox The path to the non NA Bbox return by the function `extract_bboxImages()`
 #' @param crownFile A \code{sf} object for the crowns with an 'id' variable.
 #' @param date chr. Vector with dates (format should be '%Y_%m_%d', p.e
 #'  '2022_09_25'). The order of the dates should match with the order of the
@@ -24,16 +24,16 @@
 
 check_availableCrowns <-
 
-   function(path_in,
+   function(path_bbox,
             crownFile,
             date = NULL,
-            crs = NULL)
-   {
+            crs = NULL) {
 
 
    # Check if the user added a crs, if not automatically find it from --------
 
-      if ( is.null(crs) ) {crs = sf::st_crs (sf::st_read (path_in[1])) }
+      if ( is.null(crs) ) {crs = sf::st_crs (sf::st_read (path_bbox[1])) }
+      if ( is.null(date) ) {date =paste0('date_', 1:length(path_bbox)) }
 
 
    # Create empty data we will fill in the loop ------------------------------
@@ -49,12 +49,12 @@ check_availableCrowns <-
 
    # In a loop, for each image bbox... ---------------------------------------
 
-      for (i in 1:length(path_in)) {
+      for (i in 1:length(path_bbox)) {
 
 
          # Import bbox i -----------------------------------------------------------
 
-         bbox <- sf::st_read(path_in[i])
+         bbox <- sf::st_read(path_bbox[i])
          bbox <- bbox %>% sf::st_transform(crs = crs)
 
 
@@ -67,26 +67,25 @@ check_availableCrowns <-
 
    # Create group for image with more than 90% of the crowns and image --------
 
-      within_crowns <- within_crowns %>% dplyr::mutate(rate = dplyr::case_when(n > 90 ~ '> 90 %', TRUE ~ '< 90%'))
+      within_crowns <- within_crowns %>% dplyr::mutate(rate = dplyr::case_when(n > 90 ~ 'A', TRUE ~ 'B'))
       grps = as.factor(within_crowns$rate)
-      my_cols <- c("blue", "red")
+      my_cols <- c('A' = "blue", 'B' = "red")
 
 
    # Plot the percantage of crowns per image ---------------------------------
 
       dotchart(
-         within_crowns$n,
-         labels = within_crowns$date,
+         rev(within_crowns$n),
+         labels = rev(within_crowns$date),
          # groups = grps,
          gcolor = my_cols,
-         color = my_cols[grps],
+         color = rev(my_cols[grps]),
          cex = 0.6,
          pch = 19,
          xlab = "Available crowns (percent)",
          xlim = c(0, 100),
          main = '% available crowns per images'
       )
-
 
    # Return the id availale per image ----------------------------------------
 

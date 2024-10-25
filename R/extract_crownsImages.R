@@ -4,8 +4,8 @@
 #'each date.
 #'
 #'@param path_images A \code{sf} object for the crowns with an 'id' variable.
-#'@param path_crownFile a list with the full paths to the RGB rasters.
-#'@param path_bbox xx
+#'@param crownFile a list with the full paths to the RGB rasters.
+#'@param path_bbox The path to the non NA Bbox return by the function `extract_bboxImages()`
 #'@param path_out chr. The path to the directory use to stored the images. The
 #'  function will create the folder, It doesn't need to exists.
 #'@param site chr. name of the site, p.e 'Mbalmayo'.
@@ -16,6 +16,7 @@
 #'  it will use and transform all the data into the crs of the first RGB image.
 #'@param parallel xx
 #'@param update xx
+#'@param N_cores xx
 #'@param specific_quality Logical, if TRUE the quality of image will be
 #'  determine by the height and width arguments.
 #'@param height if specific_quality = TRUE, the height of the device
@@ -26,63 +27,18 @@
 #''crown_5_Lophira alata'. The the images names are 'crown_*the id*_*the specie
 #'name*_*the date*.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
 #'The function upload square image with neighbouring tree and the title is add
-#'at the top, image size is 720*825 pixels. When specific_quality is FALSE, the
-#'image size is 250*300 by default but it can be changed by specifying
-#'specific_quality as TRUE and complete height and width arguments.
+#'at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
+#'image size can be changed by specifying height and width parameters.
 #'
-#' @examples
-#' \dontrun{
-#'
-#' library(tidyverse)
-#'
-#' path_out <- 'C:/Users/2022hl001/Desktop/temp/test'
-#' crownFile <- st_read("/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg")
-#' site = 'Mbalmayo'
-#' crs = 'EPSG:32632'
-#' path_in = list.files('F:/VIA/Cameroun/Mbalmayo/Pheno/RGB', pattern = "\\.tif$", full.names = TRUE)
-#' date <- as.Date (
-#' sapply(
-#' str_split(basename(path_in),'_'), function(x) paste0(x[2],x[3],x[4])
-#' ), "%Y%m%d"
-#' )
-#' crownFile <- st_transform(crownFile, st_crs( read_stars(path_in[1],proxy = T)))
-#'
-#' # Default parameters (quality of image : 720*825 pixels)
-#'
-#' extract_crownsImages(
-#'    crownFile = crownFile,
-#'    path_in = path_in,
-#'    path_out = path_out,
-#'    date = date,
-#'    tx_sp_lvl = 'tx_sp_lvl',
-#'    specific_quality = TRUE
-#'    )
-#'
-#'#' # Extraction with specific height and width
-#'
-#' extract_crownsImages(
-#'    crownFile = crownFile,
-#'    path_in = path_in,
-#'    path_out = path_out,
-#'    date = date,
-#'    tx_sp_lvl = 'tx_sp_lvl',
-#'    specific_quality = FALSE,
-#'    height = 500,
-#'    width = 430
-#'    )
-#'
-#' }
 #'@export
 #'
 #'@importFrom stars st_as_stars
 #'@importFrom stars read_stars
 #'@importFrom terra rast
-#'@importFrom terra extend
-#'@importFrom terra app
 #'@importFrom terra plotRGB
 #'@importFrom grDevices jpeg
 #'@importFrom grDevices dev.off
-#' @importFrom magrittr "%>%"
+#'@importFrom magrittr "%>%"
 #'@import sf
 #'@import dplyr
 
@@ -93,7 +49,7 @@ extract_crownsImages <-
 
    function(
       path_images,
-      path_crownFile,
+      crownFile,
       path_bbox,
       path_out,
       site = NULL,
@@ -106,12 +62,19 @@ extract_crownsImages <-
       height = 300
    ){
 
+
+   # Import and transform data -----------------------------------------------
+
+      if ( is.null(crs) ) {crs = sf::st_crs (crownFile) }
       crownFile <- crownFile %>% sf::st_transform(crs = crs)
-      bbox <- lapply(path_bbox, st_read)
+      bbox <- lapply(path_bbox, sf::st_read)
 
 
       for (i in 1:length(unique(crownFile$id))) {
 
+   # Extract data for each id and create the folder for the outputs ----------
+
+         bbox <- bbox %>% sf::st_transform(crs = crs)
          tmp_id <- crownFile$id[i]
          tmp_sp <- crownFile$tx_sp_lvl[i]
          if(is.na(tmp_sp)){ tmp_sp <- paste(crownFile$tax_gen[i],'sp') }
@@ -123,6 +86,9 @@ extract_crownsImages <-
          crown_bbox <- create_bbox_shp (shp = tmp_crown)
 
          for (j in 1:length(path_in)) {
+
+
+   # Define the file and the image size for the export -----------------------
 
             if (specific_quality == FALSE) {
                grDevices::jpeg(file = file.path(
@@ -140,14 +106,16 @@ extract_crownsImages <-
                height = height)
             }
 
-            if (st_intersects(bbox[[j]], crown_bbox, sparse = F)) {
+            if (as.logical(sf::st_contains(bbox[[j]], crown_bbox, sparse = F))) {
 
 
-               x <- stars::read_stars(path_in[j], proxy = T)[crown_bbox][, , , 1:3]
+      # If data are available, plot the crown -----------------------------------
+
+               x <- stars::read_stars(path_images[j], proxy = T)[crown_bbox][, , , 1:3]
 
                terra::plotRGB(
                   terra::rast(x),
-                  main = paste(date[j], "     ", tmp_sp, "     id =", tmp_id),
+                  main = paste(date[j], "|", tmp_sp, "| id =", tmp_id),
                   ext = sf::st_as_sf(crown_bbox),
                   axes = T,
                   mar = 2
@@ -161,6 +129,8 @@ extract_crownsImages <-
 
 
             } else {
+
+      # If data are not available, plot "NO DATA" -------------------------------
 
                plot_nodata()
 

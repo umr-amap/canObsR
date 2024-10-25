@@ -20,8 +20,8 @@ reference:
   contents:
   - check_availableCrowns
   - check_crownsFile
-  - extract_bboxImages
   - create_labelingFile
+  - extract_bboxImages
   - extract_crownsImages
   - extract_rgbValues
   - Labels_pivotLonger

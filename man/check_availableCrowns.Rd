@@ -4,10 +4,10 @@
 \alias{check_availableCrowns}
 \title{Check the number of crowns included in each image}
 \usage{
-check_availableCrowns(path_in, crownFile, date = NULL, crs = NULL)
+check_availableCrowns(path_bbox, crownFile, date = NULL, crs = NULL)
 }
 \arguments{
-\item{path_in}{The path to the non NA Bbox return by the function \code{extract_bboxImages()}}
+\item{path_bbox}{The path to the non NA Bbox return by the function \code{extract_bboxImages()}}
 
 \item{crownFile}{A \code{sf} object for the crowns with an 'id' variable.}
 

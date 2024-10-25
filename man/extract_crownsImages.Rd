@@ -6,7 +6,7 @@
 \usage{
 extract_crownsImages(
   path_images,
-  path_crownFile,
+  crownFile,
   path_bbox,
   path_out,
   site = NULL,
@@ -22,9 +22,9 @@ extract_crownsImages(
 \arguments{
 \item{path_images}{A \code{sf} object for the crowns with an 'id' variable.}
 
-\item{path_crownFile}{a list with the full paths to the RGB rasters.}
+\item{crownFile}{a list with the full paths to the RGB rasters.}
 
-\item{path_bbox}{xx}
+\item{path_bbox}{The path to the non NA Bbox return by the function \code{extract_bboxImages()}}
 
 \item{path_out}{chr. The path to the directory use to stored the images. The
 function will create the folder, It doesn't need to exists.}
@@ -48,6 +48,8 @@ determine by the height and width arguments.}
 \item{width}{if specific_quality = TRUE, the width of the device}
 
 \item{height}{if specific_quality = TRUE, the height of the device}
+
+\item{N_cores}{xx}
 }
 \description{
 The function extracts and save .jpeg images for each crown at
@@ -59,50 +61,6 @@ images. The folder names are 'crown_\emph{the id}\emph{\emph{the specie name}' f
 'crown_5_Lophira alata'. The the images names are 'crown}\emph{the id}\emph{\emph{the specie
 name}}\emph{the date}.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
 The function upload square image with neighbouring tree and the title is add
-at the top, image size is 720\emph{825 pixels. When specific_quality is FALSE, the
-image size is 250}300 by default but it can be changed by specifying
-specific_quality as TRUE and complete height and width arguments.
-}
-\examples{
-\dontrun{
-
-library(tidyverse)
-
-path_out <- 'C:/Users/2022hl001/Desktop/temp/test'
-crownFile <- st_read("/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg")
-site = 'Mbalmayo'
-crs = 'EPSG:32632'
-path_in = list.files('F:/VIA/Cameroun/Mbalmayo/Pheno/RGB', pattern = "\\\\.tif$", full.names = TRUE)
-date <- as.Date (
-sapply(
-str_split(basename(path_in),'_'), function(x) paste0(x[2],x[3],x[4])
-), "\%Y\%m\%d"
-)
-crownFile <- st_transform(crownFile, st_crs( read_stars(path_in[1],proxy = T)))
-
-# Default parameters (quality of image : 720*825 pixels)
-
-extract_crownsImages(
-   crownFile = crownFile,
-   path_in = path_in,
-   path_out = path_out,
-   date = date,
-   tx_sp_lvl = 'tx_sp_lvl',
-   specific_quality = TRUE
-   )
-
-#' # Extraction with specific height and width
-
-extract_crownsImages(
-   crownFile = crownFile,
-   path_in = path_in,
-   path_out = path_out,
-   date = date,
-   tx_sp_lvl = 'tx_sp_lvl',
-   specific_quality = FALSE,
-   height = 500,
-   width = 430
-   )
-
-}
+at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
+image size can be changed by specifying height and width parameters.
 }

@@ -6,40 +6,16 @@
 #' function. The mean and / or the variance can be extracted (see 'fun' parameter).
 #'
 #' @param crownFile A \code{sf} object with the crowns delineation.
-#' @param RGB_paths a list with the full paths to the RGB rasters.
+#' @param path_images a list with the full paths to the RGB rasters.
 #' @param site chr. name of the site, p.e 'Mbalmayo'.
 #' @param date chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
-#' The order of the dates should match with the order of the RGB_paths !
+#' The order of the dates should match with the order of the path_images !
 #' @param fun chr. Specify the function used in the 'fun' parameter of the \code{exactextractr::exact_extract} function to extract
 #' RGB values, it could be 'mean', 'var' or 'all'.
 #' @param infos logical. Specify whether or not to return details of the extraction.
 #' When TRUE, specify the crowns which has not been extracting per date, because they were out of the image.
 #' @param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL, it will
 #' use and transform all the data into the crs of the first RGB image.
-#'
-#' @examples
-#' \dontrun{
-#' library(sf)
-#' library(dplyr)
-#' library(stringr)
-#'
-#' path <- system.file(package="phenobsappli")
-#' RGB_paths <- list.files(file.path(path, 'tif'), full.names = TRUE)
-#' crowns <- read_sf (list.files(file.path(path, 'shp'), full.names = TRUE))
-#' date = sapply( str_split( basename( RGB_paths ),'_' ),
-#'                      function(x) str_remove(paste(x[2], x[3], x[4], sep ='_'),'.tif') )
-#' crs = sf::st_crs(stars::read_stars(RGB_paths[1], proxy = TRUE))
-#' site = 'Mbalmayo'
-#'
-#' test <- extract_rgbValues(
-#'    crowns,
-#'    RGB_paths,
-#'    crs = crs,
-#'    site = site,
-#'    date = date,
-#'    fun = 'all',
-#'    infos = TRUE)
-#' }
 #'
 #' @export
 #'
@@ -59,7 +35,7 @@ extract_rgbValues <-
 
    function(
       crownFile,
-      RGB_paths,
+      path_images,
       site = NULL,
       date = NULL,
       crs = NULL,
@@ -69,15 +45,15 @@ extract_rgbValues <-
 
       if( 'date' %in% base::names(crownFile) ) { crownFile <- crownFile %>% dplyr::select(-date) }
       if( infos ) { details <- list() }
-      if(is.null(crs)) { crs = sf::st_crs(terra::rast(RGB_paths[1]))}
+      if(is.null(crs)) { crs = sf::st_crs(terra::rast(path_images[1]))}
 
 
-      for (i in 1:length(RGB_paths)){
+      for (i in 1:length(path_images)){
 
          date_i <- date[i]
 
          bbox <-
-            terra::rast(RGB_paths[i]) %>%
+            terra::rast(path_images[i]) %>%
             sf::st_bbox() %>%
             sf::st_as_sfc() %>%
             sf::st_transform(crs = crs) %>%
@@ -91,7 +67,7 @@ extract_rgbValues <-
 
          crowns_i <- crowns_i %>% dplyr::filter (id %in% within_crowns)
 
-         RGB <- terra::rast(RGB_paths[i])
+         RGB <- terra::rast(path_images[i])
          sumrgb <- RGB[[1]] + RGB[[2]] + RGB[[3]]
          rcc <- RGB[[1]] / sumrgb
          gcc <- RGB[[2]] / sumrgb
