@@ -32,7 +32,7 @@ create_labelingFile <-
       new_col_list <- list()
 
       for (i in c('obs', dates, 'Comm', 'update')) {
-         new_col_list[[i]] <- NULL
+         new_col_list[[i]] <- NA
       }
 
       # Create the empty labeling file from the crowns file. The order of the species

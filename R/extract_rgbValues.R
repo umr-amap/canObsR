@@ -5,7 +5,7 @@
 #' for the whole mosaics and then extracts the value at the crown scale using the \code{exactextractr::exact_extract}
 #' function. The mean and / or the variance can be extracted (see 'fun' parameter).
 #'
-#' @param crownFile A \code{sf} object with the crowns delineation.
+#' @param crownsFile A \code{sf} object with the crowns delineation.
 #' @param path_images a list with the full paths to the RGB rasters.
 #' @param site chr. name of the site, p.e 'Mbalmayo'.
 #' @param date chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
@@ -34,7 +34,7 @@
 extract_rgbValues <-
 
    function(
-      crownFile,
+      crownsFile,
       path_images,
       site = NULL,
       date = NULL,
@@ -43,7 +43,7 @@ extract_rgbValues <-
       infos = FALSE
    ){
 
-      if( 'date' %in% base::names(crownFile) ) { crownFile <- crownFile %>% dplyr::select(-date) }
+      if( 'date' %in% base::names(crownsFile) ) { crownsFile <- crownsFile %>% dplyr::select(-date) }
       if( infos ) { details <- list() }
       if(is.null(crs)) { crs = sf::st_crs(terra::rast(path_images[1]))}
 
@@ -59,7 +59,7 @@ extract_rgbValues <-
             sf::st_transform(crs = crs) %>%
             sf::st_as_sf()
 
-         crowns_i <- crownFile %>% sf::st_transform(crs = crs)
+         crowns_i <- crownsFile %>% sf::st_transform(crs = crs)
 
          within_crowns <- sf::st_join(bbox, crowns_i, join = st_contains) %>% .[['id']]
 

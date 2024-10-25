@@ -4,12 +4,12 @@
 #'each date.
 #'
 #'@param path_images A \code{sf} object for the crowns with an 'id' variable.
-#'@param crownFile a list with the full paths to the RGB rasters.
+#'@param crownsFile a list with the full paths to the RGB rasters.
 #'@param path_bbox The path to the non NA Bbox return by the function `extract_bboxImages()`
 #'@param path_out chr. The path to the directory use to stored the images. The
 #'  function will create the folder, It doesn't need to exists.
 #'@param site chr. name of the site, p.e 'Mbalmayo'.
-#'@param date chr. Vector with dates (format should be '%Y_%m_%d', p.e
+#'@param dates chr. Vector with dates (format should be '%Y_%m_%d', p.e
 #'  '2022_09_25'). The order of the dates should match with the order of the
 #'  dates of the image in the path_images
 #'@param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL,
@@ -49,11 +49,11 @@ extract_crownsImages <-
 
    function(
       path_images,
-      crownFile,
+      crownsFile,
       path_bbox,
       path_out,
       site = NULL,
-      date = NULL,
+      dates = NULL,
       crs = NULL,
       parallel = FALSE,
       N_cores = NULL,
@@ -66,20 +66,20 @@ extract_crownsImages <-
 
    # Import and transform data -----------------------------------------------
 
-      if ( is.null(crs) ) {crs = sf::st_crs (crownFile) }
-      crownFile <- crownFile %>% sf::st_transform(crs = crs)
+      if ( is.null(crs) ) {crs = sf::st_crs (crownsFile) }
+      crownsFile <- crownsFile %>% sf::st_transform(crs = crs)
       bbox <- lapply(path_bbox, sf::st_read)
 
 
-      for (i in 1:length(unique(crownFile$id))) {
+      for (i in 1:length(unique(crownsFile$id))) {
 
    # Extract data for each id and create the folder for the outputs ----------
 
          bbox <- bbox %>% sf::st_transform(crs = crs)
-         tmp_id <- crownFile$id[i]
-         tmp_sp <- crownFile$tx_sp_lvl[i]
-         if(is.na(tmp_sp)){ tmp_sp <- paste(crownFile$tax_gen[i],'sp') }
-         tmp_crown <- crownFile[i,]
+         tmp_id <- crownsFile$id[i]
+         tmp_sp <- crownsFile$tx_sp_lvl[i]
+         if(is.na(tmp_sp)){ tmp_sp <- paste(crownsFile$tax_gen[i],'sp') }
+         tmp_crown <- crownsFile[i,]
          tmp_dir <- paste0(path_out, "/crown_", tmp_id, "_", tmp_sp)
 
          dir.create(tmp_dir)
@@ -93,7 +93,7 @@ extract_crownsImages <-
 
             if (specific_quality == FALSE) {
                grDevices::jpeg(file = file.path(
-                  paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", date[j], ".jpeg")
+                  paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", dates[j], ".jpeg")
                ),
                height = 825,
                width = 720)
@@ -101,7 +101,7 @@ extract_crownsImages <-
 
             if (specific_quality == TRUE) {
                grDevices::jpeg(file = file.path(
-                  paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", date[j], ".jpeg")
+                  paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", dates[j], ".jpeg")
                ),
                width = width,
                height = height)
@@ -116,7 +116,7 @@ extract_crownsImages <-
 
                terra::plotRGB(
                   terra::rast(x),
-                  main = paste(date[j], "|", tmp_sp, "| id =", tmp_id),
+                  main = paste(dates[j], "|", tmp_sp, "| id =", tmp_id),
                   ext = sf::st_as_sf(crown_bbox),
                   axes = T,
                   mar = 2
@@ -140,7 +140,7 @@ extract_crownsImages <-
             grDevices::dev.off()
          }
 
-         print(paste("CROWN  ", i, " DONE", "   /    ", length(unique(crownFile$id))))
+         print(paste("CROWN  ", i, " DONE", "   /    ", length(unique(crownsFile$id))))
 
       }
    }

@@ -6,11 +6,11 @@
 \usage{
 extract_crownsImages(
   path_images,
-  crownFile,
+  crownsFile,
   path_bbox,
   path_out,
   site = NULL,
-  date = NULL,
+  dates = NULL,
   crs = NULL,
   parallel = FALSE,
   N_cores = NULL,
@@ -23,7 +23,7 @@ extract_crownsImages(
 \arguments{
 \item{path_images}{A \code{sf} object for the crowns with an 'id' variable.}
 
-\item{crownFile}{a list with the full paths to the RGB rasters.}
+\item{crownsFile}{a list with the full paths to the RGB rasters.}
 
 \item{path_bbox}{The path to the non NA Bbox return by the function \code{extract_bboxImages()}}
 
@@ -32,7 +32,7 @@ function will create the folder, It doesn't need to exists.}
 
 \item{site}{chr. name of the site, p.e 'Mbalmayo'.}
 
-\item{date}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
+\item{dates}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
 '2022_09_25'). The order of the dates should match with the order of the
 dates of the image in the path_images}
 

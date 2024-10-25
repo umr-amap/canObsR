@@ -5,7 +5,7 @@
 \title{Extract RGB metrics}
 \usage{
 extract_rgbValues(
-  crownFile,
+  crownsFile,
   path_images,
   site = NULL,
   date = NULL,
@@ -15,7 +15,7 @@ extract_rgbValues(
 )
 }
 \arguments{
-\item{crownFile}{A \code{sf} object with the crowns delineation.}
+\item{crownsFile}{A \code{sf} object with the crowns delineation.}
 
 \item{path_images}{a list with the full paths to the RGB rasters.}
 
