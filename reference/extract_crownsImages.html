@@ -53,13 +53,14 @@ each date.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extract_crownsImages</span><span class="op">(</span></span>
 <span>  <span class="va">path_images</span>,</span>
-<span>  <span class="va">path_crownFile</span>,</span>
+<span>  <span class="va">crownFile</span>,</span>
 <span>  <span class="va">path_bbox</span>,</span>
 <span>  <span class="va">path_out</span>,</span>
 <span>  site <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  date <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  crs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  parallel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  N_cores <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  update <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  specific_quality <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  width <span class="op">=</span> <span class="fl">250</span>,</span>
@@ -75,12 +76,12 @@ each date.</p>
 <dd><p>A <code>sf</code> object for the crowns with an 'id' variable.</p></dd>
 
 
-<dt id="arg-path-crownfile">path_crownFile<a class="anchor" aria-label="anchor" href="#arg-path-crownfile"></a></dt>
+<dt id="arg-crownfile">crownFile<a class="anchor" aria-label="anchor" href="#arg-crownfile"></a></dt>
 <dd><p>a list with the full paths to the RGB rasters.</p></dd>
 
 
 <dt id="arg-path-bbox">path_bbox<a class="anchor" aria-label="anchor" href="#arg-path-bbox"></a></dt>
-<dd><p>xx</p></dd>
+<dd><p>The path to the non NA Bbox return by the function <code><a href="extract_bboxImages.html">extract_bboxImages()</a></code></p></dd>
 
 
 <dt id="arg-path-out">path_out<a class="anchor" aria-label="anchor" href="#arg-path-out"></a></dt>
@@ -95,7 +96,7 @@ function will create the folder, It doesn't need to exists.</p></dd>
 <dt id="arg-date">date<a class="anchor" aria-label="anchor" href="#arg-date"></a></dt>
 <dd><p>chr. Vector with dates (format should be '%Y_%m_%d', p.e
 '2022_09_25'). The order of the dates should match with the order of the
-dates of the image in the path_in.</p></dd>
+dates of the image in the path_images</p></dd>
 
 
 <dt id="arg-crs">crs<a class="anchor" aria-label="anchor" href="#arg-crs"></a></dt>
@@ -104,6 +105,10 @@ it will use and transform all the data into the crs of the first RGB image.</p><
 
 
 <dt id="arg-parallel">parallel<a class="anchor" aria-label="anchor" href="#arg-parallel"></a></dt>
+<dd><p>xx</p></dd>
+
+
+<dt id="arg-n-cores">N_cores<a class="anchor" aria-label="anchor" href="#arg-n-cores"></a></dt>
 <dd><p>xx</p></dd>
 
 
@@ -131,56 +136,10 @@ images. The folder names are 'crown_<em>the id</em><em><em>the specie name</em>'
 'crown_5_Lophira alata'. The the images names are 'crown</em><em>the id</em><em><em>the specie
 name</em></em><em>the date</em>.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
 The function upload square image with neighbouring tree and the title is add
-at the top, image size is 720<em>825 pixels. When specific_quality is FALSE, the
-image size is 250</em>300 by default but it can be changed by specifying
-specific_quality as TRUE and complete height and width arguments.</p>
+at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
+image size can be changed by specifying height and width parameters.</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">path_out</span> <span class="op">&lt;-</span> <span class="st">'C:/Users/2022hl001/Desktop/temp/test'</span></span></span>
-<span class="r-in"><span><span class="va">crownFile</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="st">"/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">site</span> <span class="op">=</span> <span class="st">'Mbalmayo'</span></span></span>
-<span class="r-in"><span><span class="va">crs</span> <span class="op">=</span> <span class="st">'EPSG:32632'</span></span></span>
-<span class="r-in"><span><span class="va">path_in</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">'F:/VIA/Cameroun/Mbalmayo/Pheno/RGB'</span>, pattern <span class="op">=</span> <span class="st">"\\.tif$"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span> <span class="op">(</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span><span class="fu">str_split</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">path_in</span><span class="op">)</span>,<span class="st">'_'</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,<span class="va">x</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,<span class="va">x</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span>, <span class="st">"%Y%m%d"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">crownFile</span> <span class="op">&lt;-</span> <span class="fu">st_transform</span><span class="op">(</span><span class="va">crownFile</span>, <span class="fu">st_crs</span><span class="op">(</span> <span class="fu">read_stars</span><span class="op">(</span><span class="va">path_in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,proxy <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Default parameters (quality of image : 720*825 pixels)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">extract_crownsImages</span><span class="op">(</span></span></span>
-<span class="r-in"><span>   crownFile <span class="op">=</span> <span class="va">crownFile</span>,</span></span>
-<span class="r-in"><span>   path_in <span class="op">=</span> <span class="va">path_in</span>,</span></span>
-<span class="r-in"><span>   path_out <span class="op">=</span> <span class="va">path_out</span>,</span></span>
-<span class="r-in"><span>   date <span class="op">=</span> <span class="va">date</span>,</span></span>
-<span class="r-in"><span>   tx_sp_lvl <span class="op">=</span> <span class="st">'tx_sp_lvl'</span>,</span></span>
-<span class="r-in"><span>   specific_quality <span class="op">=</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span>   <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#' # Extraction with specific height and width</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">extract_crownsImages</span><span class="op">(</span></span></span>
-<span class="r-in"><span>   crownFile <span class="op">=</span> <span class="va">crownFile</span>,</span></span>
-<span class="r-in"><span>   path_in <span class="op">=</span> <span class="va">path_in</span>,</span></span>
-<span class="r-in"><span>   path_out <span class="op">=</span> <span class="va">path_out</span>,</span></span>
-<span class="r-in"><span>   date <span class="op">=</span> <span class="va">date</span>,</span></span>
-<span class="r-in"><span>   tx_sp_lvl <span class="op">=</span> <span class="st">'tx_sp_lvl'</span>,</span></span>
-<span class="r-in"><span>   specific_quality <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>   height <span class="op">=</span> <span class="fl">500</span>,</span></span>
-<span class="r-in"><span>   width <span class="op">=</span> <span class="fl">430</span></span></span>
-<span class="r-in"><span>   <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
