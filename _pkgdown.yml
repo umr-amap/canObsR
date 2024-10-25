@@ -27,7 +27,7 @@ reference:
   - extract_rgbValues
   - heatmap_Labels
   - merge_values
-  - pivot_Longer
+  - pivot_Labels
 
 
 - title: Plots
