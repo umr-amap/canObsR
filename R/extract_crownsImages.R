@@ -11,7 +11,7 @@
 #'@param site chr. name of the site, p.e 'Mbalmayo'.
 #'@param date chr. Vector with dates (format should be '%Y_%m_%d', p.e
 #'  '2022_09_25'). The order of the dates should match with the order of the
-#'  dates of the image in the path_in.
+#'  dates of the image in the path_images
 #'@param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL,
 #'  it will use and transform all the data into the crs of the first RGB image.
 #'@param parallel xx
@@ -56,6 +56,7 @@ extract_crownsImages <-
       date = NULL,
       crs = NULL,
       parallel = FALSE,
+      N_cores = NULL,
       update = FALSE,
       specific_quality = FALSE,
       width = 250,
@@ -85,7 +86,7 @@ extract_crownsImages <-
 
          crown_bbox <- create_bbox_shp (shp = tmp_crown)
 
-         for (j in 1:length(path_in)) {
+         for (j in 1:length(path_images)) {
 
 
    # Define the file and the image size for the export -----------------------

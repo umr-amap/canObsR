@@ -13,6 +13,7 @@ extract_crownsImages(
   date = NULL,
   crs = NULL,
   parallel = FALSE,
+  N_cores = NULL,
   update = FALSE,
   specific_quality = FALSE,
   width = 250,
@@ -33,12 +34,14 @@ function will create the folder, It doesn't need to exists.}
 
 \item{date}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
 '2022_09_25'). The order of the dates should match with the order of the
-dates of the image in the path_in.}
+dates of the image in the path_images}
 
 \item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL,
 it will use and transform all the data into the crs of the first RGB image.}
 
 \item{parallel}{xx}
+
+\item{N_cores}{xx}
 
 \item{update}{xx}
 
@@ -48,8 +51,6 @@ determine by the height and width arguments.}
 \item{width}{if specific_quality = TRUE, the width of the device}
 
 \item{height}{if specific_quality = TRUE, the height of the device}
-
-\item{N_cores}{xx}
 }
 \description{
 The function extracts and save .jpeg images for each crown at
