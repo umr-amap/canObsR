@@ -8,7 +8,7 @@ extract_rgbValues(
   crownsFile,
   path_images,
   site = NULL,
-  date = NULL,
+  dates = NULL,
   crs = NULL,
   fun = "all",
   infos = FALSE
@@ -21,9 +21,6 @@ extract_rgbValues(
 
 \item{site}{chr. name of the site, p.e 'Mbalmayo'.}
 
-\item{date}{chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
-The order of the dates should match with the order of the path_images !}
-
 \item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL, it will
 use and transform all the data into the crs of the first RGB image.}
 
@@ -32,6 +29,9 @@ RGB values, it could be 'mean', 'var' or 'all'.}
 
 \item{infos}{logical. Specify whether or not to return details of the extraction.
 When TRUE, specify the crowns which has not been extracting per date, because they were out of the image.}
+
+\item{date}{chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
+The order of the dates should match with the order of the path_images !}
 }
 \description{
 The function extracts RGB metrics (red, green, blue, sumrgb,

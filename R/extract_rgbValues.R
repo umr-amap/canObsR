@@ -37,7 +37,7 @@ extract_rgbValues <-
       crownsFile,
       path_images,
       site = NULL,
-      date = NULL,
+      dates = NULL,
       crs = NULL,
       fun = 'all',
       infos = FALSE
@@ -50,7 +50,7 @@ extract_rgbValues <-
 
       for (i in 1:length(path_images)){
 
-         date_i <- date[i]
+         date_i <- dates[i]
 
          bbox <-
             terra::rast(path_images[i]) %>%
