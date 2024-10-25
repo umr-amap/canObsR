@@ -13,6 +13,7 @@ reference:
     R functions to proccess calibrateds UAV mosaic
   contents:
   - arosics_in_r
+  - Time_SIFT_in_r
 
 - title: Extract crowns data
   desc: >
@@ -24,8 +25,10 @@ reference:
   - extract_bboxImages
   - extract_crownsImages
   - extract_rgbValues
-  - Labels_pivotLonger
+  - heatmap_Labels
   - merge_values
+  - pivotLonger
+
 
 - title: Plots
   desc: >

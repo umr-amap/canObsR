@@ -1,10 +1,20 @@
-#' Check the crown file compatibility
+#' xxxx
 #'
-#' @param crownFile A sf object
+#' @param pathDIR xxx
+#' @param out_dir_ortho xxx
+#' @param out_dir_DEM xxx
+#' @param out_dir_project xxx
+#' @param data_type xxx
+#' @param resol_ref xxx
+#' @param crs xxx
+#' @param site_name xxx
+#' @param calibrate_col xxx
+#' @param sun_sensor xxx
+#' @param group_by_flight xxx
+#' @param downscale_factor_alignement xxx
+#' @param downscale_factor_depth_map xxx
+#' @param downscale_factor_depth_map xxx
 #'
-#' @return Text that give you information about your file.
-#' Indicates whether your file will be compatible or not  for the other functions of the package.
-#' Pay attention to the line starting with '-- ERROR --'.
 #' @export
 #' @import reticulate
 #'
@@ -24,7 +34,7 @@ Time_SIFT_in_r <- function(pathDIR,
                            downscale_factor_depth_map = 2L) {
 
 
-   source_python(system.file("__init__.py", package = "managecrownsdata"))
+   reticulate::source_python(system.file("__init__.py", package = "managecrownsdata"))
 
    Time_SIFT_process(pathDIR = pathDIR,
                      out_dir_ortho = out_dir_ortho,
