@@ -2,9 +2,9 @@
 #'
 #' @description A function to create the xlsx file to do the labeling
 #'
-#' @param crownFile A \code{sf} object for the crowns with an 'id' variable.
+#' @param crownsFile A \code{sf} object for the crowns with an 'id' variable.
 #' @param site chr. name of the site, p.e 'Mbalmayo'.
-#' @param date chr. vector of dates (format should be 'YYYY_MM_DD', p.e '2022_09_25').
+#' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e '2022_09_25').
 #' @param save_xlsx logical. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters
 #' @param directory The path where to save the xlsx file.
 #'
@@ -19,9 +19,9 @@
 create_labelingFile <-
 
    function(
-      crownFile,
+      crownsFile,
       site = NULL,
-      date = NULL,
+      dates = NULL,
       save_xlsx = FALSE,
       directory = NULL
    ){
@@ -31,7 +31,7 @@ create_labelingFile <-
 
       new_col_list <- list()
 
-      for (i in c('obs', date, 'Comm', 'update')) {
+      for (i in c('obs', dates, 'Comm', 'update')) {
          new_col_list[[i]] <- NULL
       }
 

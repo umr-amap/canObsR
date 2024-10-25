@@ -22,19 +22,19 @@ check_crownsFile <- function(crownsFile){
    var_needed <- c('geometry', 'id', 'family', 'genus', 'specie', 'plot_name', 'code_sp')
 
    var_check <- c(
-         '##########     VARIABLES CHECK     ##########',
-         '-                                           -'
-      )
+      '##########     VARIABLES CHECK     ##########',
+      '-                                           -'
+   )
 
    for (i in 1:length(var_needed)) {
 
-      if (vars[i] %in% var_needed) {
+      if (var_needed[i] %in% vars) {
 
-         checki <- paste('--- OK ----  :  ',vars[i])
+         checki <- paste('--- OK ----  :  ',var_needed[i])
 
       } else {
 
-         checki <- paste('-- ERROR --  :  ',vars[i], 'variable missing or not well named')
+         checki <- paste('-- ERROR --  :  ',var_needed[i], 'variable missing or not well named')
 
       }
 
@@ -54,13 +54,13 @@ check_crownsFile <- function(crownsFile){
 
       duplicat_id <- '--- OK ----  :  There is no duplicated id'
 
-         } else {
+   } else {
 
       duplicat_id <- c('-- ERROR --  :  The following id are duplicated :',
-                           paste(crownsFile$id[duplicated(crownsFile$id)],
-                                 collapse = ','
-                           )
-                           )
+                       paste(crownsFile$id[duplicated(crownsFile$id)],
+                             collapse = ','
+                       )
+      )
 
    }
 
@@ -89,10 +89,8 @@ check_crownsFile <- function(crownsFile){
          ),
          sep = "\n"
 
+      )
    )
-   )
 
 
-   }
-
-
+}
