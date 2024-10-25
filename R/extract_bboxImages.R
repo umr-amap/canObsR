@@ -23,7 +23,7 @@
 
 extract_bboxImages <-
 
-   function(path_in, crs = NULL, date = NULL, directory = NULL, filename = NULL){
+   function(path_in, crs = NULL, dates = NULL, directory = NULL, filename = NULL){
 
 
    # Check if the user has added a crs, if not it automatically find it --------
@@ -33,7 +33,7 @@ extract_bboxImages <-
 
    # Check if the user has added dates, if not it will be 1 to x -------------
 
-      if ( is.null(date) ) {date = paste0('date_',1:length(path_in)) }
+      if ( is.null(dates) ) {dates = paste0('date_',1:length(path_in)) }
 
 
    # For each image, extract the non NA values bounding box ------------------
@@ -53,14 +53,14 @@ extract_bboxImages <-
             dplyr::rename("geometry" = "x") %>%
             sf::st_cast(.,"POLYGON") %>%
             sf::st_transform(crs = crs) %>%
-            dplyr::mutate(date = date[i])
+            dplyr::mutate(date = dates[i])
 
          if(is.null(filename)){filename = 'NonNA_area'}
 
          if(!is.null(directory)){
 
-            sf::write_sf(bbox, paste0(directory, filename ,'_', date[i], '.gpkg') )
-            print(paste0('#### FILE has been written :', paste0(" '",directory, filename ,'_', date[i], '.gpkg',"'")))
+            sf::write_sf(bbox, paste0(directory, filename ,'_', dates[i], '.gpkg') )
+            print(paste0('#### FILE has been written :', paste0(" '",directory, filename ,'_', dates[i], '.gpkg',"'")))
 
          }
 
