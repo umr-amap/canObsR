@@ -39,7 +39,7 @@ create_labelingFile <-
       # within the file will be sort depending on the number of individuals per species.
       labeling_file <-
 
-         dplyr::as_tibble(crownFile) %>%
+         dplyr::as_tibble(crownsFile) %>%
          dplyr::select(id, specie) %>%
          dplyr::group_by(specie) %>%
          dplyr::mutate (n = n()) %>%
