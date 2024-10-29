@@ -12,12 +12,9 @@ extract_crownsImages(
   site = NULL,
   dates = NULL,
   crs = NULL,
-  parallel = FALSE,
-  N_cores = NULL,
-  update = FALSE,
-  specific_quality = FALSE,
-  width = 250,
-  height = 300
+  N_cores = 1,
+  width = 720,
+  height = 825
 )
 }
 \arguments{
@@ -39,18 +36,11 @@ dates of the image in the path_images}
 \item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL,
 it will use and transform all the data into the crs of the first RGB image.}
 
-\item{parallel}{xx}
-
 \item{N_cores}{xx}
 
-\item{update}{xx}
+\item{width}{num. The width of the device}
 
-\item{specific_quality}{Logical, if TRUE the quality of image will be
-determine by the height and width arguments.}
-
-\item{width}{if specific_quality = TRUE, the width of the device}
-
-\item{height}{if specific_quality = TRUE, the height of the device}
+\item{height}{num. The height of the device}
 }
 \description{
 The function extracts and save .jpeg images for each crown at

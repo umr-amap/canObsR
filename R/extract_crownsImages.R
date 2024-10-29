@@ -14,13 +14,9 @@
 #'  dates of the image in the path_images
 #'@param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL,
 #'  it will use and transform all the data into the crs of the first RGB image.
-#'@param parallel xx
-#'@param update xx
 #'@param N_cores xx
-#'@param specific_quality Logical, if TRUE the quality of image will be
-#'  determine by the height and width arguments.
-#'@param height if specific_quality = TRUE, the height of the device
-#'@param width if specific_quality = TRUE, the width of the device
+#'@param height num. The height of the device
+#'@param width num. The width of the device
 #'
 #'@details The extract_crownsImages() create one folder per id and save the
 #'images. The folder names are 'crown_*the id*_*the specie name*' for exemple
@@ -55,12 +51,9 @@ extract_crownsImages <-
       site = NULL,
       dates = NULL,
       crs = NULL,
-      parallel = FALSE,
-      N_cores = NULL,
-      update = FALSE,
-      specific_quality = FALSE,
-      width = 250,
-      height = 300
+      N_cores = 1,
+      width = 720,
+      height = 825
    ){
 
 
@@ -95,21 +88,11 @@ extract_crownsImages <-
 
             # Define the file and the image size for the export -----------------------
 
-            if (specific_quality == FALSE) {
-               grDevices::jpeg(file = file.path(
-                  paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", dates[j], ".jpeg")
-               ),
-               height = 825,
-               width = 720)
-            }
-
-            if (specific_quality == TRUE) {
-               grDevices::jpeg(file = file.path(
-                  paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", dates[j], ".jpeg")
+            grDevices::jpeg(file = file.path(
+               paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", dates[j], ".jpeg")
                ),
                width = width,
                height = height)
-            }
 
             if (as.logical(sf::st_contains(bbox[[j]], crown_bbox, sparse = F))) {
 
