@@ -1,0 +1,47 @@
+---
+title: "extract_crowns_data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{extract_crowns_data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(managecrownsdata)
+library(readxl)
+library(tidyverse)
+```
+
+```{r}
+crownsFile <- st_read(file.path(system.file(package="managecrownsdata"), '/crowns/crowns_test.gpkg'))
+rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+dates <- paste(
+   str_sub(str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],1,4),
+   str_sub(str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],5,6),
+   str_sub(str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],7,8),
+   sep = '_'
+)
+site = 'Bouamir'
+crs <- 'EPSG:32633'
+```
+
+```{r}
+
+check_crownsFile(crownsFile = crownsFile)
+
+crownsFile <- crownsFile %>% rename(geometry = geom,
+                      family = tax_fam,
+                      genus = tax_gen,
+                      specie = tx_sp_lvl,
+                      code_sp = idtax_f)
+
+check_crownsFile(crownsFile = crownsFile)
+```

@@ -40,4 +40,4 @@ articles:
   navbar: ~
   contents:
   - plot_labels
-
+  - extract_crowns_data
