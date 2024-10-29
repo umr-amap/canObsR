@@ -18,14 +18,14 @@ extract_bboxImages(
 \item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL,
 it will use and transform all the data into the crs of the first RGB image.}
 
+\item{dates}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
+'2022_09_25'). The order of the dates should match with the order of the
+dates of the image in the path_in}
+
 \item{directory}{chr. The path to the directory used to export the vectors.
 One file will be export per date. If NULL, the vector will not be exported.}
 
 \item{filename}{logical. The name of the files.}
-
-\item{date}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
-'2022_09_25'). The order of the dates should match with the order of the
-dates of the image in the path_in}
 }
 \description{
 This function extract the area of images covered by non NA values and return

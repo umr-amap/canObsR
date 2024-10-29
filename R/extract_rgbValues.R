@@ -8,7 +8,7 @@
 #' @param crownsFile A \code{sf} object with the crowns delineation.
 #' @param path_images a list with the full paths to the RGB rasters.
 #' @param site chr. name of the site, p.e 'Mbalmayo'.
-#' @param date chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
+#' @param dates chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
 #' The order of the dates should match with the order of the path_images !
 #' @param fun chr. Specify the function used in the 'fun' parameter of the \code{exactextractr::exact_extract} function to extract
 #' RGB values, it could be 'mean', 'var' or 'all'.
