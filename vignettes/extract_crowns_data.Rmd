@@ -23,23 +23,34 @@ library(DT)
 library(terra)
 ```
 
-Extracting rgb crowns data requires rgb mosaics and 
+Extracting rgb crowns data requires rgb mosaics and a crown delineation shapefile. The crowns file must be import as an `sf object` using the functions \code{sf::st_read} or \code{sf::read_sf}. The full paths for the rgb mosaics must be within a vector. The dates of the mosaics, the site name and the crs could be specify. Dates must be a vector of characters 'yyyymmdd' matching with the rgb paths order. 
+
+If dates, site name and crs are not specify, they will be extract from the the mosaics files.
+
 ```{r message=FALSE, warning=FALSE, results='hide'}
 crownsFile <- sf::st_read(file.path(system.file(package="managecrownsdata"), '/crowns/crowns_test.gpkg'))
+
 rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+
 dates <- paste(
    stringr::str_sub(stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],1,4),
    stringr::str_sub(stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],5,6),
    stringr::str_sub(stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],7,8),
    sep = '_'
 )
-site = 'Bouamir'
+
+site = unique(stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,1])
+
 crs <- 'EPSG:32633'
 ```
+
+To check if the crown file is well formatted for the package functions. 
 
 ```{r}
 check_crownsFile(crownsFile = crownsFile)
 ```
+
+Do the modifications 
 
 ```{r}
 crownsFile <- crownsFile %>% dplyr::rename(geometry = geom,
@@ -49,9 +60,13 @@ crownsFile <- crownsFile %>% dplyr::rename(geometry = geom,
                       code_sp = idtax_f)
 ```
 
+All the check are 'OK'
+
 ```{r}
 check_crownsFile(crownsFile = crownsFile)
 ```
+
+Visualize data before extraction 
 
 ```{r, fig.width=9, fig.height=9}
 
@@ -72,6 +87,8 @@ terra::text(terra::vect(crownsFile), labels="id", col = 'blue', cex = 2)
 
 ```
 
+Extract the rgb values within crowns
+
 ```{r, results='hide'}
 
 rgb_extraction <- extract_rgbValues(
@@ -84,6 +101,8 @@ rgb_extraction <- extract_rgbValues(
    )
 
 ```
+
+
 
 ```{r}
 datatable(rgb_extraction, 
