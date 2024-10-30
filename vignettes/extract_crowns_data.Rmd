@@ -14,16 +14,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```{r setup, results='hide', message=FALSE, warning=FALSE}
 library(managecrownsdata)
 library(dplyr)
 library(stringr)
 library(sf)
 library(DT)
+library(terra)
 ```
 
-```{r message=FALSE, warning=FALSE}
+Extracting rgb crowns data requires rgb mosaics and 
+```{r message=FALSE, warning=FALSE, results='hide'}
 crownsFile <- sf::st_read(file.path(system.file(package="managecrownsdata"), '/crowns/crowns_test.gpkg'))
 rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
 dates <- paste(
@@ -40,7 +41,6 @@ crs <- 'EPSG:32633'
 check_crownsFile(crownsFile = crownsFile)
 ```
 
-
 ```{r}
 crownsFile <- crownsFile %>% dplyr::rename(geometry = geom,
                       family = tax_fam,
@@ -49,12 +49,11 @@ crownsFile <- crownsFile %>% dplyr::rename(geometry = geom,
                       code_sp = idtax_f)
 ```
 
-
 ```{r}
 check_crownsFile(crownsFile = crownsFile)
 ```
 
-```{r}
+```{r, fig.width=9, fig.height=9}
 
 x <- terra::rast(rgb_paths[1])
 
@@ -68,13 +67,12 @@ terra::plotRGB(
 base::plot(crownsFile$geometry,
            border = "red",
            lwd = 2,
-           add = T)
+           add = TRUE)
+terra::text(terra::vect(crownsFile), labels="id", col = 'blue', cex = 2)
+
 ```
 
-
-
-
-```{r}
+```{r, results='hide'}
 
 rgb_extraction <- extract_rgbValues(
       crownsFile = crownsFile,
@@ -85,9 +83,12 @@ rgb_extraction <- extract_rgbValues(
       fun = 'all'
    )
 
-
-print(rgb_extraction)
-
 ```
 
-
+```{r}
+datatable(rgb_extraction, 
+          class = 'cell-border stripe',
+          rownames = FALSE,
+          width = '100%', 
+          options = list(scrollX = TRUE))
+```

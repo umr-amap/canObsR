@@ -39,5 +39,5 @@ articles:
 - title: Building plots
   navbar: ~
   contents:
-  - plot_labels
   - extract_crowns_data
+  - plot_labels
