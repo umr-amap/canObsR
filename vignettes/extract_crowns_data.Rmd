@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 library(managecrownsdata)
 library(dplyr)
 library(stringr)
@@ -22,7 +23,7 @@ library(sf)
 library(DT)
 ```
 
-```{r, Import data}
+```{r message=FALSE, warning=FALSE}
 crownsFile <- sf::st_read(file.path(system.file(package="managecrownsdata"), '/crowns/crowns_test.gpkg'))
 rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
 dates <- paste(
@@ -35,20 +36,25 @@ site = 'Bouamir'
 crs <- 'EPSG:32633'
 ```
 
-```{r, Check the compatibilityof the crowns File}
-
+```{r}
 check_crownsFile(crownsFile = crownsFile)
+```
 
+
+```{r}
 crownsFile <- crownsFile %>% dplyr::rename(geometry = geom,
                       family = tax_fam,
                       genus = tax_gen,
                       specie = tx_sp_lvl,
                       code_sp = idtax_f)
+```
 
+
+```{r}
 check_crownsFile(crownsFile = crownsFile)
 ```
 
-```{r, Visualize the data}
+```{r}
 
 x <- terra::rast(rgb_paths[1])
 
