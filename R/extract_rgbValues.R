@@ -135,7 +135,6 @@ extract_rgbValues <-
             terra::rast(path_images[i]) %>%
             sf::st_bbox() %>%
             sf::st_as_sfc() %>%
-            sf::st_transform(crs = crs) %>%
             sf::st_as_sf()
 
          within_crowns <- sf::st_join(bbox, crownsFile, join = st_contains) %>% .[['id']]

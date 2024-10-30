@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, results='hide', message=FALSE, warning=FALSE}
-# library(managecrownsdata)
+library(managecrownsdata)
 library(dplyr)
 library(stringr)
 library(sf)
@@ -64,7 +64,7 @@ x <- terra::rast(rgb_paths[1])
 
 terra::plotRGB(
    x,
-   main = dates[1],
+   main = 'img1',
    axes = T,
    mar = 2
 )
