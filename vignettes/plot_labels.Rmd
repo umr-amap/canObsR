@@ -34,6 +34,6 @@ datatable(pivotLabels,
 
 ```{r}
 heatmap_Labels(pivotLabels,
-               Specie = 'Alstonia boonei',
+               Species = 'Alstonia boonei',
                na.rm = TRUE)
 ```
