@@ -16,6 +16,8 @@ heatmap_Labels(
 \arguments{
 \item{longLabels}{A \code{tibble} or \code{dataframe} of long data format for labels}
 
+\item{Species}{chr}
+
 \item{Genus}{chr}
 
 \item{Family}{chr}
@@ -23,8 +25,6 @@ heatmap_Labels(
 \item{title}{chr}
 
 \item{na.rm}{logical Remove NA when TRUE}
-
-\item{Specie}{chr}
 }
 \value{
 return a ggplot

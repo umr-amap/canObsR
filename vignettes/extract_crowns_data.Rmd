@@ -32,9 +32,9 @@ crownsFile <- sf::st_read(file.path(system.file(package="managecrownsdata"), '/c
 
 rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
 
-dates <- extr_dates(basename(rgb_paths))
+dates <- stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2]
 
-sites = extr_sites(basename(rgb_paths))
+sites = stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,1]
 
 crs <- 'EPSG:32633'
 ```
@@ -51,7 +51,7 @@ Do the modifications
 crownsFile <- crownsFile %>% dplyr::rename(geometry = geom,
                       family = tax_fam,
                       genus = tax_gen,
-                      specie = tx_sp_lvl,
+                      species = tx_sp_lvl,
                       code_sp = idtax_f)
 ```
 
@@ -91,7 +91,6 @@ rgb_extraction <- extract_rgbValues(
       path_images = rgb_paths,
       sites = sites,
       dates = dates,
-      crs = crs,
       fun = 'all'
    )
 
