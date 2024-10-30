@@ -1,5 +1,5 @@
 utils::globalVariables(c(".", "type", "metric","band","value",'family','genus',
-                         "specie","plot_name","code_sp","st_contains","crowns",
+                         "species","plot_name","code_sp","st_contains","crowns",
                          "text","obs","update",'sp','site','Comm','Usable_crown',
                          'phenophase','repro','complete_arosics_process','na',
                          'Time_SIFT_process'))
