@@ -7,7 +7,7 @@
 #'
 #' @param crownsFile A \code{sf} object with the crowns delineation.
 #' @param path_images a list with the full paths to the RGB rasters.
-#' @param site chr. name of the site, p.e 'Mbalmayo'.
+#' @param sites chr. name of the site, p.e 'Mbalmayo'.
 #' @param dates chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
 #' The order of the dates should match with the order of the path_images !
 #' @param fun chr. Specify the function used in the 'fun' parameter of the \code{exactextractr::exact_extract} function to extract
@@ -64,6 +64,11 @@ extract_rgbValues <-
       if ( length(unique(sites)) > 1 ) {
          length_path <- length(path_images)
          message("You are working with several different sites :", paste(unique(sites), collapse = ' '))
+      }
+
+      # I length(site) == 1, create a vector with with the same length as path_images
+      if ( length(sites) == 1 ) {
+         sites <- rep(sites, length(path_images))
       }
 
 
@@ -124,6 +129,7 @@ extract_rgbValues <-
       for (i in 1:length(path_images)){
 
          date_i <- dates[i]
+         site_i <- sites[i]
 
          bbox <-
             terra::rast(path_images[i]) %>%
@@ -160,7 +166,7 @@ extract_rgbValues <-
                   type = 'RGB',
                   metric = 'mean',
                   date = date_i,
-                  site = site
+                  site = site_i
 
                ) %>%
                tidyr::gather(-c(id, type, metric, date, site), key = band, value = value)
@@ -178,7 +184,7 @@ extract_rgbValues <-
                   type = 'RGB',
                   metric = 'var',
                   date = date_i,
-                  site = site
+                  site = site_i
                ) %>%
                tidyr::gather(-c(id, type, metric, date, site), key = band, value = value)
          }
