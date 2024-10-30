@@ -32,11 +32,6 @@ crownsFile <- sf::st_read(file.path(system.file(package="managecrownsdata"), '/c
 
 rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
 
-dates <- stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2]
-
-sites = stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,1]
-
-crs <- 'EPSG:32633'
 ```
 
 To check if the crown file is well formatted for the package functions. 
@@ -89,8 +84,6 @@ Extract the rgb values within crowns
 rgb_extraction <- extract_rgbValues(
       crownsFile = crownsFile,
       path_images = rgb_paths,
-      sites = sites,
-      dates = dates,
       fun = 'all'
    )
 

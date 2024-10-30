@@ -109,7 +109,7 @@ extract_rgbValues <-
 
       for (i in 1:length(path_images)) {
 
-         check_crs <- (st_crs( terra::rast(path_images[i]) ) == st_crs(sf))
+         check_crs <- (sf::st_crs( terra::rast(path_images[i]) ) == sf::st_crs(crownsFile))
 
          if(!check_crs){
             stop("The crs from images and crownsFile do not match")
