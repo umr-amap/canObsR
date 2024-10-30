@@ -19,9 +19,10 @@ library(managecrownsdata)
 library(dplyr)
 library(stringr)
 library(sf)
+library(DT)
 ```
 
-```{r}
+```{Import data}
 crownsFile <- sf::st_read(file.path(system.file(package="managecrownsdata"), '/crowns/crowns_test.gpkg'))
 rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
 dates <- paste(
@@ -34,7 +35,7 @@ site = 'Bouamir'
 crs <- 'EPSG:32633'
 ```
 
-```{r}
+```{Check the compatibilityof the crowns File}
 
 check_crownsFile(crownsFile = crownsFile)
 
@@ -46,3 +47,41 @@ crownsFile <- crownsFile %>% dplyr::rename(geometry = geom,
 
 check_crownsFile(crownsFile = crownsFile)
 ```
+
+```{Visualize the data}
+
+x <- terra::rast(rgb_paths[1])
+
+terra::plotRGB(
+   x,
+   main = dates[1],
+   axes = T,
+   mar = 2
+)
+
+base::plot(crownsFile$geometry,
+           border = "red",
+           lwd = 2,
+           add = T)
+```
+
+
+
+
+```{r}
+
+rgb_extraction <- extract_rgbValues(
+      crownsFile = crownsFile,
+      path_images = rgb_paths,
+      site = site,
+      dates = dates,
+      crs = crs,
+      fun = 'all'
+   )
+
+
+print(rgb_extraction)
+
+```
+
+
