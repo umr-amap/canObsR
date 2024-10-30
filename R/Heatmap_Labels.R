@@ -75,7 +75,7 @@ heatmap_Labels <-
                        "fr" = 21)
 
       if(is.null(title)) {
-         title <- paste(Family, Genus, Specie)
+         title <- paste(Family, Genus, Species)
       }
 
 
