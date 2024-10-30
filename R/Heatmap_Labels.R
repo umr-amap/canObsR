@@ -20,10 +20,10 @@
 
 heatmap_Labels <-
 
-   function(longLabels, Specie = NULL, Genus = NULL, Family = NULL, title = NULL, na.rm = FALSE){
+   function(longLabels, Species = NULL, Genus = NULL, Family = NULL, title = NULL, na.rm = FALSE){
 
       longLabels <- longLabels %>%
-         { if (!is.null(Specie)) dplyr::filter (., specie == Specie) else . } %>%
+         { if (!is.null(Species)) dplyr::filter (., species == Specie) else . } %>%
          { if (!is.null(Genus)) dplyr::filter (., genus == Genus) else . } %>%
          { if (!is.null(Family)) dplyr::filter (., family == Family) else . }
 

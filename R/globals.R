@@ -53,21 +53,12 @@ plot_nodata <- function() {
 
 }
 
+extr_dates <- function(names_img) {
+   dates <- stringr::str_split(names_img, '_', simplify = TRUE)[,2]
+   return(dates)
+}
 
-mosaic_bouamir_adjust <- function (RGB_path_tocorrect, RGB_path_model) {
-
-   to_correct <- terra::rast(RGB_path_tocorrect)
-   model <- terra::rast(RGB_path_model)
-   to_correct = terra::extend(to_correct, to_correct)
-
-   to_correct[[1]] <- terra::app(to_correct[[1]], function(x)
-      ifelse(is.na(x), 0, x))
-   to_correct[[2]] <- terra::app(to_correct[[2]], function(x)
-      ifelse(is.na(x), 0, x))
-   to_correct[[3]] <- terra::app(to_correct[[3]], function(x)
-      ifelse(is.na(x), 0, x))
-
-   img_corrected = stars::st_as_stars(to_correct)
-
-   return(img_corrected)
+extr_sites <- function(names_img) {
+   sites <- stringr::str_split(names_img, '_', simplify = TRUE)[,1]
+   return((sites))
 }

@@ -19,7 +19,7 @@ check_crownsFile <- function(crownsFile){
    # Check variables names ---------------------------------------------------
 
    vars <- names(crownsFile)
-   var_needed <- c('geometry', 'id', 'family', 'genus', 'specie', 'plot_name', 'code_sp')
+   var_needed <- c('geometry', 'id', 'family', 'genus', 'species', 'plot_name', 'code_sp')
 
    var_check <- c(
       '##########     VARIABLES CHECK     ##########',

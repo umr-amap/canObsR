@@ -19,8 +19,8 @@
 #'@param width num. The width of the device
 #'
 #'@details The extract_crownsImages() create one folder per id and save the
-#'images. The folder names are 'crown_*the id*_*the specie name*' for exemple
-#''crown_5_Lophira alata'. The the images names are 'crown_*the id*_*the specie
+#'images. The folder names are 'crown_*the id*_*the species name*' for exemple
+#''crown_5_Lophira alata'. The the images names are 'crown_*the id*_*the species
 #'name*_*the date*.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
 #'The function upload square image with neighbouring tree and the title is add
 #'at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
@@ -74,7 +74,7 @@ extract_crownsImages <-
          # Extract data for each id and create the folder for the outputs ----------
 
          tmp_id <- crownsFile$id[i]
-         tmp_sp <- crownsFile$specie[i]
+         tmp_sp <- crownsFile$species[i]
          if(is.na(tmp_sp)){ tmp_sp <- paste(crownsFile$genus[i],'sp') }
          tmp_crown <- crownsFile[i,]
          tmp_dir <- paste0(path_out, "/crown_", tmp_id, "_", tmp_sp)

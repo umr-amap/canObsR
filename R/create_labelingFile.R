@@ -40,14 +40,14 @@ create_labelingFile <-
       labeling_file <-
 
          dplyr::as_tibble(crownsFile) %>%
-         dplyr::select(id, specie) %>%
-         dplyr::group_by(specie) %>%
+         dplyr::select(id, species) %>%
+         dplyr::group_by(species) %>%
          dplyr::mutate (n = n()) %>%
-         dplyr::arrange(desc(n), specie, id) %>%
+         dplyr::arrange(desc(n), species, id) %>%
          dplyr::mutate(site = site) %>%
          dplyr::mutate(!!!new_col_list) %>%
          dplyr::ungroup() %>%
-         dplyr::select(site, id, specie, n, obs, update, everything())
+         dplyr::select(site, id, species, n, obs, update, everything())
 
       if (save_xlsx == TRUE) {
 

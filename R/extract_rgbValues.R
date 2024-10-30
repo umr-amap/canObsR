@@ -14,8 +14,6 @@
 #' RGB values, it could be 'mean', 'var' or 'all'.
 #' @param infos logical. Specify whether or not to return details of the extraction.
 #' When TRUE, specify the crowns which has not been extracting per date, because they were out of the image.
-#' @param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL, it will
-#' use and transform all the data into the crs of the first RGB image.
 #'
 #' @export
 #'
@@ -36,17 +34,92 @@ extract_rgbValues <-
    function(
       crownsFile,
       path_images,
-      site = NULL,
+      sites = NULL,
       dates = NULL,
-      crs = NULL,
       fun = 'all',
       infos = FALSE
    ){
 
+
+
+# check sites ------------------------------------------
+
+      # Sites should be NULL or a character vector
+      if ( !(is.character(sites) | is.null(sites)) ) {
+         stop("sites should be a character vector or NULL")
+      }
+
+      # Get the sites if NULL from the paths
+      if(is.null(sites)){
+         sites = extr_sites(basename(path_images))
+      }
+
+      # Sites should be a vector of 1 elements or with the same length as path_images
+      if ( !(length(sites) == 1 | length(sites) == length(path_images)) ) {
+         length_path <- length(path_images)
+         stop("length(sites) should be 1 or ", length(path_images), ' not ',length(sites))
+      }
+
+      # Return a message if there is more than one site
+      if ( length(unique(sites)) > 1 ) {
+         length_path <- length(path_images)
+         message("You are working with several different sites :", paste(unique(sites), collapse = ' '))
+      }
+
+
+# Check dates -------------------------------------------------------------
+
+      # dates should be NULL or a character vector
+      if ( !(is.character(dates) | is.null(dates)) ) {
+         stop("dates should be a character vector or NULL")
+      }
+
+      # Get the sites if NULL from the paths
+      if(is.null(dates)){
+         dates = extr_dates(basename(path_images))
+      }
+
+      # dates should be a vector with the same length as path_images
+      if ( !(length(dates) == length(path_images)) ) {
+         length_path <- length(path_images)
+         stop("length(dates) should be ", length(path_images), ' not ',length(sites))
+      }
+
+      # dates format should be 'yyymmdd' as character
+      if (!(unique(stringr::str_length(dates) == 8) == TRUE)){
+         stop("## The format for the dates should be 'yyyymmdd'")
+      }
+
+      if ( TRUE %in% (is.na(as.Date(dates, format = "%Y%m%d"))) ) {
+
+         wrong_dates <- dates[is.na(as.Date(dates, format = "%Y%m%d"))]
+
+         stop(paste(
+            "\n",
+            "## The format for the dates should be 'yyyymmdd'",
+            paste(paste(wrong_dates, collapse = ','), 'are not tolerated'),
+            sep = "\n"
+
+         ))
+
+      }
+
+
+# Check crs ---------------------------------------------------------------
+
+      for (i in 1:length(path_images)) {
+
+         check_crs <- (st_crs( terra::rast(path_images[i]) ) == st_crs(sf))
+
+         if(!check_crs){
+            stop("The crs from images and crownsFile do not match")
+         }
+
+      }
+
+
       if( 'date' %in% base::names(crownsFile) ) { crownsFile <- crownsFile %>% dplyr::select(-date) }
       if( infos ) { details <- list() }
-      if(is.null(crs)) { crs = sf::st_crs(terra::rast(path_images[1]))}
-
 
       for (i in 1:length(path_images)){
 
@@ -59,13 +132,11 @@ extract_rgbValues <-
             sf::st_transform(crs = crs) %>%
             sf::st_as_sf()
 
-         crowns_i <- crownsFile %>% sf::st_transform(crs = crs)
+         within_crowns <- sf::st_join(bbox, crownsFile, join = st_contains) %>% .[['id']]
 
-         within_crowns <- sf::st_join(bbox, crowns_i, join = st_contains) %>% .[['id']]
+         if ( infos ) { crowns_rmvd <- crownsFile %>% dplyr::filter (!(id %in% within_crowns)) %>% .[['id']] }
 
-         if ( infos ) { crowns_rmvd <- crowns_i %>% dplyr::filter (!(id %in% within_crowns)) %>% .[['id']] }
-
-         crowns_i <- crowns_i %>% dplyr::filter (id %in% within_crowns)
+         crowns_i <- crownsFile %>% dplyr::filter (id %in% within_crowns)
 
          RGB <- terra::rast(path_images[i])
          sumrgb <- RGB[[1]] + RGB[[2]] + RGB[[3]]
@@ -154,13 +225,13 @@ extract_rgbValues <-
                                                            site = as.factor(site),
                                                            family = as.factor(family),
                                                            genus = as.factor(genus),
-                                                           specie = as.factor(specie),
+                                                           species = as.factor(species),
                                                            type = as.factor(type),
                                                            metric = as.factor(metric),
                                                            band = as.factor(band),
                                                            plot_name = as.factor(plot_name),
                                                            id = as.integer(id)) %>%
-            dplyr::select(site, id, date, family, genus, specie, type, metric, band, value, plot_name, code_sp)
+            dplyr::select(site, id, date, family, genus, species, type, metric, band, value, plot_name, code_sp)
 
          return(
             list(
@@ -174,13 +245,13 @@ extract_rgbValues <-
                                                            site = as.factor(site),
                                                            family = as.factor(family),
                                                            genus = as.factor(genus),
-                                                           specie = as.factor(specie),
+                                                           species = as.factor(species),
                                                            type = as.factor(type),
                                                            metric = as.factor(metric),
                                                            band = as.factor(band),
                                                            plot_name = as.factor(plot_name),
                                                            id = as.integer(id)) %>%
-            dplyr::select(site, id, date, family, genus, specie, type, metric, band, value, plot_name, code_sp)
+            dplyr::select(site, id, date, family, genus, species, type, metric, band, value, plot_name, code_sp)
 
          return(extr_alldates)
 

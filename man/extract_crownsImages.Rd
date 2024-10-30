@@ -48,8 +48,8 @@ each date.
 }
 \details{
 The extract_crownsImages() create one folder per id and save the
-images. The folder names are 'crown_\emph{the id}\emph{\emph{the specie name}' for exemple
-'crown_5_Lophira alata'. The the images names are 'crown}\emph{the id}\emph{\emph{the specie
+images. The folder names are 'crown_\emph{the id}\emph{\emph{the species name}' for exemple
+'crown_5_Lophira alata'. The the images names are 'crown}\emph{the id}\emph{\emph{the species
 name}}\emph{the date}.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
 The function upload square image with neighbouring tree and the title is add
 at the top, image size is 720*825 pixels. When specific_quality is TRUE, the

@@ -15,12 +15,12 @@
 pivot_Labels <- function(wideLabels) {
 
    longLabels <- wideLabels %>%
-      tidyr::gather(-c(id, obs, Comm, update, Usable_crown, n, site, specie, genus, family),
+      tidyr::gather(-c(id, obs, Comm, update, Usable_crown, n, site, species, genus, family),
                     key = date,
                     value = phenophase) %>%
       dplyr::mutate(date = as.Date(date, "%Y_%m_%d"),
                     id = as.integer(id)) %>%
-      dplyr::select(site, id, specie, genus, family, n, date, phenophase, obs, Comm, update, Usable_crown)
+      dplyr::select(site, id, species, genus, family, n, date, phenophase, obs, Comm, update, Usable_crown)
 
    return(longLabels)
 
