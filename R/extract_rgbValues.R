@@ -246,7 +246,7 @@ extract_rgbValues <-
          )
       } else {
 
-         extr_alldates <- extr_alldates %>% dplyr::mutate (date = as.Date(date, '%Y_%m_%d'),
+         extr_alldates <- extr_alldates %>% dplyr::mutate (date = as.Date(date, '%Y%m%d'),
                                                            site = as.factor(site),
                                                            family = as.factor(family),
                                                            genus = as.factor(genus),

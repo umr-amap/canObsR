@@ -11,7 +11,6 @@ extract_crownsImages(
   path_out,
   site = NULL,
   dates = NULL,
-  crs = NULL,
   N_cores = 1,
   width = 720,
   height = 825
@@ -32,9 +31,6 @@ function will create the folder, It doesn't need to exists.}
 \item{dates}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
 '2022_09_25'). The order of the dates should match with the order of the
 dates of the image in the path_images}
-
-\item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL,
-it will use and transform all the data into the crs of the first RGB image.}
 
 \item{N_cores}{xx}
 

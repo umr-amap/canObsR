@@ -12,8 +12,6 @@
 #'@param dates chr. Vector with dates (format should be '%Y_%m_%d', p.e
 #'  '2022_09_25'). The order of the dates should match with the order of the
 #'  dates of the image in the path_images
-#'@param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL,
-#'  it will use and transform all the data into the crs of the first RGB image.
 #'@param N_cores xx
 #'@param height num. The height of the device
 #'@param width num. The width of the device
@@ -50,23 +48,96 @@ extract_crownsImages <-
       path_out,
       site = NULL,
       dates = NULL,
-      crs = NULL,
       N_cores = 1,
       width = 720,
       height = 825
    ){
 
+# check sites ------------------------------------------
 
-      # Import and transform data -----------------------------------------------
+      # Sites should be NULL or a character vector
+      if ( !(is.character(sites) | is.null(sites)) ) {
+         stop("sites should be a character vector or NULL")
+      }
 
-      if ( is.null(crs) ) {crs = sf::st_crs (crownsFile) }
-      crownsFile <- crownsFile %>% sf::st_transform(crs = crs)
-      bbox <- lapply(path_bbox, sf::st_read)
+      # Get the sites if NULL from the paths
+      if(is.null(sites)){
+         sites = extr_sites(basename(path_images))
+      }
 
-      for (i in 1:length(bbox)){
-         bbox[[i]] <- bbox[[i]] %>% sf::st_transform(crs = crs)
+      # Sites should be a vector of 1 elements or with the same length as path_images
+      if ( !(length(sites) == 1 | length(sites) == length(path_images)) ) {
+         length_path <- length(path_images)
+         stop("length(sites) should be 1 or ", length(path_images), ' not ',length(sites))
+      }
+
+      # Return a message if there is more than one site
+      if ( length(unique(sites)) > 1 ) {
+         length_path <- length(path_images)
+         message("You are working with several different sites :", paste(unique(sites), collapse = ' '))
+      }
+
+      # If length(site) == 1, create a vector with with the same length as path_images
+      if ( length(sites) == 1 ) {
+         sites <- rep(sites, length(path_images))
+      }
+
+
+# Check dates -------------------------------------------------------------
+
+      # dates should be NULL or a character vector
+      if ( !(is.character(dates) | is.null(dates)) ) {
+         stop("dates should be a character vector or NULL")
+      }
+
+      # Get the sites if NULL from the paths
+      if(is.null(dates)){
+         dates = extr_dates(basename(path_images))
+      }
+
+      # dates should be a vector with the same length as path_images
+      if ( !(length(dates) == length(path_images)) ) {
+         length_path <- length(path_images)
+         stop("length(dates) should be ", length(path_images), ' not ',length(sites))
+      }
+
+      # dates format should be 'yyymmdd' as character
+      if (!(unique(stringr::str_length(dates) == 8) == TRUE)){
+         stop("## The format for the dates should be 'yyyymmdd'")
+      }
+
+      if ( TRUE %in% (is.na(as.Date(dates, format = "%Y%m%d"))) ) {
+
+         wrong_dates <- dates[is.na(as.Date(dates, format = "%Y%m%d"))]
+
+         stop(paste(
+            "\n",
+            "## The format for the dates should be 'yyyymmdd'",
+            paste(paste(wrong_dates, collapse = ','), 'are not tolerated'),
+            sep = "\n"
+
+         ))
 
       }
+
+
+# Check crs ---------------------------------------------------------------
+
+      for (i in 1:length(path_images)) {
+
+         check_crs <- (sf::st_crs( terra::rast(path_images[i]) ) == sf::st_crs(crownsFile))
+
+         if(!check_crs){
+            stop("The crs from images and crownsFile do not match")
+         }
+
+      }
+
+
+# Import data -----------------------------------------------
+
+      bbox <- lapply(path_bbox, sf::st_read)
+
 
 
       for (i in 1:length(unique(crownsFile$id))) {
