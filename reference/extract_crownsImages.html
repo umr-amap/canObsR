@@ -59,7 +59,6 @@ each date.</p>
 <span>  <span class="va">path_out</span>,</span>
 <span>  site <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  dates <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  crs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  N_cores <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  width <span class="op">=</span> <span class="fl">720</span>,</span>
 <span>  height <span class="op">=</span> <span class="fl">825</span></span>
@@ -95,11 +94,6 @@ function will create the folder, It doesn't need to exists.</p></dd>
 <dd><p>chr. Vector with dates (format should be '%Y_%m_%d', p.e
 '2022_09_25'). The order of the dates should match with the order of the
 dates of the image in the path_images</p></dd>
-
-
-<dt id="arg-crs">crs<a class="anchor" aria-label="anchor" href="#arg-crs"></a></dt>
-<dd><p>crs. Object of class 'crs', could be get from st_crs(..). If NULL,
-it will use and transform all the data into the crs of the first RGB image.</p></dd>
 
 
 <dt id="arg-n-cores">N_cores<a class="anchor" aria-label="anchor" href="#arg-n-cores"></a></dt>
