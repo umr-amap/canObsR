@@ -54,42 +54,42 @@ extract_crownsImages <-
       height = 825
    ){
 
-# Import data -----------------------------------------------
+      # Import data -----------------------------------------------
 
       bbox <- lapply(path_bbox, sf::st_read)
       crownsFile <- sf::st_read(path_crownsFile)
 
-# check sites ------------------------------------------
+      # check site ------------------------------------------
 
-      # Sites should be NULL or a character vector
-      if ( !(is.character(sites) | is.null(sites)) ) {
-         stop("sites should be a character vector or NULL")
+      # site should be NULL or a character vector
+      if ( !(is.character(site) | is.null(site)) ) {
+         stop("site should be a character vector or NULL")
       }
 
-      # Get the sites if NULL from the paths
-      if(is.null(sites)){
-         sites = extr_sites(basename(path_images))
+      # Get the site if NULL from the paths
+      if(is.null(site)){
+         site = extr_sites(basename(path_images))
       }
 
-      # Sites should be a vector of 1 elements or with the same length as path_images
-      if ( !(length(sites) == 1 | length(sites) == length(path_images)) ) {
+      # site should be a vector of 1 elements or with the same length as path_images
+      if ( !(length(site) == 1 | length(site) == length(path_images)) ) {
          length_path <- length(path_images)
-         stop("length(sites) should be 1 or ", length(path_images), ' not ',length(sites))
+         stop("length(site) should be 1 or ", length(path_images), ' not ',length(site))
       }
 
       # Return a message if there is more than one site
-      if ( length(unique(sites)) > 1 ) {
+      if ( length(unique(site)) > 1 ) {
          length_path <- length(path_images)
-         message("You are working with several different sites :", paste(unique(sites), collapse = ' '))
+         message("You are working with several different site :", paste(unique(site), collapse = ' '))
       }
 
       # If length(site) == 1, create a vector with with the same length as path_images
-      if ( length(sites) == 1 ) {
-         sites <- rep(sites, length(path_images))
+      if ( length(site) == 1 ) {
+         site <- rep(site, length(path_images))
       }
 
 
-# Check dates -------------------------------------------------------------
+      # Check dates -------------------------------------------------------------
 
       # dates should be NULL or a character vector
       if ( !(is.character(dates) | is.null(dates)) ) {
@@ -104,7 +104,7 @@ extract_crownsImages <-
       # dates should be a vector with the same length as path_images
       if ( !(length(dates) == length(path_images)) ) {
          length_path <- length(path_images)
-         stop("length(dates) should be ", length(path_images), ' not ',length(sites))
+         stop("length(dates) should be ", length(path_images), ' not ',length(site))
       }
 
       # dates format should be 'yyymmdd' as character
@@ -127,7 +127,7 @@ extract_crownsImages <-
       }
 
 
-# Check crs ---------------------------------------------------------------
+      # Check crs ---------------------------------------------------------------
 
       for (i in 1:length(path_images)) {
 
@@ -141,28 +141,25 @@ extract_crownsImages <-
 
 
 
-      folders <- list.files(path_out, full.names = TRUE)
-      subfolders <- lapply(folders, list.files)
-      names(subfolders) <- stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
-
-      stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
-
-      lapply(folders, list.files)
+      # folders <- list.files(path_out, full.names = TRUE)
+      # subfolders <- lapply(folders, list.files)
+      # names(subfolders) <- stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
+      #
+      # stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
+      #
+      # lapply(folders, list.files)
 
       for (i in 1:length(unique(crownsFile$id))) {
 
-         tmp_id <- crownsFile$id[i]
-         tmp_sp <- crownsFile$specie[i]
-         if(is.na(tmp_sp)){ tmp_sp <- paste(crownsFile$genus[i],'sp') }
 
-         tmp_id %in% names(subfolders)
+         # tmp_id %in% names(subfolders)
 
 
          # Extract data for each id and create the folder for the outputs ----------
 
          tmp_id <- crownsFile$id[i]
          tmp_sp <- crownsFile$species[i]
-         if(is.na(tmp_sp)){ tmp_sp <- paste(crownsFile$genus[i],'sp') }
+         if(is.null(tmp_sp) & !is.null(crownsFile$genus[i])){ tmp_sp <- paste(crownsFile$genus[i],'sp') }
          tmp_crown <- crownsFile[i,]
          tmp_dir <- paste0(path_out, "/crown_", tmp_id, "_", tmp_sp)
 
@@ -177,9 +174,9 @@ extract_crownsImages <-
 
             grDevices::jpeg(file = file.path(
                paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", dates[j], ".jpeg")
-               ),
-               width = width,
-               height = height)
+            ),
+            width = width,
+            height = height)
 
             if (as.logical(sf::st_contains(bbox[[j]], crown_bbox, sparse = F))) {
 
