@@ -32,7 +32,7 @@ plot_signal <- function(data,
 ) {
 
 
-   data1 <- data %>%
+   data <- data %>%
       { if (!is.null(Species)) dplyr::filter (., species %in% Species) else . } %>%
       { if (!is.null(Genus)) dplyr::filter (., genus %in% Genus) else . } %>%
       { if (!is.null(Family)) dplyr::filter (., family %in% Family) else . } %>%
@@ -98,7 +98,7 @@ plot_signal <- function(data,
          ggplot2::scale_fill_discrete()
       }  +
 
-      ggplot2::ggtitle(plot_title) +
+      ggplot2::ggtitle(title) +
 
       theme_classic()
 
