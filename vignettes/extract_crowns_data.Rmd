@@ -98,3 +98,19 @@ datatable(rgb_extraction,
           width = '100%', 
           options = list(scrollX = TRUE))
 ```
+
+
+```{r}
+extract_crownsImages(
+      path_images = rgb_paths,
+      crownsFile = crownsFile,
+      path_bbox,
+      path_out,
+      site = NULL,
+      dates = NULL,
+      N_cores = 1,
+      width = 720,
+      height = 825
+   )
+```
+

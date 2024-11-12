@@ -6,7 +6,7 @@
 \usage{
 extract_crownsImages(
   path_images,
-  crownsFile,
+  path_crownsFile,
   path_bbox,
   path_out,
   site = NULL,
@@ -17,11 +17,8 @@ extract_crownsImages(
 )
 }
 \arguments{
-\item{path_images}{A \code{sf} object for the crowns with an 'id' variable.}
-
-\item{crownsFile}{a list with the full paths to the RGB rasters.}
-
-\item{path_bbox}{The path to the non NA Bbox return by the function \code{extract_bboxImages()}}
+\item{path_bbox}{The path to the non NA Bbox returned by the function \code{extract_bboxImages()}.
+The order of the bbox should match with the order of the images in the path_images}
 
 \item{path_out}{chr. The path to the directory use to stored the images. The
 function will create the folder, It doesn't need to exists.}
@@ -37,6 +34,10 @@ dates of the image in the path_images}
 \item{width}{num. The width of the device}
 
 \item{height}{num. The height of the device}
+
+\item{path_imagesa}{A list with the full paths to the RGB rasters.}
+
+\item{crownsFile}{chr. The path to the crowns delination shapefile.}
 }
 \description{
 The function extracts and save .jpeg images for each crown at

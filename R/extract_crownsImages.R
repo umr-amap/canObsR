@@ -3,9 +3,10 @@
 #'@description The function extracts and save .jpeg images for each crown at
 #'each date.
 #'
-#'@param path_images A \code{sf} object for the crowns with an 'id' variable.
-#'@param crownsFile a list with the full paths to the RGB rasters.
-#'@param path_bbox The path to the non NA Bbox return by the function `extract_bboxImages()`
+#'@param path_imagesa A list with the full paths to the RGB rasters.
+#'@param crownsFile  chr. The path to the crowns delination shapefile.
+#'@param path_bbox The path to the non NA Bbox returned by the function `extract_bboxImages()`.
+#' The order of the bbox should match with the order of the images in the path_images
 #'@param path_out chr. The path to the directory use to stored the images. The
 #'  function will create the folder, It doesn't need to exists.
 #'@param site chr. name of the site, p.e 'Mbalmayo'.
@@ -43,7 +44,7 @@ extract_crownsImages <-
 
    function(
       path_images,
-      crownsFile,
+      path_crownsFile,
       path_bbox,
       path_out,
       site = NULL,
@@ -52,6 +53,11 @@ extract_crownsImages <-
       width = 720,
       height = 825
    ){
+
+# Import data -----------------------------------------------
+
+      bbox <- lapply(path_bbox, sf::st_read)
+      crownsFile <- sf::st_read(path_crownsFile)
 
 # check sites ------------------------------------------
 
@@ -90,7 +96,7 @@ extract_crownsImages <-
          stop("dates should be a character vector or NULL")
       }
 
-      # Get the sites if NULL from the paths
+      # Get the dates if NULL from the paths
       if(is.null(dates)){
          dates = extr_dates(basename(path_images))
       }
@@ -134,13 +140,23 @@ extract_crownsImages <-
       }
 
 
-# Import data -----------------------------------------------
 
-      bbox <- lapply(path_bbox, sf::st_read)
+      folders <- list.files(path_out, full.names = TRUE)
+      subfolders <- lapply(folders, list.files)
+      names(subfolders) <- stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
 
+      stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
 
+      lapply(folders, list.files)
 
       for (i in 1:length(unique(crownsFile$id))) {
+
+         tmp_id <- crownsFile$id[i]
+         tmp_sp <- crownsFile$specie[i]
+         if(is.na(tmp_sp)){ tmp_sp <- paste(crownsFile$genus[i],'sp') }
+
+         tmp_id %in% names(subfolders)
+
 
          # Extract data for each id and create the folder for the outputs ----------
 
