@@ -9,8 +9,7 @@ heatmap_Labels(
   Species = NULL,
   Genus = NULL,
   Family = NULL,
-  title = NULL,
-  na.rm = FALSE
+  title = NULL
 )
 }
 \arguments{
@@ -23,8 +22,6 @@ heatmap_Labels(
 \item{Family}{chr}
 
 \item{title}{chr}
-
-\item{na.rm}{logical Remove NA when TRUE}
 }
 \value{
 return a ggplot

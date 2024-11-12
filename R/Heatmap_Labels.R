@@ -8,7 +8,6 @@
 #' @param Genus chr
 #' @param Family chr
 #' @param title chr
-#' @param na.rm logical Remove NA when TRUE
 #' @return return a ggplot
 #'
 #'
@@ -20,31 +19,22 @@
 
 heatmap_Labels <-
 
-   function(longLabels, Species = NULL, Genus = NULL, Family = NULL, title = NULL, na.rm = FALSE){
+   function(longLabels, Species = NULL, Genus = NULL, Family = NULL, title = NULL){
 
       longLabels <- longLabels %>%
          { if (!is.null(Species)) dplyr::filter (., species == Species) else . } %>%
          { if (!is.null(Genus)) dplyr::filter (., genus == Genus) else . } %>%
          { if (!is.null(Family)) dplyr::filter (., family == Family) else . }
 
-      if (na.rm == TRUE) {
 
+      longLabels <- longLabels %>%
+         dplyr::mutate(phenophase = dplyr::case_when(phenophase == 'NA' ~ NA, TRUE ~ phenophase)) %>%
+         dplyr::group_by(id) %>%
+         dplyr::mutate(na = dplyr::case_when(length(unique(phenophase)) == 1 &
+                                                NA %in% (unique(phenophase)) ~ TRUE, TRUE ~ FALSE)) %>%
+         dplyr::filter(na == FALSE) %>%
+         dplyr::ungroup()
 
-         longLabels <- longLabels %>%
-            dplyr::mutate(
-               phenophase = dplyr::case_when(
-                  phenophase == 'NA' ~ NA,
-                  TRUE ~ phenophase)) %>%
-            dplyr::group_by(id) %>%
-            dplyr::mutate(
-               na = dplyr::case_when(
-                  length(unique(phenophase)) == 1 & NA %in% (unique(phenophase)) ~ TRUE,
-                  TRUE ~ FALSE)) %>%
-            dplyr::filter(na == FALSE) %>%
-            dplyr::ungroup()
-
-
-      }
 
       x <- stringr::str_split(longLabels$phenophase, '\\;', simplify = T)
 

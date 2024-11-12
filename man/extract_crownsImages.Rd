@@ -17,6 +17,10 @@ extract_crownsImages(
 )
 }
 \arguments{
+\item{path_images}{A list with the full paths to the RGB rasters.}
+
+\item{path_crownsFile}{chr. The path to the crowns delination shapefile.}
+
 \item{path_bbox}{The path to the non NA Bbox returned by the function \code{extract_bboxImages()}.
 The order of the bbox should match with the order of the images in the path_images}
 
@@ -34,10 +38,6 @@ dates of the image in the path_images}
 \item{width}{num. The width of the device}
 
 \item{height}{num. The height of the device}
-
-\item{path_imagesa}{A list with the full paths to the RGB rasters.}
-
-\item{crownsFile}{chr. The path to the crowns delination shapefile.}
 }
 \description{
 The function extracts and save .jpeg images for each crown at

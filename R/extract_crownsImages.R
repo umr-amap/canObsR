@@ -3,8 +3,8 @@
 #'@description The function extracts and save .jpeg images for each crown at
 #'each date.
 #'
-#'@param path_imagesa A list with the full paths to the RGB rasters.
-#'@param crownsFile  chr. The path to the crowns delination shapefile.
+#'@param path_images A list with the full paths to the RGB rasters.
+#'@param path_crownsFile  chr. The path to the crowns delination shapefile.
 #'@param path_bbox The path to the non NA Bbox returned by the function `extract_bboxImages()`.
 #' The order of the bbox should match with the order of the images in the path_images
 #'@param path_out chr. The path to the directory use to stored the images. The
