@@ -103,3 +103,6 @@ plot_signal <- function(data,
       theme_classic()
 
 }
+
+
+# Définir les couleurs pour les labels

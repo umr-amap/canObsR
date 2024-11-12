@@ -28,7 +28,7 @@ extract_bboxImages <-
 
    # Check if the user has added a crs, if not it automatically find it --------
 
-      if ( is.null(crs) ) {crs = sf::st_crs (sf::st_read (path_in[1])) }
+      if ( is.null(crs) ) {crs = sf::st_crs (terra::rast (path_in[1])) }
 
 
    # Check if the user has added dates, if not it will be 1 to x -------------
