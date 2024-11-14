@@ -93,9 +93,11 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
                stringr::str_detect(PPfoliar2, '\\?') ~ 1,
                TRUE ~ 0
             )
-         ) %>%
+         )
 
-         dplyr::mutate(phenophase = paste(PPfoliar,PPrepro, sep = ';')) %>%
+      longLabels <- longLabels %>%
+
+         dplyr::mutate(phenophase = paste(longLabels$PPfoliar,longLabels$PPrepro, sep = ';')) %>%
 
          dplyr::select(-PPrepro) %>%
 
