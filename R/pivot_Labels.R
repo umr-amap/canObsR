@@ -99,7 +99,7 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
 
          dplyr::select(-PPrepro) %>%
 
-         dplyr::select(site:PPfoliar2, PPFlo:PPfoliar2_uncertainty, obs, Comm, update, Usable_crown)
+         dplyr::select(site:phenophase, PPfoliar1, PPfoliar2, PPFlo:PPfoliar2_uncertainty, obs, Comm, update, Usable_crown)
 
    }
 
