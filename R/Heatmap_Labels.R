@@ -19,7 +19,13 @@
 
 heatmap_Labels <-
 
-   function(longLabels, Species = NULL, Genus = NULL, Family = NULL, title = NULL){
+   function(longLabels,
+            Species = NULL,
+            Genus = NULL,
+            Family = NULL,
+            title = NULL,
+            simplify = FALSE
+            ){
 
       longLabels <- longLabels %>%
          { if (!is.null(Species)) dplyr::filter (., species == Species) else . } %>%
@@ -69,9 +75,11 @@ heatmap_Labels <-
       }
 
 
-      ggplot2::ggplot( longLabels, aes(date, id, fill = phenophase)) +
+      ggplot2::ggplot( longLabels, aes(date, id)) +
 
-         ggplot2::geom_tile() +
+         {if (!simplify)    ggplot2::geom_tile(aes( fill = phenophase))} +
+         {if (simplify)    ggplot2::geom_tile(aes( fill = PPFoliar1))} +
+
          {if (ncol(x) == 2)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro, size = 2) )} +
          {if (ncol(x) == 2)    scale_size(guide = 'none') } +
 
