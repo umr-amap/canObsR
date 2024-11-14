@@ -80,7 +80,7 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
 
             desynchr = dplyr::case_when(
                is.na(PPfoliar1) ~ NA,
-               !is.na(PPfoliar2) ~ 1,
+               !is.na(PPfoliar2) &  PPfoliar2!= 'no_obs' ~ 1,
                TRUE ~ 0
             ),
 
