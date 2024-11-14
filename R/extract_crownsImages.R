@@ -107,7 +107,7 @@ extract_crownsImages <-
       }
 
       # dates format should be 'yyymmdd' as character
-      if ( (unique(stringr::str_length(dates) == 8) )){
+      if ( FALSE %in% (unique(stringr::str_length(dates) == 8)) ){
          stop("## The format for the dates should be 'yyyymmdd'")
       }
 
