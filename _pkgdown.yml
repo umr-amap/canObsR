@@ -34,6 +34,7 @@ reference:
     xxxx.
   contents:
   - heatmap_Labels
+  - plot_signal
 
 articles:
 - title: Building plots
