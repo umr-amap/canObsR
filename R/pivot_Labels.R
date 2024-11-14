@@ -44,6 +44,8 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
 
          tidyr::separate(phenophase, c('PPfoliar','PPrepro'), ';') %>%
 
+         dplyr::mutate(phenophase = paste(PPfoliar,PPrepro, sep = ';')) %>%
+
          tidyr::separate(PPfoliar, c('PPfoliar1','PPfoliar2'), '\\*') %>%
 
 
@@ -93,11 +95,7 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
                stringr::str_detect(PPfoliar2, '\\?') ~ 1,
                TRUE ~ 0
             )
-         )
-
-      longLabels <- longLabels %>%
-
-         dplyr::mutate(phenophase = paste(longLabels$PPfoliar,longLabels$PPrepro, sep = ';')) %>%
+         )  %>%
 
          dplyr::select(-PPrepro) %>%
 
