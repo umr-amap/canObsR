@@ -49,8 +49,6 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
 
          dplyr::mutate(
 
-            phenophase = paste(PPfoliar,PPrepro, sep = ';'),
-
             PPfoliar2 = dplyr::case_when(
                !is.na(PPfoliar1) & is.na(PPfoliar2) ~ 'no_obs',
                TRUE ~ PPfoliar2
@@ -96,6 +94,8 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
                TRUE ~ 0
             )
          ) %>%
+
+         dplyr::mutate(phenophase = paste(PPfoliar,PPrepro, sep = ';')) %>%
 
          dplyr::select(-PPrepro) %>%
 
