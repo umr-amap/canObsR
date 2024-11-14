@@ -19,7 +19,7 @@ library(managecrownsdata)
 library(readxl)
 library(DT)
 library(sf)
-library(tidyverse)
+library(dplyr)
 ```
 
 ```{r}

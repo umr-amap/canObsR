@@ -19,6 +19,7 @@
 #' @export
 #' @import dplyr
 #' @import ggplot2
+#' @importFrom stats quantile
 
 plot_signal <- function(data,
                        Species = NULL,
@@ -49,7 +50,7 @@ plot_signal <- function(data,
 
       data <- data %>%
          dplyr::group_by(id, band) %>%
-         dplyr::mutate(y_lvl = (quantile(value, na.rm = T, probs = 0.1) )) %>%
+         dplyr::mutate(y_lvl = (stats::quantile(value, na.rm = T, probs = 0.1) )) %>%
          dplyr::ungroup()
    }
 
