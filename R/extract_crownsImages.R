@@ -192,7 +192,7 @@ extract_crownsImages <-
                   mar = 2
                )
                base::plot(
-                  tmp_crown$geom,
+                  tmp_crown$geometry,
                   border = "red",
                   lwd = 2,
                   add = T
