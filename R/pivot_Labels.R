@@ -38,7 +38,7 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
                              stringr::str_detect(phenophase, 'Fl') ~ stringr::str_replace(phenophase, 'Fl', 'fl'),
                              phenophase == "?" ~ NA,
                              stringr::str_detect(phenophase, ',') ~ stringr::str_replace(phenophase, ',', '/'),
-                             stringr::str_detect(data.reformat$phenophase, "\\;$") ~ stringr::str_sub(phenophase, 1, nchar(phenophase)-1),
+                             stringr::str_detect(phenophase, "\\;$") ~ stringr::str_sub(phenophase, 1, nchar(phenophase)-1),
                              TRUE ~ phenophase
                           )) %>%
 
