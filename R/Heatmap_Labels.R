@@ -4,10 +4,10 @@
 #'
 #'
 #' @param longLabels A \code{tibble} or \code{dataframe} of long data format for labels
-#' @param Species chr
-#' @param Genus chr
-#' @param Family chr
-#' @param title chr
+#' @param Species chr Filtering the data at the species level
+#' @param Genus chr Filtering the data at the genus level
+#' @param Family chr Filtering the data at the family level
+#' @param title chr The title of the plot
 #' @return return a ggplot
 #'
 #'
