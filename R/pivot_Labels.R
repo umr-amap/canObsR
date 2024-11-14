@@ -42,9 +42,9 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
                              TRUE ~ phenophase
                           )) %>%
 
-         tidyr::separate(phenophase, c('PPfoliar','PPrepro'), ';') %>%
+         dplyr::mutate(phenophase1 = phenophase) %>%
 
-         dplyr::mutate(phenophase = paste(PPfoliar,PPrepro, sep = ';')) %>%
+         tidyr::separate(phenophase1, c('PPfoliar','PPrepro'), ';') %>%
 
          tidyr::separate(PPfoliar, c('PPfoliar1','PPfoliar2'), '\\*') %>%
 
@@ -99,7 +99,7 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
 
          dplyr::select(-PPrepro) %>%
 
-         dplyr::select(site:PPfoliar2, phenophase, PPFlo:PPfoliar2_uncertainty, obs, Comm, update, Usable_crown)
+         dplyr::select(site:PPfoliar2, PPFlo:PPfoliar2_uncertainty, obs, Comm, update, Usable_crown)
 
    }
 
