@@ -6,7 +6,7 @@
 \usage{
 extract_crownsImages(
   path_images,
-  path_crownsFile,
+  crownsFile,
   path_bbox,
   path_out,
   site = NULL,
@@ -19,7 +19,7 @@ extract_crownsImages(
 \arguments{
 \item{path_images}{A list with the full paths to the RGB rasters.}
 
-\item{path_crownsFile}{chr. The path to the crowns delination shapefile.}
+\item{crownsFile}{sf object}
 
 \item{path_bbox}{The path to the non NA Bbox returned by the function \code{extract_bboxImages()}.
 The order of the bbox should match with the order of the images in the path_images}

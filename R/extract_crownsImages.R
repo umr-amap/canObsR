@@ -4,7 +4,7 @@
 #'each date.
 #'
 #'@param path_images A list with the full paths to the RGB rasters.
-#'@param path_crownsFile  chr. The path to the crowns delination shapefile.
+#'@param crownsFile  sf object
 #'@param path_bbox The path to the non NA Bbox returned by the function `extract_bboxImages()`.
 #' The order of the bbox should match with the order of the images in the path_images
 #'@param path_out chr. The path to the directory use to stored the images. The
@@ -44,7 +44,7 @@ extract_crownsImages <-
 
    function(
       path_images,
-      path_crownsFile,
+      crownsFile,
       path_bbox,
       path_out,
       site = NULL,
@@ -57,7 +57,6 @@ extract_crownsImages <-
       # Import data -----------------------------------------------
 
       bbox <- lapply(path_bbox, sf::st_read)
-      crownsFile <- sf::st_read(path_crownsFile)
 
       # check site ------------------------------------------
 
