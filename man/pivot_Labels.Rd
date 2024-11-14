@@ -4,10 +4,12 @@
 \alias{pivot_Labels}
 \title{Reformat table of labels from wide data to long data}
 \usage{
-pivot_Labels(wideLabels)
+pivot_Labels(wideLabels, simplify_labels = FALSE)
 }
 \arguments{
 \item{wideLabels}{A \code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.}
+
+\item{simplify_labels}{logical. Decompose and simplify the labels when TRUE. By defaut it is FALSE.}
 }
 \value{
 A \code{tibble}

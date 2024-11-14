@@ -15,13 +15,13 @@ heatmap_Labels(
 \arguments{
 \item{longLabels}{A \code{tibble} or \code{dataframe} of long data format for labels}
 
-\item{Species}{chr}
+\item{Species}{chr Filtering the data at the species level}
 
-\item{Genus}{chr}
+\item{Genus}{chr Filtering the data at the genus level}
 
-\item{Family}{chr}
+\item{Family}{chr Filtering the data at the family level}
 
-\item{title}{chr}
+\item{title}{chr The title of the plot}
 }
 \value{
 return a ggplot

@@ -13,30 +13,33 @@ plot_signal(
   Metric = "mean",
   Band = NULL,
   facet_by = "band",
-  slcted_id = "all",
+  slcted_id = NULL,
+  show_Labels = FALSE,
   title = NULL
 )
 }
 \arguments{
 \item{data}{A \code{tibble} or \code{dataframe} of long data format for labels}
 
-\item{Species}{chr}
+\item{Species}{chr Filtering the data at the species level}
 
-\item{Genus}{chr}
+\item{Genus}{chr Filtering the data at the genus level}
 
-\item{Family}{chr}
+\item{Family}{chr Filtering the data at the family level}
 
-\item{Type}{chr}
+\item{Type}{chr Filtering by the type}
 
-\item{Metric}{chr}
+\item{Metric}{chr Filtering by the metric. By defaut it is the mean.}
 
-\item{Band}{chr}
+\item{Band}{chr Filtering by the band.}
 
-\item{facet_by}{chr}
+\item{facet_by}{chr Facetting by a variable}
 
-\item{slcted_id}{chr}
+\item{slcted_id}{chr Highlighting an id}
 
-\item{title}{chr}
+\item{show_Labels}{description}
+
+\item{title}{chr The title of the plot}
 }
 \value{
 return a ggplot
