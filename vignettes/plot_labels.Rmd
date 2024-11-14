@@ -19,6 +19,7 @@ library(managecrownsdata)
 library(readxl)
 library(DT)
 library(sf)
+library(tidyverse)
 ```
 
 ```{r}
@@ -45,7 +46,7 @@ datatable(pivotLabels,
 
 
 ```{r}
-heatmap_Labels(longLabels,
+heatmap_Labels(pivotLabels,
                Specie = NULL,
                Genus = 'Desbordesia',
                Family = NULL,
@@ -54,7 +55,7 @@ heatmap_Labels(longLabels,
 ```
 
 ```{r}
-heatmap_Labels(longLabels,
+heatmap_Labels(pivotLabels,
                Specie = NULL,
                Genus = 'Desbordesia',
                Family = NULL,
@@ -78,14 +79,19 @@ check_crownsFile(crownsFile = crownsFile)
 ```
 
 
+
 ```{r}
 rgb_data <- extract_rgbValues(
    crownsFile = crownsFile,
    path_images = rgb_paths,
-   sites = site,
    fun = 'all',
    infos = FALSE
 )
+```
+
+```{r}
+merge_data <- merge_values(pivotLabels, rgb_data)
+
 ```
 
 ```{r}
