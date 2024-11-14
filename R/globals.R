@@ -2,7 +2,9 @@ utils::globalVariables(c(".", "type", "metric","band","value",'family','genus',
                          "species","plot_name","code_sp","st_contains","crowns",
                          "text","obs","update",'sp','site','Comm','Usable_crown',
                          'phenophase','repro','complete_arosics_process','na',
-                         'Time_SIFT_process'))
+                         'Time_SIFT_process', 'PPfoliar1', 'phenophase1', 'PPfoliar',
+                         'PPrepro', 'PPfoliar1', 'PPfoliar2', 'PPFlo', 'PPfoliar2_uncertainty',
+                         'highlight', 'y_lvl'))
 
 
 

@@ -23,6 +23,8 @@ heatmap_Labels(
 \item{Family}{chr Filtering the data at the family level}
 
 \item{title}{chr The title of the plot}
+
+\item{simplify}{logical}
 }
 \value{
 return a ggplot

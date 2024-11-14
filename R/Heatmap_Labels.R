@@ -8,6 +8,7 @@
 #' @param Genus chr Filtering the data at the genus level
 #' @param Family chr Filtering the data at the family level
 #' @param title chr The title of the plot
+#' @param simplify logical
 #' @return return a ggplot
 #'
 #'
