@@ -78,7 +78,7 @@ heatmap_Labels <-
       ggplot2::ggplot( longLabels, aes(date, id)) +
 
          {if (!simplify)    ggplot2::geom_tile(aes( fill = phenophase))} +
-         {if (simplify)    ggplot2::geom_tile(aes( fill = PPFoliar1))} +
+         {if (simplify)    ggplot2::geom_tile(aes( fill = PPfoliar1))} +
 
          {if (ncol(x) == 2)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro, size = 2) )} +
          {if (ncol(x) == 2)    scale_size(guide = 'none') } +
