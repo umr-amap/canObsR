@@ -27,7 +27,7 @@ heatmap_Labels <-
             title = NULL,
             simplify = FALSE,
             repro = FALSE
-            ){
+   ){
 
       longLabels <- longLabels %>%
          { if (!is.null(Species)) dplyr::filter (., species == Species) else . } %>%
@@ -81,8 +81,8 @@ heatmap_Labels <-
          {if (!simplify)    ggplot2::geom_tile(aes( fill = phenophase))} +
          {if (simplify)    ggplot2::geom_tile(aes( fill = PPfoliar1))} +
 
-         {if (!simplify & ncol(x) == 2)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro, size = 2) )} +
-         {if (!simplify & ncol(x) == 2)    scale_size(guide = 'none') } +
+         {if (!simplify & ncol == 2)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro, size = 2) )} +
+         {if (!simplify & ncol == 2)    scale_size(guide = 'none') } +
 
          {if (simplify)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro, size = 2) )} +
          {if (simplify)    scale_size(guide = 'none') } +
