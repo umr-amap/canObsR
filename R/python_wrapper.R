@@ -9,7 +9,7 @@
 #' @import reticulate
 
 
-#à faire pareil pour les autres fonctions
+#faire pareil pour les autres fonctions
 arosics_in_r <- function(path_in, ref_filepath, out_dir_path,
     corr_type = "global", max_shift = 250L, max_iter = 100L,
     grid_res = 1000L, window_size = NULL, window_pos = list(NULL, NULL),
