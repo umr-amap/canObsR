@@ -58,8 +58,8 @@ heatmap_Labels <-
          longLabels <-
             longLabels %>% mutate(
                repro = case_when(
-                  !is.na(PPFlo) ~ PPFlo,
-                  !is.na(PPFr) ~ PPFr,
+                  PPFlo == 1  ~ 'fl',
+                  PPFr == 1 ~ 'fr',
                   TRUE ~ NA
                )
             )
