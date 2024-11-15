@@ -16,6 +16,7 @@ arosics_in_r <- function(path_in, ref_filepath, out_dir_path,
     mp = NULL, save_data = TRUE, save_vector_plot = FALSE,
     dynamic_corr = FALSE, apply_matrix = FALSE) {
 
+    source_python(system.file("__init__.py", package = "managecrownsdata"))
 
     complete_arosics_process(path_in = path_in,
                             ref_filepath = ref_filepath,
@@ -51,7 +52,7 @@ Time_SIFT_in_r <- function(pathDIR, out_dir_ortho, out_dir_DEM = NULL, out_dir_p
                          downscale_factor_depth_map = 2L) {
 
 
-   #source_python(system.file("__init__.py", package = "managecrownsdata"))
+   source_python(system.file("__init__.py", package = "managecrownsdata"))
 
    Time_SIFT_process(pathDIR = pathDIR,
                      out_dir_ortho = out_dir_ortho,
