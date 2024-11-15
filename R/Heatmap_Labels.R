@@ -25,7 +25,8 @@ heatmap_Labels <-
             Genus = NULL,
             Family = NULL,
             title = NULL,
-            simplify = FALSE
+            simplify = FALSE,
+            repro = FALSE
             ){
 
       longLabels <- longLabels %>%
@@ -42,34 +43,33 @@ heatmap_Labels <-
          dplyr::filter(na == FALSE) %>%
          dplyr::ungroup()
 
+      ncol = 1
 
-      x <- stringr::str_split(longLabels$phenophase, '\\;', simplify = T)
+      if(!simplify) {
 
-      longLabels$phenophase <- x[,1]
-      if (ncol(x) == 2) { longLabels$repro <- x[,2] }
+         x <- stringr::str_split(longLabels$phenophase, '\\;', simplify = T)
+
+         longLabels$phenophase <- x[,1]
+         if (ncol(x) == 2) { longLabels$repro <- x[,2] }
+         ncol = ncol(x)
+
+      }else{
+
+         longLabels <-
+            longLabels %>% mutate(
+               repro = case_when(
+                  !is.na(PPFlo) ~ PPFlo,
+                  !is.na(PPFr) ~ PPFr,
+                  TRUE ~ NA
+               )
+            )
+      }
+
 
       longLabels$id <- as.character(longLabels$id)
       longLabels$phenophase <- as.factor(longLabels$phenophase)
       longLabels$date <- as.factor(longLabels$date)
 
-      color <- c("D" = "yellow4",
-                 "D?" = "yellow4",
-                 "L/D" = "greenyellow",
-                 "L/D?" = "greenyellow",
-                 'L' = "lightgreen",
-                 'D/F' = "orange",
-                 'D/F?' = "orange",
-                 "F" = "darkgreen",
-                 "F?" = "red",
-                 "L/F" = "green")
-
-      color_pheno <- c('fl' = "yellow",
-                       "fl?" = "brown",
-                       "fr" = "pink3")
-
-      shape_pheno <- c('fl' = 8,
-                       "fl?" = 17,
-                       "fr" = 21)
 
       if(is.null(title)) {
          title <- paste(Family, Genus, Species)
@@ -81,10 +81,13 @@ heatmap_Labels <-
          {if (!simplify)    ggplot2::geom_tile(aes( fill = phenophase))} +
          {if (simplify)    ggplot2::geom_tile(aes( fill = PPfoliar1))} +
 
-         {if (ncol(x) == 2)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro, size = 2) )} +
-         {if (ncol(x) == 2)    scale_size(guide = 'none') } +
+         {if (!simplify & ncol(x) == 2)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro, size = 2) )} +
+         {if (!simplify & ncol(x) == 2)    scale_size(guide = 'none') } +
 
-         ggplot2::scale_fill_manual ( values = color ) +
+         {if (simplify)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro, size = 2) )} +
+         {if (simplify)    scale_size(guide = 'none') } +
+
+         ggplot2::scale_fill_manual ( values = color_label ) +
          ggplot2::scale_color_manual ( values = color_pheno ) +
          ggplot2::scale_shape_manual ( values = shape_pheno ) +
 

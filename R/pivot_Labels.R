@@ -101,6 +101,15 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
 
          dplyr::select(site:phenophase, PPfoliar1, PPfoliar2, PPFlo:PPfoliar2_uncertainty, obs, Comm, update, Usable_crown)
 
+   }else{
+
+      longLabels <-
+         longLabels %>%
+         mutate(phenophase =
+                   dplyr::case_when(
+                      stringr::str_detect(phenophase, "\\;$") ~ stringr::str_sub(phenophase, 1, nchar(phenophase) - 1),
+                      TRUE ~ phenophase
+                   ))
    }
 
    return(longLabels)

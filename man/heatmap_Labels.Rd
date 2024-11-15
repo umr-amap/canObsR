@@ -10,7 +10,8 @@ heatmap_Labels(
   Genus = NULL,
   Family = NULL,
   title = NULL,
-  simplify = FALSE
+  simplify = FALSE,
+  repro = FALSE
 )
 }
 \arguments{

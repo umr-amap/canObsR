@@ -20,7 +20,6 @@ create_bbox_rast <- function(raster_path, crs) {
 
 }
 
-
 create_bbox_shp <- function(shp) {
 
    bbox <- shp %>% sf::st_geometry() %>% sf::st_buffer(10) %>% sf::st_bbox()
@@ -45,7 +44,6 @@ create_bbox_shp <- function(shp) {
 
 }
 
-
 plot_nodata <- function() {
 
    base::plot(x = 0:10, y = 0:10, ann = F,bty = "n",type = "n",
@@ -64,3 +62,62 @@ extr_sites <- function(names_img) {
    sites <- stringr::str_split(names_img, '_', simplify = TRUE)[,1]
    return((sites))
 }
+
+color_label <-
+   c(
+      "D" = "grey",
+      "D?" = "grey",
+
+      'L' = "green4",
+      'L?' = "green4",
+
+      "F" = "green",
+      "F?" = "green",
+
+      "L/D" = "lightgreen",
+      "D/L" = "lightgreen",
+      "L/D?" = "lightgreen",
+      "D/L?" = "lightgreen",
+
+      "L/F" = "green4",
+      "F/L" = "green4",
+      "L/F?" = "green4",
+      "F/L?" = "green4",
+
+      'D/F' = "green3",
+      "F/D" = "green3",
+      'D/F?' = "green3",
+      "F/D?" = "green3",
+
+      "P" = 'maroon',
+      "P?" = 'maroon',
+
+      "L*D" = "lightcyan4",
+      "L*D?" = "lightcyan4",
+      "D*L" = "lightcyan4",
+      "D*L?" = "lightcyan4",
+
+      "D*F" = "cyan4",
+      "D*F?" = "cyan4",
+      "F*D" = "cyan4",
+      "F*D?" = "cyan4",
+
+      "F*L?" = "cyan3",
+      "F*L" = "cyan3",
+      "L*F?" = "cyan3",
+      "L*F" = "cyan3",
+
+      "L/D*F" = "lightblue",
+      "L/D*F?" = "lightblue",
+      "F*L/D?" = "lightblue",
+      "F*L/D?" = "lightblue"
+
+   )
+
+color_pheno <- c('fl' = "yellow",
+                 "fl?" = "brown",
+                 "fr" = "pink3")
+
+shape_pheno <- c('fl' = 8,
+                 "fl?" = 17,
+                 "fr" = 21)
