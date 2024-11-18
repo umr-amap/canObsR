@@ -27,3 +27,36 @@ create_labelingFile(
 \description{
 A function to create the xlsx file to do the labeling
 }
+\examples{
+
+library(sf)
+library(dplyr)
+
+rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+path_crownsFile <- file.path(system.file(package="managecrownsdata"), 'crowns/Bouamir_crowns.gpkg')
+crownsFile <- sf::read_sf(path_crownsFile)
+
+site = 'Bouamir'
+dates <- paste(
+str_sub(str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],1,4),
+str_sub(str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],5,6),
+str_sub(str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],7,8),
+sep = ''
+)
+
+check_crownsFile(crownsFile = crownsFile)
+
+crownsFile <- crownsFile \%>\% rename(
+geometry = geom
+)
+
+check_crownsFile(crownsFile = crownsFile)
+
+create_labelingFile(
+crownsFile = crownsFile,
+site = site,
+dates = dates,
+save_xlsx = FALSE
+)
+
+}

@@ -15,21 +15,47 @@ heatmap_Labels(
 )
 }
 \arguments{
-\item{longLabels}{A \code{tibble} or \code{dataframe} of long data format for labels}
+\item{longLabels}{\code{tibble} or \code{dataframe} of long data format for labels}
 
-\item{Species}{chr Filtering the data at the species level}
+\item{Species}{chr. Specifying the species you want to filter}
 
-\item{Genus}{chr Filtering the data at the genus level}
+\item{Genus}{chr. Specifying the genus you want to filter}
 
-\item{Family}{chr Filtering the data at the family level}
+\item{Family}{chr. Specifying the family(ies) you want to filter}
 
-\item{title}{chr The title of the plot}
+\item{title}{chr. The title of the plot}
 
-\item{simplify}{logical}
+\item{simplify}{logical. When TRUE, the plot will use simplified labels instead of raw labels.}
+
+\item{repro}{logical. When TRUE, the flowers and fruits observations will be add to the plot.}
 }
 \value{
 return a ggplot
 }
 \description{
 A fct function
+}
+\examples{
+
+library(readxl)
+
+raw_labels <- read_excel(file.path(system.file(package="managecrownsdata"), 'xlsx/labeling_file_Bouamir.xlsx'))
+
+pivotLabels <- pivot_Labels(raw_labels)
+
+heatmap_Labels(pivotLabels,
+Specie = NULL,
+Genus = 'Desbordesia',
+Family = NULL,
+title = NULL)
+
+pivotLabels_simplify <- pivot_Labels(raw_labels, simplify_labels = TRUE)
+
+heatmap_Labels(pivotLabels,
+Specie = NULL,
+Genus = 'Desbordesia',
+Family = NULL,
+title = NULL,
+simplify = TRUE)
+
 }

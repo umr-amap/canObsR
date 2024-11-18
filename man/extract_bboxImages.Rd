@@ -31,3 +31,11 @@ One file will be export per date. If NULL, the vector will not be exported.}
 This function extract the area of images covered by non NA values and return
 an \code{sf} object with one polygon per image.
 }
+\examples{
+
+rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+
+#bbox <- extract_bboxImages(
+#path_in = rgb_paths,
+#directory = my_directory)
+}

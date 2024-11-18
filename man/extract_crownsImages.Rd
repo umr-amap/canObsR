@@ -52,3 +52,30 @@ The function upload square image with neighbouring tree and the title is add
 at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
 image size can be changed by specifying height and width parameters.
 }
+\examples{
+library(sf)
+library(dplyr)
+
+crownsFile <- sf::st_read(file.path(system.file(package="managecrownsdata"), 'crowns/Bouamir_crowns.gpkg'))
+
+check_crownsFile(crownsFile = crownsFile)
+
+crownsFile <- crownsFile \%>\% dplyr::rename(
+   geometry = geom
+)
+
+check_crownsFile(crownsFile = crownsFile)
+
+# extract_crownsImages(
+#       path_images = rgb_paths,
+#       crownsFile = crownsFile,
+#       path_bbox,
+#       path_out,
+#       site = NULL,
+#       dates = NULL,
+#       N_cores = 1,
+#       width = 720,
+#       height = 825
+#    )
+
+}

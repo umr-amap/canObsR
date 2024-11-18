@@ -9,6 +9,38 @@
 #' @param save_xlsx logical. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters
 #' @param directory The path where to save the xlsx file.
 #'
+#' @examples
+#'
+#' library(sf)
+#' library(dplyr)
+#'
+#' rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+#' path_crownsFile <- file.path(system.file(package="managecrownsdata"), 'crowns/Bouamir_crowns.gpkg')
+#' crownsFile <- sf::read_sf(path_crownsFile)
+#'
+#' site = 'Bouamir'
+#' dates <- paste(
+#' str_sub(str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],1,4),
+#' str_sub(str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],5,6),
+#' str_sub(str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],7,8),
+#' sep = ''
+#' )
+#'
+#' check_crownsFile(crownsFile = crownsFile)
+#'
+#' crownsFile <- crownsFile %>% rename(
+#' geometry = geom
+#' )
+#'
+#' check_crownsFile(crownsFile = crownsFile)
+#'
+#' create_labelingFile(
+#' crownsFile = crownsFile,
+#' site = site,
+#' dates = dates,
+#' save_xlsx = FALSE
+#' )
+#'
 #' @export
 #'
 #' @import dplyr

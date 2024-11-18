@@ -13,6 +13,19 @@
 #' @param directory chr. The path to the directory used to export the vectors.
 #' One file will be export per date. If NULL, the vector will not be exported.
 #' @param filename logical. The name of the files.
+#'
+#'
+#' @examples
+#'
+#' rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+#'
+#' #bbox <- extract_bboxImages(
+#' #path_in = rgb_paths,
+#' #directory = my_directory)
+
+
+
+
 #' @export
 #' @importFrom terra rast
 #' @importFrom terra as.polygons

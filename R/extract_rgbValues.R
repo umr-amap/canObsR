@@ -15,6 +15,30 @@
 #' @param infos logical. Specify whether or not to return details of the extraction.
 #' When TRUE, specify the crowns which has not been extracting per date, because they were out of the image.
 #'
+#' @examples
+#'
+#' library(sf)
+#' library(dplyr)
+#'
+#' path_crownsFile <- file.path(system.file(package="managecrownsdata"), 'crowns/Bouamir_crowns.gpkg')
+#' crownsFile <- sf::read_sf(path_crownsFile)
+#' rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+#'
+#' check_crownsFile(crownsFile = crownsFile)
+#'
+#' crownsFile <- crownsFile %>% dplyr::rename(
+#'    geometry = geom
+#' )
+#'
+#' check_crownsFile(crownsFile = crownsFile)
+#'
+#' rgb_data <- extract_rgbValues(
+#' crownsFile = crownsFile,
+#' path_images = rgb_paths,
+#' fun = 'all',
+#' infos = FALSE
+#' )
+#'
 #' @export
 #'
 #' @importFrom exactextractr exact_extract

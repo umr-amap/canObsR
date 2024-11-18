@@ -7,9 +7,9 @@
 merge_values(longLabels, rgbValues)
 }
 \arguments{
-\item{longLabels}{A \code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.}
+\item{longLabels}{\code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.}
 
-\item{rgbValues}{A \code{tibble} or \code{dataframe} with the rgb metrics values.}
+\item{rgbValues}{\code{tibble} or \code{dataframe} with the rgb metrics values.}
 }
 \value{
 A \code{tibble}

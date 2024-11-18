@@ -9,14 +9,13 @@
 #'
 #' @examples
 #'
-#' library(tidyverse)
 #' library(readxl)
 #'
 #' raw_labels <- read_excel(file.path(system.file(package="managecrownsdata"), 'xlsx/labeling_file_Bouamir.xlsx'))
 #'
 #' pivot_Labels(raw_labels)
 #'
-#' pivotLabels <- pivot_Labels(raw_labels, simplify_labels = TRUE)
+#' pivot_Labels(raw_labels, simplify_labels = TRUE)
 #'
 #' @export
 #'
@@ -53,9 +52,9 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
 
          dplyr::mutate(phenophase1 = phenophase) %>%
 
-         tidyr::separate(phenophase1, c('PPfoliar','PPrepro'), ';') %>%
+         tidyr::separate(phenophase1, c('PPfoliar','PPrepro'), ';', fill = "right") %>%
 
-         tidyr::separate(PPfoliar, c('PPfoliar1','PPfoliar2'), '\\*') %>%
+         tidyr::separate(PPfoliar, c('PPfoliar1','PPfoliar2'), '\\*', fill = "right") %>%
 
 
          dplyr::mutate(

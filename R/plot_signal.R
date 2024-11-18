@@ -2,19 +2,32 @@
 #'
 #' @description A fct function
 #'
-#' @param data A \code{tibble} or \code{dataframe} of long data format for labels
-#' @param Species chr Filtering the data at the species level
-#' @param Genus chr Filtering the data at the genus level
-#' @param Family chr Filtering the data at the family level
-#' @param Type chr Filtering by the type
-#' @param Metric chr Filtering by the metric. By defaut it is the mean.
-#' @param Band chr Filtering by the band.
-#' @param facet_by chr Facetting by a variable
-#' @param slcted_id chr Highlighting an id
-#' @param show_Labels description
-#' @param title chr The title of the plot
+#' @param data \code{tibble} or \code{dataframe} of long data format for labels
+#' @param Species chr. Specifying the species you want to filter
+#' @param Genus chr. Specifying the genus you want to filter
+#' @param Family chr. Specifying the family(ies) you want to filter
+#' @param Type chr. Specifying the type(s) you want to filter
+#' @param Metric chr. Specifying the metric(s) you want to filter. By defaut 'mean'
+#' @param Band chr. Specifying the bande(s) you want to filter
+#' @param facet_by chr. Facetting by a variable. By defaut 'band'
+#' @param slcted_id num. Highlighting an id
+#' @param show_Labels logical. When TRUE, it shows the phenophase labels on the plot.
+#' @param title chr. The title of the plot
 #'
 #' @return return a ggplot
+#'
+#' @examples
+#'
+#' library(readxl)
+#'
+#' data('data')
+#'
+#' plot_signal(data = merge_data, Genus = 'Desbordesia')
+#'
+#' plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 676, Band = c('gli', 'gndvi'))
+#'
+#' plot_signal(data = merge_data, Genus = 'Desbordesia', Band = c('gli'), slcted_id = 676, show_Labels = TRUE)
+#'
 #'
 #' @export
 #' @import dplyr

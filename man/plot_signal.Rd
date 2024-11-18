@@ -19,31 +19,45 @@ plot_signal(
 )
 }
 \arguments{
-\item{data}{A \code{tibble} or \code{dataframe} of long data format for labels}
+\item{data}{\code{tibble} or \code{dataframe} of long data format for labels}
 
-\item{Species}{chr Filtering the data at the species level}
+\item{Species}{chr. Specifying the species you want to filter}
 
-\item{Genus}{chr Filtering the data at the genus level}
+\item{Genus}{chr. Specifying the genus you want to filter}
 
-\item{Family}{chr Filtering the data at the family level}
+\item{Family}{chr. Specifying the family(ies) you want to filter}
 
-\item{Type}{chr Filtering by the type}
+\item{Type}{chr. Specifying the type(s) you want to filter}
 
-\item{Metric}{chr Filtering by the metric. By defaut it is the mean.}
+\item{Metric}{chr. Specifying the metric(s) you want to filter. By defaut 'mean'}
 
-\item{Band}{chr Filtering by the band.}
+\item{Band}{chr. Specifying the bande(s) you want to filter}
 
-\item{facet_by}{chr Facetting by a variable}
+\item{facet_by}{chr. Facetting by a variable. By defaut 'band'}
 
-\item{slcted_id}{chr Highlighting an id}
+\item{slcted_id}{num. Highlighting an id}
 
-\item{show_Labels}{description}
+\item{show_Labels}{logical. When TRUE, it shows the phenophase labels on the plot.}
 
-\item{title}{chr The title of the plot}
+\item{title}{chr. The title of the plot}
 }
 \value{
 return a ggplot
 }
 \description{
 A fct function
+}
+\examples{
+
+library(readxl)
+
+data('data')
+
+plot_signal(data = merge_data, Genus = 'Desbordesia')
+
+plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 676, Band = c('gli', 'gndvi'))
+
+plot_signal(data = merge_data, Genus = 'Desbordesia', Band = c('gli'), slcted_id = 676, show_Labels = TRUE)
+
+
 }

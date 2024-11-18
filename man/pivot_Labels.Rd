@@ -19,13 +19,12 @@ A function to format labels data from wide to long format
 }
 \examples{
 
-library(tidyverse)
 library(readxl)
 
 raw_labels <- read_excel(file.path(system.file(package="managecrownsdata"), 'xlsx/labeling_file_Bouamir.xlsx'))
 
 pivot_Labels(raw_labels)
 
-pivotLabels <- pivot_Labels(raw_labels, simplify_labels = TRUE)
+pivot_Labels(raw_labels, simplify_labels = TRUE)
 
 }
