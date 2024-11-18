@@ -52,7 +52,7 @@ check_availableCrowns <-
 
          if( i == 1 ){ crs_pb <- NULL }
 
-         check_crs <- (sf::st_crs( terra::rast(path_bbox[i]) ) == sf::st_crs(crownsFile))
+         check_crs <- (sf::st_crs( sf::read_sf(path_bbox[i]) ) == sf::st_crs(crownsFile))
 
          if( !check_crs ){ crs_pb <- c(crs_pb, i) }
 
