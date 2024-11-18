@@ -29,7 +29,12 @@
 #' library(sf)
 #' library(dplyr)
 #'
-#' crownsFile <- sf::st_read(file.path(system.file(package="managecrownsdata"), 'crowns/Bouamir_crowns.gpkg'))
+#' crownsFile <- sf::st_read(
+#' file.path(
+#' system.file(package="managecrownsdata"),
+#' 'crowns/Bouamir_crowns.gpkg'
+#' )
+#' )
 # 'rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
 #'
 #' check_crownsFile(crownsFile = crownsFile)

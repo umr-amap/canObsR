@@ -2,16 +2,21 @@
 #'
 #' @description A function to format labels data from wide to long format
 #'
-#' @param crownsFile \code{sf object}. The crowns delineation file. It should include 'id',
-#' 'species', 'genus' and 'family' columns.
-#' @param site chr. site name.
-#' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e '20220925').
+#' @param wideLabels \code{tibble} or \code{dataframe} which contains labeling data directly import from the xlsx file.
+#' @param simplify_labels \code{logical} Decompose and simplify the labels when TRUE. By defaut it is FALSE.
+#' @return \code{tibble}
+#'
+#' @export \code{tibble}
 #'
 #' @examples
 #'
 #' library(readxl)
 #'
-#' raw_labels <- read_excel(file.path(system.file(package="managecrownsdata"), 'xlsx/labeling_file_Bouamir.xlsx'))
+#' raw_labels <- read_excel(
+#' file.path(
+#' system.file(package="managecrownsdata"),
+#' 'xlsx/labeling_file_Bouamir.xlsx')
+#' )
 #'
 #' pivot_Labels(raw_labels)
 #'

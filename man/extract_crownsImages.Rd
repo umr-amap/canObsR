@@ -56,7 +56,12 @@ image size can be changed by specifying height and width parameters.
 library(sf)
 library(dplyr)
 
-crownsFile <- sf::st_read(file.path(system.file(package="managecrownsdata"), 'crowns/Bouamir_crowns.gpkg'))
+crownsFile <- sf::st_read(
+file.path(
+system.file(package="managecrownsdata"),
+'crowns/Bouamir_crowns.gpkg'
+)
+)
 
 check_crownsFile(crownsFile = crownsFile)
 

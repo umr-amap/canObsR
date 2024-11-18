@@ -39,7 +39,10 @@ A fct function
 
 library(readxl)
 
-raw_labels <- read_excel(file.path(system.file(package="managecrownsdata"), 'xlsx/labeling_file_Bouamir.xlsx'))
+raw_labels <- read_excel(
+file.path(system.file(package="managecrownsdata"),
+'xlsx/labeling_file_Bouamir.xlsx')
+)
 
 pivotLabels <- pivot_Labels(raw_labels)
 

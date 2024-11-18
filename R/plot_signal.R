@@ -22,11 +22,21 @@
 #'
 #' data('data')
 #'
-#' plot_signal(data = merge_data, Genus = 'Desbordesia')
+#' plot_signal(data = merge_data,
+#' Genus = 'Desbordesia')
 #'
-#' plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 676, Band = c('gli', 'gndvi'))
+#' plot_signal(data = merge_data,
+#' Genus = 'Desbordesia',
+#' slcted_id = 676,
+#' Band = c('gli', 'gndvi')
+#' )
 #'
-#' plot_signal(data = merge_data, Genus = 'Desbordesia', Band = c('gli'), slcted_id = 676, show_Labels = TRUE)
+#' plot_signal(data = merge_data,
+#' Genus = 'Desbordesia',
+#' Band = c('gli'),
+#' slcted_id = 676,
+#' show_Labels = TRUE
+#' )
 #'
 #'
 #' @export

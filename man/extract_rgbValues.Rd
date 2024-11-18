@@ -40,7 +40,9 @@ function. The mean and / or the variance can be extracted (see 'fun' parameter).
 library(sf)
 library(dplyr)
 
-path_crownsFile <- file.path(system.file(package="managecrownsdata"), 'crowns/Bouamir_crowns.gpkg')
+path_crownsFile <- file.path(
+system.file(package="managecrownsdata"),
+'crowns/Bouamir_crowns.gpkg')
 crownsFile <- sf::read_sf(path_crownsFile)
 rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
 

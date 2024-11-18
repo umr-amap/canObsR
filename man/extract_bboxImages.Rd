@@ -33,7 +33,11 @@ an \code{sf} object with one polygon per image.
 }
 \examples{
 
-rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+rgb_paths <- list.files(
+file.path(
+system.file(package="managecrownsdata"), 'rgb/'),
+full.names = TRUE
+)
 
 #bbox <- extract_bboxImages(
 #path_in = rgb_paths,
