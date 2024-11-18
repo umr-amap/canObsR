@@ -1,12 +1,10 @@
-#' Reformat table of labels from wide data to long data
 #'
 #' @description A function to format labels data from wide to long format
 #'
-#' @param wideLabels \code{tibble} or \code{dataframe} which contains labeling data directly import from the xlsx file.
-#' @param simplify_labels \code{logical} Decompose and simplify the labels when TRUE. By defaut it is FALSE.
-#' @return \code{tibble}
-#'
-#' @export \code{tibble}
+#' @param crownsFile \code{sf object}. The crowns delineation file. It should include 'id',
+#' 'species', 'genus' and 'family' columns.
+#' @param site chr. site name.
+#' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e '20220925').
 #'
 #' @examples
 #'
@@ -19,12 +17,11 @@
 #'
 #' pivotLabels <- pivot_Labels(raw_labels, simplify_labels = TRUE)
 #'
+#' @export
+#'
+#'
 #' @importFrom dplyr select
 #' @importFrom dplyr mutate
-#' @importFrom dplyr case_when
-#' @importFrom tidyr gather
-#' @importFrom tidyr separate
-#' @import stringr
 
 
 
