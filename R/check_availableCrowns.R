@@ -14,6 +14,8 @@
 #'
 #' @examples
 #'
+#'library(sf)
+#'
 #'crownsFile <- sf::st_read(
 #'file.path(
 #'system.file(package="managecrownsdata"),

@@ -24,6 +24,8 @@ the number of crowns included in each image and the vector of the id contained f
 }
 \examples{
 
+library(sf)
+
 crownsFile <- sf::st_read(
 file.path(
 system.file(package="managecrownsdata"),

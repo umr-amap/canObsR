@@ -36,6 +36,13 @@ reference:
   - heatmap_Labels
   - plot_signal
 
+
+- title: Other functions
+  desc: >
+    R functions ...
+  contents:
+  - extr_dates
+
 articles:
 - title: Building plots
   navbar: ~
