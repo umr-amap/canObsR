@@ -162,11 +162,17 @@ extract_crownsImages <-
 
       for (i in 1:length(path_images)) {
 
+         if( i == 1 ){ crs_pb <- NULL }
+
          check_crs <- (sf::st_crs( terra::rast(path_images[i]) ) == sf::st_crs(crownsFile))
 
-         if(!check_crs){
-            stop("The crs from images and crownsFile do not match")
+         if( !check_crs ){ crs_pb <- c(crs_pb, i) }
+
+         if( !is.null(crs_pb) ){
+            stop(paste("The crs from image(s)",paste(crs_pb,collapse = ','), "and crownsFile do not match"))
          }
+
+
 
       }
 

@@ -5,7 +5,7 @@
 #' @param crownsFile \code{sf object}. The crowns delineation file. It should include 'id',
 #' 'species', 'genus' and 'family' columns.
 #' @param site chr. site name.
-#' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e '20220925').
+#' @param dates chr. vector of dates (format should be 'YYYYMMDD', p.e '20220925').
 #' @param save_xlsx logical. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters
 #' @param directory The path where to save the xlsx file.
 #'

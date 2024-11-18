@@ -4,25 +4,40 @@
 \alias{check_availableCrowns}
 \title{Check the number of crowns included in each image}
 \usage{
-check_availableCrowns(path_bbox, crownFile, date = NULL, crs = NULL)
+check_availableCrowns(path_bbox, crownFile, dates = NULL)
 }
 \arguments{
 \item{path_bbox}{The path to the non NA Bbox return by the function \code{extract_bboxImages()}}
 
-\item{crownFile}{A \code{sf} object for the crowns with an 'id' variable.}
+\item{crownFile}{\code{sf object}  for the crowns with an 'id' variable.}
 
-\item{date}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
-'2022_09_25'). The order of the dates should match with the order of the
-dates of the image in the RGB_paths.}
-
-\item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL,
-it will use and transform all the data into the crs of the first non NA bbox.}
+\item{dates}{chr. Vector with dates (format should be '\%Y\%m\%d', p.e
+'20220925'). The order of the dates should match with the order of the
+dates of the image in the path_bbox}
 }
 \value{
-A list with all the crowns id contained within images. The names of the list elements
-are the date of the images.
+\code{list} and \code{dotchart}
 }
 \description{
 As the extend of images can changed from one image to another, this function return
-the number of crowns included in each image and the vector of the id for crowns in images.
+the number of crowns included in each image and the vector of the id contained for each id.
+}
+\examples{
+
+crownsFile <- sf::st_read(
+file.path(
+system.file(package="managecrownsdata"),
+'crowns/Bouamir_crowns.gpkg')
+)
+
+path_bbox <- list.files(
+file.path(
+system.file(package="managecrownsdata"), 'bbox/'),
+full.names = TRUE
+)
+
+dates <- extr_dates(basename(path_bbox))
+
+check_availableCrowns(path_bbox = path_bbox, crownFile = crownFile, dates = dates)
+
 }

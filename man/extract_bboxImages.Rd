@@ -4,22 +4,13 @@
 \alias{extract_bboxImages}
 \title{Extract and export the non NA area of images.}
 \usage{
-extract_bboxImages(
-  path_in,
-  crs = NULL,
-  dates = NULL,
-  directory = NULL,
-  filename = NULL
-)
+extract_bboxImages(path_in, dates = NULL, directory = NULL, filename = NULL)
 }
 \arguments{
 \item{path_in}{vector with the full paths to the RGB rasters images.}
 
-\item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL,
-it will use and transform all the data into the crs of the first RGB image.}
-
-\item{dates}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
-'2022_09_25'). The order of the dates should match with the order of the
+\item{dates}{chr. Vector with dates (format should be '\%Y\%m\%d', p.e
+'20220925'). The order of the dates should match with the order of the
 dates of the image in the path_in}
 
 \item{directory}{chr. The path to the directory used to export the vectors.

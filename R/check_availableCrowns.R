@@ -2,18 +2,34 @@
 #'
 #' @description
 #' As the extend of images can changed from one image to another, this function return
-#' the number of crowns included in each image and the vector of the id for crowns in images.
+#' the number of crowns included in each image and the vector of the id contained for each id.
 #'
 #' @param path_bbox The path to the non NA Bbox return by the function `extract_bboxImages()`
-#' @param crownFile A \code{sf} object for the crowns with an 'id' variable.
-#' @param date chr. Vector with dates (format should be '%Y_%m_%d', p.e
-#'  '2022_09_25'). The order of the dates should match with the order of the
-#'  dates of the image in the RGB_paths.
-#' @param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL,
-#'  it will use and transform all the data into the crs of the first non NA bbox.
+#' @param crownFile \code{sf object}  for the crowns with an 'id' variable.
+#' @param dates chr. Vector with dates (format should be '%Y%m%d', p.e
+#'  '20220925'). The order of the dates should match with the order of the
+#'  dates of the image in the path_bbox
 #'
-#' @return A list with all the crowns id contained within images. The names of the list elements
-#' are the date of the images.
+#' @return \code{list} and \code{dotchart}
+#'
+#' @examples
+#'
+#'crownsFile <- sf::st_read(
+#'file.path(
+#'system.file(package="managecrownsdata"),
+#''crowns/Bouamir_crowns.gpkg')
+#')
+#'
+#' path_bbox <- list.files(
+#' file.path(
+#' system.file(package="managecrownsdata"), 'bbox/'),
+#' full.names = TRUE
+#' )
+#'
+#' dates <- extr_dates(basename(path_bbox))
+#'
+#' check_availableCrowns(path_bbox = path_bbox, crownFile = crownFile, dates = dates)
+#'
 #' @export
 #'
 #' @import sf
@@ -26,25 +42,32 @@ check_availableCrowns <-
 
    function(path_bbox,
             crownFile,
-            date = NULL,
-            crs = NULL) {
+            dates = NULL) {
 
+      # Check crs ---------------------------------------------------------------
 
-   # Check if the user added a crs, if not automatically find it from --------
+      for (i in 1:length(path_bbox)) {
 
-      if ( is.null(crs) ) {crs = sf::st_crs (sf::st_read (path_bbox[1])) }
-      if ( is.null(date) ) {date =paste0('date_', 1:length(path_bbox)) }
+         if( i == 1 ){ crs_pb <- NULL }
+
+         check_crs <- (sf::st_crs( terra::rast(path_bbox[i]) ) == sf::st_crs(crownsFile))
+
+         if( !check_crs ){ crs_pb <- c(crs_pb, i) }
+
+         if( !is.null(crs_pb) ){
+            stop(paste("The crs from bbox(s)",paste(crs_pb,collapse = ','), "and crownsFile do not match"))
+         }
+
+      }
+   # If there is no date.. --------
+
+      if ( is.null(dates) ) {dates =paste0('date_', 1:length(path_bbox)) }
 
 
    # Create empty data we will fill in the loop ------------------------------
 
       within_crowns_list <- list()
-      within_crowns <- data.frame(date = date, n = NA)
-
-
-   # Transform the data to the wanted crs ------------------------------------
-
-      crownFile <- crownFile %>% sf::st_transform(crs = crs)
+      within_crowns <- data.frame(date = dates, n = NA)
 
 
    # In a loop, for each image bbox... ---------------------------------------
@@ -55,13 +78,11 @@ check_availableCrowns <-
          # Import bbox i -----------------------------------------------------------
 
          bbox <- sf::st_read(path_bbox[i])
-         bbox <- bbox %>% sf::st_transform(crs = crs)
-
 
          # Check crowns included in the bbox and fill the data ---------------------
 
          within_crowns[i, 2] <- ((sf::st_join(bbox, crownFile, join = st_contains) %>% nrow()) / nrow(crownFile)) * 100
-         within_crowns_list[[paste0(date[i])]] <- sf::st_join(bbox, crownFile, join = st_contains) %>% .[['id']]
+         within_crowns_list[[paste0(dates[i])]] <- sf::st_join(bbox, crownFile, join = st_contains) %>% .[['id']]
       }
 
 
@@ -74,7 +95,7 @@ check_availableCrowns <-
 
    # Plot the percantage of crowns per image ---------------------------------
 
-      dotchart(
+      graphics::dotchart(
          rev(within_crowns$n),
          labels = rev(within_crowns$date),
          # groups = grps,

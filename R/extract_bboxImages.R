@@ -5,10 +5,8 @@
 #'
 #'
 #' @param path_in vector with the full paths to the RGB rasters images.
-#' @param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL,
-#'  it will use and transform all the data into the crs of the first RGB image.
-#' @param dates chr. Vector with dates (format should be '%Y_%m_%d', p.e
-#'  '2022_09_25'). The order of the dates should match with the order of the
+#' @param dates chr. Vector with dates (format should be '%Y%m%d', p.e
+#'  '20220925'). The order of the dates should match with the order of the
 #'  dates of the image in the path_in
 #' @param directory chr. The path to the directory used to export the vectors.
 #' One file will be export per date. If NULL, the vector will not be exported.
@@ -40,12 +38,24 @@
 
 extract_bboxImages <-
 
-   function(path_in, crs = NULL, dates = NULL, directory = NULL, filename = NULL){
+   function(path_in, dates = NULL, directory = NULL, filename = NULL){
 
 
-   # Check if the user has added a crs, if not it automatically find it --------
+      # Check crs ---------------------------------------------------------------
 
-      if ( is.null(crs) ) {crs = sf::st_crs (terra::rast (path_in[1])) }
+      for (i in 1:length(path_images)) {
+
+         if( i == 1 ){ crs_pb <- NULL }
+
+         check_crs <- (sf::st_crs( terra::rast(path_images[i]) ) == sf::st_crs(crownsFile))
+
+         if( !check_crs ){ crs_pb <- c(crs_pb, i) }
+
+         if( !is.null(crs_pb) ){
+            stop(paste("The crs from image(s)",paste(crs_pb,collapse = ','), "and crownsFile do not match"))
+         }
+
+      }
 
 
    # Check if the user has added dates, if not it will be 1 to x -------------

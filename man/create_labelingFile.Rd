@@ -18,7 +18,7 @@ create_labelingFile(
 
 \item{site}{chr. site name.}
 
-\item{dates}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e '20220925').}
+\item{dates}{chr. vector of dates (format should be 'YYYYMMDD', p.e '20220925').}
 
 \item{save_xlsx}{logical. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters}
 
