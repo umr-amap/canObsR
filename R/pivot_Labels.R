@@ -1,3 +1,4 @@
+#' Format labels values from wide data to long data
 #'
 #' @description A function to format labels data from wide to long format
 #'
