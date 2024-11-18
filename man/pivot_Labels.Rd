@@ -7,13 +7,25 @@
 pivot_Labels(wideLabels, simplify_labels = FALSE)
 }
 \arguments{
-\item{wideLabels}{A \code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.}
+\item{wideLabels}{\code{tibble} or \code{dataframe} which contains labeling data directly import from the xlsx file.}
 
-\item{simplify_labels}{logical. Decompose and simplify the labels when TRUE. By defaut it is FALSE.}
+\item{simplify_labels}{\code{logical} Decompose and simplify the labels when TRUE. By defaut it is FALSE.}
 }
 \value{
-A \code{tibble}
+\code{tibble}
 }
 \description{
 A function to format labels data from wide to long format
+}
+\examples{
+
+library(tidyverse)
+library(readxl)
+
+raw_labels <- read_excel(file.path(system.file(package="managecrownsdata"), 'xlsx/labeling_file_Bouamir.xlsx'))
+
+pivot_Labels(raw_labels)
+
+pivotLabels <- pivot_Labels(raw_labels, simplify_labels = TRUE)
+
 }

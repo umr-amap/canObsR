@@ -2,11 +2,22 @@
 #'
 #' @description A function to format labels data from wide to long format
 #'
-#' @param wideLabels A \code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.
-#' @param simplify_labels logical. Decompose and simplify the labels when TRUE. By defaut it is FALSE.
-#' @return A \code{tibble}
+#' @param wideLabels \code{tibble} or \code{dataframe} which contains labeling data directly import from the xlsx file.
+#' @param simplify_labels \code{logical} Decompose and simplify the labels when TRUE. By defaut it is FALSE.
+#' @return \code{tibble}
 #'
-#' @export
+#' @export \code{tibble}
+#'
+#' @examples
+#'
+#' library(tidyverse)
+#' library(readxl)
+#'
+#' raw_labels <- read_excel(file.path(system.file(package="managecrownsdata"), 'xlsx/labeling_file_Bouamir.xlsx'))
+#'
+#' pivot_Labels(raw_labels)
+#'
+#' pivotLabels <- pivot_Labels(raw_labels, simplify_labels = TRUE)
 #'
 #' @importFrom dplyr select
 #' @importFrom dplyr mutate

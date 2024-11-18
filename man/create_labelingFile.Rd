@@ -13,11 +13,12 @@ create_labelingFile(
 )
 }
 \arguments{
-\item{crownsFile}{A \code{sf} object for the crowns with an 'id' variable.}
+\item{crownsFile}{\code{sf object}. The crowns delineation file. It should include 'id',
+'species', 'genus' and 'family' columns.}
 
-\item{site}{chr. name of the site, p.e 'Mbalmayo'.}
+\item{site}{chr. site name.}
 
-\item{dates}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e '2022_09_25').}
+\item{dates}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e '20220925').}
 
 \item{save_xlsx}{logical. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters}
 
