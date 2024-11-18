@@ -69,47 +69,47 @@
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A <code>tibble</code> or <code>dataframe</code> of long data format for labels</p></dd>
+<dd><p><code>tibble</code> or <code>dataframe</code> of long data format for labels</p></dd>
 
 
 <dt id="arg-species">Species<a class="anchor" aria-label="anchor" href="#arg-species"></a></dt>
-<dd><p>chr Filtering the data at the species level</p></dd>
+<dd><p>chr. Specifying the species you want to filter</p></dd>
 
 
 <dt id="arg-genus">Genus<a class="anchor" aria-label="anchor" href="#arg-genus"></a></dt>
-<dd><p>chr Filtering the data at the genus level</p></dd>
+<dd><p>chr. Specifying the genus you want to filter</p></dd>
 
 
 <dt id="arg-family">Family<a class="anchor" aria-label="anchor" href="#arg-family"></a></dt>
-<dd><p>chr Filtering the data at the family level</p></dd>
+<dd><p>chr. Specifying the family(ies) you want to filter</p></dd>
 
 
 <dt id="arg-type">Type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>chr Filtering by the type</p></dd>
+<dd><p>chr. Specifying the type(s) you want to filter</p></dd>
 
 
 <dt id="arg-metric">Metric<a class="anchor" aria-label="anchor" href="#arg-metric"></a></dt>
-<dd><p>chr Filtering by the metric. By defaut it is the mean.</p></dd>
+<dd><p>chr. Specifying the metric(s) you want to filter. By defaut 'mean'</p></dd>
 
 
 <dt id="arg-band">Band<a class="anchor" aria-label="anchor" href="#arg-band"></a></dt>
-<dd><p>chr Filtering by the band.</p></dd>
+<dd><p>chr. Specifying the bande(s) you want to filter</p></dd>
 
 
 <dt id="arg-facet-by">facet_by<a class="anchor" aria-label="anchor" href="#arg-facet-by"></a></dt>
-<dd><p>chr Facetting by a variable</p></dd>
+<dd><p>chr. Facetting by a variable. By defaut 'band'</p></dd>
 
 
 <dt id="arg-slcted-id">slcted_id<a class="anchor" aria-label="anchor" href="#arg-slcted-id"></a></dt>
-<dd><p>chr Highlighting an id</p></dd>
+<dd><p>num. Highlighting an id</p></dd>
 
 
 <dt id="arg-show-labels">show_Labels<a class="anchor" aria-label="anchor" href="#arg-show-labels"></a></dt>
-<dd><p>description</p></dd>
+<dd><p>logical. When TRUE, it shows the phenophase labels on the plot.</p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
-<dd><p>chr The title of the plot</p></dd>
+<dd><p>chr. The title of the plot</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -117,6 +117,25 @@
     <p>return a ggplot</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'data'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">plot_signal</span><span class="op">(</span>data <span class="op">=</span> <span class="va">merge_data</span>, Genus <span class="op">=</span> <span class="st">'Desbordesia'</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'merge_data' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">plot_signal</span><span class="op">(</span>data <span class="op">=</span> <span class="va">merge_data</span>, Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>, slcted_id <span class="op">=</span> <span class="fl">676</span>, Band <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'gli'</span>, <span class="st">'gndvi'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'merge_data' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">plot_signal</span><span class="op">(</span>data <span class="op">=</span> <span class="va">merge_data</span>, Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>, Band <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'gli'</span><span class="op">)</span>, slcted_id <span class="op">=</span> <span class="fl">676</span>, show_Labels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'merge_data' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
