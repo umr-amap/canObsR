@@ -54,7 +54,7 @@ title = NULL)
 
 pivotLabels_simplify <- pivot_Labels(raw_labels, simplify_labels = TRUE)
 
-heatmap_Labels(pivotLabels,
+heatmap_Labels(pivotLabels_simplify,
 Specie = NULL,
 Genus = 'Desbordesia',
 Family = NULL,
