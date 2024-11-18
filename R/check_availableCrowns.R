@@ -83,8 +83,8 @@ check_availableCrowns <-
 
          # Check crowns included in the bbox and fill the data ---------------------
 
-         within_crowns[i, 2] <- ((sf::st_join(bbox, crownFile, join = st_contains) %>% nrow()) / nrow(crownFile)) * 100
-         within_crowns_list[[paste0(dates[i])]] <- sf::st_join(bbox, crownFile, join = st_contains) %>% .[['id']]
+         within_crowns[i, 2] <- ((sf::st_join(bbox, crownsFile, join = st_contains) %>% nrow()) / nrow(crownsFile)) * 100
+         within_crowns_list[[paste0(dates[i])]] <- sf::st_join(bbox, crownsFile, join = st_contains) %>% .[['id']]
       }
 
 
