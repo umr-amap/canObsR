@@ -53,16 +53,16 @@ library(readxl)
 
 data('data')
 
-plot_signal(data = merge_data,
+plot_signal(data = data,
 Genus = 'Desbordesia')
 
-plot_signal(data = merge_data,
+plot_signal(data = data,
 Genus = 'Desbordesia',
 slcted_id = 676,
 Band = c('gli', 'gndvi')
 )
 
-plot_signal(data = merge_data,
+plot_signal(data = data,
 Genus = 'Desbordesia',
 Band = c('gli'),
 slcted_id = 676,

@@ -24,7 +24,11 @@
 #' system.file(package="managecrownsdata"),
 #' 'crowns/Bouamir_crowns.gpkg')
 #' crownsFile <- sf::read_sf(path_crownsFile)
-#' rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+#' rgb_paths <- list.files(
+#' file.path(
+#' system.file(package="managecrownsdata"), 'rgb/'),
+#' full.names = TRUE
+#' )
 #'
 #' check_crownsFile(crownsFile = crownsFile)
 #'
