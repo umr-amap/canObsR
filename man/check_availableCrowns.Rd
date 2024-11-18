@@ -4,12 +4,12 @@
 \alias{check_availableCrowns}
 \title{Check the number of crowns included in each image}
 \usage{
-check_availableCrowns(path_bbox, crownFile, dates = NULL)
+check_availableCrowns(path_bbox, crownsFile, dates = NULL)
 }
 \arguments{
 \item{path_bbox}{The path to the non NA Bbox return by the function \code{extract_bboxImages()}}
 
-\item{crownFile}{\code{sf object}  for the crowns with an 'id' variable.}
+\item{crownsFile}{\code{sf object}  for the crowns with an 'id' variable.}
 
 \item{dates}{chr. Vector with dates (format should be '\%Y\%m\%d', p.e
 '20220925'). The order of the dates should match with the order of the
@@ -40,6 +40,6 @@ full.names = TRUE
 
 dates <- extr_dates(basename(path_bbox))
 
-check_availableCrowns(path_bbox = path_bbox, crownFile = crownFile, dates = dates)
+check_availableCrowns(path_bbox = path_bbox, crownsFile = crownsFile, dates = dates)
 
 }

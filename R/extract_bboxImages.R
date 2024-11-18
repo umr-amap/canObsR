@@ -41,23 +41,6 @@ extract_bboxImages <-
    function(path_in, dates = NULL, directory = NULL, filename = NULL){
 
 
-      # Check crs ---------------------------------------------------------------
-
-      for (i in 1:length(path_images)) {
-
-         if( i == 1 ){ crs_pb <- NULL }
-
-         check_crs <- (sf::st_crs( terra::rast(path_images[i]) ) == sf::st_crs(crownsFile))
-
-         if( !check_crs ){ crs_pb <- c(crs_pb, i) }
-
-         if( !is.null(crs_pb) ){
-            stop(paste("The crs from image(s)",paste(crs_pb,collapse = ','), "and crownsFile do not match"))
-         }
-
-      }
-
-
    # Check if the user has added dates, if not it will be 1 to x -------------
 
       if ( is.null(dates) ) {dates = paste0('date_',1:length(path_in)) }
@@ -79,7 +62,6 @@ extract_bboxImages <-
             sf::st_as_sf() %>%
             dplyr::rename("geometry" = "x") %>%
             sf::st_cast(.,"POLYGON") %>%
-            sf::st_transform(crs = crs) %>%
             dplyr::mutate(date = dates[i])
 
          if(is.null(filename)){filename = 'NonNA_area'}
