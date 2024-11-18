@@ -6,8 +6,6 @@
 #' @param simplify_labels \code{logical} Decompose and simplify the labels when TRUE. By defaut it is FALSE.
 #' @return \code{tibble}
 #'
-#' @export \code{tibble}
-#'
 #' @examples
 #'
 #' library(readxl)
