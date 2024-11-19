@@ -59,7 +59,6 @@ def add_all_chunks(doc, pathDIR=None):
         list_files += [os.path.join(dirpath, file) for file in filenames]
     
     ep_relative_paths = np.unique([os.path.relpath(os.path.dirname(file), start=pathDIR) for file in list_files])
-    print("ep paths : ", ep_relative_paths)
     epochs = [os.path.basename(dir_path) for dir_path in ep_relative_paths]
     print("epochs : ", epochs)
     
@@ -118,7 +117,7 @@ def align_TimeSIFT_chunk(doc, downscale_factor = 1):
     TS_chunk.matchPhotos(downscale=downscale_factor, generic_preselection=True, reference_preselection=True,
                       reference_preselection_mode=scan.ReferencePreselectionSource, keypoint_limit=100000,
                       tiepoint_limit=10000,keep_keypoints=False)
-    # boucle pour ré-aligner les photos non-alignées
+    # loop to re-align non-aligned photos
     nb_aligned_before = 0
     nb_aligned_after = 100
     while nb_aligned_after != nb_aligned_before:
@@ -297,8 +296,7 @@ def Time_SIFT_process(pathDIR,
         add_all_chunks(doc, pathDIR = pathDIR)
         merge_chunk_TimeSIFT(doc)
         t_add_data = time.time()
-        print(f"Temps écoulé pour le chargement et la fusion des photos : {t_add_data - start_time} seconds")
-
+        print(f"Time spent loading and merging photos : {t_add_data - start_time} seconds")
 
     """
     elif data_type == "MS" :
@@ -313,7 +311,7 @@ def Time_SIFT_process(pathDIR,
 
     align_TimeSIFT_chunk(doc, downscale_factor = downscale_factor_alignement)
     t_align = time.time()
-    print(f"Temps écoulé pour l'alignement : {t_align - t_add_data} seconds")
+    print(f"Time spent for the alignement : {t_align - t_add_data} seconds")
     
     #The project needs to be saved before building DEMs and orthomosaics
     doc.save(os.path.join(out_dir_ortho, '_temp_.psx'))
@@ -332,8 +330,8 @@ def Time_SIFT_process(pathDIR,
     t_split = time.time()
     #print("Temps écoulé pour la division et regroupement par date : ", t_split - t_align)
     process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = out_dir_ortho, out_dir_DEM = out_dir_DEM, site_name = site_name, resol_ref = resol_ref, crs = crs, downscale_factor_depth_map=downscale_factor_depth_map)
-    print(f"Temps écoulé pour le process final : {time.time() - t_split} seconds")
-    print(f"Temps écoulé pour la pipeline complète : {time.time() - start_time} seconds")
+    print(f"Time spent for the final process for all images : {time.time() - t_split} seconds")
+    print(f"Time spent for the copmlete pipeline : {time.time() - start_time} seconds")
     doc.save(os.path.join(out_dir_ortho, '_temp_.psx'))
     
     if out_dir_project is not None :
@@ -344,7 +342,10 @@ def Time_SIFT_process(pathDIR,
         doc.save(os.path.join(out_dir_project, f"Metashape_Project_{site_name}.psx"))
         
     os.remove(os.path.join(out_dir_ortho, '_temp_.psx'))
-    shutil.rmtree(os.path.join(out_dir_ortho, '_temp_.files'))
+    try:
+        shutil.rmtree(os.path.join(out_dir_ortho, '_temp_.files'))
+    except Exception as e:
+        print(f"{e}\nThere was an error trying to delete the temp project at {os.path.join(out_dir_ortho, '_temp_.files')}. Please delete it manually")
     
 
 if __name__ == '__main__':

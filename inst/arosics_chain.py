@@ -291,7 +291,7 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
     else:
         return CR.coreg_info
 
-def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'global', max_shift=250, max_iter=100, grid_res=1000, window_size=None, window_pos = (None, None), mp=None, compress_lzw=False, save_data = True, save_vector_plot = False, dynamic_corr = False, apply_matrix=False):
+def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'global', max_shift=250, max_iter=100, grid_res=1000, window_size=None, window_pos = (None, None), mp=None, compress_lzw=False, save_data = True, save_vector_plot = False, dynamic_corr = False, apply_matrix=False, do_subprocess=False):
     """
     Complete pipeline that uses arosics to perform a global or local co-registration on a file or a group of files located inside a folder. In the case of a local CoReg, option to save the tie points data and the vector shift map.
 
@@ -350,7 +350,18 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
         else:
             harmonize_crs(path_in, ref_filepath, compress_lzw=compress_lzw)
             path_out = os.path.join(out_dir_path, path_in.split('/')[-1].split('\\')[-1].split('.')[0] + f'_aligned_{corr_type}.tif')
-            CR_info = call_arosics(path_in, ref_filepath, path_out=path_out, corr_type=corr_type, mp=mp, window_size=window_size, window_pos=window_pos, max_shift=max_shift, max_iter=max_iter, grid_res=grid_res, save_vector_plot=save_vector_plot, save_data=save_data)
+            CR_info = call_arosics(path_in, 
+                                   ref_filepath, 
+                                   path_out=path_out, 
+                                   corr_type=corr_type, 
+                                   mp=mp, 
+                                   window_size=window_size, 
+                                   window_pos=window_pos, 
+                                   max_shift=max_shift, 
+                                   max_iter=max_iter, 
+                                   grid_res=grid_res, 
+                                   save_vector_plot=save_vector_plot, 
+                                   save_data=save_data)
             return CR_info
             
     elif os.path.isdir(path_in):
@@ -368,22 +379,37 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
                 current_file_path = os.path.join(path_in, file)
                 harmonize_crs(current_file_path, ref_filepath, check_ref = True if i==0 else False, compress_lzw=compress_lzw)
                 path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f'_aligned_{corr_type}.tif')
-                CR_info = call_arosics(current_file_path, ref_filepath, path_out=path_out, corr_type=corr_type, mp=mp, window_size=window_size, window_pos=window_pos, max_shift=max_shift, max_iter=max_iter, grid_res=grid_res, save_vector_plot=save_vector_plot, save_data=save_data)
-                queue = multiprocessing.Queue()
-                process = multiprocessing.Process(target=call_arosics, args=(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, grid_res, save_data, save_vector_plot, queue))
-                process.start()
-                process.join()     
-                # Terminate the process if needed (ensure cleanup)
-                if corr_type=='global':
-                    CR_info = queue.get()
-                list_CR_info.append(CR_info)
-                
-                process.terminate()
 
-                if process.is_alive():         
-                    raise TimeoutError("The arosics process is taking too much time and has been terminated")
+                if not do_subprocess:
+                    CR_info = call_arosics(current_file_path, 
+                                           ref_filepath, 
+                                           path_out=path_out, 
+                                           corr_type=corr_type, 
+                                           mp=mp, 
+                                           window_size=window_size, 
+                                           window_pos=window_pos, 
+                                           max_shift=max_shift, 
+                                           max_iter=max_iter, 
+                                           grid_res=grid_res, 
+                                           save_vector_plot=save_vector_plot, 
+                                           save_data=save_data)
+                
                 else:
-                    print("Process terminated successfully")
+                    queue = multiprocessing.Queue()
+                    process = multiprocessing.Process(target=call_arosics, args=(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, grid_res, save_data, save_vector_plot, queue))
+                    process.start()
+                    process.join()     
+                    # Terminate the process if needed (ensure cleanup)
+                    if corr_type=='global':
+                        CR_info = queue.get()
+                    list_CR_info.append(CR_info)
+                    
+                    process.terminate()
+
+                    if process.is_alive():         
+                        raise TimeoutError("The arosics process is taking too much time and has been terminated")
+                    else:
+                        print("Process terminated successfully")
                 
                 if dynamic_corr:
                     ref_filepath = path_out
@@ -401,7 +427,9 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
                 dlist.append(tf[2] + tf[0]*meta['width'])
                 band_count.append(meta['count'])
             
-            
+            """
+            If the images don't all have the same extent, add padding so they do
+            """
             if not (all(x == hlist[0] for x in hlist) and all(x == glist[0] for x in glist)):     #and (np.max(dlist)-np.max(glist)) < 0.9*(np.max(dlist)-np.min(glist)) and (np.min(hlist)-np.max(blist)) < 0.9*(np.max(hlist)-np.max(blist))  #if apply_mask
                 rm_temp_files=True
                 mask_coords = [np.min(glist), np.min(blist), np.max(dlist), np.max(hlist)]
