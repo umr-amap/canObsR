@@ -19,22 +19,14 @@
 #' @import reticulate
 #'
 
-time_SIFT_in_r <- function(pathDIR,
-                           out_dir_ortho,
-                           out_dir_DEM = NULL,
-                           out_dir_project = NULL,
-                           data_type = "RGB",
-                           resol_ref = 0.05,
-                           crs = "EPSG::32622",
-                           site_name = "",
-                           calibrate_col = TRUE,
-                           sun_sensor = FALSE,
-                           group_by_flight = FALSE,
-                           downscale_factor_alignement = 1L,
+Time_SIFT_in_r <- function(pathDIR, out_dir_ortho, out_dir_DEM = NULL, out_dir_project = NULL,
+                           data_type = "RGB", resol_ref = 0.05, crs = "EPSG::32622",
+                           site_name = "", calibrate_col = TRUE, sun_sensor = FALSE,
+                           group_by_flight = FALSE, downscale_factor_alignement = 1L,
                            downscale_factor_depth_map = 2L) {
 
 
-   reticulate::source_python(system.file("__init__.py", package = "managecrownsdata"))
+   source_python(system.file("__init__.py", package = "managecrownsdata"))
 
    Time_SIFT_process(pathDIR = pathDIR,
                      out_dir_ortho = out_dir_ortho,

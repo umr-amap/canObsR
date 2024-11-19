@@ -27,8 +27,7 @@ arosics_in_r <- function(path_in, ref_filepath, out_dir_path,
                          mp = NULL, save_data = TRUE, save_vector_plot = FALSE,
                          dynamic_corr = FALSE, apply_matrix = FALSE) {
 
-
-   reticulate::source_python(system.file("__init__.py", package = "managecrownsdata"))
+   source_python(system.file("__init__.py", package = "managecrownsdata"))
 
    complete_arosics_process(path_in = path_in,
                             ref_filepath = ref_filepath,
