@@ -15,6 +15,7 @@ library(reticulate)
 library(managecrownsdata)
 #setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 #use_condaenv("C:/Users/U051-U219/miniconda3/envs/env_R")
+use_condaenv("D:/tulet/envs/pipeline")
 ```
 
 ```{r}
@@ -60,9 +61,9 @@ source_python("inst/__init__.py")
 ```{r}
 # Try TimeSIFT on test data
 
-Time_SIFT_in_r("D:/managecrownsdata/test_data/my_drone_data2", 
-               out_dir_ortho = "D:/managecrownsdata/test_data/outputs_TS/ORTHO4", 
-               out_dir_DEM = "D:/managecrownsdata/test_data/outputs_TS/DEM4",
+Time_SIFT_in_r("test_data/my_drone_data", 
+               out_dir_ortho = "test_data/outputs_TS/ORTHO", 
+               out_dir_DEM = "test_data/outputs_TS/DEM",
                data_type = "RGB",
                crs = "EPSG::32633"
                )
