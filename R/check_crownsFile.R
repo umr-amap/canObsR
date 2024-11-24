@@ -4,13 +4,28 @@
 #' Check the crown file compatibility with the `managecrownsdata` functions. Return text,
 #' that give informations about the file modifications needed.
 #'
-#' @param crownsFile A \code{sf} object for the crowns with an 'id' variable.
+#' @param crownsFile A \code{sf} object for the crowns.
 #'
 #' @return Text that give you information about your file.
 #' Indicates whether your file will be compatible or not  for the other functions of the package.
 #' Pay attention to the line starting with '-- ERROR --'.
 #' @export
 #'
+#' @examples
+#'
+#'library(sf)
+#'
+#'crownsFile <- sf::st_read(
+#'file.path(
+#'system.file(package="managecrownsdata"),
+#''crowns/Bouamir_crowns.gpkg')
+#')
+#'
+#'check_crownsFile(crownsFile)
+#'
+#'crownsFile <- crownsFile %>% dplyr::rename(geometry = geom)
+#'
+#'check_crownsFile(crownsFile)
 #' @importFrom sf st_crs
 #'
 

@@ -7,7 +7,7 @@
 check_crownsFile(crownsFile)
 }
 \arguments{
-\item{crownsFile}{A \code{sf} object for the crowns with an 'id' variable.}
+\item{crownsFile}{A \code{sf} object for the crowns.}
 }
 \value{
 Text that give you information about your file.
@@ -17,4 +17,20 @@ Pay attention to the line starting with '-- ERROR --'.
 \description{
 Check the crown file compatibility with the \code{managecrownsdata} functions. Return text,
 that give informations about the file modifications needed.
+}
+\examples{
+
+library(sf)
+
+crownsFile <- sf::st_read(
+file.path(
+system.file(package="managecrownsdata"),
+'crowns/Bouamir_crowns.gpkg')
+)
+
+check_crownsFile(crownsFile)
+
+crownsFile <- crownsFile \%>\% dplyr::rename(geometry = geom)
+
+check_crownsFile(crownsFile)
 }
