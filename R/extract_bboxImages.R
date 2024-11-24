@@ -64,7 +64,7 @@ extract_bboxImages <-
             sf::st_cast(.,"POLYGON") %>%
             dplyr::mutate(date = dates[i])
 
-         if(is.null(filename)){filename = 'NonNA_area'}
+         if(is.null(filename)){filename = 'NonNAarea'}
 
          if(!is.null(directory)){
 
