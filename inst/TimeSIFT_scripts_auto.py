@@ -293,7 +293,7 @@ def Time_SIFT_process(pathDIR,
     #TODO : store all times into log file, or add progress bars
     start_time = time.time()
     if data_type == "RGB" or data_type == "MS":
-        add_all_chunks(doc, pathDIR = pathDIR)
+        add_all_chunks(doc, pathDIR = os.path.abspath(pathDIR))
         merge_chunk_TimeSIFT(doc)
         t_add_data = time.time()
         print(f"Time spent loading and merging photos : {t_add_data - start_time} seconds")
