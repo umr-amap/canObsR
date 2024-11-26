@@ -17,7 +17,8 @@ arosics_in_r <- function(path_in, ref_filepath, out_dir_path,
     dynamic_corr = FALSE, apply_matrix = FALSE) {
 
     source_python(system.file("__init__.py", package = "managecrownsdata"))
-
+    print(dirname(rstudioapi::getSourceEditorContext()$path))
+    setwd(dirname(rstudioapi::getSourceEditorContext()$path))
     complete_arosics_process(path_in = path_in,
                             ref_filepath = ref_filepath,
                             out_dir_path = out_dir_path,
@@ -51,7 +52,8 @@ Time_SIFT_in_r <- function(pathDIR, out_dir_ortho, out_dir_DEM = NULL, out_dir_p
                          group_by_flight = FALSE, downscale_factor_alignement = 1L,
                          downscale_factor_depth_map = 2L) {
 
-
+   print(dirname(rstudioapi::getSourceEditorContext()$path))
+   setwd(dirname(rstudioapi::getSourceEditorContext()$path))
    source_python(system.file("__init__.py", package = "managecrownsdata"))
 
    Time_SIFT_process(pathDIR = pathDIR,

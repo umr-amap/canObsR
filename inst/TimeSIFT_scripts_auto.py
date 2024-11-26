@@ -51,7 +51,7 @@ def add_all_chunks(doc, pathDIR=None):
     Loads all RGB photos into the project, one chunk per subfolder in pathDIR
     """
     print(pathDIR)
-    os.chdir(pathDIR)
+    #os.chdir(pathDIR)
     epochs = os.listdir(pathDIR)
     # we select only the non-empty subfolders
     list_files = [] 
@@ -66,7 +66,7 @@ def add_all_chunks(doc, pathDIR=None):
     for chk in doc.chunks:
         doc.remove(chk)
     for i in range(len(ep_relative_paths)):
-        ep_name, ep_path = epochs[i], ep_relative_paths[i]
+        ep_name, ep_path = epochs[i], os.path.join(pathDIR, ep_relative_paths[i])
         add_TimeSIFT_chunk(doc, ep_path = ep_path, epoch_name = ep_name)
 
 
