@@ -344,6 +344,9 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
 
     extensions = ('.tif', '.tiff', '.TIF', '.TIFF')
 
+    path_in = os.path.abspath(path_in)
+    out_dir_path = os.path.abspath(out_dir_path)
+
     if os.path.isfile(path_in):
         if not path_in.endswith(extensions):
             raise ValueError(f"The specified file '{path_in}' must be of GeoTiff format")
@@ -366,7 +369,6 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
             
     elif os.path.isdir(path_in):
         
-        path_in = os.path.abspath(path_in)
         files = [file for file in sorted(os.listdir(path_in)) if file.endswith(extensions)]
         print("files : ", files)
 

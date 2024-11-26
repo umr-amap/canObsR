@@ -277,6 +277,8 @@ def Time_SIFT_process(pathDIR,
     if site_name != "":
        site_name = "_" + site_name
 
+    out_dir_ortho = os.path.abspath(out_dir_ortho)
+
     calibrate_col = str2bool(calibrate_col)
     sun_sensor = str2bool(sun_sensor)
     group_by_flight = str2bool(group_by_flight)
@@ -287,8 +289,10 @@ def Time_SIFT_process(pathDIR,
     if out_dir_DEM is not None:  
         if out_dir_DEM == "" :
            out_dir_DEM = os.path.join(os.path.dirname(out_dir_ortho), "DEM")
-        if not os.path.exists(out_dir_DEM):
-           os.mkdir(out_dir_DEM)
+        else:
+            out_dir_DEM = os.path.abspath(out_dir_DEM)
+            if not os.path.exists(out_dir_DEM):           
+                os.mkdir(out_dir_DEM)
 
     #TODO : store all times into log file, or add progress bars
     start_time = time.time()
@@ -337,8 +341,10 @@ def Time_SIFT_process(pathDIR,
     if out_dir_project is not None :
         if out_dir_project == "" :
             out_dir_project = out_dir_ortho
-        if not os.path.exists(out_dir_project):
-            os.mkdir(out_dir_project)
+        else:
+            out_dir_project = os.path.abspath(out_dir_project)
+            if not os.path.exists(out_dir_project):
+                os.mkdir(out_dir_project)
         doc.save(os.path.join(out_dir_project, f"Metashape_Project_{site_name}.psx"))
         
     os.remove(os.path.join(out_dir_ortho, '_temp_.psx'))
