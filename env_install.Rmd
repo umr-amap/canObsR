@@ -13,9 +13,9 @@ After completing the installation steps, you can create your own python environm
 # Imports
 library(reticulate)
 library(managecrownsdata)
-#setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-#use_condaenv("C:/Users/U051-U219/miniconda3/envs/env_R")
-use_condaenv("D:/tulet/envs/pipeline")
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+use_condaenv("C:/Users/U051-U219/miniconda3/envs/env_R")
+#use_condaenv("D:/tulet/envs/pipeline")
 ```
 
 ```{r}
@@ -61,9 +61,9 @@ source_python("inst/__init__.py")
 ```{r}
 # Try TimeSIFT on test data
 
-Time_SIFT_in_r("test_data/my_drone_data", 
-               out_dir_ortho = "test_data/outputs_TS/ORTHO", 
-               out_dir_DEM = "test_data/outputs_TS/DEM",
+Time_SIFT_in_r("test_data/my_drone_data3", 
+               out_dir_ortho = "test_data/outputs_TS/ORTHO_24p", 
+               #out_dir_DEM = "test_data/outputs_TS/DEM",
                data_type = "RGB",
                crs = "EPSG::32633"
                )
@@ -71,8 +71,8 @@ Time_SIFT_in_r("test_data/my_drone_data",
 
 ```{r}
 # Try arosics on test data
-arosics_in_r(path_in = "D:/managecrownsdata/test_data/outputs_TS/ORTHO4",
-             ref_filepath = "D:/managecrownsdata/test_data/Bouamir_LIDAR_ref_2022.tif", 
+arosics_in_r(path_in = "test_data/outputs_TS/ORTHO_24p",
+             ref_filepath = "test_data/Bouamir_LiDAR_mars2022_ref_red.tif", 
              #"D:/managecrownsdata/test_data/outputs_TS/ORTHO4/20220511_ORTHO.tif",
              out_dir_path = "D:/managecrownsdata/test_data/outputs_arosics",
              corr_type = "global",

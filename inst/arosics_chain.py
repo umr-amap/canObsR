@@ -345,6 +345,7 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
     extensions = ('.tif', '.tiff', '.TIF', '.TIFF')
 
     path_in = os.path.abspath(path_in)
+    ref_filepath = os.path.abspath(ref_filepath)
     out_dir_path = os.path.abspath(out_dir_path)
 
     if os.path.isfile(path_in):
