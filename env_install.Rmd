@@ -71,8 +71,9 @@ Time_SIFT_in_r("test_data/my_drone_data",
 
 ```{r}
 # Try arosics on test data
-arosics_in_r(path_in = "D:/managecrownsdata/test_data/outputs_TS/ORTHO4/20220427_ORTHO.tif",
-             ref_filepath = "D:/managecrownsdata/test_data/outputs_TS/ORTHO4/20220511_ORTHO.tif", #"D:/managecrownsdata/test_data/Bouamir_LIDAR_ref_2022.tif",
+arosics_in_r(path_in = "D:/managecrownsdata/test_data/outputs_TS/ORTHO4",
+             ref_filepath = "D:/managecrownsdata/test_data/Bouamir_LIDAR_ref_2022.tif", 
+             #"D:/managecrownsdata/test_data/outputs_TS/ORTHO4/20220511_ORTHO.tif",
              out_dir_path = "D:/managecrownsdata/test_data/outputs_arosics",
              corr_type = "global",
              window_size = 500,
