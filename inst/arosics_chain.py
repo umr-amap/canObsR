@@ -366,6 +366,7 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
             
     elif os.path.isdir(path_in):
         
+        path_in = os.path.abspath(path_in)
         files = [file for file in sorted(os.listdir(path_in)) if file.endswith(extensions)]
         print("files : ", files)
 
