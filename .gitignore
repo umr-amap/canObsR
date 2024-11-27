@@ -7,3 +7,6 @@
 docs
 inst/doc
 test_data/*
+*.md
+pandoc*
+*.html
