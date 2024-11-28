@@ -4,6 +4,16 @@ output: html_notebook
 ---
 <h1>Environment setup</h1>
 
+<h2>R package</h2>
+
+If not already installed, you can use devtools to install the "managecrownsdata" package :
+
+```{r}
+library(devtools)
+install_github("https://github.com/hugolblc/managecrownsdata.git")
+```
+<h2>Python environment</h2>
+
 First, make sure you have python>3.9 and anaconda / miniconda installed on your device.
 If not, you can download them using the following links :
 

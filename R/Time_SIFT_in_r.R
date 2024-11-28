@@ -24,29 +24,30 @@
 #'
 #' @return None
 #'
-#' #' @examples
+#' @examples
 #'
 #' library(reticulate)
 #'
-#'Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
-#'               out_dir_ortho = "my_output_folder/ORTHO",
-#'               #out_dir_DEM = "my_output_folder/DEM",
-#'               data_type = "RGB",
-#'               resol_ref = 0.5,
-#'               site_name = "Bouamir",
-#'               crs = "EPSG::32633",
-#'               )
+#' Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
+#'                out_dir_ortho = "my_output_folder/ORTHO",
+#'                #out_dir_DEM = "my_output_folder/DEM",
+#'                data_type = "RGB",
+#'                resol_ref = 0.5,
+#'                site_name = "Bouamir",
+#'                crs = "EPSG::32633",
+#'                )
 #'
-#'Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
-#'               out_dir_ortho = "my_output_folder/ORTHO",
-#'               #out_dir_DEM = "my_output_folder/DEM",
-#'               data_type = "MS",
-#'               sun_sensor = TRUE,
-#'               crs = "EPSG::32622",
-#'               downscale_factor_depth_map = 4,
-#'               group_by_flight = TRUE
-#'               )
+#' Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
+#'                out_dir_ortho = "my_output_folder/ORTHO",
+#'                #out_dir_DEM = "my_output_folder/DEM",
+#'                data_type = "MS",
+#'                sun_sensor = TRUE,
+#'                crs = "EPSG::32622",
+#'                downscale_factor_depth_map = 4,
+#'                group_by_flight = TRUE
+#'                )
 #'
+
 
 Time_SIFT_in_r <- function(pathDIR, out_dir_ortho, out_dir_DEM = NULL, out_dir_project = NULL,
                            data_type = "RGB", resol_ref = 0.05, crs = "EPSG::32622",
