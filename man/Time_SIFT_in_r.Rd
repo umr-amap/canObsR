@@ -63,21 +63,41 @@ as long as the date is specified in the folders' name in YYYYMMDD/YYYYMM format.
 \item{downscale_factor_alignement}{int. Alignment accuracy (0 - Highest, 1 - High, 2 - Medium, 4 - Low, 8 - Lowest). Defaults to 1.}
 
 \item{downscale_factor_depth_map}{int. Depth map quality (1 - Ultra high, 2 - High, 4 - Medium, 8 - Low, 16 - Lowest). Defaults to 2.}
-
-\item{crownFile}{A sf object}
 }
 \value{
 None
 
-Text that give you information about your file.
-Indicates whether your file will be compatible or not  for the other functions of the package.
-Pay attention to the line starting with '-- ERROR --'.
+None
 }
 \description{
+Implementation in R of a pipeline that performs the Time-SIFT process to time series of drone images using the Metashape python API. All photos are loaded and aligned, then orthomosaics and (optionally) DEMs will be generated for each date or flight.
+
 Implementation in R of a pipeline that performs the Time-SIFT process to time series of drone images using the Metashape python API.
 All photos are loaded and aligned, then orthomosaics and (optionally) DEMs will be generated for each date or flight.
 }
 \examples{
+
+library(reticulate)
+
+Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
+               out_dir_ortho = "my_output_folder/ORTHO",
+               #out_dir_DEM = "my_output_folder/DEM",
+               data_type = "RGB",
+               resol_ref = 0.5,
+               site_name = "Bouamir",
+               crs = "EPSG::32633",
+               )
+
+Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
+               out_dir_ortho = "my_output_folder/ORTHO",
+               #out_dir_DEM = "my_output_folder/DEM",
+               data_type = "MS",
+               sun_sensor = TRUE,
+               crs = "EPSG::32622",
+               downscale_factor_depth_map = 4,
+               group_by_flight = TRUE
+               )
+
 
 library(reticulate)
 

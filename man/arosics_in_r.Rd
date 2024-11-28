@@ -69,8 +69,6 @@ using 'ref_filepath' as the reference image. If True, image 1 will use 'ref_file
 \item{apply_matrix}{logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently.
 Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created.
 We hope to change that soon ; until then, apply_matrix is disabled by default)}
-
-\item{crownFile}{A sf object}
 }
 \value{
 None
@@ -109,10 +107,44 @@ apply_matrix = TRUE,
 mp = 1,
 )
 
-Text that give you information about your file.
-Indicates whether your file will be compatible or not  for the other functions of the package.
-Pay attention to the line starting with '-- ERROR --'.
+None
+
+#' @examples
+
+library(reticulate)
+
+arosics_in_r(path_in = "path_to_ortho.tif",
+ref_filepath = "ref_image.tif",
+out_dir_path = "my_output_dir",
+corr_type = "local",
+grid_res = 500,
+save_data = TRUE,
+save_vector_plot = TRUE,
+)
+
+arosics_in_r(path_in = "path_to_input_folder",
+ref_filepath = "ref_image.tif",
+out_dir_path = "my_output_dir",
+corr_type = "local",
+grid_res = 500,
+save_data = FALSE,
+dynamic_corr = TRUE,
+mp = 5,
+)
+
+arosics_in_r(path_in = "path_to_input_folder",
+ref_filepath = "ref_image.tif",
+out_dir_path = "my_output_dir",
+corr_type = "global",
+max_shift = 200,
+save_data = TRUE,
+dynamic_corr = FALSE,
+apply_matrix = TRUE,
+mp = 1,
+)
 }
 \description{
+Implementation in R of a pipeline that uses arosics(\href{https://github.com/GFZ/arosics}{AROSICS}) to perform a global or local co-registration on a file or a group of files located inside a folder
+
 Implementation in R of a pipeline that uses arosics(\href{https://github.com/GFZ/arosics}{AROSICS}) to perform a global or local co-registration on a file or a group of files located inside a folder
 }

@@ -1,11 +1,9 @@
 #' Implement Time-SIFT in R
 #'
 #' @description
-#' Implementation in R of a pipeline that performs the Time-SIFT process to time series of drone images using the Metashape python API.
-#' All photos are loaded and aligned, then orthomosaics and (optionally) DEMs will be generated for each date or flight.
+#' Implementation in R of a pipeline that performs the Time-SIFT process to time series of drone images using the Metashape python API. All photos are loaded and aligned, then orthomosaics and (optionally) DEMs will be generated for each date or flight.
 #'
-#' @param pathDIR chr. Path to the folder where the data is located. Inside this folder, any structure of subfolders containing images is accepted,
-#' as long as the date is specified in the folders' name in YYYYMMDD/YYYYMM format. This date is what will be used later to distinct which image belongs to which date when building orthomosaics.
+#' @param pathDIR chr. Path to the folder where the data is located. Inside this folder, any structure of subfolders containing images is accepted, as long as the date is specified in the folders' name in YYYYMMDD/YYYYMM format. This date is what will be used later to distinct which image belongs to which date when building orthomosaics.
 #' @param out_dir_ortho chr. Folder where the orthomosaics are saved.
 #' @param out_dir_DEM chr. Folder where the DEMs are saved. If no path is specified, the DEMs are not saved by default.
 #' @param out_dir_project chr. Folder where the Metashape project is saved. If no path is specified, the project is not saved by default.
