@@ -302,12 +302,12 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
     :param int max_shift: Maximum shift distance in reference image pixel units.
     :param int max_iter: Maximum number of iterations for matching (default: 5).
     :param int grid_res: Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration.
-    :param int window_size: Custom matching window size [pixels] as (X, Y) tuple (default: (256,256)).
+    :param int window_size: Custom matching window size [pixels] as (X, Y) tuple.
     :param tuple window_pos: Custom matching window position as (X, Y) map coordinate in the same projection as the reference image (default: central position of image overlap). Only used when performing global co-registration.
     :param int mp: Number of CPUs to use. If None (default), all available CPUs are used. If mp=1, no multiprocessing is done.
     :param bool compress_lzw:  If True (default), perform a lzw compression on the image(s)
     :param bool save_data: If True (default), saves the transformation metadata in a .pkl file, and the tie points data in a csv file. The latter only happens when performing local co-registration
-    :param bool save_vector_plot: If True (default), saves the a map of the calculated tie point grid in a JPEG file. Has an effect only when performing local co-registration.
+    :param bool save_vector_plot: If True, saves the a map of the calculated tie point grid in a JPEG file. Has an effect only when performing local co-registration.
     :param bool dynamic_corr: When correcting multiple images, whether or not to use the last corrected image as reference for the next co-registration.
         If False (default), all images are corrected using 'ref_filepath' as the reference image.
         If True, image 1 will use 'ref_filepath' as a reference, then image N (N>=2) will use the corrected version of image N-1 as reference.

@@ -12,6 +12,12 @@ https://www.anaconda.com/download/
 
 After completing the installation steps, you can create your own python environment that will contain everything you need to call this package's functions
 
+```{r}
+# Imports
+library(reticulate)
+library(managecrownsdata)
+library(knitr)
+```
 
 ```{r}
 # Python env creation
