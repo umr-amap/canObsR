@@ -285,7 +285,7 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
             DPI=300
             vector_scale=15
             CR.view_CoRegPoints(shapes2plot = 'vectors', savefigPath = path_out.split('.')[0] + f"_vector_map_{DPI}DPI.JPEG", savefigDPI=DPI, vector_scale=vector_scale, backgroundIm='tgt')
-        compress_LZW(path_out)
+        #compress_LZW(path_out)
     if queue and corr_type=="global":
         queue.put(CR.coreg_info)
     else:

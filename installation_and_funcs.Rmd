@@ -26,7 +26,6 @@ After completing the installation steps, you can create your own python environm
 # Imports
 library(reticulate)
 library(managecrownsdata)
-library(knitr)
 ```
 
 ```{r}
@@ -35,12 +34,6 @@ env_name <- "managecrownsdata_env"         #use the name you want for your envir
 
 conda_create(env_name, environment = "environment.yaml")
 use_condaenv(env_name)
-```
-
-```{r}
-# Using pip
-virtualenv_install("pipeline_test_R", requirements = "requirements.txt")
-use_virtualenv("pipeline_test_R")
 ```
 
 The environment you just created contains already all necessary dependences but the Metashape python API, which is required to align photos using TimeSIFT.
@@ -53,20 +46,22 @@ path_to_whl_file <- "C:/Users/user1/Downloads/Metashape-2.1.3-cp37.cp38.cp39.cp3
 
 py_install(path_to_whl_file, envname = env_name, pip=TRUE)
 ```
+<h3>Metashape license activation</h3>
 
 Your python environment should be ready for use now. However, Agisoft Metashape requires a paid license in order to access all its features.
 It is not necessary to have the Metashape application installed on your device in order for the python API to work, but whether or not the application is installed and/or activated, the API still needs to be activated using a license key (it can be the same used for the application if it is already installed).
 
 To activate the key, follow these steps :
 
-```{r}
-# Metashape license activation
+- Open an anaconda command prompt
+- Activate the environnement you just created :
+$ conda activate managecrownsdata_env
+- start python and activate the licence :
+$ python
+>>> import Metashape
+>>> Metashape.license.activate("AAAA-BBBB-CCCC-DDDD")           #replace with your license key
 
-your_license_key <- "AAAA-BBBB-CCCC-DDDD"
-
-
-```
-You should be good to go !
+If that works, you can close the command prompt. You should be good to go !
 
 ---
 
@@ -76,12 +71,10 @@ You should be good to go !
 # Imports
 library(reticulate)
 library(managecrownsdata)
-library(knitr)
 
 
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-use_condaenv("C:/Users/U051-U219/miniconda3/envs/env_R")
-#use_condaenv("D:/tulet/envs/pipeline")
+use_condaenv(env_name)
 ```
 
 Please download the exemple data at : ..., and extract it into the package folder
@@ -137,8 +130,8 @@ First, we will use the Time-SIFT method to align all the photos with each other 
 ```{r}
 # Try TimeSIFT on test data
 
-Time_SIFT_in_r("test_data/my_drone_data3", 
-               out_dir_ortho = "test_data/outputs_TS/ORTHO_24p", 
+Time_SIFT_in_r("test_data/my_drone_data", 
+               out_dir_ortho = "test_data/outputs_TS/ORTHO", 
                #out_dir_DEM = "test_data/outputs_TS/DEM",
                data_type = "RGB",
                crs = "EPSG::32633"
@@ -148,8 +141,8 @@ Time_SIFT_in_r("test_data/my_drone_data3",
 # Conversion to png for display purposes
 library(magick)
 
-image_write(image_read("test_data/outputs_TS/ORTHO_24p/20220427_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO_24p/20220427_ORTHO.png", format = "png", quality=100)
-image_write(image_read("test_data/outputs_TS/ORTHO_24p/20220511_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO_24p/20220511_ORTHO.png", format = "png", quality=100)
+image_write(image_read("test_data/outputs_TS/ORTHO/20220427_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/20220427_ORTHO.png", format = "png", quality=100)
+image_write(image_read("test_data/outputs_TS/ORTHO/20220511_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/20220511_ORTHO.png", format = "png", quality=100)
 ```
 
 
@@ -169,16 +162,15 @@ image_write(image_read("test_data/outputs_TS/ORTHO_24p/20220511_ORTHO.tif"), pat
 <h2>Arosics</h2>
 ```{r}
 # Try arosics on test data
-arosics_in_r(path_in = "test_data/outputs_TS/ORTHO_24p",
+arosics_in_r(path_in = "test_data/outputs_TS/ORTHO/20220427_ORTHO.tif",
              ref_filepath = "test_data/Bouamir_LiDAR_mars2022_ref_red.tif", 
              #"D:/managecrownsdata/test_data/outputs_TS/ORTHO4/20220511_ORTHO.tif",
              out_dir_path = "test_data/outputs_arosics",
-             corr_type = "local",
-             grid_res = 200,
+             corr_type = "global",
+             #grid_res = 200,
              window_size = 500,
-             apply_matrix = FALSE,
-             save_data = FALSE,
-             dynamic_corr = FALSE,
+             window_pos = list(258131, 352973),
+             save_data = TRUE,
              )
 ```
 

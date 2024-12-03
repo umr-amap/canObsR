@@ -51,7 +51,7 @@ def add_all_chunks(doc, pathDIR=None):
     Loads all RGB photos into the project, one chunk per subfolder in pathDIR
     """
     print(pathDIR)
-    os.chdir(pathDIR)
+    #os.chdir(pathDIR)
     epochs = os.listdir(pathDIR)
     # we select only the non-empty subfolders
     list_files = [] 
@@ -105,7 +105,7 @@ def merge_chunk_TimeSIFT(doc):
         doc.remove(chk_sel)
         for cam in [i for i in merged_chunk.cameras if re.search(chk_sel.label,i.label) is not None]:
             cam.transform = None
-    print("Temps écoulé pour la fusion : ", time.time() - start_time)
+    print("Time spent merging photos : ", time.time() - start_time)
 
 
 def align_TimeSIFT_chunk(doc, downscale_factor = 1):
@@ -132,7 +132,7 @@ def align_TimeSIFT_chunk(doc, downscale_factor = 1):
     TS_chunk.resetRegion()
     TS_chunk.optimizeCameras()
     TS_chunk.updateTransform()
-    print("Temps écoulé pour l'alignement : ", time.time() - start_time)
+    print("Temps spent aligning photos : ", time.time() - start_time)
 
 
 def split_TimeSIFT_chunk(doc, group_by_flight = False):
@@ -346,7 +346,8 @@ def Time_SIFT_process(pathDIR,
             if not os.path.exists(out_dir_project):
                 os.mkdir(out_dir_project)
         doc.save(os.path.join(out_dir_project, f"Metashape_Project_{site_name}.psx"))
-        
+    
+    doc.clear()
     os.remove(os.path.join(out_dir_ortho, '_temp_.psx'))
     try:
         shutil.rmtree(os.path.join(out_dir_ortho, '_temp_.files'))
