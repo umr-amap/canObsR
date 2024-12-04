@@ -186,7 +186,7 @@ def to_GCPList(points_table, fill_val=-9999):
     
 
 
-def apply_saved_matrix(im_path, out_dir_path, metadata_path, GCP_path = None):
+def apply_saved_matrix(im_path, out_dir_path, metadata_path, GCP_path = None, suffix=""):
     """
     Calls arosics functions to perform a global or local co-registration between two images. Option to save the coregistrated image, and in the case of a local CoReg, the tie points data and the vector shift map.
 
@@ -214,7 +214,7 @@ def apply_saved_matrix(im_path, out_dir_path, metadata_path, GCP_path = None):
         
         coreg_info['GCPList'] = to_GCPList(GCP_df, -9999)
         current_file_path = os.path.join(im_path, file)
-        path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f'_aligned_{corr_type}.tif')
+        path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}")               #
         CR = DESHIFTER(current_file_path, coreg_info, path_out=path_out, fmt_out="GTIFF")
         CR.correct_shifts() 
 
@@ -291,7 +291,24 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
     else:
         return CR.coreg_info
 
-def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'global', max_shift=250, max_iter=100, grid_res=1000, window_size=None, window_pos = (None, None), mp=None, compress_lzw=False, save_data = True, save_vector_plot = False, dynamic_corr = False, apply_matrix=False, do_subprocess=False):
+def complete_arosics_process(path_in, 
+                             ref_filepath, 
+                             out_dir_path, 
+                             corr_type = 'global', 
+                             max_shift=250,
+                             max_iter=100, 
+                             grid_res=1000, 
+                             window_size=None, 
+                             window_pos = (None, None), 
+                             mp=None, 
+                             compress_lzw=False, 
+                             save_data = True, 
+                             save_vector_plot = False, 
+                             dynamic_corr = False, 
+                             apply_matrix=False, 
+                             do_subprocess=False, 
+                             suffix = "",
+                             ):
     """
     Complete pipeline that uses arosics to perform a global or local co-registration on a file or a group of files located inside a folder. In the case of a local CoReg, option to save the tie points data and the vector shift map.
 
@@ -353,7 +370,7 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
             raise ValueError(f"The specified file '{path_in}' must be of GeoTiff format")
         else:
             harmonize_crs(path_in, ref_filepath, compress_lzw=compress_lzw)
-            path_out = os.path.join(out_dir_path, path_in.split('/')[-1].split('\\')[-1].split('.')[0] + f'_aligned_{corr_type}.tif')
+            path_out = os.path.join(out_dir_path, path_in.split('/')[-1].split('\\')[-1].split('.')[0] + f"{suffix}")           #f'_aligned_{corr_type}.tif'
             CR_info = call_arosics(path_in, 
                                    ref_filepath, 
                                    path_out=path_out, 
@@ -382,7 +399,7 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
                 file = files[i]
                 current_file_path = os.path.join(path_in, file)
                 harmonize_crs(current_file_path, ref_filepath, check_ref = True if i==0 else False, compress_lzw=compress_lzw)
-                path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f'_aligned_{corr_type}.tif')
+                path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}")
 
                 if not do_subprocess:
                     CR_info = call_arosics(current_file_path, 
@@ -476,7 +493,7 @@ def complete_arosics_process(path_in, ref_filepath, out_dir_path, corr_type = 'g
 
             first_file = files[0]
             harmonize_crs(os.path.join(path_in, first_file), ref_filepath, compress_lzw=compress_lzw)
-            path_out = os.path.join(out_dir_path, first_file.split('.')[0].replace("_temp", "") + f'_aligned_{corr_type}.tif')
+            path_out = os.path.join(out_dir_path, first_file.split('.')[0].replace("_temp", "") + f"{suffix}")
             CR_info = call_arosics(os.path.join(path_in, first_file), ref_filepath, path_out=path_out, corr_type=corr_type, mp=mp, window_size=window_size, window_pos=window_pos, max_shift=max_shift, max_iter=max_iter, grid_res=grid_res, save_vector_plot=save_vector_plot, save_data=save_data)
             """"
             queue = multiprocessing.Queue()
