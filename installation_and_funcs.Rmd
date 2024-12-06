@@ -73,7 +73,7 @@ library(reticulate)
 library(managecrownsdata)
 
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-use_condaenv(env_name)
+use_condaenv("C:/Users/U051-U219/miniconda3/envs/env_R")
 ```
 
 Please download the exemple data at : ..., and extract it into the package folder
@@ -83,15 +83,15 @@ Our test data consists of a few drone images of the same zone taken at two diffe
 <h3>Date 1 :</h3>
 <div style="display: flex; justify-content: space-around;">
   <figure style="text-align: center;">
-    <img src="test_data/my_drone_data3/RGB_20220427/DJI_0070.JPG" alt="Image 1" width="300" />
+    <img src="test_data/my_drone_data/RGB_20220427/DJI_0070.JPG" alt="Image 1" width="300" />
     <figcaption>Image1</figcaption>
   </figure>
   <figure style="text-align: center;">
-    <img src="test_data/my_drone_data3/RGB_20220427/DJI_0074.JPG" alt="Image 2" width="300" />
+    <img src="test_data/my_drone_data/RGB_20220427/DJI_0074.JPG" alt="Image 2" width="300" />
     <figcaption>Image 5</figcaption>
   </figure>
   <figure style="text-align: center;">
-    <img src="test_data/my_drone_data3/RGB_20220427/DJI_0079.JPG" alt="Image 3" width="300" />
+    <img src="test_data/my_drone_data/RGB_20220427/DJI_0079.JPG" alt="Image 3" width="300" />
     <figcaption>Image 10</figcaption>
   </figure>
 </div>
@@ -99,15 +99,15 @@ Our test data consists of a few drone images of the same zone taken at two diffe
 <h3>Date 2 :</h3>
 <div style="display: flex; justify-content: space-around;">
   <figure style="text-align: center;">
-    <img src="test_data/my_drone_data3/RGB_20220511/DJI_0278.JPG" alt="Image 1" width="300" />
+    <img src="test_data/my_drone_data/RGB_20220511/DJI_0278.JPG" alt="Image 1" width="300" />
     <figcaption>Image 1</figcaption>
   </figure>
   <figure style="text-align: center;">
-    <img src="test_data/my_drone_data3/RGB_20220511/DJI_0282.JPG" alt="Image 2" width="300" />
+    <img src="test_data/my_drone_data/RGB_20220511/DJI_0282.JPG" alt="Image 2" width="300" />
     <figcaption>Image 5</figcaption>
   </figure>
   <figure style="text-align: center;">
-    <img src="test_data/my_drone_data3/RGB_20220511/DJI_0287.JPG" alt="Image 3" width="300" />
+    <img src="test_data/my_drone_data/RGB_20220511/DJI_0287.JPG" alt="Image 3" width="300" />
     <figcaption>Image 10</figcaption>
   </figure>
 </div>
@@ -133,26 +133,34 @@ Time_SIFT_in_r("test_data/my_drone_data",
                out_dir_ortho = "test_data/outputs_TS/ORTHO", 
                #out_dir_DEM = "test_data/outputs_TS/DEM",
                data_type = "RGB",
-               crs = "EPSG::32633"
+               crs = "EPSG::32633",
+               site_name = "Bouamir",
                )
 
 
 # Conversion to png for display purposes
 library(magick)
 
-image_write(image_read("test_data/outputs_TS/ORTHO/20220427_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/20220427_ORTHO.png", format = "png", quality=100)
-image_write(image_read("test_data/outputs_TS/ORTHO/20220511_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/20220511_ORTHO.png", format = "png", quality=100)
+image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.png", format = "png", quality=100)
+image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.png", format = "png", quality=100)
 ```
 
+
+```
+library(magick)
+
+image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.png", format = "png", quality=100)
+image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.png", format = "png", quality=100)
+```
 
 <h3>Resulting orthomosaics :</h3>
 <div style="display: flex; justify-content: space-around;">
   <figure style="text-align: center;">
-    <img src="test_data/outputs_TS/ORTHO_24p/20220427_ORTHO.png" alt="Image 1" width="300" />
+    <img src="test_data/outputs_TS/ORTH/Bouamir_20220427_ORTHO.png" alt="Image 1" width="300" />
     <figcaption>Date 1</figcaption>
   </figure>
   <figure style="text-align: center;">
-    <img src="test_data/outputs_TS/ORTHO_24p/20220511_ORTHO.png" alt="Image 1" width="300" />
+    <img src="test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.png" alt="Image 1" width="300" />
     <figcaption>Date 2</figcaption>
   </figure>
 </div>
@@ -161,7 +169,7 @@ image_write(image_read("test_data/outputs_TS/ORTHO/20220511_ORTHO.tif"), path = 
 <h2>Arosics</h2>
 ```{r}
 # Try arosics on test data
-arosics_in_r(path_in = "test_data/outputs_TS/ORTHO/20220427_ORTHO.tif",
+arosics_in_r(path_in = "test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif",
              ref_filepath = "test_data/Bouamir_LiDAR_mars2022_ref_red.tif", 
              #"D:/managecrownsdata/test_data/outputs_TS/ORTHO4/20220511_ORTHO.tif",
              out_dir_path = "test_data/outputs_arosics",
@@ -169,18 +177,19 @@ arosics_in_r(path_in = "test_data/outputs_TS/ORTHO/20220427_ORTHO.tif",
              #grid_res = 200,
              window_size = 500,
              window_pos = list(258131, 352973),
-             save_data = TRUE,
+             save_data = FALSE,
              )
 ```
 
  
 <h2>Vegetation indexes</h2>
 
-Now that you have correctly aligned orthomosaics, you can
+Now that you have correctly aligned orthomosaics, you can use a crown delimitation shapefile to do multiple actions, such as computing indexes for each of these crowns :
 
 ```{r}
 library(sf)
 res <- managecrownsdata::extract_rgbValues(crownsFile = sf::read_sf("test_data/Bouamir_crowns_2024_11_04_filtered.gpkg"), 
                          path_images = list.files("test_data/outputs_arosics/", full.names = TRUE),
                          )
+print(res)
 ```
