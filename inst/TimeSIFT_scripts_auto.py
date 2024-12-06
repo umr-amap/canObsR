@@ -223,17 +223,17 @@ def process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = None, out_di
         doc.save(os.path.join(out_dir_ortho, '_temp_.psx'))
 
         try :
-            NewChunk.exportRaster(os.path.join(out_dir_ortho, f"{str(NewChunk.label)}{site_name}{suffix}.tif"),source_data=scan.OrthomosaicData, image_format=scan.ImageFormatTIFF,
+            NewChunk.exportRaster(os.path.join(out_dir_ortho, f"{site_name}{str(NewChunk.label)}{suffix}.tif"),source_data=scan.OrthomosaicData, image_format=scan.ImageFormatTIFF,
                                 projection=proj, resolution=resol_ref,clip_to_boundary=True,save_alpha=False, split_in_blocks = False, image_compression = img_compress)
             
         # if the raster file is too big and bigTiff doesn't work for some reason, it will be divided into 10000*10000 blocks
         except:
-            os.remove(os.path.join(out_dir_ortho, f"{str(NewChunk.label)}{site_name}{suffix}.tif"))
-            NewChunk.exportRaster(os.path.join(out_dir_ortho, f"{str(NewChunk.label)}{site_name}{suffix}.tif"),source_data=scan.OrthomosaicData, image_format=scan.ImageFormatTIFF,
+            os.remove(os.path.join(out_dir_ortho, f"{site_name}{str(NewChunk.label)}{suffix}.tif"))
+            NewChunk.exportRaster(os.path.join(out_dir_ortho, f"{site_name}{str(NewChunk.label)}{suffix}.tif"),source_data=scan.OrthomosaicData, image_format=scan.ImageFormatTIFF,
                                     projection=proj, resolution=resol_ref,clip_to_boundary=True,save_alpha=False, split_in_blocks = True, block_width=10000, block_height=10000, image_compression=img_compress)
 
         if out_dir_DEM is not None:
-            NewChunk.exportRaster(os.path.join(out_dir_DEM, f"{str(NewChunk.label)}{site_name}{suffix}.tif"),source_data=scan.ElevationData, image_format=scan.ImageFormatTIFF, image_compression = img_compress,
+            NewChunk.exportRaster(os.path.join(out_dir_DEM, f"{site_name}{str(NewChunk.label)}{suffix}.tif"),source_data=scan.ElevationData, image_format=scan.ImageFormatTIFF, image_compression = img_compress,
                                 projection=proj, resolution=resol_ref,clip_to_boundary=True, save_alpha=False)
 
 
@@ -277,7 +277,7 @@ def Time_SIFT_process(pathDIR,
     assert data_type in ["RGB", "MS"]
     #for file naming purposes
     if site_name != "":
-       site_name = "_" + site_name
+       site_name = site_name + "_"
 
     out_dir_ortho = os.path.abspath(out_dir_ortho)
 
