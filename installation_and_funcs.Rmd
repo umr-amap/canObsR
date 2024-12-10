@@ -156,7 +156,7 @@ image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.tif"),
 <h3>Resulting orthomosaics :</h3>
 <div style="display: flex; justify-content: space-around;">
   <figure style="text-align: center;">
-    <img src="test_data/outputs_TS/ORTH/Bouamir_20220427_ORTHO.png" alt="Image 1" width="300" />
+    <img src="test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.png" alt="Image 1" width="300" />
     <figcaption>Date 1</figcaption>
   </figure>
   <figure style="text-align: center;">
@@ -191,5 +191,8 @@ library(sf)
 res <- managecrownsdata::extract_rgbValues(crownsFile = sf::read_sf("test_data/Bouamir_crowns_2024_11_04_filtered.gpkg"), 
                          path_images = list.files("test_data/outputs_arosics/", full.names = TRUE),
                          )
+```
+
+```{r}
 print(res)
 ```
