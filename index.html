@@ -36,6 +36,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/extract_crowns_data.html">extract_crowns_data</a></li>
+    <li><a class="dropdown-item" href="articles/extract_crowns_images.html">extract_crowns_images</a></li>
     <li><a class="dropdown-item" href="articles/plot_labels.html">plot_labels</a></li>
     <li><a class="dropdown-item" href="articles/generate_orthomosaics.html">generate_orthomosaics</a></li>
   </ul>
@@ -71,6 +72,7 @@
 <li><a href="#documentation">Documentation</a></li>
 <li><a href="#how-to-use-managecrownsdata">How to use managecrownsdata</a></li>
 <li><a href="#generate-orthomosaics">Generate orthomosaics</a></li>
+<li><a href="#extract-crowns-images">Extract crowns images</a></li>
 </ul>
 <!-- badges: start --><!-- badges: end -->
 </div>
@@ -143,11 +145,24 @@
 <div class="section level1">
 <h1 id="generate-orthomosaics">Generate orthomosaics<a class="anchor" aria-label="anchor" href="#generate-orthomosaics"></a>
 </h1>
-<p>To generate orthomosaics please download the exemple data at : …,</p>
-<p>and extract it into “YOUR-PATH-TO-THE-TEST-DATA”</p>
-<p>Our test data consists of a few drone images of the same zone taken at two different dates :</p>
-<p><img src="reference/figures/generate_mosaics.JPG" width="100%"></p>
-<p>Then follow the instructions here : <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html" class="uri">https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html</a></p>
+<p>One of the main functions of the package is to generate orthomosaics in R, using arosics(<a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset (here) and follow the instructions here : <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html" class="uri">https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html</a></p>
+<p>Our test data consists of a few drone images of the same zone taken at two different dates and the r functions <code><a href="reference/arosics.html">arosics()</a></code> and <code><a href="reference/Time_SIFT.html">Time_SIFT()</a></code> will be uses to make the orthomosaics.</p>
+<div class="figure" style="text-align: center">
+<img src="reference/figures/generate_mosaics.JPG" alt="Generate mosaics from drone images" width="50%"><p class="caption">
+Generate mosaics from drone images
+</p>
+</div>
+</div>
+<div class="section level1">
+<h1 id="extract-crowns-images">Extract crowns images<a class="anchor" aria-label="anchor" href="#extract-crowns-images"></a>
+</h1>
+<p>To guide you step by step into the workflow, we should follow the instructions here : <a href="https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html" class="uri">https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html</a></p>
+<p>To run the exemples, all data are included into the packages.</p>
+<div class="figure" style="text-align: center">
+<img src="reference/figures/extract_images.jpg" alt="Extract crowns images" width="100%"><p class="caption">
+Extract crowns images
+</p>
+</div>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
