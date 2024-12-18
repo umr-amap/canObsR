@@ -66,62 +66,151 @@
 <ul>
 <li><a href="#the-package">The package</a></li>
 <li><a href="#citation">Citation</a></li>
-<li><a href="#pre-installation">Pre-installation</a></li>
-<li><a href="use-managecrownsdata#">Use managecrownsdata</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#id_#environment-setup">Environment setup</a></li>
+<li><a href="#id_##metashape-license-activation">Metashape license activation</a></li>
+<li><a href="#usage-exemple-on-small-dataset">Usage exemple on small dataset</a></li>
+<li><a href="#id_#time-sift">Time-SIFT</a></li>
+<li><a href="#id_##resulting-orthomosaics">Resulting orthomosaics</a></li>
+<li><a href="#id_#arosics">Arosics</a></li>
+<li><a href="#id_#vegetation-indexes">Vegetation indexes</a></li>
 </ul>
-<!-- badges: start --><!-- badges: end --><div class="section level2">
-<h2 id="the-package">The package<a class="anchor" aria-label="anchor" href="#the-package"></a>
-</h2>
+<!-- badges: start --><!-- badges: end -->
+</div>
+<div class="section level1">
+<h1 id="the-package">The package<a class="anchor" aria-label="anchor" href="#the-package"></a>
+</h1>
 <p>This R package aims at streamlining, standardizing and facilitating processing of repetead UAV surveys from R. It focuses (for now) on RGB data. It notably allows generating 3D and 4D mosaics &amp; mosaics spatial alignment using state-of-the-art approaches, provides tools to generate reference labels, segment crowns (?) and classify crown phenophases.</p>
 </div>
-<div class="section level2">
-<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
-</h2>
+<div class="section level1">
+<h1 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h1>
 <p>To cite ‘managecrownsdata’, please use citation(‘managecrownsdata’).</p>
 </div>
+<div class="section level1">
+<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
 <div class="section level2">
-<h2 id="pre-installation-called-once">Pre-installation (called once)<a class="anchor" aria-label="anchor" href="#pre-installation-called-once"></a>
+<h2 id="environment-setup">Environment setup<a class="anchor" aria-label="anchor" href="#environment-setup"></a>
 </h2>
+<div class="section level3">
+<h3 id="r-package">R package<a class="anchor" aria-label="anchor" href="#r-package"></a>
+</h3>
+<p>If not already installed, you can use devtools to install the “managecrownsdata” package :</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Install anaconda 'https://www.anaconda.com/'</span></span>
-<span></span>
-<span><span class="co">#Install reticulate </span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'reticulate'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#Install miniconda</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">100000000</span><span class="op">)</span> </span>
-<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/install_miniconda.html" class="external-link">install_miniconda</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Create a conda environment from the environment.yaml file</span></span>
-<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/conda-tools.html" class="external-link">conda_create</a></span><span class="op">(</span>envname <span class="op">=</span> <span class="st">"pipeline_test_R"</span>,</span>
-<span>             environment <span class="op">=</span> <span class="st">'C:/Users/2022hl001/Downloads/environment.yaml'</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
+<span><span class="fu">install_github</span><span class="op">(</span><span class="st">"https://github.com/hugolblc/managecrownsdata.git"</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<h2 id="python-environment">Python environment<a class="anchor" aria-label="anchor" href="#python-environment"></a>
 </h2>
-<p>You can install the development version of managecrownsdata like so :</p>
+<p>First, make sure you have python&gt;3.9 and anaconda / miniconda installed on your device. If not, you can download them using the following links :</p>
+<p><a href="https://www.python.org/downloads/" class="external-link uri">https://www.python.org/downloads/</a> <a href="https://www.anaconda.com/download/" class="external-link uri">https://www.anaconda.com/download/</a></p>
+<p>After completing the installation steps, you can create your own python environment that will contain everything you need to call this package’s functions</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"hugolblc/managecrownsdata"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Imports</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hugolblc/managecrownsdata" class="external-link">managecrownsdata</a></span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Python env creation</span></span>
+<span><span class="va">env_name</span> <span class="op">&lt;-</span> <span class="st">"managecrownsdata_env"</span>   <span class="co">#use the name you want for your environment</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/conda-tools.html" class="external-link">conda_create</a></span><span class="op">(</span><span class="va">env_name</span>, environment <span class="op">=</span> <span class="st">"environment.yaml"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html" class="external-link">use_condaenv</a></span><span class="op">(</span><span class="va">env_name</span><span class="op">)</span></span></code></pre></div>
+<p>The environment you just created contains already all necessary dependences but the Metashape python API, which is required to align photos using TimeSIFT. To install it, you first need to download a file from the Metashape website : <a href="https://www.agisoft.com/downloads/installer/" class="external-link uri">https://www.agisoft.com/downloads/installer/</a>. Go to the “Python 3 module” section and click on the link corresponding to your operating system. This should download a file named “Metashape[…].whl”. Then, copy the path to the downloaded .whl file below</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Add metashape API to env</span></span>
+<span><span class="va">path_to_whl_file</span> <span class="op">&lt;-</span> <span class="st">"C:/Users/user1/Downloads/Metashape-2.1.3-cp37.cp38.cp39.cp310.cp311-none-win_amd64.whl"</span>   <span class="co">#replace with your path</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_install.html" class="external-link">py_install</a></span><span class="op">(</span><span class="va">path_to_whl_file</span>, envname <span class="op">=</span> <span class="va">env_name</span>, pip<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="metashape-license-activation">Metashape license activation<a class="anchor" aria-label="anchor" href="#metashape-license-activation"></a>
+</h3>
+<p>Your python environment should be ready for use now. However, Agisoft Metashape requires a paid license in order to access all its features. It is not necessary to have the Metashape application installed on your device in order for the python API to work, but whether or not the application is installed and/or activated, the API still needs to be activated using a license key (it can be the same used for the application if it is already installed).</p>
+<p>To activate the key, follow these steps :</p>
+<ul>
+<li>Open an anaconda command prompt</li>
+<li>Activate the environnement you just created : $ conda activate managecrownsdata_env</li>
+<li>start python and activate the licence : $ python &gt;&gt;&gt; import Metashape &gt;&gt;&gt; Metashape.license.activate(“AAAA-BBBB-CCCC-DDDD”) #replace with your license key</li>
+</ul>
+<p>If that works, you can close the command prompt. You should be good to go !</p>
+<hr>
+</div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="usage-exemple-on-small-dataset">Usage exemple on small dataset<a class="anchor" aria-label="anchor" href="#usage-exemple-on-small-dataset"></a>
+</h1>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Imports</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hugolblc/managecrownsdata" class="external-link">managecrownsdata</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="fu">rstudioapi</span><span class="fu">::</span><span class="fu">getSourceEditorContext</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">path</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html" class="external-link">use_condaenv</a></span><span class="op">(</span><span class="st">"C:/Users/U051-U219/miniconda3/envs/env_R"</span><span class="op">)</span></span></code></pre></div>
+<p>Please download the exemple data at : …, and extract it into the package folder</p>
+<p>Our test data consists of a few drone images of the same zone taken at two different dates :</p>
+<img src="inst/images/Capture1.JPG" width="800" height="500" align="justify"><figcaption align="justify">
+Title
+</figcaption><div class="section level2">
+<h2 id="time-sift">Time-SIFT<a class="anchor" aria-label="anchor" href="#time-sift"></a>
+</h2>
+<p>First, we will use the Time-SIFT method to align all the photos with each other and generate an orthomosaic for each date. This is a rather long process that should take 10~15 minutes to complete on this test data.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Try TimeSIFT on test data</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/Time_SIFT_in_r.html">Time_SIFT_in_r</a></span><span class="op">(</span><span class="st">"test_data/my_drone_data"</span>, </span>
+<span>               out_dir_ortho <span class="op">=</span> <span class="st">"test_data/outputs_TS/ORTHO"</span>, </span>
+<span>               <span class="co">#out_dir_DEM = "test_data/outputs_TS/DEM",</span></span>
+<span>               data_type <span class="op">=</span> <span class="st">"RGB"</span>,</span>
+<span>               crs <span class="op">=</span> <span class="st">"EPSG::32633"</span>,</span>
+<span>               site_name <span class="op">=</span> <span class="st">"Bouamir"</span>,</span>
+<span>               <span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Conversion to png for display purposes</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/magick/" class="external-link">magick</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">image_write</span><span class="op">(</span><span class="fu">image_read</span><span class="op">(</span><span class="st">"test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif"</span><span class="op">)</span>, path <span class="op">=</span> <span class="st">"test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.png"</span>, format <span class="op">=</span> <span class="st">"png"</span>, quality<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
+<span><span class="fu">image_write</span><span class="op">(</span><span class="fu">image_read</span><span class="op">(</span><span class="st">"test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.tif"</span><span class="op">)</span>, path <span class="op">=</span> <span class="st">"test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.png"</span>, format <span class="op">=</span> <span class="st">"png"</span>, quality<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+<img src="inst/images/Capture2.JPG" width="800" height="500" align="justify"><figcaption align="justify">
+Title
+</figcaption><div class="section level3">
+<h3 id="resulting-orthomosaics-">Resulting orthomosaics :<a class="anchor" aria-label="anchor" href="#resulting-orthomosaics-"></a>
+</h3>
+</div>
 </div>
 <div class="section level2">
-<h2 id="use-managecrownsdata-called-before-loading-managecrownsdata-">Use managecrownsdata (called before loading <code>managecrownsdata</code> )<a class="anchor" aria-label="anchor" href="#use-managecrownsdata-called-before-loading-managecrownsdata-"></a>
+<h2 id="arosics">Arosics<a class="anchor" aria-label="anchor" href="#arosics"></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Restrt R session</span></span>
-<span><span class="fu">.rs.restartR</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Set environment</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>RETICULATE_PYTHON<span class="op">=</span> <span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/conda-tools.html" class="external-link">conda_python</a></span><span class="op">(</span><span class="st">'pipeline_test_R'</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html" class="external-link">use_condaenv</a></span><span class="op">(</span>condaenv <span class="op">=</span> <span class="st">"pipeline_test_R"</span>, required <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hugolblc/managecrownsdata" class="external-link">managecrownsdata</a></span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Try arosics on test data</span></span>
+<span><span class="fu"><a href="reference/arosics_in_r.html">arosics_in_r</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="st">"test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif"</span>,</span>
+<span>             ref_filepath <span class="op">=</span> <span class="st">"test_data/Bouamir_LiDAR_mars2022_ref_red.tif"</span>, </span>
+<span>             <span class="co">#"D:/managecrownsdata/test_data/outputs_TS/ORTHO4/20220511_ORTHO.tif",</span></span>
+<span>             out_dir_path <span class="op">=</span> <span class="st">"test_data/outputs_arosics"</span>,</span>
+<span>             corr_type <span class="op">=</span> <span class="st">"global"</span>,</span>
+<span>             <span class="co">#grid_res = 200,</span></span>
+<span>             window_size <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>             window_pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">258131</span>, <span class="fl">352973</span><span class="op">)</span>,</span>
+<span>             save_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>             <span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="vegetation-indexes">Vegetation indexes<a class="anchor" aria-label="anchor" href="#vegetation-indexes"></a>
+</h2>
+<p>Now that you have correctly aligned orthomosaics, you can use a crown delimitation shapefile to do multiple actions, such as computing indexes for each of these crowns :</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">managecrownsdata</span><span class="fu">::</span><span class="fu"><a href="reference/extract_rgbValues.html">extract_rgbValues</a></span><span class="op">(</span>crownsFile <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">read_sf</a></span><span class="op">(</span><span class="st">"test_data/Bouamir_crowns_2024_11_04_filtered.gpkg"</span><span class="op">)</span>, </span>
+<span>                         path_images <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">"test_data/outputs_arosics/"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>                         <span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
