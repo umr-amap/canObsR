@@ -123,7 +123,7 @@ To guide you step by step into the workflow, we should follow the instructions h
 
 To run the exemples, all data are included into the packages.
 
-```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Extract crowns images", message=FALSE, warning=FALSE, out.width='50%'}
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Extract crowns images", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("man/figures/extract_images.jpg")
 ```
 

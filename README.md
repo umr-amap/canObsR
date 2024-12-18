@@ -140,7 +140,7 @@ To run the exemples, all data are included into the packages.
 
 <div class="figure" style="text-align: center">
 
-<img src="man/figures/extract_images.jpg" alt="Extract crowns images" width="50%" />
+<img src="man/figures/extract_images.jpg" alt="Extract crowns images" width="100%" />
 <p class="caption">
 Extract crowns images
 </p>
