@@ -53,6 +53,7 @@ at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
 image size can be changed by specifying height and width parameters.
 }
 \examples{
+\dontrun{
 library(sf)
 library(dplyr)
 
@@ -71,16 +72,17 @@ crownsFile <- crownsFile \%>\% dplyr::rename(
 
 check_crownsFile(crownsFile = crownsFile)
 
-# extract_crownsImages(
-#       path_images = rgb_paths,
-#       crownsFile = crownsFile,
-#       path_bbox,
-#       path_out,
-#       site = NULL,
-#       dates = NULL,
-#       N_cores = 1,
-#       width = 720,
-#       height = 825
-#    )
+extract_crownsImages(
+      path_images = rgb_paths,
+      crownsFile = crownsFile,
+      path_bbox,
+      path_out,
+      site = NULL,
+      dates = NULL,
+      N_cores = 1,
+      width = 720,
+      height = 825
+   )
+}
 
 }
