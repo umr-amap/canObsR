@@ -37,6 +37,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/extract_crowns_data.html">extract_crowns_data</a></li>
     <li><a class="dropdown-item" href="articles/plot_labels.html">plot_labels</a></li>
+    <li><a class="dropdown-item" href="articles/generate_orthomosaics.html">generate_orthomosaics</a></li>
   </ul>
 </li>
       </ul>
@@ -69,7 +70,7 @@
 <li><a href="#install">Install</a></li>
 <li><a href="#documentation">Documentation</a></li>
 <li><a href="#how-to-use-managecrownsdata">How to use managecrownsdata</a></li>
-<li><a href="#example">Example</a></li>
+<li><a href="#generate-orthomosaics">Generate orthomosaics</a></li>
 </ul>
 <!-- badges: start --><!-- badges: end -->
 </div>
@@ -140,66 +141,13 @@
 </div>
 </div>
 <div class="section level1">
-<h1 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h1 id="generate-orthomosaics">Generate orthomosaics<a class="anchor" aria-label="anchor" href="#generate-orthomosaics"></a>
 </h1>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Imports</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hugolblc/managecrownsdata" class="external-link">managecrownsdata</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="fu">rstudioapi</span><span class="fu">::</span><span class="fu">getSourceEditorContext</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">path</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html" class="external-link">use_condaenv</a></span><span class="op">(</span><span class="st">"C:/Users/U051-U219/miniconda3/envs/env_R"</span><span class="op">)</span></span></code></pre></div>
-<p>Please download the exemple data at : …, and extract it into “YOUR-PATH-TO-THE-TEST-DATA”</p>
+<p>To generate orthomosaics please download the exemple data at : …,</p>
+<p>and extract it into “YOUR-PATH-TO-THE-TEST-DATA”</p>
 <p>Our test data consists of a few drone images of the same zone taken at two different dates :</p>
 <p><img src="inst/images/Capture1.JPG" width="100%"></p>
-<div class="section level2">
-<h2 id="time-sift">Time-SIFT<a class="anchor" aria-label="anchor" href="#time-sift"></a>
-</h2>
-<p>First, we will use the Time-SIFT method to align all the photos with each other and generate an orthomosaic for each date. This is a rather long process that should take 10~15 minutes to complete on this test data.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Try TimeSIFT on test data</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/Time_SIFT_in_r.html">Time_SIFT_in_r</a></span><span class="op">(</span><span class="st">"YOUR-PATH-TO-THE-TEST-DATA/test_data/my_drone_data"</span>, </span>
-<span>               out_dir_ortho <span class="op">=</span> <span class="st">"YOUR-PATH-TO-THE-TEST-DATA/test_data/outputs_TS/ORTHO"</span>, </span>
-<span>               <span class="co">#out_dir_DEM = "YOUR-PATH-TO-THE-TEST-DATA/test_data/outputs_TS/DEM",</span></span>
-<span>               data_type <span class="op">=</span> <span class="st">"RGB"</span>,</span>
-<span>               crs <span class="op">=</span> <span class="st">"EPSG::32633"</span>,</span>
-<span>               site_name <span class="op">=</span> <span class="st">"Bouamir"</span>,</span>
-<span>               <span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="resulting-orthomosaics-">Resulting orthomosaics :<a class="anchor" aria-label="anchor" href="#resulting-orthomosaics-"></a>
-</h3>
-<p><img src="inst/images/Capture2.JPG" width="100%"></p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="arosics">Arosics<a class="anchor" aria-label="anchor" href="#arosics"></a>
-</h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Try arosics on test data</span></span>
-<span><span class="fu"><a href="reference/arosics_in_r.html">arosics_in_r</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="st">"test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif"</span>,</span>
-<span>             ref_filepath <span class="op">=</span> <span class="st">"test_data/Bouamir_LiDAR_mars2022_ref_red.tif"</span>, </span>
-<span>             <span class="co">#"D:/managecrownsdata/test_data/outputs_TS/ORTHO4/20220511_ORTHO.tif",</span></span>
-<span>             out_dir_path <span class="op">=</span> <span class="st">"test_data/outputs_arosics"</span>,</span>
-<span>             corr_type <span class="op">=</span> <span class="st">"global"</span>,</span>
-<span>             <span class="co">#grid_res = 200,</span></span>
-<span>             window_size <span class="op">=</span> <span class="fl">500</span>,</span>
-<span>             window_pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">258131</span>, <span class="fl">352973</span><span class="op">)</span>,</span>
-<span>             save_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>             <span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="vegetation-indexes">Vegetation indexes<a class="anchor" aria-label="anchor" href="#vegetation-indexes"></a>
-</h2>
-<p>Now that you have correctly aligned orthomosaics, you can use a crown delimitation shapefile to do multiple actions, such as computing indexes for each of these crowns :</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">managecrownsdata</span><span class="fu">::</span><span class="fu"><a href="reference/extract_rgbValues.html">extract_rgbValues</a></span><span class="op">(</span>crownsFile <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">read_sf</a></span><span class="op">(</span><span class="st">"test_data/Bouamir_crowns_2024_11_04_filtered.gpkg"</span><span class="op">)</span>, </span>
-<span>                         path_images <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">"test_data/outputs_arosics/"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>                         <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
-</div>
+<p>Then follow the instructions here : <a href="https://hugolblc.github.io/managecrownsdata/articles/plot_labels.html" class="uri">https://hugolblc.github.io/managecrownsdata/articles/plot_labels.html</a></p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
