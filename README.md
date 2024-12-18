@@ -116,7 +116,7 @@ and extract it into “YOUR-PATH-TO-THE-TEST-DATA”
 Our test data consists of a few drone images of the same zone taken at
 two different dates :
 
-<img src="man/figures/Capture1.JPG" width="100%" />
+<img src="man/figures/generate_mosaics.JPG" width="100%" />
 
 Then follow the instructions here :
 <https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html>
