@@ -17,7 +17,9 @@ managecrownsdata
 
   - [The package](#the-package)
   - [Citation](#citation)
-  - [Installation](#installation)
+  - [Install](#install)
+  - [How to use managecrownsdata](how-to-use-managecrownsdata)
+  
   - [Environment setup](##environment-setup)
   - [Metashape license activation](###metashape-license-activation)
   - [Usage exemple on small dataset](#usage-exemple-on-small-dataset)
@@ -32,25 +34,21 @@ managecrownsdata
 
 # The package
 
-This R package aims at streamlining, standardizing and facilitating processing of repetead UAV surveys from R. It focuses (for now) on RGB data. It notably allows generating 3D and 4D mosaics & mosaics spatial alignment using state-of-the-art approaches,  provides tools to generate reference labels, segment crowns (?) and classify crown phenophases.
+This R package aims at streamlining, standardizing and facilitating processing of repetead UAV surveys from R. It focuses (for now) on RGB data. It notably allows generating 3D and 4D mosaics & mosaics spatial alignment using state-of-the-art approaches,  provides tools to generate reference labels, segment crowns (not now) and classify crown phenophases (not now).
 
 # Citation
 
 To cite 'managecrownsdata', please use citation('managecrownsdata').
 
 
-# Installation
-
-## Environment setup
-
-### R package
-
-If not already installed, you can use devtools to install the "managecrownsdata" package :
+# Install
 
 ```{r, eval = FALSE}
 library(devtools)
 install_github("https://github.com/hugolblc/managecrownsdata.git")
 ```
+
+# How to use managecrownsdata
 
 ## Python environment
 
@@ -60,7 +58,7 @@ If not, you can download them using the following links :
 https://www.python.org/downloads/
 https://www.anaconda.com/download/
 
-After completing the installation steps, you can create your own python environment that will contain everything you need to call this package's functions
+After completing the installation steps, you can create your own python environment that will contain everything you need to call this package's functions.
 
 ```{r}
 # Imports
@@ -71,11 +69,14 @@ library(managecrownsdata)
 
 ```{r, eval = FALSE}
 # Python env creation
-env_name <- "managecrownsdata_env"   #use the name you want for your environment
+env_name <- "managecrownsdata_env"   # use the name you want for your environment
+environment = file.path( system.file(package="managecrownsdata"), 'PYTHON/environment.yaml')   # use the environment.yaml file included in the package
 
-conda_create(env_name, environment = "environment.yaml")
+conda_create(env_name, environment = environment)
 use_condaenv(env_name)
 ```
+
+## Metashape
 
 The environment you just created contains already all necessary dependences but the Metashape python API, which is required to align photos using TimeSIFT.
 To install it, you first need to download a file from the Metashape website : https://www.agisoft.com/downloads/installer/. 
@@ -103,8 +104,6 @@ $ python
 >>> Metashape.license.activate("AAAA-BBBB-CCCC-DDDD")           #replace with your license key
 
 If that works, you can close the command prompt. You should be good to go !
-
----
 
 # Usage exemple on small dataset
 
