@@ -8,6 +8,7 @@
 - [Install](#install)
 - [Documentation](#documentation)
 - [How to use managecrownsdata](#how-to-use-managecrownsdata)
+- [General advices](#general-advices)
 - [Generate orthomosaics](#generate-orthomosaics)
 - [Extract crowns images](#extract-crowns-images)
 
@@ -107,6 +108,22 @@ To activate the key, follow these steps :
 
 If that works, you can close the command prompt. You should be good to
 go !
+
+# General advices
+
+In order to facilitate your use of our package and ensure that you will
+not be lost when following the documentation, we strongly recommend you
+to following the data structure given below. To create this architecture
+we can use the function `create_files_architecture()`.
+
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/files_architecture.jpg" alt="Generate mosaics from drone images" width="40%" />
+<p class="caption">
+Generate mosaics from drone images
+</p>
+
+</div>
 
 # Generate orthomosaics
 
