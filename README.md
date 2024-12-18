@@ -119,4 +119,4 @@ two different dates :
 <img src="man/figures/Capture1.JPG" width="100%" />
 
 Then follow the instructions here :
-<https://hugolblc.github.io/managecrownsdata/articles/plot_labels.html>
+<https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html>

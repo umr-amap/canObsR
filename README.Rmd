@@ -113,9 +113,9 @@ and extract it into "YOUR-PATH-TO-THE-TEST-DATA"
 Our test data consists of a few drone images of the same zone taken at two different dates :
 
 ```{r echo=FALSE, fig.show='hold', message=FALSE, warning=FALSE, out.width='100%'}
-knitr::include_graphics('man/figures/Capture1.JPG')
+knitr::include_graphics("man/figures/Capture1.JPG")
 ```
 
-Then follow the instructions here  : https://hugolblc.github.io/managecrownsdata/articles/plot_labels.html
+Then follow the instructions here  : https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html
 
 
