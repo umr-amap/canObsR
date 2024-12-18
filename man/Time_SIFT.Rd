@@ -58,7 +58,7 @@ Implementation in R of a pipeline that performs the Time-SIFT process to time se
 \dontrun{
 library(reticulate)
 
-Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
+Time_SIFT(pathDIR = "path_to_my_drone_data",
                out_dir_ortho = "my_output_folder/ORTHO",
                #out_dir_DEM = "my_output_folder/DEM",
                data_type = "RGB",
@@ -67,7 +67,7 @@ Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
                crs = "EPSG::32633",
                )
 
-Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
+Time_SIFT(pathDIR = "path_to_my_drone_data",
                out_dir_ortho = "my_output_folder/ORTHO",
                #out_dir_DEM = "my_output_folder/DEM",
                data_type = "MS",

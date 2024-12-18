@@ -27,7 +27,7 @@
 #' \dontrun{
 #' library(reticulate)
 #'
-#' Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
+#' Time_SIFT(pathDIR = "path_to_my_drone_data",
 #'                out_dir_ortho = "my_output_folder/ORTHO",
 #'                #out_dir_DEM = "my_output_folder/DEM",
 #'                data_type = "RGB",
@@ -36,7 +36,7 @@
 #'                crs = "EPSG::32633",
 #'                )
 #'
-#' Time_SIFT_in_r(pathDIR = "path_to_my_drone_data",
+#' Time_SIFT(pathDIR = "path_to_my_drone_data",
 #'                out_dir_ortho = "my_output_folder/ORTHO",
 #'                #out_dir_DEM = "my_output_folder/DEM",
 #'                data_type = "MS",
@@ -56,7 +56,7 @@ Time_SIFT <- function(pathDIR, out_dir_ortho, out_dir_DEM = NULL, out_dir_projec
                            downscale_factor_depth_map = 2L) {
 
 
-   source_python(system.file("__init__.py", package = "managecrownsdata"))
+   source_python(system.file("PYTHON/__init__.py", package = "managecrownsdata"))
 
    Time_SIFT_process(pathDIR = pathDIR,
                      out_dir_ortho = out_dir_ortho,

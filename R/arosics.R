@@ -28,7 +28,7 @@
 #' \dontrun{
 #' library(reticulate)
 #'
-#' arosics_in_r(path_in = "path_to_ortho.tif",
+#' arosics(path_in = "path_to_ortho.tif",
 #'              ref_filepath = "ref_image.tif",
 #'              out_dir_path = "my_output_dir",
 #'              corr_type = "local",
@@ -37,7 +37,7 @@
 #'              save_vector_plot = TRUE,
 #'              )
 #'
-#' arosics_in_r(path_in = "path_to_input_folder",
+#' arosics(path_in = "path_to_input_folder",
 #'              ref_filepath = "ref_image.tif",
 #'              out_dir_path = "my_output_dir",
 #'              corr_type = "local",
@@ -47,7 +47,7 @@
 #'              mp = 5,
 #'              )
 #'
-#' arosics_in_r(path_in = "path_to_input_folder",
+#' arosics(path_in = "path_to_input_folder",
 #'              ref_filepath = "ref_image.tif",
 #'              out_dir_path = "my_output_dir",
 #'              corr_type = "global",
@@ -60,7 +60,7 @@
 #'              }
 
 
-arosics_in_r <- function(path_in, ref_filepath, out_dir_path,
+arosics <- function(path_in, ref_filepath, out_dir_path,
                          corr_type = "global", max_shift = 250L, max_iter = 100L,
                          grid_res = 1000L, window_size = NULL, window_pos = list(NULL, NULL),
                          mp = NULL, save_data = TRUE, save_vector_plot = FALSE,
