@@ -41,12 +41,12 @@ extract_bboxImages <-
    function(path_in, dates = NULL, directory = NULL, filename = NULL){
 
 
-   # Check if the user has added dates, if not it will be 1 to x -------------
+      # Check if the user has added dates, if not it will be 1 to x -------------
 
       if ( is.null(dates) ) {dates = paste0('date_',1:length(path_in)) }
 
 
-   # For each image, extract the non NA values bounding box ------------------
+      # For each image, extract the non NA values bounding box ------------------
 
       for (i in 1:length(path_in)) {
 

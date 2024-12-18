@@ -10,19 +10,25 @@ development:
 reference:
 - title: Images proccessing
   desc: >
-    R functions to proccess calibrateds UAV mosaic
+    Process RGB mosaics
   contents:
   - arosics
   - Time_SIFT
+
+  - title: Images proccessing
+  desc: >
+    Process RGB mosaics
+  contents:
+  - create_files_architecture
+  - create_labelingFile
+  - create_nonNA_bboxImages
+  - check_crownsFile
+  - check_availableCrowns
 
 - title: Extract crowns data
   desc: >
     R functions to extract the crowns observatory data
   contents:
-  - check_availableCrowns
-  - check_crownsFile
-  - create_labelingFile
-  - extract_bboxImages
   - extract_crownsImages
   - extract_rgbValues
   - merge_values
