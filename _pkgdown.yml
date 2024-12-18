@@ -49,4 +49,4 @@ articles:
   contents:
   - extract_crowns_data
   - plot_labels
-  - generate_orthomosics
+  - generate_orthomosaics
