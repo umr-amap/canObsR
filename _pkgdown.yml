@@ -15,9 +15,9 @@ reference:
   - arosics
   - Time_SIFT
 
-  - title: Images proccessing
+  - title: Create and check data to facilitate
   desc: >
-    Process RGB mosaics
+    Create and check data to facilitate the workflow
   contents:
   - create_files_architecture
   - create_labelingFile
