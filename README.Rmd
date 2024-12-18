@@ -149,7 +149,7 @@ image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif"),
 image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.png", format = "png", quality=100)
 ```
 
-<img src="inst/images/Capture2.JPG" width="800" height="500" align="justify" />
+<img src="inst/images/Capture2.JPG" width="800" height="400" align="justify" />
 <figcaption align = "justify">
 Title
 </figcaption>
