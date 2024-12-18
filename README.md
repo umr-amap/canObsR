@@ -9,6 +9,7 @@
 - [Documentation](#documentation)
 - [How to use managecrownsdata](#how-to-use-managecrownsdata)
 - [Generate orthomosaics](#generate-orthomosaics)
+- [Extract crowns images](#extract-crowns-images)
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -109,14 +110,39 @@ go !
 
 # Generate orthomosaics
 
-To generate orthomosaics please download the exemple data at : …,
-
-and extract it into “YOUR-PATH-TO-THE-TEST-DATA”
+One of the main functions of the package is to generate orthomosaics in
+R, using arosics([AROSICS](https://github.com/GFZ/arosics)) and the
+Metashape python API. To guide you step by step into the workflow, you
+should download the test dataset (here) and follow the instructions here
+:
+<https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html>
 
 Our test data consists of a few drone images of the same zone taken at
-two different dates :
+two different dates and the r functions `arosics()` and `Time_SIFT()`
+will be uses to make the orthomosaics.
 
-<img src="man/figures/generate_mosaics.JPG" width="100%" />
+<div class="figure" style="text-align: center">
 
-Then follow the instructions here :
-<https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html>
+<img src="man/figures/generate_mosaics.JPG" alt="Generate mosaics from drone images" width="50%" />
+<p class="caption">
+Generate mosaics from drone images
+</p>
+
+</div>
+
+# Extract crowns images
+
+To guide you step by step into the workflow, we should follow the
+instructions here :
+<https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html>
+
+To run the exemples, all data are included into the packages.
+
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/extract_images.jpg" alt="Extract crowns images" width="50%" />
+<p class="caption">
+Extract crowns images
+</p>
+
+</div>

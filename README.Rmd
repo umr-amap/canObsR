@@ -21,6 +21,7 @@ managecrownsdata
   - [Documentation](#documentation)
   - [How to use managecrownsdata](#how-to-use-managecrownsdata)
   - [Generate orthomosaics](#generate-orthomosaics)
+  - [Extract crowns images](#extract-crowns-images)
   
 
 <!-- badges: start -->
@@ -106,16 +107,23 @@ If that works, you can close the command prompt. You should be good to go !
 
 # Generate orthomosaics
 
-To generate orthomosaics please download the exemple data at : ..., 
+One of the main functions of the package is to generate orthomosaics in R, using 
+arosics([AROSICS](https://github.com/GFZ/arosics)) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset (here) and follow the instructions here  : https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html
 
-and extract it into "YOUR-PATH-TO-THE-TEST-DATA"
 
-Our test data consists of a few drone images of the same zone taken at two different dates :
+Our test data consists of a few drone images of the same zone taken at two different dates and the r functions `arosics()` and `Time_SIFT()` will be uses to make the orthomosaics.
 
-```{r echo=FALSE, fig.show='hold', message=FALSE, warning=FALSE, out.width='100%'}
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate mosaics from drone images", message=FALSE, warning=FALSE, out.width='50%'}
 knitr::include_graphics("man/figures/generate_mosaics.JPG")
 ```
 
-Then follow the instructions here  : https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html
+# Extract crowns images
 
+To guide you step by step into the workflow, we should follow the instructions here : https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html
+
+To run the exemples, all data are included into the packages.
+
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Extract crowns images", message=FALSE, warning=FALSE, out.width='50%'}
+knitr::include_graphics("man/figures/extract_images.jpg")
+```
 
