@@ -120,7 +120,7 @@ Please download the exemple data at : ..., and extract it into "YOUR-PATH-TO-THE
 Our test data consists of a few drone images of the same zone taken at two different dates :
 
 ```{r echo=FALSE, fig.show='hold', message=FALSE, warning=FALSE, out.width='100%'}
-knitr::include_graphics(file.path( system.file(package="managecrownsdata"), 'images/Capture1.JPG'))
+knitr::include_graphics('inst/images/Capture1.JPG')
 ```
 
 ## Time-SIFT
@@ -143,7 +143,7 @@ Time_SIFT_in_r("YOUR-PATH-TO-THE-TEST-DATA/test_data/my_drone_data",
 ### Resulting orthomosaics :
 
 ```{r echo=FALSE, fig.show='hold', message=FALSE, warning=FALSE, out.width='100%'}
-knitr::include_graphics(file.path( system.file(package="managecrownsdata"), 'images/Capture2.JPG'))
+knitr::include_graphics('inst/images/Capture2.JPG')
 ```
 
 

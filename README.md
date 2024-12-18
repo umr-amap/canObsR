@@ -124,7 +124,7 @@ Please download the exemple data at : …, and extract it into
 Our test data consists of a few drone images of the same zone taken at
 two different dates :
 
-<img src="C:/Users/2022hl001/AppData/Local/R/win-library/4.3/managecrownsdata/images/Capture1.JPG" width="100%" />
+<img src="inst/images/Capture1.JPG" width="100%" />
 
 ## Time-SIFT
 
@@ -147,7 +147,7 @@ Time_SIFT_in_r("YOUR-PATH-TO-THE-TEST-DATA/test_data/my_drone_data",
 
 ### Resulting orthomosaics :
 
-<img src="C:/Users/2022hl001/AppData/Local/R/win-library/4.3/managecrownsdata/images/Capture2.JPG" width="100%" />
+<img src="inst/images/Capture2.JPG" width="100%" />
 
 ## Arosics
 
