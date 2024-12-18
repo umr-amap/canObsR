@@ -136,7 +136,9 @@ To guide you step by step into the workflow, we should follow the
 instructions here :
 <https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html>
 
-To run the exemples, all data are included into the packages.
+To run the exemples, all data are included into the packages. In order
+to reduce the size of the data, we have reduced the spatial resolution
+of images.
 
 <div class="figure" style="text-align: center">
 
