@@ -108,7 +108,7 @@ If that works, you can close the command prompt. You should be good to go !
 
 # General advices
 
-In order to facilitate your use of our package and ensure that you will not be lost when following the documentation, we strongly recommend you to following the data structure given below. To create this architecture we can use the function `create_files_architecture()`.
+In order to facilitate your use of our package and ensure that you will not be lost when following the documentation, we strongly recommend you to following the data structure given below. To create this architecture you can use the function `create_files_architecture()`.
 
 ```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate mosaics from drone images", message=FALSE, warning=FALSE, out.width='40%'}
 knitr::include_graphics("man/figures/files_architecture.jpg")
