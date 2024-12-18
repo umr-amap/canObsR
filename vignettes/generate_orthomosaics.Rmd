@@ -1,0 +1,17 @@
+---
+title: "generate_orthomosaics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{generate_orthomosaics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Complete it

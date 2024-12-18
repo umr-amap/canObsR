@@ -8,7 +8,7 @@
 - [Install](#install)
 - [Documentation](#documentation)
 - [How to use managecrownsdata](#how-to-use-managecrownsdata)
-- [Example](#example)
+- [Generate orthomosaics](#generate-orthomosaics)
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -107,77 +107,16 @@ To activate the key, follow these steps :
 If that works, you can close the command prompt. You should be good to
 go !
 
-# Example
+# Generate orthomosaics
 
-``` r
-# Imports
-library(reticulate)
-library(managecrownsdata)
+To generate orthomosaics please download the exemple data at : …,
 
-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-use_condaenv("C:/Users/U051-U219/miniconda3/envs/env_R")
-```
-
-Please download the exemple data at : …, and extract it into
-“YOUR-PATH-TO-THE-TEST-DATA”
+and extract it into “YOUR-PATH-TO-THE-TEST-DATA”
 
 Our test data consists of a few drone images of the same zone taken at
 two different dates :
 
 <img src="inst/images/Capture1.JPG" width="100%" />
 
-## Time-SIFT
-
-First, we will use the Time-SIFT method to align all the photos with
-each other and generate an orthomosaic for each date. This is a rather
-long process that should take 10~15 minutes to complete on this test
-data.
-
-``` r
-# Try TimeSIFT on test data
-
-Time_SIFT_in_r("YOUR-PATH-TO-THE-TEST-DATA/test_data/my_drone_data", 
-               out_dir_ortho = "YOUR-PATH-TO-THE-TEST-DATA/test_data/outputs_TS/ORTHO", 
-               #out_dir_DEM = "YOUR-PATH-TO-THE-TEST-DATA/test_data/outputs_TS/DEM",
-               data_type = "RGB",
-               crs = "EPSG::32633",
-               site_name = "Bouamir",
-               )
-```
-
-### Resulting orthomosaics :
-
-<img src="inst/images/Capture2.JPG" width="100%" />
-
-## Arosics
-
-``` r
-# Try arosics on test data
-arosics_in_r(path_in = "test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif",
-             ref_filepath = "test_data/Bouamir_LiDAR_mars2022_ref_red.tif", 
-             #"D:/managecrownsdata/test_data/outputs_TS/ORTHO4/20220511_ORTHO.tif",
-             out_dir_path = "test_data/outputs_arosics",
-             corr_type = "global",
-             #grid_res = 200,
-             window_size = 500,
-             window_pos = list(258131, 352973),
-             save_data = FALSE,
-             )
-```
-
-## Vegetation indexes
-
-Now that you have correctly aligned orthomosaics, you can use a crown
-delimitation shapefile to do multiple actions, such as computing indexes
-for each of these crowns :
-
-``` r
-library(sf)
-res <- managecrownsdata::extract_rgbValues(crownsFile = sf::read_sf("test_data/Bouamir_crowns_2024_11_04_filtered.gpkg"), 
-                         path_images = list.files("test_data/outputs_arosics/", full.names = TRUE),
-                         )
-```
-
-``` r
-print(res)
-```
+Then follow the instructions here :
+<https://hugolblc.github.io/managecrownsdata/articles/plot_labels.html>
