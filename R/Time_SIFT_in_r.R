@@ -26,7 +26,7 @@ Time_SIFT_in_r <- function(pathDIR, out_dir_ortho, out_dir_DEM = NULL, out_dir_p
                            downscale_factor_depth_map = 2L) {
 
 
-   source_python(system.file("__init__.py", package = "managecrownsdata"))
+   source_python(system.file("PYTHON/__init__.py", package = "managecrownsdata"))
 
    Time_SIFT_process(pathDIR = pathDIR,
                      out_dir_ortho = out_dir_ortho,
