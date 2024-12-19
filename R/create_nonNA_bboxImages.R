@@ -21,7 +21,7 @@
 #' full.names = TRUE
 #' )
 #'
-#' #bbox <- extract_bboxImages(
+#' #bbox <- create_nonNA_bboxImages(
 #' #path_in = rgb_paths,
 #' #directory = my_directory)
 
@@ -36,7 +36,7 @@
 #' @import dplyr
 
 
-extract_bboxImages <-
+create_nonNA_bboxImages <-
 
    function(path_in, dates = NULL, directory = NULL, filename = NULL){
 
