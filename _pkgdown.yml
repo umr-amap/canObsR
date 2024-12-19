@@ -9,15 +9,13 @@ development:
 
 reference:
 - title: Images proccessing
-  desc: >
-    Process RGB mosaics
+  desc: Process RGB mosaics
   contents:
   - arosics
   - Time_SIFT
 
   - title: Create and check data to facilitate
-  desc: >
-    Create and check data to facilitate the workflow
+  desc: Create and check data to facilitate the workflow
   contents:
   - create_files_architecture
   - create_labelingFile
@@ -26,8 +24,7 @@ reference:
   - check_availableCrowns
 
 - title: Extract crowns data
-  desc: >
-    R functions to extract the crowns observatory data
+  desc: R functions to extract the crowns observatory data
   contents:
   - extract_crownsImages
   - extract_rgbValues
@@ -35,16 +32,14 @@ reference:
   - pivot_Labels
 
 - title: Plots
-  desc: >
-    xxxx.
+  desc: xxxx.
   contents:
   - heatmap_Labels
   - plot_signal
 
 
 - title: Other functions
-  desc: >
-    R functions ...
+  desc: R functions ...
   contents:
   - extr_dates
 
