@@ -14,7 +14,7 @@ reference:
   - arosics
   - Time_SIFT
 
-  - title: Create and check data to facilitate
+- title: Create and check data to facilitate
   desc: Create and check data to facilitate the workflow
   contents:
   - create_files_architecture
