@@ -71,8 +71,10 @@
 <li><a href="#install">Install</a></li>
 <li><a href="#documentation">Documentation</a></li>
 <li><a href="#how-to-use-managecrownsdata">How to use managecrownsdata</a></li>
+<li><a href="#general-advices">General advices</a></li>
 <li><a href="#generate-orthomosaics">Generate orthomosaics</a></li>
 <li><a href="#extract-crowns-images">Extract crowns images</a></li>
+<li><a href="#create-labeling-file">Create labeling file</a></li>
 </ul>
 <!-- badges: start --><!-- badges: end -->
 </div>
@@ -143,6 +145,16 @@
 </div>
 </div>
 <div class="section level1">
+<h1 id="general-advices">General advices<a class="anchor" aria-label="anchor" href="#general-advices"></a>
+</h1>
+<p>In order to facilitate your use of our package and ensure that you will not be lost when following the documentation, we strongly recommend you to following the data structure given below. To create this architecture you can use the function <code><a href="reference/create_files_architecture.html">create_files_architecture()</a></code>.</p>
+<div class="figure" style="text-align: center">
+<img src="reference/figures/files_architecture.jpg" alt="Recommended files organization" width="40%"><p class="caption">
+Recommended files organization
+</p>
+</div>
+</div>
+<div class="section level1">
 <h1 id="generate-orthomosaics">Generate orthomosaics<a class="anchor" aria-label="anchor" href="#generate-orthomosaics"></a>
 </h1>
 <p>One of the main functions of the package is to generate orthomosaics in R, using arosics(<a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset (here) and follow the instructions here : <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html" class="uri">https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html</a></p>
@@ -157,10 +169,20 @@ Generate mosaics from drone images
 <h1 id="extract-crowns-images">Extract crowns images<a class="anchor" aria-label="anchor" href="#extract-crowns-images"></a>
 </h1>
 <p>To guide you step by step into the workflow, we should follow the instructions here : <a href="https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html" class="uri">https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html</a></p>
-<p>To run the exemples, all data are included into the packages.</p>
+<p>To run the exemples, all data are included into the packages. In order to reduce the size of the data, we have reduced the spatial resolution of images.</p>
 <div class="figure" style="text-align: center">
 <img src="reference/figures/extract_images.jpg" alt="Extract crowns images" width="100%"><p class="caption">
 Extract crowns images
+</p>
+</div>
+</div>
+<div class="section level1">
+<h1 id="create-labeling-file">Create labeling file<a class="anchor" aria-label="anchor" href="#create-labeling-file"></a>
+</h1>
+<p>Once you have the crowns images you can associate manually a label which difine the vegetative and/or reproductive state of trees a the different date. To do it you should create a xlsx file whith the <code><a href="reference/create_labelingFile.html">create_labelingFile()</a></code> function. More information here (<a href="https://hugolblc.github.io/managecrownsdata/reference/create_labellingFile.html" class="uri">https://hugolblc.github.io/managecrownsdata/reference/create_labellingFile.html</a>)</p>
+<div class="figure" style="text-align: center">
+<img src="reference/figures/create_labellingFile.jpg" alt="Labeling file to do manual labelling" width="50%"><p class="caption">
+Labeling file to do manual labelling
 </p>
 </div>
 </div>
