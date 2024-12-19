@@ -35,5 +35,8 @@ create_files_architecture <-
       dir.create(paste(path,main_folder_name,'5_bbox',sep='/'))
       dir.create(paste(path,main_folder_name,'6_labeling_file',sep='/'))
       dir.create(paste(path,main_folder_name,'7_crownsImages',sep='/'))
+      dir.create(paste(path,main_folder_name,'8_outputs',sep='/'))
+
+
 
    }
