@@ -9,9 +9,14 @@
 - [Documentation](#documentation)
 - [How to use managecrownsdata](#how-to-use-managecrownsdata)
 - [General advices](#general-advices)
-- [Generate orthomosaics](#generate-orthomosaics)
-- [Extract crowns images](#extract-crowns-images)
-- [Create labeling file](#create-labeling-file)
+- [STEP : 1 and 2](#step-1-and-2)
+- [STEP 3 : Generate orthomosaics](#step-3-generate-orthomosaics)
+- [STEP 4 : create_nonNA_bboxImages()](#step-4-create-nonna-bboximages)
+- [STEP 5 : Extract crowns images](#step-5-extract-crowns-images)
+- [STEP 6 : Create labeling file](#step-6-create-labeling-file)
+- [STEP 7 : Extract RGB metrics and merge them with
+  labels](#step-7-extract-rgb-metrics-and-merge-them-with-labels)
+- [STEP 8 : Analyses](#step-8-analyses)
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -39,7 +44,7 @@ install_github("https://github.com/hugolblc/managecrownsdata.git")
 # Documentation
 
 In addition to the usual R package documentation, we also have extensive
-docs and examples at: <https://hugolblc.github.io/managecrownsdata/>
+docs and examples [here](https://hugolblc.github.io/managecrownsdata/)
 
 # How to use managecrownsdata
 
@@ -115,21 +120,26 @@ go !
 In order to facilitate your use of our package and ensure that you will
 not be lost when following the documentation, we strongly recommend you
 to following the workflow given below. To create this architecture you
-can use the function `create_files_architecture()`.
+can use the function
+[`create_files_architecture()`](https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html)
+.
 
 <figure>
 <img src="man/figures/steps.gif" alt="Recommanded workflow" />
 <figcaption aria-hidden="true">Recommanded workflow</figcaption>
 </figure>
 
-# Generate orthomosaics
+# STEP 1 and 2
+
+Complete it
+
+# STEP 3 Generate orthomosaics
 
 One of the main functions of the package is to generate orthomosaics in
 R, using arosics([AROSICS](https://github.com/GFZ/arosics)) and the
 Metashape python API. To guide you step by step into the workflow, you
-should download the test dataset (here) and follow the instructions here
-:
-<https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html>
+should download the test dataset (here) and follow the instructions
+[here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
 
 Our test data consists of a few drone images of the same zone taken at
 two different dates and the r functions `arosics()` and `Time_SIFT()`
@@ -144,11 +154,13 @@ Generate mosaics from drone images
 
 </div>
 
-# Extract crowns images
+# STEP 4 create nonNA bboxImages
+
+# STEP 5 Extract crowns images
 
 To guide you step by step into the workflow, we should follow the
-instructions here :
-<https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html>
+instructions
+[here](https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html)
 
 To run the exemples, all data are included into the packages. In order
 to reduce the size of the data, we have reduced the spatial resolution
@@ -163,13 +175,13 @@ Extract crowns images
 
 </div>
 
-# Create labeling file
+# STEP 6 Create labeling file
 
 Once you have the crowns images you can associate manually a label which
 difine the vegetative and/or reproductive state of trees a the different
 date. To do it you should create a xlsx file whith the
-`create_labelingFile()` function. More information here
-(<https://hugolblc.github.io/managecrownsdata/reference/create_labellingFile.html>)
+`create_labelingFile()` function. More information
+[here](https://hugolblc.github.io/managecrownsdata/reference/create_labellingFile.html)
 
 <div class="figure" style="text-align: center">
 
@@ -179,3 +191,7 @@ Labeling file to do manual labelling
 </p>
 
 </div>
+
+# STEP 7 Extract RGB metrics and merge them with labels
+
+# STEP 8 Analyses
