@@ -11,6 +11,7 @@
 - [General advices](#general-advices)
 - [Generate orthomosaics](#generate-orthomosaics)
 - [Extract crowns images](#extract-crowns-images)
+- [Create labeling file](#create-labeling-file)
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -114,13 +115,13 @@ go !
 In order to facilitate your use of our package and ensure that you will
 not be lost when following the documentation, we strongly recommend you
 to following the data structure given below. To create this architecture
-we can use the function `create_files_architecture()`.
+you can use the function `create_files_architecture()`.
 
 <div class="figure" style="text-align: center">
 
-<img src="man/figures/files_architecture.jpg" alt="Generate mosaics from drone images" width="40%" />
+<img src="man/figures/files_architecture.jpg" alt="Recommended files organization" width="40%" />
 <p class="caption">
-Generate mosaics from drone images
+Recommended files organization
 </p>
 
 </div>
@@ -162,6 +163,23 @@ of images.
 <img src="man/figures/extract_images.jpg" alt="Extract crowns images" width="100%" />
 <p class="caption">
 Extract crowns images
+</p>
+
+</div>
+
+# Create labeling file
+
+Once you have the crowns images you can associate manually a label which
+difine the vegetative and/or reproductive state of trees a the different
+date. To do it you should create a xlsx file whith the
+`create_labelingFile()` function. More information here
+(<https://hugolblc.github.io/managecrownsdata/reference/create_labellingFile.html>)
+
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/create_labellingFile.jpg" alt="Labeling file to do manual labelling" width="50%" />
+<p class="caption">
+Labeling file to do manual labelling
 </p>
 
 </div>
