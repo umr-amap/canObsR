@@ -138,7 +138,8 @@ Complete it
 One of the main functions of the package is to generate orthomosaics in
 R, using arosics([AROSICS](https://github.com/GFZ/arosics)) and the
 Metashape python API. To guide you step by step into the workflow, you
-should download the test dataset (here) and follow the instructions
+should download the test dataset (**here - add link**) and follow the
+instructions
 [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
 
 Our test data consists of a few drone images of the same zone taken at
@@ -155,6 +156,15 @@ Generate mosaics from drone images
 </div>
 
 # STEP 4 create nonNA bboxImages
+
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/create_nonNA_bboxImages.jpg" alt="Extract crowns images" width="100%" />
+<p class="caption">
+Extract crowns images
+</p>
+
+</div>
 
 # STEP 5 Extract crowns images
 

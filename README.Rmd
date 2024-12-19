@@ -124,7 +124,7 @@ Complete it
 # STEP 3 Generate orthomosaics
 
 One of the main functions of the package is to generate orthomosaics in R, using 
-arosics([AROSICS](https://github.com/GFZ/arosics)) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset (here) and follow the instructions [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
+arosics([AROSICS](https://github.com/GFZ/arosics)) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset (**here - add link**) and follow the instructions [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
 
 
 Our test data consists of a few drone images of the same zone taken at two different dates and the r functions `arosics()` and `Time_SIFT()` will be uses to make the orthomosaics.
@@ -135,6 +135,10 @@ knitr::include_graphics("man/figures/generate_mosaics.JPG")
 
 
 # STEP 4 create nonNA bboxImages
+
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Extract crowns images", message=FALSE, warning=FALSE, out.width='100%'}
+knitr::include_graphics("man/figures/create_nonNA_bboxImages.jpg")
+```
 
 
 # STEP 5 Extract crowns images
