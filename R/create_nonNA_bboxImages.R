@@ -51,6 +51,7 @@ create_nonNA_bboxImages <-
       for (i in 1:length(path_in)) {
 
          r = terra::rast(path_in[i], lyrs = 1)
+         r[[1]][r[[1]] == 255 ] = NA
          r[[1]][!is.na(r[[1]])] = 1
 
          poly <- terra::as.polygons(r[[1]])

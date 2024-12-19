@@ -147,7 +147,7 @@ will be uses to make the orthomosaics.
 
 <div class="figure" style="text-align: center">
 
-<img src="man/figures/generate_mosaics.JPG" alt="Generate mosaics from drone images" width="50%" />
+<img src="man/figures/generate_mosaics.JPG" alt="Generate mosaics from drone images" width="100%" />
 <p class="caption">
 Generate mosaics from drone images
 </p>

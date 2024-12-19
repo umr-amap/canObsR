@@ -129,7 +129,7 @@ arosics([AROSICS](https://github.com/GFZ/arosics)) and the Metashape python API.
 
 Our test data consists of a few drone images of the same zone taken at two different dates and the r functions `arosics()` and `Time_SIFT()` will be uses to make the orthomosaics.
 
-```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate mosaics from drone images", message=FALSE, warning=FALSE, out.width='50%'}
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate mosaics from drone images", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("man/figures/generate_mosaics.JPG")
 ```
 
