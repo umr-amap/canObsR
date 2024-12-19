@@ -114,17 +114,13 @@ go !
 
 In order to facilitate your use of our package and ensure that you will
 not be lost when following the documentation, we strongly recommend you
-to following the data structure given below. To create this architecture
-you can use the function `create_files_architecture()`.
+to following the workflow given below. To create this architecture you
+can use the function `create_files_architecture()`.
 
-<div class="figure" style="text-align: center">
-
-<img src="man/figures/files_architecture.jpg" alt="Recommended files organization" width="40%" />
-<p class="caption">
-Recommended files organization
-</p>
-
-</div>
+<figure>
+<img src="man/figures/steps.gif" alt="Recommanded workflow" />
+<figcaption aria-hidden="true">Recommanded workflow</figcaption>
+</figure>
 
 # Generate orthomosaics
 
