@@ -122,7 +122,7 @@ fun_extract = function(i, path, crowns_simplified, date, site)
    res <-
       rbind(res_mean, res_var) %>%
       dplyr::inner_join(., dplyr::as_tibble(crowns_simplified)[,c('id', 'genus', 'family', 'plot_name', 'code_sp')], by = 'id') %>%
-      dplyr::select(site, id, site, family, genus, species, type, metric, band, value, plot_name, code_sp)
+      dplyr::select(site, id, date, site, family, genus, species, type, metric, band, value, plot_name, code_sp)
 
    return(res)
 }
