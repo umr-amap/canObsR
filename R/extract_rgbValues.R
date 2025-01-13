@@ -50,7 +50,7 @@
 #' @importFrom exactextractr exact_extract
 #' @importFrom stars read_stars
 #' @importFrom terra rast
-#' @importFrom foreach "%dopar%"
+#' @import foreach
 #' @import parallel
 #' @import doParallel
 #' @import sf
