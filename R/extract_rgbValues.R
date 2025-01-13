@@ -36,9 +36,7 @@
 #'
 #' rgb_data <- extract_rgbValues(
 #' crownsFile = crownsFile,
-#' path_images = rgb_paths,
-#' fun = 'all',
-#' infos = FALSE
+#' path_images = rgb_paths
 #' )
 #'
 #' @export
@@ -144,7 +142,6 @@ extract_rgbValues <-
       }
 
 
-      if( infos ) { details <- list() }
 
 # Prepare crowns file -----------------------------------------------------
 
