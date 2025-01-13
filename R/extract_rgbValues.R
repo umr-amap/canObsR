@@ -186,7 +186,7 @@ extract_rgbValues <-
          # Do the job
          cl <- parallel::makeCluster(num_cores2)
          doParallel::registerDoParallel(cl)
-         results <- foreach(i = 1:num_cores2, .combine=rbind, .packages = c("sf", "terra", "dplyr", "data.table", "exactextractr")) %dopar% { Funlist[[1]](i, Funlist[[2]], Funlist[[3]], Funlist[[4]], Funlist[[5]]) }
+         results <- foreach(i = 1:num_cores2, .combine=rbind, .packages = c("sf", "terra", "dplyr", "exactextractr")) %dopar% { Funlist[[1]](i, Funlist[[2]], Funlist[[3]], Funlist[[4]], Funlist[[5]]) }
          parallel::stopCluster(cl)
 
          if(j == 1) { results.final = results }
