@@ -79,8 +79,7 @@ Extract the rgb values within crowns
 
 rgb_extraction <- extract_rgbValues(
       crownsFile = crownsFile,
-      path_images = rgb_paths,
-      fun = 'all'
+      path_images = rgb_paths
    )
 
 ```
