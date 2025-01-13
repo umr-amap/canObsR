@@ -47,9 +47,7 @@ check_crownsFile(crownsFile = crownsFile)
 
 rgb_data <- extract_rgbValues(
 crownsFile = crownsFile,
-path_images = rgb_paths,
-fun = 'all',
-infos = FALSE
+path_images = rgb_paths
 )
 
 }
