@@ -45,9 +45,9 @@ crownsFile <- crownsFile \%>\% dplyr::rename(
 
 check_crownsFile(crownsFile = crownsFile)
 
-rgb_data <- extract_rgbValues(
-crownsFile = crownsFile,
-path_images = rgb_paths
-)
+#rgb_data <- extract_rgbValues(
+#crownsFile = crownsFile,
+#path_images = rgb_paths
+#)
 
 }
