@@ -44,6 +44,7 @@
 #' @importFrom exactextractr exact_extract
 #' @importFrom stars read_stars
 #' @importFrom terra rast
+#' @importFrom stats var
 #' @import foreach
 #' @import parallel
 #' @import doParallel

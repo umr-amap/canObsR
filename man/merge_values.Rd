@@ -42,20 +42,18 @@ crownsFile <- crownsFile \%>\% dplyr::rename(
 
 check_crownsFile(crownsFile = crownsFile)
 
-rgbValues <- extract_rgbValues(
-crownsFile = crownsFile,
-path_images = rgb_paths,
-fun = 'all',
-infos = FALSE
-)
+#rgbValues <- extract_rgbValues(
+#crownsFile = crownsFile,
+#path_images = rgb_paths
+#)
 
-raw_labels <- read_excel(
-file.path(
-system.file(package="managecrownsdata"),
-'xlsx/labeling_file_Bouamir.xlsx')
-)
-longLabels <- pivot_Labels(raw_labels, simplify_labels = TRUE)
+#raw_labels <- read_excel(
+#file.path(
+#system.file(package="managecrownsdata"),
+#'xlsx/labeling_file_Bouamir.xlsx')
+#)
+#longLabels <- pivot_Labels(raw_labels, simplify_labels = TRUE)
 
-merge_values(longLabels, rgbValues)
+#merge_values(longLabels, rgbValues)
 
 }
