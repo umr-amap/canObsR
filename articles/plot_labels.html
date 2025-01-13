@@ -185,20 +185,31 @@
 <span><span class="co">#&gt; -                                           -</span></span>
 <span><span class="co">#&gt; --- OK ----  :  There is no duplicated id</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># rgb_data &lt;- extract_rgbValues(</span></span>
-<span><span class="co">#    crownsFile = crownsFile,</span></span>
-<span><span class="co">#    path_images = rgb_paths</span></span>
-<span><span class="co"># )</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">rgb_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_rgbValues.html">extract_rgbValues</a></span><span class="op">(</span></span>
+<span>   crownsFile <span class="op">=</span> <span class="va">crownsFile</span>,</span>
+<span>   path_images <span class="op">=</span> <span class="va">rgb_paths</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "IMAGE   1  DONE    /     5"</span></span>
+<span><span class="co">#&gt; [1] "IMAGE   2  DONE    /     5"</span></span>
+<span><span class="co">#&gt; [1] "IMAGE   3  DONE    /     5"</span></span>
+<span><span class="co">#&gt; [1] "IMAGE   4  DONE    /     5"</span></span>
+<span><span class="co">#&gt; [1] "IMAGE   5  DONE    /     5"</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># merge_data &lt;- merge_values(pivotLabels, rgb_data)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">merge_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/merge_values.html">merge_values</a></span><span class="op">(</span><span class="va">pivotLabels</span>, <span class="va">rgb_data</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># plot_signal(data = merge_data, Genus = 'Desbordesia')</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_signal.html">plot_signal</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">merge_data</span>, Genus <span class="op">=</span> <span class="st">'Desbordesia'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot_labels_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 676)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_signal.html">plot_signal</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">merge_data</span>, Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>, slcted_id <span class="op">=</span> <span class="fl">676</span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot_labels_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 676, Band = c('gli', 'gndvi'))</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_signal.html">plot_signal</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">merge_data</span>, Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>, slcted_id <span class="op">=</span> <span class="fl">676</span>, Band <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'gli'</span>, <span class="st">'gndvi'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot_labels_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># plot_signal(data = merge_data, Genus = 'Desbordesia', Band = c('gli'), slcted_id = 676, show_Labels = TRUE)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_signal.html">plot_signal</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">merge_data</span>, Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>, Band <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'gli'</span><span class="op">)</span>, slcted_id <span class="op">=</span> <span class="fl">676</span>, show_Labels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in ggplot2::geom_point(data = dplyr::filter(data, highlight ==</span></span>
+<span><span class="co">#&gt; paste(slcted_id)), : Ignoring unknown parameters: `fontface`</span></span></code></pre></div>
+<p><img src="plot_labels_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
   </main>
 </div>
 

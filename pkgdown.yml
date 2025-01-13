@@ -6,7 +6,7 @@ articles:
   extract_crowns_images: extract_crowns_images.html
   generate_orthomosaics: generate_orthomosaics.html
   plot_labels: plot_labels.html
-last_built: 2025-01-13T15:39Z
+last_built: 2025-01-13T20:46Z
 urls:
   reference: https://hugolblc.github.io/managecrownsdata/reference
   article: https://hugolblc.github.io/managecrownsdata/articles
