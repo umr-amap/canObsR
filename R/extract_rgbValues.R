@@ -50,13 +50,10 @@
 #' @importFrom exactextractr exact_extract
 #' @importFrom stars read_stars
 #' @importFrom terra rast
-#' @importFrom sf st_crs
-#' @importFrom sf st_bbox
-#' @importFrom sf st_as_sfc
-#' @importFrom sf st_as_sf
-#' @importFrom sf st_transform
-#' @importFrom sf st_join
-#' @importFrom tidyr gather
+#' @importFrom foreach %dopar%
+#' @import parallel
+#' @import doParallel
+#' @import sf
 #' @import dplyr
 #'
 extract_rgbValues <-
@@ -153,143 +150,69 @@ extract_rgbValues <-
       }
 
 
-      if( 'date' %in% base::names(crownsFile) ) { crownsFile <- crownsFile %>% dplyr::select(-date) }
       if( infos ) { details <- list() }
 
-      for (i in 1:length(path_images)){
+# Prepare crowns file -----------------------------------------------------
 
-         date_i <- dates[i]
-         site_i <- sites[i]
+      if( 'date' %in% base::names(crownsFile) ) { crownsFile <- crownsFile %>% dplyr::select(-date) }
+      crownsFile <- sf::st_make_valid(crownsFile) # remove invalide geometry
+      crowns_simplified = sf::st_simplify(crownsFile, dTolerance = .5)
 
-         bbox <-
-            terra::rast(path_images[i]) %>%
-            sf::st_bbox() %>%
-            sf::st_as_sfc() %>%
-            sf::st_as_sf()
-
-         within_crowns <- sf::st_join(bbox, crownsFile, join = st_contains) %>% .[['id']]
-
-         if ( infos ) { crowns_rmvd <- crownsFile %>% dplyr::filter (!(id %in% within_crowns)) %>% .[['id']] }
-
-         crowns_i <- crownsFile %>% dplyr::filter (id %in% within_crowns)
-
-         RGB <- terra::rast(path_images[i])
-         sumrgb <- RGB[[1]] + RGB[[2]] + RGB[[3]]
-         rcc <- RGB[[1]] / sumrgb
-         gcc <- RGB[[2]] / sumrgb
-         bcc <- RGB[[3]] / sumrgb
-         gndvi <- (RGB[[2]] - RGB[[1]]) / (RGB[[2]] + RGB[[1]])
-         gli =  ((RGB[[2]] - RGB[[1]]) + (RGB[[2]] - RGB[[3]])) / (RGB[[2]] + sumrgb)
-
-         raster <- c(RGB,sumrgb,rcc,gcc,bcc,gndvi,gli)
-         base::names(raster) <- c("red", "green", "blue",'sumrgb','rcc','gcc','bcc','gndvi','gli')
-
-         if( fun %in% c('all','mean') ) {
-
-            extr_mean_values <-
-               raster %>%
-               exactextractr::exact_extract(., crowns_i, progress = TRUE, fun = 'mean') %>%
-               `colnames<-`(c("red", "green", "blue",'sumrgb','rcc','gcc','bcc','gndvi','gli')) %>%
-               dplyr::mutate(
-                  id = crowns_i$id,
-                  type = 'RGB',
-                  metric = 'mean',
-                  date = date_i,
-                  site = site_i
-
-               ) %>%
-               tidyr::gather(-c(id, type, metric, date, site), key = band, value = value)
-         }
-
-
-         if( fun %in% c('all','var') ) {
-
-            extr_var_values <-
-               raster %>%
-               exactextractr::exact_extract(., crowns_i, progress = TRUE, fun = 'variance') %>%
-               `colnames<-`(c("red", "green", "blue",'sumrgb','rcc','gcc','bcc','gndvi','gli')) %>%
-               dplyr::mutate(
-                  id = crowns_i$id,
-                  type = 'RGB',
-                  metric = 'var',
-                  date = date_i,
-                  site = site_i
-               ) %>%
-               tidyr::gather(-c(id, type, metric, date, site), key = band, value = value)
-         }
-
-         if( fun == 'all' ) {
-
-            extr_date_i <-
-               rbind(extr_mean_values, extr_var_values) %>%
-               dplyr::inner_join(., crowns_i, by = 'id') %>%
-               dplyr::as_tibble()
-
-         }
-
-         if( fun == 'mean' ) {
-
-            extr_date_i <-
-               extr_mean_values %>%
-               dplyr::inner_join(., crowns_i, by = 'id') %>%
-               dplyr::as_tibble()
-
-         }
-
-         if( fun == 'var' ) {
-
-            extr_date_i <-
-               extr_var_values %>%
-               dplyr::inner_join(., crowns_i, by = 'id') %>%
-               dplyr::as_tibble()
-
-         }
-
-         if(i == 1 & infos) { details[[paste0(date_i)]] <- crowns_rmvd }
-         if(i != 1 & infos) { details[[paste0(date_i)]] <- crowns_rmvd }
-
-         if(i == 1) { extr_alldates <- extr_date_i } else { extr_alldates <- rbind(extr_alldates, extr_date_i) }
-
-         gc()
-
-      }
-
-      if ( infos ) {
-
-         extr_alldates <- extr_alldates %>% dplyr::mutate (date = as.Date(date, '%Y_%m_%d'),
-                                                           site = as.factor(site),
-                                                           family = as.factor(family),
-                                                           genus = as.factor(genus),
-                                                           species = as.factor(species),
-                                                           type = as.factor(type),
-                                                           metric = as.factor(metric),
-                                                           band = as.factor(band),
-                                                           plot_name = as.factor(plot_name),
-                                                           id = as.integer(id)) %>%
-            dplyr::select(site, id, date, family, genus, species, type, metric, band, value, plot_name, code_sp)
-
-         return(
-            list(
-               extr_alldates = extr_alldates,
-               removed_crowns = details
-            )
+      crowns_simplified <-
+         crowns_simplified %>%
+         dplyr::filter(
+            !is.na(sf::st_dimension(crowns_simplified)) & # remove invalide geometry
+               sf::st_geometry_type(crowns_simplified) == "POLYGON" # remove incorrect polygon (polygons with nodes)
          )
-      } else {
 
-         extr_alldates <- extr_alldates %>% dplyr::mutate (date = as.Date(date, '%Y%m%d'),
-                                                           site = as.factor(site),
-                                                           family = as.factor(family),
-                                                           genus = as.factor(genus),
-                                                           species = as.factor(species),
-                                                           type = as.factor(type),
-                                                           metric = as.factor(metric),
-                                                           band = as.factor(band),
-                                                           plot_name = as.factor(plot_name),
-                                                           id = as.integer(id)) %>%
-            dplyr::select(site, id, date, family, genus, species, type, metric, band, value, plot_name, code_sp)
 
-         return(extr_alldates)
+# Prepare polygon groups for parallel computing ---------------------------
+
+      num_cores = floor(0.8 * parallel::detectCores()) # we use 80% of the cores
+      num_in_group <- floor(nrow(crowns_simplified) / num_cores)
+      crowns_simplified <- crowns_simplified %>%
+         dplyr::mutate(
+            #--- create grid id ---#
+            grid_id = 1:nrow(.),
+            #--- assign group id  ---#
+            group_id = grid_id %/% num_in_group + 1
+         )
+      num_cores2 = max(crowns_simplified$group_id)
+
+
+
+# Extraction --------------------------------------------------------------
+
+      for(j in 1:length(path_images)) {
+
+         # Prepare parrallel imputing parameter (specify image path for iteration j)
+         Funlist = list(fun_extract, path_images[j], crowns_simplified, dates[j], sites[j])
+
+         # Do the job
+         cl <- parallel::makeCluster(num_cores2)
+         doParallel::registerDoParallel(cl)
+         results <- foreach(i = 1:num_cores2, .combine=rbind, .packages = c("sf", "terra", "dplyr", "data.table", "exactextractr")) %dopar% { Funlist[[1]](i, Funlist[[2]], Funlist[[3]], Funlist[[4]], Funlist[[5]]) }
+         parallel::stopCluster(cl)
+
+         if(j == 1) { results.final = results }
+         if(j >  1) { results.final = rbind(results.final, results) }
+
+         print(paste("#################### Image n°", j, "DONE ####################"))
 
       }
+
+      results.final <- results.final %>% dplyr::mutate (date = as.Date(date, '%Y%m%d'),
+                                                        site = as.factor(site),
+                                                        family = as.factor(family),
+                                                        genus = as.factor(genus),
+                                                        species = as.factor(species),
+                                                        type = as.factor(type),
+                                                        metric = as.factor(metric),
+                                                        band = as.factor(band),
+                                                        plot_name = as.factor(plot_name),
+                                                        id = as.integer(id)) %>%
+         dplyr::select(site, id, date, family, genus, species, type, metric, band, value, plot_name, code_sp)
+
+      return(results.final)
 
    }
