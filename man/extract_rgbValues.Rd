@@ -4,12 +4,20 @@
 \alias{extract_rgbValues}
 \title{Extract RGB metrics}
 \usage{
-extract_rgbValues(crownsFile, path_images, sites = NULL, dates = NULL)
+extract_rgbValues(
+  crownsFile,
+  path_images,
+  ncor = 1,
+  sites = NULL,
+  dates = NULL
+)
 }
 \arguments{
 \item{crownsFile}{A \code{sf} object with the crowns delineation.}
 
 \item{path_images}{a list with the full paths to the RGB rasters.}
+
+\item{ncor}{num. Number of cores}
 
 \item{sites}{chr. name of the site, p.e 'Mbalmayo'.}
 
@@ -45,9 +53,10 @@ crownsFile <- crownsFile \%>\% dplyr::rename(
 
 check_crownsFile(crownsFile = crownsFile)
 
-#rgb_data <- extract_rgbValues(
-#crownsFile = crownsFile,
-#path_images = rgb_paths
-#)
+rgb_data <- extract_rgbValues(
+crownsFile = crownsFile,
+path_images = rgb_paths,
+ncor = 1
+)
 
 }

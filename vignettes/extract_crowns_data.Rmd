@@ -77,35 +77,35 @@ Extract the rgb values within crowns
 
 ```{r, results='hide'}
 
-# rgb_extraction <- extract_rgbValues(
-#       crownsFile = crownsFile,
-#       path_images = rgb_paths
-#    )
+rgb_extraction <- extract_rgbValues(
+      crownsFile = crownsFile,
+      path_images = rgb_paths
+   )
 
 ```
 
 
 
 ```{r}
-# datatable(rgb_extraction, 
-#           class = 'cell-border stripe',
-#           rownames = FALSE,
-#           width = '100%', 
-#           options = list(scrollX = TRUE))
+datatable(rgb_extraction,
+          class = 'cell-border stripe',
+          rownames = FALSE,
+          width = '100%',
+          options = list(scrollX = TRUE))
 ```
 
 
 ```{r}
-# extract_crownsImages(
-#       path_images = rgb_paths,
-#       crownsFile = crownsFile,
-#       path_bbox,
-#       path_out,
-#       site = NULL,
-#       dates = NULL,
-#       N_cores = 1,
-#       width = 720,
-#       height = 825
-#    )
+extract_crownsImages(
+      path_images = rgb_paths,
+      crownsFile = crownsFile,
+      path_bbox,
+      path_out,
+      site = NULL,
+      dates = NULL,
+      N_cores = 1,
+      width = 720,
+      height = 825
+   )
 ```
 

@@ -7,6 +7,7 @@
 #'
 #' @param crownsFile A \code{sf} object with the crowns delineation.
 #' @param path_images a list with the full paths to the RGB rasters.
+#' @param ncor num. Number of cores
 #' @param sites chr. name of the site, p.e 'Mbalmayo'.
 #' @param dates chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
 #' The order of the dates should match with the order of the path_images !
@@ -34,10 +35,11 @@
 #'
 #' check_crownsFile(crownsFile = crownsFile)
 #'
-#' #rgb_data <- extract_rgbValues(
-#' #crownsFile = crownsFile,
-#' #path_images = rgb_paths
-#' #)
+#' rgb_data <- extract_rgbValues(
+#' crownsFile = crownsFile,
+#' path_images = rgb_paths,
+#' ncor = 1
+#' )
 #'
 #' @export
 #'
@@ -56,6 +58,7 @@ extract_rgbValues <-
    function(
       crownsFile,
       path_images,
+      ncor = 1,
       sites = NULL,
       dates = NULL
    ){
@@ -160,7 +163,7 @@ extract_rgbValues <-
 
 # Prepare polygon groups for parallel computing ---------------------------
 
-      num_cores = floor(0.8 * parallel::detectCores()) # we use 80% of the cores
+      num_cores = ncor
       num_in_group <- floor(nrow(crowns_simplified) / num_cores)
       crowns_simplified <- crowns_simplified %>%
          dplyr::mutate(
@@ -189,7 +192,7 @@ extract_rgbValues <-
          if(j == 1) { results.final = results }
          if(j >  1) { results.final = rbind(results.final, results) }
 
-         print(paste("#################### Image n°", j, "DONE ####################"))
+         print(paste("IMAGE  ", j, " DONE", "   /    ", length(path_images)))
 
       }
 

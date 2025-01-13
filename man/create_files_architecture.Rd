@@ -14,11 +14,3 @@ create_files_architecture(path = NULL, main_folder_name = NULL)
 \description{
 The function just create the recommended files architecture.
 }
-\examples{
-
-\dontrun{
-
-create_files_architecture(path=file.path(Sys.getenv("USERPROFILE"),"Desktop"),main_folder_name = 'UAV_observatory_data')
-
-}
-}
