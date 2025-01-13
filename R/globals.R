@@ -5,7 +5,7 @@ utils::globalVariables(c(".", "type", "metric","band","value",'family','genus',
                          'Time_SIFT_process', 'PPfoliar1', 'phenophase1', 'PPfoliar',
                          'PPrepro', 'PPfoliar1', 'PPfoliar2', 'PPFlo', 'PPfoliar2_uncertainty',
                          'highlight', 'y_lvl','grid_id','group_id','coverage_fraction',
-                         'red','green','blue','gcc','rcc','gli','var',))
+                         'red','green','blue','gcc','rcc','gli','var'))
 
 
 
