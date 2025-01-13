@@ -68,6 +68,65 @@ extr_sites <- function(names_img) {
    return((sites))
 }
 
+# Prepare function to extract raster values at polygon locations in a parallel fashion (function version based on exactextractr::exact_extract)
+fun_extract = function(i, path, crowns_simplified, date, site)
+{
+   image = terra::rast(path)
+   res = exactextractr::exact_extract(image, dplyr::filter(crowns_simplified, group_id == i), include_xy = F, include_cols = c("id", "species"))
+   res <- dplyr::bind_rows(res)
+   names(res)[3:5] = c("red", "green", "blue")
+
+   res = res %>%
+      dplyr::select(-coverage_fraction) %>%
+      dplyr::mutate(
+         rcc = red / (red + green + blue),
+         gcc = green / (red + green + blue),
+         gli = (2*green - red - blue) / (2*green + red + blue)
+      ) %>%
+      dplyr::group_by(id, species)
+
+   res_mean <- res %>%
+      dplyr::summarise(
+         red = mean(red, na.rm=T),
+         green = mean(green, na.rm=T),
+         blue = mean(blue, na.rm=T),
+         gcc = mean(gcc, na.rm=T),
+         rcc = mean(rcc, na.rm=T),
+         gli = mean(gli, na.rm=T),
+         type = 'RGB',
+         metric = 'mean',
+         date = date,
+         site = site,
+         ) %>%
+      dplyr::ungroup()%>%
+      tidyr::gather(-c(id, species, type, metric, date, site), key = band, value = value)
+
+   res_var <- res %>%
+      dplyr::summarise(
+         red = var(red, na.rm=T),
+         green = var(green, na.rm=T),
+         blue = var(blue, na.rm=T),
+         gcc = var(gcc, na.rm=T),
+         rcc = var(rcc, na.rm=T),
+         gli = var(gli, na.rm=T),
+         type = 'RGB',
+         metric = 'var',
+         date = date,
+         site = site,
+      ) %>%
+      dplyr::ungroup()%>%
+      tidyr::gather(-c(id, species, type, metric, date, site), key = band, value = value)
+
+   crowns <- crowns_simplified %>% select(id, genus, family,plot_name, code_sp)
+
+   res <-
+      rbind(res_mean, res_var) %>%
+      dplyr::inner_join(., dplyr::as_tibble(crowns_simplified)[,c('id', 'genus', 'family', 'plot_name', 'code_sp')], by = 'id') %>%
+      dplyr::select(site, id, site, family, genus, species, type, metric, band, value, plot_name, code_sp)
+
+   return(res)
+}
+
 color_label <-
    c(
       "D" = "grey",
