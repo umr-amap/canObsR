@@ -9,7 +9,10 @@
 #'
 #'\dontrun{
 #'
-#'create_files_architecture(path=file.path(Sys.getenv("USERPROFILE"),"Desktop"),main_folder_name = 'UAV_observatory_data')
+#'create_files_architecture(
+#'path=file.path('Sys.getenv("USERPROFILE"),"Desktop"),
+#'main_folder_name = 'UAV_observatory_data'
+#')
 #'
 #'}
 #'@export
