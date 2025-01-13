@@ -47,8 +47,8 @@
 #'
 #'#merge_values(longLabels, rgbValues)
 #'
-@importFrom dplyr select
-@importFrom dplyr left_join
+#' @importFrom dplyr select
+#' @importFrom dplyr left_join
 
 merge_values <- function(longLabels, rgbValues) {
 
