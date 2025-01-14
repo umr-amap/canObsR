@@ -140,7 +140,7 @@ to create the recommended files architecture.
 Manually add your files (raw rgb images and crowns file) to the correct
 folders.
 
-## Add your rgb images into the ‘1_drone_images’ folder
+- Add your rgb images into the ‘1_drone_images’ folder
 
 Structure your data in one of the following ways : either place one
 folder by flight directly in your input folder, or use one directory by
@@ -157,19 +157,20 @@ Accepted folder structures
 
 </div>
 
-## Add your crowns data files into the ‘4_crowns’ folder
+- Add your crowns data files into the ‘4_crowns’ folder
 
 # STEP 3 Generate orthomosaics
 
 One of the main functions of the package is to generate orthomosaics in
 R, using arosics([AROSICS](https://github.com/GFZ/arosics)) and the
 Metashape python API. To guide you step by step into the workflow, you
-should download the test dataset (**here - add link**) and follow the
-instructions
+should download the test dataset
+[here](https://filesender.renater.fr/?s=download&token=4aaa362c-5f9e-4f58-93f9-b4f995cbfcba)
+and follow the instructions
 [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
 
 Our test data consists of a few drone images of the same zone taken at
-two different dates and the r functions
+two different dates and the functions
 [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html)
 and
 [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html)
