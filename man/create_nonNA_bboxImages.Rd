@@ -12,16 +12,16 @@ create_nonNA_bboxImages(
 )
 }
 \arguments{
-\item{path_in}{vector with the full paths to the RGB rasters images.}
+\item{path_in}{chr. Path to the folder where the mosaics are located.}
 
 \item{dates}{chr. Vector with dates (format should be '\%Y\%m\%d', p.e
 '20220925'). The order of the dates should match with the order of the
-dates of the image in the path_in}
+dates of the mosaics in the path_in folder.}
 
-\item{directory}{chr. The path to the directory used to export the vectors.
+\item{directory}{chr. Path to the directory used to export the vector files.
 One file will be export per date. If NULL, the vector will not be exported.}
 
-\item{filename}{logical. The name of the files.}
+\item{filename}{logical. Name of the files.}
 }
 \description{
 This function extract the area of images covered by non NA values and return
@@ -29,13 +29,14 @@ an \code{sf} object with one polygon per image.
 }
 \examples{
 
-rgb_paths <- list.files(
-file.path(
-system.file(package="managecrownsdata"), 'rgb/'),
-full.names = TRUE
-)
+\dontrun{
 
-#bbox <- create_nonNA_bboxImages(
-#path_in = rgb_paths,
-#directory = my_directory)
+# my_directory <- "MY_PATH_FOR_OUTPUTS/"
+
+bbox <- create_nonNA_bboxImages(
+path_in = system.file(package="managecrownsdata"), 'rgb/'),
+directory = my_directory)
+
+}
+
 }

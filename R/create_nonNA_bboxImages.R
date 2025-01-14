@@ -4,30 +4,27 @@
 #' an \code{sf} object with one polygon per image.
 #'
 #'
-#' @param path_in vector with the full paths to the RGB rasters images.
+#' @param path_in chr. Path to the folder where the mosaics are located.
 #' @param dates chr. Vector with dates (format should be '%Y%m%d', p.e
 #'  '20220925'). The order of the dates should match with the order of the
-#'  dates of the image in the path_in
-#' @param directory chr. The path to the directory used to export the vectors.
+#'  dates of the mosaics in the path_in folder.
+#' @param directory chr. Path to the directory used to export the vector files.
 #' One file will be export per date. If NULL, the vector will not be exported.
-#' @param filename logical. The name of the files.
+#' @param filename logical. Name of the files.
 #'
 #'
 #' @examples
 #'
-#' rgb_paths <- list.files(
-#' file.path(
-#' system.file(package="managecrownsdata"), 'rgb/'),
-#' full.names = TRUE
-#' )
+#'\dontrun{
 #'
-#' #bbox <- create_nonNA_bboxImages(
-#' #path_in = rgb_paths,
-#' #directory = my_directory)
-
-
-
-
+#' # my_directory <- "MY_PATH_FOR_OUTPUTS/"
+#'
+#' bbox <- create_nonNA_bboxImages(
+#' path_in = system.file(package="managecrownsdata"), 'rgb/'),
+#' directory = my_directory)
+#'
+#'}
+#'
 #' @export
 #' @importFrom terra rast
 #' @importFrom terra as.polygons
@@ -40,17 +37,21 @@ create_nonNA_bboxImages <-
 
    function(path_in, dates = NULL, directory = NULL, filename = NULL){
 
+      # Extract images paths ----------------------------------------------------
+
+      paths = list.files(path_in, full.names = TRUE, pattern = '\\.tif$')
+
 
       # Check if the user has added dates, if not it will be 1 to x -------------
 
-      if ( is.null(dates) ) {dates = paste0('date_',1:length(path_in)) }
+      if ( is.null(dates) ) {dates = paste0('date_',1:length(paths)) }
 
 
       # For each image, extract the non NA values bounding box ------------------
 
-      for (i in 1:length(path_in)) {
+      for (i in 1:length(paths)) {
 
-         r = terra::rast(path_in[i], lyrs = 1)
+         r = terra::rast(paths[i], lyrs = 1)
          r[[1]][r[[1]] == 255 ] = NA
          r[[1]][!is.na(r[[1]])] = 1
 
@@ -63,7 +64,8 @@ create_nonNA_bboxImages <-
             sf::st_as_sf() %>%
             dplyr::rename("geometry" = "x") %>%
             sf::st_cast(.,"POLYGON") %>%
-            dplyr::mutate(date = dates[i])
+            dplyr::mutate(date = dates[i]) %>%
+            sf::st_transform(crs = st_crs(r))
 
          if(is.null(filename)){filename = 'NonNAarea'}
 
