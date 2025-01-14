@@ -1,20 +1,20 @@
 #'Create the recommended files architecture
 #'
-#'@description The function just create the recommended files architecture.
+#'@description Create the recommended files architecture.
 #'
 #'@param path chr. The path where to create the main folder
 #'@param main_folder_name  chr. The name of the main folder
 #'
 #'@examples
 #'
-#'\dontrun{
-#'# Run it to create the folder to your desktop, change the path if needed
-#'create_files_architecture(
-#'path = file.path(Sys.getenv("USERPROFILE"),"Desktop"),
-#'main_folder_name = 'UAV_observatory_data'
-#')
 #'
-#'}
+#'## Run it to create the folder to your desktop, change the path if needed
+#'#create_files_architecture(
+#'#path = file.path(Sys.getenv("USERPROFILE"),"Desktop"),
+#'#main_folder_name = 'UAV_observatory_data'
+#'#)
+#'
+#'
 #'@export
 
 

@@ -131,7 +131,33 @@ can use the function
 
 # STEP 1 and 2
 
-Complete it
+*STEP 1*  
+Use the function
+[`create_files_architecture()`](https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html)
+to create the recommended files architecture.
+
+*STEP 2*  
+Manually add your files (raw rgb images and crowns file) to the correct
+folders.
+
+## Add your rgb images into the ‘1_drone_images’ folder
+
+Structure your data in one of the following ways : either place one
+folder by flight directly in your input folder, or use one directory by
+date, each consisting of subdirectories for each flight (see exemples
+below). In both cases, the date must be indicated in the name of the
+folders directly containing images, in the YYYYMMDD or YYYYMM formats.
+
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/drone_images_achitecture.jpg" alt="Accepted folder structures" width="100%" />
+<p class="caption">
+Accepted folder structures
+</p>
+
+</div>
+
+## Add your crowns data files into the ‘4_crowns’ folder
 
 # STEP 3 Generate orthomosaics
 
@@ -143,8 +169,11 @@ instructions
 [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
 
 Our test data consists of a few drone images of the same zone taken at
-two different dates and the r functions `arosics()` and `Time_SIFT()`
-will be uses to make the orthomosaics.
+two different dates and the r functions
+[`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html)
+and
+[`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html)
+will be used to generate the orthomosaics.
 
 <div class="figure" style="text-align: center">
 
