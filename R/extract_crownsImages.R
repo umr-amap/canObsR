@@ -91,7 +91,7 @@ extract_crownsImages <-
       # Import data -----------------------------------------------
 
       bbox <- lapply(list.files(path_bbox, full.names = TRUE), sf::st_read)
-      crownsFile <-  sf::read_sf(list.files(paste0(path_crowns,'/'), full.names = TRUE)[[1]])
+      crownsFile <-  sf::read_sf(path_crowns)
       path_images <- list.files("E:/UAV_observatory_data/2_drone_images_ref",
                                 full.names = TRUE,
                                 pattern = '\\.tif$')
