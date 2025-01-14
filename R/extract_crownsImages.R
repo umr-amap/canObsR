@@ -3,10 +3,10 @@
 #'@description The function extracts and save .jpeg images for each crown at
 #'each date.
 #'
-#'@param path_images A list with the full paths to the RGB rasters.
+#'@param path_in A list with the full paths to the RGB rasters.
 #'@param crownsFile  sf object
 #'@param path_bbox The path to the non NA Bbox returned by the function `extract_bboxImages()`.
-#' The order of the bbox should match with the order of the images in the path_images
+#' The order of the bbox should match with the order of the images in the path_in
 #'@param path_out chr. The path to the directory use to stored the images. The
 #'  function will create the folder, It doesn't need to exists.
 #'@param site chr. name of the site, p.e 'Mbalmayo'.
@@ -47,7 +47,7 @@
 #' check_crownsFile(crownsFile = crownsFile)
 #'
 #' extract_crownsImages(
-#'       path_images = rgb_paths,
+#'       path_in = rgb_paths,
 #'       crownsFile = crownsFile,
 #'       path_bbox,
 #'       path_out,
@@ -77,8 +77,8 @@
 extract_crownsImages <-
 
    function(
-      path_images,
-      crownsFile,
+      path_in,
+      path_crowns,
       path_bbox,
       path_out,
       site = NULL,
@@ -90,7 +90,11 @@ extract_crownsImages <-
 
       # Import data -----------------------------------------------
 
-      bbox <- lapply(path_bbox, sf::st_read)
+      bbox <- lapply(list.files(path_bbox, full.names = TRUE), sf::st_read)
+      crownsFile <-  sf::read_sf(list.files(paste0(path_crowns,'/'), full.names = TRUE)[[1]])
+      path_images <- list.files("E:/UAV_observatory_data/2_drone_images_ref",
+                                full.names = TRUE,
+                                pattern = '\\.tif$')
 
       # check site ------------------------------------------
 

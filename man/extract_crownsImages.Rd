@@ -5,8 +5,8 @@
 \title{Extract crowns images}
 \usage{
 extract_crownsImages(
-  path_images,
-  crownsFile,
+  path_in,
+  path_crowns,
   path_bbox,
   path_out,
   site = NULL,
@@ -17,12 +17,10 @@ extract_crownsImages(
 )
 }
 \arguments{
-\item{path_images}{A list with the full paths to the RGB rasters.}
-
-\item{crownsFile}{sf object}
+\item{path_in}{A list with the full paths to the RGB rasters.}
 
 \item{path_bbox}{The path to the non NA Bbox returned by the function \code{extract_bboxImages()}.
-The order of the bbox should match with the order of the images in the path_images}
+The order of the bbox should match with the order of the images in the path_in}
 
 \item{path_out}{chr. The path to the directory use to stored the images. The
 function will create the folder, It doesn't need to exists.}
@@ -38,6 +36,8 @@ dates of the image in the path_images}
 \item{width}{num. The width of the device}
 
 \item{height}{num. The height of the device}
+
+\item{crownsFile}{sf object}
 }
 \description{
 The function extracts and save .jpeg images for each crown at
@@ -73,7 +73,7 @@ crownsFile <- crownsFile \%>\% dplyr::rename(
 check_crownsFile(crownsFile = crownsFile)
 
 extract_crownsImages(
-      path_images = rgb_paths,
+      path_in = rgb_paths,
       crownsFile = crownsFile,
       path_bbox,
       path_out,

@@ -31,7 +31,7 @@ an \code{sf} object with one polygon per image.
 
 \dontrun{
 
-# my_directory <- "MY_PATH_FOR_OUTPUTS/"
+# my_directory <- "MY_PATH_FOR_OUTPUTS"
 
 bbox <- create_nonNA_bboxImages(
 path_in = system.file(package="managecrownsdata"), 'rgb/'),

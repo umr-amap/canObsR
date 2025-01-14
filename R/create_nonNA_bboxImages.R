@@ -17,7 +17,7 @@
 #'
 #'\dontrun{
 #'
-#' # my_directory <- "MY_PATH_FOR_OUTPUTS/"
+#' # my_directory <- "MY_PATH_FOR_OUTPUTS"
 #'
 #' bbox <- create_nonNA_bboxImages(
 #' path_in = system.file(package="managecrownsdata"), 'rgb/'),
@@ -71,8 +71,8 @@ create_nonNA_bboxImages <-
 
          if(!is.null(directory)){
 
-            sf::write_sf(bbox, paste0(directory, filename ,'_', dates[i], '.gpkg') )
-            print(paste0('#### FILE has been written :', paste0(" '",directory, filename ,'_', dates[i], '.gpkg',"'")))
+            sf::write_sf(bbox, paste0(directory, '/', filename ,'_', dates[i], '.gpkg') )
+            print(paste0('#### FILE has been written :', paste0(" '",directory, '/', filename ,'_', dates[i], '.gpkg',"'")))
 
          }
 
