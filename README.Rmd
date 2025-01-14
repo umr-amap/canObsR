@@ -125,22 +125,22 @@ Use the function [`create_files_architecture()`](https://hugolblc.github.io/mana
 *STEP 2*  
 Manually add your files (raw rgb images and crowns file) to the correct folders. 
 
-## Add your rgb images into the '1_drone_images' folder
+- Add your rgb images into the '1_drone_images' folder
 
 Structure your data in one of the following ways : either place one folder by flight directly in your input folder, or use one directory by date, each consisting of subdirectories for each flight (see exemples below). In both cases, the date must be indicated in the name of the folders directly containing images, in the YYYYMMDD or YYYYMM formats.
 
 ```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Accepted folder structures", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("man/figures/drone_images_achitecture.jpg")
 ```
-## Add your crowns data files into the '4_crowns' folder
+- Add your crowns data files into the '4_crowns' folder
 
 # STEP 3 Generate orthomosaics
 
 One of the main functions of the package is to generate orthomosaics in R, using 
-arosics([AROSICS](https://github.com/GFZ/arosics)) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset (**here - add link**) and follow the instructions [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
+arosics([AROSICS](https://github.com/GFZ/arosics)) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset [here](https://filesender.renater.fr/?s=download&token=4aaa362c-5f9e-4f58-93f9-b4f995cbfcba) and follow the instructions [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
 
 
-Our test data consists of a few drone images of the same zone taken at two different dates and the r functions [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) will be used to generate the orthomosaics.
+Our test data consists of a few drone images of the same zone taken at two different dates and the functions [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) will be used to generate the orthomosaics.
 
 ```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate mosaics from drone images", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("man/figures/generate_mosaics.JPG")
