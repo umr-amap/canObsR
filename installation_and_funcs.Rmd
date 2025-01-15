@@ -55,10 +55,14 @@ To activate the key, follow these steps :
 
 - Open an anaconda command prompt
 - Activate the environnement you just created :
+
 $ conda activate managecrownsdata_env
 - start python and activate the licence :
+
 $ python
+
 >>> import Metashape
+
 >>> Metashape.license.activate("AAAA-BBBB-CCCC-DDDD")           #replace with your license key
 
 If that works, you can close the command prompt. You should be good to go !
@@ -115,8 +119,8 @@ Our test data consists of a few drone images of the same zone taken at two diffe
 
 
 ```{r echo=FALSE, fig.show='hold', out.width='33%'}
-images <- c("test_data/my_drone_data3/RGB_20220427/DJI_0070.JPG", "test_data/my_drone_data3/RGB_20220427/DJI_0075.JPG", "test_data/my_drone_data3/RGB_20220427/DJI_0080.JPG")
-images_date2 <- c("test_data/my_drone_data3/RGB_20220511/DJI_0278.JPG", "test_data/my_drone_data3/RGB_20220511/DJI_0282.JPG", "test_data/my_drone_data3/RGB_20220511/DJI_0287.JPG")
+images <- c("test_data/my_drone_data/RGB_20220427/DJI_0070.JPG", "test_data/my_drone_data/RGB_20220427/DJI_0075.JPG", "test_data/my_drone_data/RGB_20220427/DJI_0080.JPG")
+images_date2 <- c("test_data/my_drone_data/RGB_20220511/DJI_0278.JPG", "test_data/my_drone_data/RGB_20220511/DJI_0282.JPG", "test_data/my_drone_data/RGB_20220511/DJI_0287.JPG")
 include_graphics(images)
 
 include_graphics(images_date2)
@@ -141,26 +145,18 @@ Time_SIFT_in_r("test_data/my_drone_data",
 # Conversion to png for display purposes
 library(magick)
 
-image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.png", format = "png", quality=100)
-image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.png", format = "png", quality=100)
-```
-
-
-```
-library(magick)
-
-image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.png", format = "png", quality=100)
-image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.png", format = "png", quality=100)
+image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220427.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220427.png", format = "png", quality=100)
+image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220511.tif"), path = "test_data/outputs_TS/ORTHO/Bouamir_20220511.png", format = "png", quality=100)
 ```
 
 <h3>Resulting orthomosaics :</h3>
 <div style="display: flex; justify-content: space-around;">
   <figure style="text-align: center;">
-    <img src="test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.png" alt="Image 1" width="300" />
+    <img src="test_data/outputs_TS/ORTHO/Bouamir_20220427.png" alt="Image 1" width="300" />
     <figcaption>Date 1</figcaption>
   </figure>
   <figure style="text-align: center;">
-    <img src="test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.png" alt="Image 1" width="300" />
+    <img src="test_data/outputs_TS/ORTHO/Bouamir_20220511.png" alt="Image 1" width="300" />
     <figcaption>Date 2</figcaption>
   </figure>
 </div>
@@ -171,7 +167,6 @@ image_write(image_read("test_data/outputs_TS/ORTHO/Bouamir_20220511_ORTHO.tif"),
 # Try arosics on test data
 arosics_in_r(path_in = "test_data/outputs_TS/ORTHO/Bouamir_20220427_ORTHO.tif",
              ref_filepath = "test_data/Bouamir_LiDAR_mars2022_ref_red.tif", 
-             #"D:/managecrownsdata/test_data/outputs_TS/ORTHO4/20220511_ORTHO.tif",
              out_dir_path = "test_data/outputs_arosics",
              corr_type = "global",
              #grid_res = 200,
