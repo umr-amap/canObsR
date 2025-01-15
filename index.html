@@ -39,6 +39,7 @@
     <li><a class="dropdown-item" href="articles/extract_crowns_images.html">extract_crowns_images</a></li>
     <li><a class="dropdown-item" href="articles/plot_labels.html">plot_labels</a></li>
     <li><a class="dropdown-item" href="articles/generate_orthomosaics.html">generate_orthomosaics</a></li>
+    <li><a class="dropdown-item" href="articles/workflow.html">workflow</a></li>
   </ul>
 </li>
       </ul>
@@ -72,6 +73,7 @@
 <li><a href="#documentation">Documentation</a></li>
 <li><a href="#how-to-use-managecrownsdata">How to use managecrownsdata</a></li>
 <li><a href="#general-advices">General advices</a></li>
+<li><a href="#workflow">Workflow</a></li>
 <li><a href="#step-1-and-2">STEP : 1 and 2</a></li>
 <li><a href="#step-3-generate-orthomosaics">STEP 3 : Generate orthomosaics</a></li>
 <li><a href="#step-4-create-nonna-bboximages">STEP 4 : create_nonNA_bboxImages()</a></li>
@@ -157,14 +159,20 @@ Recommanded workflow
 </figcaption></figure>
 </div>
 <div class="section level1">
-<h1 id="step-1-and-2">STEP 1 and 2<a class="anchor" aria-label="anchor" href="#step-1-and-2"></a>
+<h1 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
 </h1>
-<p><em>STEP 1</em><br>
-Use the function <a href="https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html"><code>create_files_architecture()</code></a> to create the recommended files architecture.</p>
-<p><em>STEP 2</em><br>
-Manually add your files (raw rgb images and crowns file) to the correct folders.</p>
+<p>One of the main function of the package is to generate orthomosaics, using the Metashape python API and arosics(<a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>) within the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html"><code>Time_SIFT()</code></a> and <a href="https://hugolblc.github.io/managecrownsdata/reference/arosics.html"><code>arosics()</code></a>. These steps required a Metashape license. To guide you step by step into the mosaic generating process you will find a <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html">tutoriel</a> that require the <a href="https://filesender.renater.fr/?s=download&amp;token=a9dda9d3-4cdf-4c80-8563-e27f1137a909" class="external-link">test dataset</a>.</p>
+<p>If you don’t have valid Metashape licence but already have the orthomosaics, you will find a tutoriel and test data here for the other package functions <a href="https://hugolblc.github.io/managecrownsdata/articles/workflow.html">here</a>.</p>
+</div>
+<div class="section level1">
+<h1 id="id_1-and-2">1 and 2<a class="anchor" aria-label="anchor" href="#id_1-and-2"></a>
+</h1>
 <ul>
-<li>Add your rgb images into the ‘1_drone_images’ folder</li>
+<li><p>1*<br>
+Use the function <a href="https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html"><code>create_files_architecture()</code></a> to create the recommended files architecture.</p></li>
+<li><p>2*<br>
+Manually add your files (raw rgb images and crowns file) to the correct folders.</p></li>
+<li><p>Add your rgb images into the ‘1_drone_images’ folder</p></li>
 </ul>
 <p>Structure your data in one of the following ways : either place one folder by flight directly in your input folder, or use one directory by date, each consisting of subdirectories for each flight (see exemples below). In both cases, the date must be indicated in the name of the folders directly containing images, in the YYYYMMDD or YYYYMM formats.</p>
 <div class="figure" style="text-align: center">
@@ -177,9 +185,9 @@ Accepted folder structures
 </ul>
 </div>
 <div class="section level1">
-<h1 id="step-3-generate-orthomosaics">STEP 3 Generate orthomosaics<a class="anchor" aria-label="anchor" href="#step-3-generate-orthomosaics"></a>
+<h1 id="id_3-generate-orthomosaics">3 Generate orthomosaics<a class="anchor" aria-label="anchor" href="#id_3-generate-orthomosaics"></a>
 </h1>
-<p>One of the main functions of the package is to generate orthomosaics in R, using arosics(<a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset <a href="https://filesender.renater.fr/?s=download&amp;token=4aaa362c-5f9e-4f58-93f9-b4f995cbfcba" class="external-link">here</a> and follow the instructions <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html">here</a></p>
+<p>One of the main functions of the package is to generate orthomosaics in R, using arosics(<a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset <a href="https://filesender.renater.fr/?s=download&amp;token=a9dda9d3-4cdf-4c80-8563-e27f1137a909" class="external-link">here</a> and follow the instructions <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html">here</a></p>
 <p>Our test data consists of a few drone images of the same zone taken at two different dates and the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/arosics.html"><code>arosics()</code></a> and <a href="https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html"><code>Time_SIFT()</code></a> will be used to generate the orthomosaics.</p>
 <div class="figure" style="text-align: center">
 <img src="reference/figures/generate_mosaics.JPG" alt="Generate mosaics from drone images" width="100%"><p class="caption">
