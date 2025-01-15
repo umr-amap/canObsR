@@ -5,41 +5,39 @@
 \title{Extract crowns images}
 \usage{
 extract_crownsImages(
-  crownFile,
-  RGB_paths,
+  path_in,
+  path_crowns,
+  path_bbox,
+  path_out,
   site = NULL,
-  date = NULL,
-  crs = NULL,
-  directory = NULL,
-  specific_quality = FALSE,
-  width = 250,
-  height = 300
+  dates = NULL,
+  N_cores = 1,
+  width = 720,
+  height = 825
 )
 }
 \arguments{
-\item{crownFile}{A \code{sf} object with an 'id' variable. Each id must be
-unique}
+\item{path_in}{A list with the full paths to the RGB rasters.}
 
-\item{RGB_paths}{a list with the full paths to the RGB rasters.}
+\item{path_crowns}{sf object}
+
+\item{path_bbox}{chr. Path to the folder where the non NA Bbox returned by the function \code{extract_bboxImages()}
+are stored.}
+
+\item{path_out}{chr. The path to the directory use to stored the images. The
+function will create the folder, It doesn't need to exists.}
 
 \item{site}{chr. name of the site, p.e 'Mbalmayo'.}
 
-\item{date}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
+\item{dates}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
 '2022_09_25'). The order of the dates should match with the order of the
-dates of the image in the RGB_paths.}
+dates of the image in the path_images}
 
-\item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL,
-it will use and transform all the data into the crs of the first RGB image.}
+\item{N_cores}{xx}
 
-\item{directory}{chr. The path to the directory use to stored the images. The
-function will create the folder, It doesn't need to exists.}
+\item{width}{num. The width of the device}
 
-\item{specific_quality}{Logical, if TRUE the quality of image will be
-determine by the height and width arguments.}
-
-\item{width}{if specific_quality = TRUE, the width of the device}
-
-\item{height}{if specific_quality = TRUE, the height of the device}
+\item{height}{num. The height of the device}
 }
 \description{
 The function extracts and save .jpeg images for each crown at
@@ -47,54 +45,44 @@ each date.
 }
 \details{
 The extract_crownsImages() create one folder per id and save the
-images. The folder names are 'crown_\emph{the id}\emph{\emph{the specie name}' for exemple
-'crown_5_Lophira alata'. The the images names are 'crown}\emph{the id}\emph{\emph{the specie
+images. The folder names are 'crown_\emph{the id}\emph{\emph{the species name}' for exemple
+'crown_5_Lophira alata'. The the images names are 'crown}\emph{the id}\emph{\emph{the species
 name}}\emph{the date}.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
 The function upload square image with neighbouring tree and the title is add
-at the top, image size is 720\emph{825 pixels. When specific_quality is FALSE, the
-image size is 250}300 by default but it can be changed by specifying
-specific_quality as TRUE and complete height and width arguments.
+at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
+image size can be changed by specifying height and width parameters.
 }
 \examples{
 \dontrun{
+library(sf)
+library(dplyr)
 
-library(tidyverse)
-
-directory <- 'C:/Users/2022hl001/Desktop/temp/test'
-crownFile <- st_read("/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg")
-site = 'Mbalmayo'
-crs = 'EPSG:32632'
-RGB_paths = list.files('F:/VIA/Cameroun/Mbalmayo/Pheno/RGB', pattern = "\\\\.tif$", full.names = TRUE)
-date <- as.Date (
-sapply(
-str_split(basename(RGB_paths),'_'), function(x) paste0(x[2],x[3],x[4])
-), "\%Y\%m\%d"
+crownsFile <- sf::st_read(
+file.path(
+system.file(package="managecrownsdata"),
+'crowns/Bouamir_crowns.gpkg'
 )
-crownFile <- st_transform(crownFile, st_crs( read_stars(RGB_paths[1],proxy = T)))
+)
 
-# Default parameters (quality of image : 720*825 pixels)
+check_crownsFile(crownsFile = crownsFile)
 
-extract_crownsImages(
-   crownFile = crownFile,
-   RGB_paths = RGB_paths,
-   directory = directory,
-   date = date,
-   tx_sp_lvl = 'tx_sp_lvl',
-   specific_quality = TRUE
-   )
+crownsFile <- crownsFile \%>\% dplyr::rename(
+   geometry = geom
+)
 
-#' # Extraction with specific height and width
+check_crownsFile(crownsFile = crownsFile)
 
 extract_crownsImages(
-   crownFile = crownFile,
-   RGB_paths = RGB_paths,
-   directory = directory,
-   date = date,
-   tx_sp_lvl = 'tx_sp_lvl',
-   specific_quality = FALSE,
-   height = 500,
-   width = 430
+      path_in = rgb_paths,
+      crownsFile = crownsFile,
+      path_bbox,
+      path_out,
+      site = NULL,
+      dates = NULL,
+      N_cores = 1,
+      width = 720,
+      height = 825
    )
-
 }
+
 }

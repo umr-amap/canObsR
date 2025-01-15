@@ -1,0 +1,111 @@
+---
+title: "extract_crowns_data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{extract_crowns_data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, results='hide', message=FALSE, warning=FALSE}
+library(managecrownsdata)
+library(dplyr)
+library(stringr)
+library(sf)
+library(DT)
+library(terra)
+```
+
+Extracting rgb crowns data requires rgb mosaics and a crown delineation shapefile. The crowns file must be import as an `sf object` using the functions \code{sf::st_read} or \code{sf::read_sf}. The full paths for the rgb mosaics must be within a vector. The dates of the mosaics, the site name and the crs could be specify. Dates must be a vector of characters 'yyyymmdd' matching with the rgb paths order. 
+
+If dates, site name and crs are not specify, they will be extract from the the mosaics files.
+
+```{r message=FALSE, warning=FALSE, results='hide'}
+crownsFile <- sf::st_read(file.path(system.file(package="managecrownsdata"), 'crowns/Bouamir_crowns.gpkg'))
+
+rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+
+```
+
+To check if the crown file is well formatted for the package functions. 
+
+```{r}
+check_crownsFile(crownsFile = crownsFile)
+```
+
+Do the modifications 
+
+```{r}
+crownsFile <- crownsFile %>% dplyr::rename(geometry = geom)
+```
+
+All the check are 'OK'
+
+```{r}
+check_crownsFile(crownsFile = crownsFile)
+```
+
+Visualize data before extraction 
+
+```{r, fig.width=9, fig.height=9}
+
+x <- terra::rast(rgb_paths[1])
+
+terra::plotRGB(
+   x,
+   main = 'img1',
+   axes = T,
+   mar = 2
+)
+
+base::plot(crownsFile$geometry,
+           border = "red",
+           lwd = 2,
+           add = TRUE)
+terra::text(terra::vect(crownsFile), labels="id", col = 'blue', cex = 2)
+
+```
+
+Extract the rgb values within crowns
+
+```{r, results='hide'}
+
+rgb_extraction <- extract_rgbValues(
+      crownsFile = crownsFile,
+      path_images = rgb_paths
+   )
+
+```
+
+
+
+```{r}
+datatable(rgb_extraction,
+          class = 'cell-border stripe',
+          rownames = FALSE,
+          width = '100%',
+          options = list(scrollX = TRUE))
+```
+
+
+```{r}
+# extract_crownsImages(
+#       path_images = rgb_paths,
+#       crownsFile = crownsFile,
+#       path_bbox,
+#       path_out,
+#       site = NULL,
+#       dates = NULL,
+#       N_cores = 1,
+#       width = 720,
+#       height = 825
+#    )
+```
+

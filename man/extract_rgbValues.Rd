@@ -5,33 +5,24 @@
 \title{Extract RGB metrics}
 \usage{
 extract_rgbValues(
-  crownFile,
-  RGB_paths,
-  site = NULL,
-  date = NULL,
-  crs = NULL,
-  fun = "all",
-  infos = FALSE
+  crownsFile,
+  path_images,
+  ncor = 1,
+  sites = NULL,
+  dates = NULL
 )
 }
 \arguments{
-\item{crownFile}{A \code{sf} object with the crowns delineation.}
+\item{crownsFile}{A \code{sf} object with the crowns delineation.}
 
-\item{RGB_paths}{a list with the full paths to the RGB rasters.}
+\item{path_images}{a list with the full paths to the RGB rasters.}
 
-\item{site}{chr. name of the site, p.e 'Mbalmayo'.}
+\item{ncor}{num. Number of cores}
 
-\item{date}{chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
-The order of the dates should match with the order of the RGB_paths !}
+\item{sites}{chr. name of the site, p.e 'Mbalmayo'.}
 
-\item{crs}{crs. Object of class 'crs', could be get from st_crs(..). If NULL, it will
-use and transform all the data into the crs of the first RGB image.}
-
-\item{fun}{chr. Specify the function used in the 'fun' parameter of the \code{exactextractr::exact_extract} function to extract
-RGB values, it could be 'mean', 'var' or 'all'.}
-
-\item{infos}{logical. Specify whether or not to return details of the extraction.
-When TRUE, specify the crowns which has not been extracting per date, because they were out of the image.}
+\item{dates}{chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
+The order of the dates should match with the order of the path_images !}
 }
 \description{
 The function extracts RGB metrics (red, green, blue, sumrgb,
@@ -40,27 +31,32 @@ for the whole mosaics and then extracts the value at the crown scale using the \
 function. The mean and / or the variance can be extracted (see 'fun' parameter).
 }
 \examples{
-\dontrun{
+
 library(sf)
 library(dplyr)
-library(stringr)
 
-path <- system.file(package="phenobsappli")
-RGB_paths <- list.files(file.path(path, 'tif'), full.names = TRUE)
-crowns <- read_sf (list.files(file.path(path, 'shp'), full.names = TRUE))
-date = sapply( str_split( basename( RGB_paths ),'_' ),
-                     function(x) str_remove(paste(x[2], x[3], x[4], sep ='_'),'.tif') )
-crs = sf::st_crs(stars::read_stars(RGB_paths[1], proxy = TRUE))
-site = 'Mbalmayo'
+path_crownsFile <- file.path(
+system.file(package="managecrownsdata"),
+'crowns/Bouamir_crowns.gpkg')
+crownsFile <- sf::read_sf(path_crownsFile)
+rgb_paths <- list.files(
+file.path(
+system.file(package="managecrownsdata"), 'rgb/'),
+full.names = TRUE
+)
 
-test <- extract_rgbValues(
-   crowns,
-   RGB_paths,
-   crs = crs,
-   site = site,
-   date = date,
-   fun = 'all',
-   infos = TRUE)
-}
+check_crownsFile(crownsFile = crownsFile)
+
+crownsFile <- crownsFile \%>\% dplyr::rename(
+   geometry = geom
+)
+
+check_crownsFile(crownsFile = crownsFile)
+
+rgb_data <- extract_rgbValues(
+crownsFile = crownsFile,
+path_images = rgb_paths,
+ncor = 1
+)
 
 }

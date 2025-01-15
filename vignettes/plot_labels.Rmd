@@ -1,0 +1,114 @@
+---
+title: "plot_labels"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{plot_labels}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(managecrownsdata)
+library(readxl)
+library(DT)
+library(sf)
+library(dplyr)
+```
+
+```{r}
+raw_labels <- read_excel(file.path(system.file(package="managecrownsdata"), 'xlsx/labeling_file_Bouamir.xlsx'))
+
+pivotLabels <- pivot_Labels(raw_labels)
+
+datatable(pivotLabels, 
+          class = 'cell-border stripe',
+          rownames = FALSE,
+          width = '100%', 
+          options = list(scrollX = TRUE))
+```
+
+```{r}
+pivotLabels <- pivot_Labels(raw_labels, simplify_labels = TRUE)
+
+datatable(pivotLabels, 
+          class = 'cell-border stripe',
+          rownames = FALSE,
+          width = '100%', 
+          options = list(scrollX = TRUE))
+```
+
+
+```{r}
+heatmap_Labels(pivotLabels,
+               Specie = NULL,
+               Genus = 'Desbordesia',
+               Family = NULL,
+               title = NULL)
+
+```
+
+```{r}
+heatmap_Labels(pivotLabels,
+               Specie = NULL,
+               Genus = 'Desbordesia',
+               Family = NULL,
+               title = NULL,
+               simplify = TRUE)
+```
+
+```{r}
+path_crownsFile <- file.path(system.file(package="managecrownsdata"), 'crowns/Bouamir_crowns.gpkg')
+crownsFile <- read_sf(path_crownsFile)
+rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
+
+check_crownsFile(crownsFile = crownsFile)
+
+crownsFile <- crownsFile %>% rename(
+   geometry = geom
+   )
+
+check_crownsFile(crownsFile = crownsFile)
+
+```
+
+
+
+```{r}
+rgb_data <- extract_rgbValues(
+   crownsFile = crownsFile,
+   path_images = rgb_paths
+)
+```
+
+```{r}
+merge_data <- merge_values(pivotLabels, rgb_data)
+
+```
+
+```{r}
+plot_signal(data = merge_data, Genus = 'Desbordesia')
+
+```
+
+```{r}
+plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 676)
+
+```
+
+```{r}
+plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 676, Band = c('gli', 'gndvi'))
+
+```
+
+```{r}
+plot_signal(data = merge_data, Genus = 'Desbordesia', Band = c('gli'), slcted_id = 676, show_Labels = TRUE)
+
+```
+

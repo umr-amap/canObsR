@@ -1,178 +1,260 @@
 #'Extract crowns images
 #'
 #'@description The function extracts and save .jpeg images for each crown at
-#'  each date.
+#'each date.
 #'
-#'@param crownFile A \code{sf} object with an 'id' variable. Each id must be
-#'  unique
-#'@param RGB_paths a list with the full paths to the RGB rasters.
-#'@param site chr. name of the site, p.e 'Mbalmayo'.
-#'@param directory chr. The path to the directory use to stored the images. The
+#'@param path_in A list with the full paths to the RGB rasters.
+#'@param path_crowns  sf object
+#'@param path_bbox chr. Path to the folder where the non NA Bbox returned by the function `extract_bboxImages()`
+#'are stored.
+#'@param path_out chr. The path to the directory use to stored the images. The
 #'  function will create the folder, It doesn't need to exists.
-#'@param date chr. Vector with dates (format should be '%Y_%m_%d', p.e
+#'@param site chr. name of the site, p.e 'Mbalmayo'.
+#'@param dates chr. Vector with dates (format should be '%Y_%m_%d', p.e
 #'  '2022_09_25'). The order of the dates should match with the order of the
-#'  dates of the image in the RGB_paths.
-#'@param crs crs. Object of class 'crs', could be get from st_crs(..). If NULL,
-#'  it will use and transform all the data into the crs of the first RGB image.
-#'@param specific_quality Logical, if TRUE the quality of image will be
-#'  determine by the height and width arguments.
-#'@param height if specific_quality = TRUE, the height of the device
-#'@param width if specific_quality = TRUE, the width of the device
+#'  dates of the image in the path_images
+#'@param N_cores xx
+#'@param height num. The height of the device
+#'@param width num. The width of the device
 #'
 #'@details The extract_crownsImages() create one folder per id and save the
-#'images. The folder names are 'crown_*the id*_*the specie name*' for exemple
-#''crown_5_Lophira alata'. The the images names are 'crown_*the id*_*the specie
+#'images. The folder names are 'crown_*the id*_*the species name*' for exemple
+#''crown_5_Lophira alata'. The the images names are 'crown_*the id*_*the species
 #'name*_*the date*.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
 #'The function upload square image with neighbouring tree and the title is add
-#'at the top, image size is 720*825 pixels. When specific_quality is FALSE, the
-#'image size is 250*300 by default but it can be changed by specifying
-#'specific_quality as TRUE and complete height and width arguments.
+#'at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
+#'image size can be changed by specifying height and width parameters.
 #'
-#' @examples
-#' \dontrun{
+#'@examples
+#'\dontrun{
+#' library(sf)
+#' library(dplyr)
 #'
-#' library(tidyverse)
-#'
-#' directory <- 'C:/Users/2022hl001/Desktop/temp/test'
-#' crownFile <- st_read("/processed_shp/Mbalmayo_crowns_2023_11_08.gpkg")
-#' site = 'Mbalmayo'
-#' crs = 'EPSG:32632'
-#' RGB_paths = list.files('F:/VIA/Cameroun/Mbalmayo/Pheno/RGB', pattern = "\\.tif$", full.names = TRUE)
-#' date <- as.Date (
-#' sapply(
-#' str_split(basename(RGB_paths),'_'), function(x) paste0(x[2],x[3],x[4])
-#' ), "%Y%m%d"
+#' crownsFile <- sf::st_read(
+#' file.path(
+#' system.file(package="managecrownsdata"),
+#' 'crowns/Bouamir_crowns.gpkg'
 #' )
-#' crownFile <- st_transform(crownFile, st_crs( read_stars(RGB_paths[1],proxy = T)))
+#' )
+# 'rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
 #'
-#' # Default parameters (quality of image : 720*825 pixels)
+#' check_crownsFile(crownsFile = crownsFile)
 #'
-#' extract_crownsImages(
-#'    crownFile = crownFile,
-#'    RGB_paths = RGB_paths,
-#'    directory = directory,
-#'    date = date,
-#'    tx_sp_lvl = 'tx_sp_lvl',
-#'    specific_quality = TRUE
-#'    )
+#' crownsFile <- crownsFile %>% dplyr::rename(
+#'    geometry = geom
+#' )
 #'
-#'#' # Extraction with specific height and width
+#' check_crownsFile(crownsFile = crownsFile)
 #'
 #' extract_crownsImages(
-#'    crownFile = crownFile,
-#'    RGB_paths = RGB_paths,
-#'    directory = directory,
-#'    date = date,
-#'    tx_sp_lvl = 'tx_sp_lvl',
-#'    specific_quality = FALSE,
-#'    height = 500,
-#'    width = 430
+#'       path_in = rgb_paths,
+#'       crownsFile = crownsFile,
+#'       path_bbox,
+#'       path_out,
+#'       site = NULL,
+#'       dates = NULL,
+#'       N_cores = 1,
+#'       width = 720,
+#'       height = 825
 #'    )
+#'}
 #'
-#' }
 #'@export
 #'
 #'@importFrom stars st_as_stars
 #'@importFrom stars read_stars
 #'@importFrom terra rast
-#'@importFrom terra extend
-#'@importFrom terra app
 #'@importFrom terra plotRGB
 #'@importFrom grDevices jpeg
 #'@importFrom grDevices dev.off
+#'@importFrom magrittr "%>%"
 #'@import sf
 #'@import dplyr
+
 
 
 
 extract_crownsImages <-
 
    function(
-      crownFile,
-      RGB_paths,
+      path_in,
+      path_crowns,
+      path_bbox,
+      path_out,
       site = NULL,
-      date = NULL,
-      crs = NULL,
-      directory = NULL,
-      specific_quality = FALSE,
-      width = 250,
-      height = 300
+      dates = NULL,
+      N_cores = 1,
+      width = 720,
+      height = 825
    ){
 
-      within_crowns <- list()
-      crownFile <- crownFile %>% sf::st_transform(crs = crs)
+      # Import data -----------------------------------------------
 
-      for (i in 1:length(RGB_paths)) {
+      bbox <- lapply(list.files(path_bbox, full.names = TRUE), sf::st_read)
+      crownsFile <-  sf::read_sf(path_crowns)
+      path_images <- list.files("E:/UAV_observatory_data/2_drone_images_ref",
+                                full.names = TRUE,
+                                pattern = '\\.tif$')
 
-         bbox <- create_bbox_rast (raster_path = RGB_paths[i], crs = crs)
+      # check site ------------------------------------------
 
-         within_crowns[[paste0(date[i])]] <- sf::st_join(bbox, crownFile, join = st_contains) %>% .[['id']]
+      # site should be NULL or a character vector
+      if ( !(is.character(site) | is.null(site)) ) {
+         stop("site should be a character vector or NULL")
+      }
+
+      # Get the site if NULL from the paths
+      if(is.null(site)){
+         site = extr_sites(basename(path_images))
+      }
+
+      # site should be a vector of 1 elements or with the same length as path_images
+      if ( !(length(site) == 1 | length(site) == length(path_images)) ) {
+         length_path <- length(path_images)
+         stop("length(site) should be 1 or ", length(path_images), ' not ',length(site))
+      }
+
+      # Return a message if there is more than one site
+      if ( length(unique(site)) > 1 ) {
+         length_path <- length(path_images)
+         message("You are working with several different site :", paste(unique(site), collapse = ' '))
+      }
+
+      # If length(site) == 1, create a vector with with the same length as path_images
+      if ( length(site) == 1 ) {
+         site <- rep(site, length(path_images))
+      }
+
+
+      # Check dates -------------------------------------------------------------
+
+      # dates should be NULL or a character vector
+      if ( !(is.character(dates) | is.null(dates)) ) {
+         stop("dates should be a character vector or NULL")
+      }
+
+      # Get the dates if NULL from the paths
+      if(is.null(dates)){
+         dates = extr_dates(basename(path_images))
+      }
+
+      # dates should be a vector with the same length as path_images
+      if ( !(length(dates) == length(path_images)) ) {
+         length_path <- length(path_images)
+         stop("length(dates) should be ", length(path_images), ' not ',length(site))
+      }
+
+      # dates format should be 'yyymmdd' as character
+      if ( FALSE %in% (unique(stringr::str_length(dates) == 8)) ){
+         stop("## The format for the dates should be 'yyyymmdd'")
+      }
+
+      if ( TRUE %in% (is.na(as.Date(dates, format = "%Y%m%d"))) ) {
+
+         wrong_dates <- dates[is.na(as.Date(dates, format = "%Y%m%d"))]
+
+         stop(paste(
+            "\n",
+            "## The format for the dates should be 'yyyymmdd'",
+            paste(paste(wrong_dates, collapse = ','), 'are not tolerated'),
+            sep = "\n"
+
+         ))
 
       }
 
-      if(site == 'Bouamir'){
 
-         img6 <- mosaic_bouamir_adjust(RGB_path_tocorrect = RGB_paths[6], RGB_path_model = RGB_paths[1])
-         img12 <- mosaic_bouamir_adjust(RGB_path_tocorrect = RGB_paths[12], RGB_path_model = RGB_paths[1])
+      # Check crs ---------------------------------------------------------------
+
+      for (i in 1:length(path_images)) {
+
+         if( i == 1 ){ crs_pb <- NULL }
+
+         check_crs <- (sf::st_crs( terra::rast(path_images[i]) ) == sf::st_crs(crownsFile))
+
+         if( !check_crs ){ crs_pb <- c(crs_pb, i) }
+
+         if( !is.null(crs_pb) ){
+            stop(paste("The crs from image(s)",paste(crs_pb,collapse = ','), "and crownsFile do not match"))
+         }
+
+
 
       }
 
 
-      for (i in 1:length(unique(crownFile$id))) {
 
-         tmp_id <- crownFile$id[i]
-         tmp_sp <- crownFile %>% dplyr::filter(id == tmp_id) %>% .[["tx_sp_lvl"]]
-         tmp_crown <- crownFile %>% dplyr::filter(id == tmp_id)
-         tmp_dir <- paste0(directory, "/crown_", tmp_id, "_", tmp_sp)
+      # folders <- list.files(path_out, full.names = TRUE)
+      # subfolders <- lapply(folders, list.files)
+      # names(subfolders) <- stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
+      #
+      # stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
+      #
+      # lapply(folders, list.files)
+
+      for (i in 1:length(unique(crownsFile$id))) {
+
+
+         # tmp_id %in% names(subfolders)
+
+
+         # Extract data for each id and create the folder for the outputs ----------
+
+         tmp_id <- crownsFile$id[i]
+         tmp_sp <- crownsFile$species[i]
+         if(is.null(tmp_sp) & !is.null(crownsFile$genus[i])){ tmp_sp <- paste(crownsFile$genus[i],'sp') }
+         tmp_crown <- crownsFile[i,]
+         tmp_dir <- paste0(path_out, "/crown_", tmp_id, "_", tmp_sp)
 
          dir.create(tmp_dir)
 
-         bbox <- create_bbox_shp (shp = tmp_crown)
+         crown_bbox <- create_bbox_shp (shp = tmp_crown)
 
-         for (j in 1:length(RGB_paths)) {
+         for (j in 1:length(path_images)) {
 
-            x <- stars::read_stars(RGB_paths[j], proxy = T)[bbox][, , , 1:3]
 
-            if (specific_quality == FALSE) {
-               grDevices::jpeg(file = file.path(
-                  paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", date[j], ".jpeg")
-               ),
-               height = 825,
-               width = 720)
-            }
+            # Define the file and the image size for the export -----------------------
 
-            if (specific_quality == TRUE) {
-               grDevices::jpeg(file = file.path(
-                  paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", date[j], ".jpeg")
-               ),
-               width = width,
-               height = height)
-            }
+            grDevices::jpeg(file = file.path(
+               paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", dates[j], ".jpeg")
+            ),
+            width = width,
+            height = height)
 
-            if (!(tmp_id %in% within_crowns[[j]]) |
-                is.nan(mean(as.data.frame(x)[, 4], na.rm = T))) {
-               plot_nodata()
+            if (as.logical(sf::st_contains(bbox[[j]], crown_bbox, sparse = F))) {
 
-            } else {
+
+               # If data are available, plot the crown -----------------------------------
+
+               x <- stars::read_stars(path_images[j], proxy = T)[crown_bbox][, , , 1:3]
+
                terra::plotRGB(
                   terra::rast(x),
-                  main = paste(date[j], "     ", tmp_sp, "     id =", tmp_id),
-                  ext = bbox,
-                  axes = T
+                  main = paste(dates[j], "|", tmp_sp, "| id =", tmp_id),
+                  ext = sf::st_as_sf(crown_bbox),
+                  axes = T,
+                  mar = 2
                )
                base::plot(
-                  tmp_crown$geom,
+                  tmp_crown$geometry,
                   border = "red",
                   lwd = 2,
                   add = T
                )
+
+
+            } else {
+
+               # If data are not available, plot "NO DATA" -------------------------------
+
+               plot_nodata()
 
             }
 
             grDevices::dev.off()
          }
 
-         print(paste("CROWN  ", i, " DONE", "   /    ", length(unique(crownFile$id))))
+         print(paste("CROWN  ", i, " DONE", "   /    ", length(unique(crownsFile$id))))
 
       }
    }

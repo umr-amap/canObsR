@@ -5,24 +5,66 @@
 \title{Create xlsx labeling file}
 \usage{
 create_labelingFile(
-  crownFile,
+  crownsFile,
   site = NULL,
-  date = NULL,
+  dates = NULL,
   save_xlsx = FALSE,
   directory = NULL
 )
 }
 \arguments{
-\item{crownFile}{A \code{sf} object with the crowns delineation.}
+\item{crownsFile}{\code{sf object}. The crowns delineation file. It should include 'id',
+'species', 'genus' and 'family' columns.}
 
-\item{site}{chr. name of the site, p.e 'Mbalmayo'.}
+\item{site}{chr. site name.}
 
-\item{date}{chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').}
+\item{dates}{chr. vector of dates (format should be 'YYYYMMDD', p.e '20220925').}
 
-\item{save_xlsx}{log. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters}
+\item{save_xlsx}{logical. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters}
 
 \item{directory}{The path where to save the xlsx file.}
 }
 \description{
 A function to create the xlsx file to do the labeling
+}
+\examples{
+
+library(sf)
+library(dplyr)
+library(stringr)
+
+rgb_paths <- list.files(
+file.path(
+system.file(package="managecrownsdata"), 'rgb/'),
+full.names = TRUE
+)
+path_crownsFile <- file.path(
+system.file(package="managecrownsdata"),
+'crowns/Bouamir_crowns.gpkg'
+)
+crownsFile <- sf::read_sf(path_crownsFile)
+
+site = 'Bouamir'
+dates <- paste(
+str_sub(stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],1,4),
+str_sub(stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],5,6),
+str_sub(stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],7,8),
+sep = ''
+)
+
+check_crownsFile(crownsFile = crownsFile)
+
+crownsFile <- crownsFile \%>\% rename(
+geometry = geom
+)
+
+check_crownsFile(crownsFile = crownsFile)
+
+create_labelingFile(
+crownsFile = crownsFile,
+site = site,
+dates = dates,
+save_xlsx = FALSE
+)
+
 }

@@ -4,17 +4,56 @@
 \alias{merge_values}
 \title{Merge labels and rgb values}
 \usage{
-merge_values(labelsValues, rgbValues)
+merge_values(longLabels, rgbValues)
 }
 \arguments{
-\item{labelsValues}{A \code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.}
+\item{longLabels}{\code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.}
 
-\item{rgbValues}{A \code{tibble} or \code{dataframe} with the rgb metrics values.}
+\item{rgbValues}{\code{tibble} or \code{dataframe} with the rgb metrics values.}
 }
 \value{
 A \code{tibble}
 }
 \description{
-A function to merge the labels from the xlsx file and the rgb metrics
+A function to merge the labels from long format and the rgb metrics
 values.
+}
+\examples{
+
+library(sf)
+library(dplyr)
+library(readxl)
+
+path_crownsFile <- file.path(
+system.file(package="managecrownsdata"),
+'crowns/Bouamir_crowns.gpkg')
+crownsFile <- sf::read_sf(path_crownsFile)
+rgb_paths <- list.files(
+file.path(
+system.file(package="managecrownsdata"), 'rgb/'),
+full.names = TRUE
+)
+
+check_crownsFile(crownsFile = crownsFile)
+
+crownsFile <- crownsFile \%>\% dplyr::rename(
+   geometry = geom
+)
+
+check_crownsFile(crownsFile = crownsFile)
+
+#rgbValues <- extract_rgbValues(
+#crownsFile = crownsFile,
+#path_images = rgb_paths
+#)
+
+#raw_labels <- read_excel(
+#file.path(
+#system.file(package="managecrownsdata"),
+#'xlsx/labeling_file_Bouamir.xlsx')
+#)
+#longLabels <- pivot_Labels(raw_labels, simplify_labels = TRUE)
+
+#merge_values(longLabels, rgbValues)
+
 }
