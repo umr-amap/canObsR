@@ -18,11 +18,7 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/extract_crowns_data.html">extract_crowns_data</a></li>
-    <li><a class="dropdown-item" href="../articles/extract_crowns_images.html">extract_crowns_images</a></li>
-    <li><a class="dropdown-item" href="../articles/plot_labels.html">plot_labels</a></li>
-    <li><a class="dropdown-item" href="../articles/generate_orthomosaics.html">generate_orthomosaics</a></li>
-    <li><a class="dropdown-item" href="../articles/workflow.html">workflow</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/workflow.html">workflow</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -120,36 +116,6 @@
     <p>return a ggplot</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'data'</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">plot_signal</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,</span></span>
-<span class="r-in"><span>Genus <span class="op">=</span> <span class="st">'Desbordesia'</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="plot_signal-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">plot_signal</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,</span></span>
-<span class="r-in"><span>Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>,</span></span>
-<span class="r-in"><span>slcted_id <span class="op">=</span> <span class="fl">676</span>,</span></span>
-<span class="r-in"><span>Band <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'gli'</span>, <span class="st">'gndvi'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="plot_signal-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">plot_signal</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,</span></span>
-<span class="r-in"><span>Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>,</span></span>
-<span class="r-in"><span>Band <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'gli'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>slcted_id <span class="op">=</span> <span class="fl">676</span>,</span></span>
-<span class="r-in"><span>show_Labels <span class="op">=</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Ignoring unknown parameters: `fontface`</span>
-<span class="r-plt img"><img src="plot_signal-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
