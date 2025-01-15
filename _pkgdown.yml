@@ -48,3 +48,4 @@ articles:
   navbar: ~
   contents:
   - workflow
+  - generate_orthomosaics

@@ -1,0 +1,53 @@
+---
+title: "generate_orthomosaics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{generate_orthomosaics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+Here is a short example to guide you step by step through the orthomosaic generating process with the functions [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html). These functions required, arosics(AROSICS), the Metashape python API and a valid Metashape license.  
+
+* First you will need to download the  [test data](https://filesender.renater.fr/?s=download&token=4aaa362c-5f9e-4f58-93f9-b4f995cbfcba) and unzip it. Test
+data contains, 2 sets of drones images from the same area obtained from 2 differents dates and a **DTM** digital terrain model from the the area which is the reference. 
+
+* Then run the following code, more details about [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html).
+
+
+```{r, eval=F, echo=T}
+library(managecrownsdata)
+library(reticulate)
+
+use_condaenv('managecrownsdata_env')
+
+my_path <- 'XXXX/UAV_observatory_data_tuto1'
+
+Time_SIFT(pathDIR = file.path(directory, '1_drone_images'),
+          out_dir_ortho = file.path(directory, '4_Time_SIFT_output'),
+          data_type = "RGB",
+          resol_ref = 0.5,
+          site_name = "Bouamir",
+          crs = "EPSG::32633",
+) # Export Time_SFIFT outputs into '4_Time_SIFT_output' folder
+
+arosics(path_in = file.path(directory, '4_Time_SIFT_output'),
+        ref_filepath = file.path(directory, '2_drone_images_ref'),
+        out_dir_path = file.path(directory, '5_arosics_output'),
+        corr_type = "global",
+        #grid_res = 200,
+        window_size = 500,
+        window_pos = list(258131, 352973),
+        save_data = FALSE
+) # Export Time_SFIFT outputs into '4_Time_SIFT_output' folder
+
+```
+
