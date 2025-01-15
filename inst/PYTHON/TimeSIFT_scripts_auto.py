@@ -21,12 +21,13 @@ parser.add_argument('--out_dir_dem', type=str, default = None,)
 parser.add_argument('--out_dir_project', type=str, default = None)
 parser.add_argument('--resol_ref', type=float, default = 0.05)
 parser.add_argument('--data_type', type=str, default = 'RGB')
-parser.add_argument('--site_name', type=str, default = '')
+parser.add_argument('--site_name', type=str, default = "")
 parser.add_argument('--calibrate_col', default = True)
 parser.add_argument('--sun_sensor', default = False)
 parser.add_argument('--group_by_flight', default = False)
 parser.add_argument('--downscale_factor_alignement', type=int, default = 1)
 parser.add_argument('--downscale_factor_depth_map', type=int, default = 2)
+parser.add_argument('--suffix', type=str, default = "")
 args = parser.parse_args()
 
 
@@ -51,7 +52,7 @@ def add_all_chunks(doc, pathDIR=None):
     Loads all RGB photos into the project, one chunk per subfolder in pathDIR
     """
     print(pathDIR)
-    os.chdir(pathDIR)
+    #os.chdir(pathDIR)
     epochs = os.listdir(pathDIR)
     # we select only the non-empty subfolders
     list_files = [] 
@@ -66,7 +67,7 @@ def add_all_chunks(doc, pathDIR=None):
     for chk in doc.chunks:
         doc.remove(chk)
     for i in range(len(ep_relative_paths)):
-        ep_name, ep_path = epochs[i], ep_relative_paths[i]
+        ep_name, ep_path = epochs[i], os.path.join(pathDIR, ep_relative_paths[i])
         add_TimeSIFT_chunk(doc, ep_path = ep_path, epoch_name = ep_name)
 
 
@@ -105,7 +106,7 @@ def merge_chunk_TimeSIFT(doc):
         doc.remove(chk_sel)
         for cam in [i for i in merged_chunk.cameras if re.search(chk_sel.label,i.label) is not None]:
             cam.transform = None
-    print("Temps écoulé pour la fusion : ", time.time() - start_time)
+    print("Time spent merging photos : ", time.time() - start_time)
 
 
 def align_TimeSIFT_chunk(doc, downscale_factor = 1):
@@ -115,16 +116,16 @@ def align_TimeSIFT_chunk(doc, downscale_factor = 1):
     start_time = time.time()
     TS_chunk=[chk for chk in doc.chunks if re.search("TimeSIFT",chk.label) is not None][0]
     TS_chunk.matchPhotos(downscale=downscale_factor, generic_preselection=True, reference_preselection=True,
-                      reference_preselection_mode=scan.ReferencePreselectionSource, keypoint_limit=100000,
-                      tiepoint_limit=10000,keep_keypoints=False)
+                         reference_preselection_mode=scan.ReferencePreselectionSource, keypoint_limit=100000,
+                         tiepoint_limit=10000,keep_keypoints=False)
     # loop to re-align non-aligned photos
     nb_aligned_before = 0
     nb_aligned_after = 100
     while nb_aligned_after != nb_aligned_before:
         nb_aligned_before = len([i for i in TS_chunk.cameras if i.transform])
         TS_chunk.matchPhotos(downscale=downscale_factor, generic_preselection=True, reference_preselection=True,
-                          reference_preselection_mode=scan.ReferencePreselectionSource, keypoint_limit=200000,
-                          tiepoint_limit=20000,keep_keypoints=False)
+                             reference_preselection_mode=scan.ReferencePreselectionSource, keypoint_limit=200000,
+                             tiepoint_limit=20000,keep_keypoints=False)
         TS_chunk.alignCameras()
         nb_aligned_after = len([i for i in TS_chunk.cameras if i.transform])
     aligned_cameras = [i for i in TS_chunk.cameras if i.transform]
@@ -132,7 +133,7 @@ def align_TimeSIFT_chunk(doc, downscale_factor = 1):
     TS_chunk.resetRegion()
     TS_chunk.optimizeCameras()
     TS_chunk.updateTransform()
-    print("Temps écoulé pour l'alignement : ", time.time() - start_time)
+    print("Temps spent aligning photos : ", time.time() - start_time)
 
 
 def split_TimeSIFT_chunk(doc, group_by_flight = False):
@@ -183,7 +184,7 @@ def merge_chunk_with_same_date(doc):
 
     
 
-def process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = None, out_dir_DEM = None, site_name="", resol_ref = None, crs = None, downscale_factor_depth_map = 2):
+def process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = None, out_dir_DEM = None, site_name="", resol_ref = None, crs = None, downscale_factor_depth_map = 2, suffix = ""):
     """
     Generate depth map, dense cloud, DEM and orthomosaic for one image. Always saves orthomosaic and saves DEM if specified
 
@@ -222,17 +223,17 @@ def process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = None, out_di
         doc.save(os.path.join(out_dir_ortho, '_temp_.psx'))
 
         try :
-            NewChunk.exportRaster(os.path.join(out_dir_ortho, f"{str(NewChunk.label)}{site_name}_ORTHO.tif"),source_data=scan.OrthomosaicData, image_format=scan.ImageFormatTIFF,
+            NewChunk.exportRaster(os.path.join(out_dir_ortho, f"{site_name}{str(NewChunk.label)}{suffix}.tif"),source_data=scan.OrthomosaicData, image_format=scan.ImageFormatTIFF,
                                 projection=proj, resolution=resol_ref,clip_to_boundary=True,save_alpha=False, split_in_blocks = False, image_compression = img_compress)
             
         # if the raster file is too big and bigTiff doesn't work for some reason, it will be divided into 10000*10000 blocks
         except:
-            os.remove(os.path.join(out_dir_ortho, f"{str(NewChunk.label)}{site_name}_ORTHO.tif"))
-            NewChunk.exportRaster(os.path.join(out_dir_ortho, f"{str(NewChunk.label)}{site_name}_ORTHO.tif"),source_data=scan.OrthomosaicData, image_format=scan.ImageFormatTIFF,
+            os.remove(os.path.join(out_dir_ortho, f"{site_name}{str(NewChunk.label)}{suffix}.tif"))
+            NewChunk.exportRaster(os.path.join(out_dir_ortho, f"{site_name}{str(NewChunk.label)}{suffix}.tif"),source_data=scan.OrthomosaicData, image_format=scan.ImageFormatTIFF,
                                     projection=proj, resolution=resol_ref,clip_to_boundary=True,save_alpha=False, split_in_blocks = True, block_width=10000, block_height=10000, image_compression=img_compress)
 
         if out_dir_DEM is not None:
-            NewChunk.exportRaster(os.path.join(out_dir_DEM, f"{str(NewChunk.label)}{site_name}_DEM.tif"),source_data=scan.ElevationData, image_format=scan.ImageFormatTIFF, image_compression = img_compress,
+            NewChunk.exportRaster(os.path.join(out_dir_DEM, f"{site_name}{str(NewChunk.label)}{suffix}.tif"),source_data=scan.ElevationData, image_format=scan.ImageFormatTIFF, image_compression = img_compress,
                                 projection=proj, resolution=resol_ref,clip_to_boundary=True, save_alpha=False)
 
 
@@ -250,6 +251,7 @@ def Time_SIFT_process(pathDIR,
                       group_by_flight = False,
                       downscale_factor_alignement = 1,
                       downscale_factor_depth_map = 2,
+                      suffix = "",
                       ):
     """
     Executes the complete Time_SIFT process : Loads all photos from the input folder and its subdirectories into a Metashape project . These photos will then be merged, aligned,
@@ -275,7 +277,9 @@ def Time_SIFT_process(pathDIR,
     assert data_type in ["RGB", "MS"]
     #for file naming purposes
     if site_name != "":
-       site_name = "_" + site_name
+       site_name = site_name + "_"
+
+    out_dir_ortho = os.path.abspath(out_dir_ortho)
 
     calibrate_col = str2bool(calibrate_col)
     sun_sensor = str2bool(sun_sensor)
@@ -287,13 +291,15 @@ def Time_SIFT_process(pathDIR,
     if out_dir_DEM is not None:  
         if out_dir_DEM == "" :
            out_dir_DEM = os.path.join(os.path.dirname(out_dir_ortho), "DEM")
-        if not os.path.exists(out_dir_DEM):
-           os.mkdir(out_dir_DEM)
+        else:
+            out_dir_DEM = os.path.abspath(out_dir_DEM)
+            if not os.path.exists(out_dir_DEM):           
+                os.mkdir(out_dir_DEM)
 
     #TODO : store all times into log file, or add progress bars
     start_time = time.time()
     if data_type == "RGB" or data_type == "MS":
-        add_all_chunks(doc, pathDIR = pathDIR)
+        add_all_chunks(doc, pathDIR = os.path.abspath(pathDIR))
         merge_chunk_TimeSIFT(doc)
         t_add_data = time.time()
         print(f"Time spent loading and merging photos : {t_add_data - start_time} seconds")
@@ -329,7 +335,14 @@ def Time_SIFT_process(pathDIR,
     #merge_chunk_with_same_date(doc)
     t_split = time.time()
     #print("Temps écoulé pour la division et regroupement par date : ", t_split - t_align)
-    process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = out_dir_ortho, out_dir_DEM = out_dir_DEM, site_name = site_name, resol_ref = resol_ref, crs = crs, downscale_factor_depth_map=downscale_factor_depth_map)
+    process_splited_TimeSIFT_chunks_one_by_one(doc, 
+                                               out_dir_ortho = out_dir_ortho, 
+                                               out_dir_DEM = out_dir_DEM, 
+                                               site_name = site_name,
+                                               resol_ref = resol_ref, 
+                                               crs = crs, 
+                                               downscale_factor_depth_map = downscale_factor_depth_map, 
+                                               suffix = suffix)
     print(f"Time spent for the final process for all images : {time.time() - t_split} seconds")
     print(f"Time spent for the copmlete pipeline : {time.time() - start_time} seconds")
     doc.save(os.path.join(out_dir_ortho, '_temp_.psx'))
@@ -337,10 +350,13 @@ def Time_SIFT_process(pathDIR,
     if out_dir_project is not None :
         if out_dir_project == "" :
             out_dir_project = out_dir_ortho
-        if not os.path.exists(out_dir_project):
-            os.mkdir(out_dir_project)
+        else:
+            out_dir_project = os.path.abspath(out_dir_project)
+            if not os.path.exists(out_dir_project):
+                os.mkdir(out_dir_project)
         doc.save(os.path.join(out_dir_project, f"Metashape_Project_{site_name}.psx"))
-        
+    
+    doc.clear()
     os.remove(os.path.join(out_dir_ortho, '_temp_.psx'))
     try:
         shutil.rmtree(os.path.join(out_dir_ortho, '_temp_.files'))
@@ -363,5 +379,6 @@ if __name__ == '__main__':
                       sun_sensor = args.sun_sensor,
                       group_by_flight = args.group_by_flight,
                       downscale_factor_alignement = args.downscale_factor_alignement,
-                      downscale_factor_depth_map = args.downscale_factor_depth_map
+                      downscale_factor_depth_map = args.downscale_factor_depth_map,
+                      suffix = args.suffix,
                       )
