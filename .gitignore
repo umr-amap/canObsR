@@ -10,5 +10,6 @@ test_data/*
 *.md
 pandoc*
 *.htmltest_data/*
+installation_and_funcs.Rmd
 installation_and_funcs.html
 installation_and_funcs.nb.html

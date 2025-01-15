@@ -513,7 +513,7 @@ def complete_arosics_process(path_in,
             for file in files[1:]:
                 current_file_path = os.path.join(path_in, file)
                 harmonize_crs(current_file_path, ref_filepath, check_ref=False, compress_lzw=compress_lzw)
-                path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f'_aligned_{corr_type}.tif')
+                path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}")              #f'_aligned_{corr_type}.tif'
                 DS = DESHIFTER(current_file_path, CR_info, path_out=path_out, fmt_out="GTIFF")
                 DS.correct_shifts()
 
