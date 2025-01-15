@@ -9,6 +9,7 @@
 - [Documentation](#documentation)
 - [How to use managecrownsdata](#how-to-use-managecrownsdata)
 - [General advices](#general-advices)
+- [Workflow](#workflow)
 - [STEP : 1 and 2](#step-1-and-2)
 - [STEP 3 : Generate orthomosaics](#step-3-generate-orthomosaics)
 - [STEP 4 : create_nonNA_bboxImages()](#step-4-create-nonna-bboximages)
@@ -129,16 +130,35 @@ can use the function
 <figcaption aria-hidden="true">Recommanded workflow</figcaption>
 </figure>
 
-# STEP 1 and 2
+# Workflow
 
-*STEP 1*  
-Use the function
-[`create_files_architecture()`](https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html)
-to create the recommended files architecture.
+One of the main function of the package is to generate orthomosaics,
+using the Metashape python API and
+arosics([AROSICS](https://github.com/GFZ/arosics)) within the functions
+[`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html)
+and
+[`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html).
+These steps required a Metashape license. To guide you step by step into
+the mosaic generating process you will find a
+[tutoriel](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
+that require the [test
+dataset](https://filesender.renater.fr/?s=download&token=a9dda9d3-4cdf-4c80-8563-e27f1137a909).
 
-*STEP 2*  
-Manually add your files (raw rgb images and crowns file) to the correct
-folders.
+If you don’t have valid Metashape licence but already have the
+orthomosaics, you will find a tutoriel and test data here for the other
+package functions
+[here](https://hugolblc.github.io/managecrownsdata/articles/workflow.html).
+
+# 1 and 2
+
+- 1\*  
+  Use the function
+  [`create_files_architecture()`](https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html)
+  to create the recommended files architecture.
+
+- 2\*  
+  Manually add your files (raw rgb images and crowns file) to the
+  correct folders.
 
 - Add your rgb images into the ‘1_drone_images’ folder
 
@@ -159,7 +179,7 @@ Accepted folder structures
 
 - Add your crowns data files into the ‘4_crowns’ folder
 
-# STEP 3 Generate orthomosaics
+# 3 Generate orthomosaics
 
 One of the main functions of the package is to generate orthomosaics in
 R, using arosics([AROSICS](https://github.com/GFZ/arosics)) and the

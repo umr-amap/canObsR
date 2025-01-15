@@ -51,3 +51,4 @@ articles:
   - extract_crowns_images
   - plot_labels
   - generate_orthomosaics
+  - workflow

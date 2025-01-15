@@ -4,9 +4,9 @@
 #'each date.
 #'
 #'@param path_in A list with the full paths to the RGB rasters.
-#'@param crownsFile  sf object
-#'@param path_bbox The path to the non NA Bbox returned by the function `extract_bboxImages()`.
-#' The order of the bbox should match with the order of the images in the path_in
+#'@param path_crowns  sf object
+#'@param path_bbox chr. Path to the folder where the non NA Bbox returned by the function `extract_bboxImages()`
+#'are stored.
 #'@param path_out chr. The path to the directory use to stored the images. The
 #'  function will create the folder, It doesn't need to exists.
 #'@param site chr. name of the site, p.e 'Mbalmayo'.
