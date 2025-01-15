@@ -2,35 +2,28 @@
 #'
 #' @description A function to format labels data from wide to long format
 #'
-#' @param wideLabels \code{tibble} or \code{dataframe} which contains labeling data directly import from the xlsx file.
+#' @param labels_path chr. Path to the labeling file
 #' @param simplify_labels \code{logical} Decompose and simplify the labels when TRUE. By defaut it is FALSE.
+#' @param out_dir_path chr. The path to the directory use to stored the result.
 #' @return \code{tibble}
 #'
-#' @examples
-#'
-#' library(readxl)
-#'
-#' raw_labels <- read_excel(
-#' file.path(
-#' system.file(package="managecrownsdata"),
-#' 'xlsx/labeling_file_Bouamir.xlsx')
-#' )
-#'
-#' pivot_Labels(raw_labels)
-#'
-#' pivot_Labels(raw_labels, simplify_labels = TRUE)
 #'
 #' @export
 #'
 #'
-#' @importFrom dplyr select
-#' @importFrom dplyr mutate
+#' @import dplyr
+#' @import tidyr
+#' @import stringr
+#' @importFrom readxl read_excel
 
 
 
-pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
+pivot_Labels <- function(labels_path,
+                         simplify_labels = FALSE,
+                         out_dir_path = NULL) {
 
-   longLabels <- wideLabels %>%
+   longLabels <- labels_path %>%
+      readxl::read_excel() %>%
       tidyr::gather(-c(id, obs, Comm, update, Usable_crown, n, site, species, genus, family),
                     key = date,
                     value = phenophase) %>%
@@ -112,6 +105,9 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
 
          dplyr::select(site:phenophase, PPfoliar1, PPfoliar2, PPFlo:PPfoliar2_uncertainty, obs, Comm, update, Usable_crown)
 
+
+      file.name = 'LongLabels_simplify'
+
    }else{
 
       longLabels <-
@@ -121,6 +117,17 @@ pivot_Labels <- function(wideLabels, simplify_labels = FALSE) {
                       stringr::str_detect(phenophase, "\\;$") ~ stringr::str_sub(phenophase, 1, nchar(phenophase) - 1),
                       TRUE ~ phenophase
                    ))
+
+      file.name = 'LongLabels'
+   }
+
+
+   if(!is.null(out_dir_path)){
+
+      save(longLabels, file = file.path(out_dir_path, paste(file.name,
+                                                            paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
+                                                            , sep = '_' )
+      ))
    }
 
    return(longLabels)

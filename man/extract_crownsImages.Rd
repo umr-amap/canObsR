@@ -8,7 +8,7 @@ extract_crownsImages(
   path_in,
   path_crowns,
   path_bbox,
-  path_out,
+  out_dir_path,
   site = NULL,
   dates = NULL,
   N_cores = 1,
@@ -19,12 +19,12 @@ extract_crownsImages(
 \arguments{
 \item{path_in}{A list with the full paths to the RGB rasters.}
 
-\item{path_crowns}{sf object}
+\item{path_crowns}{chr. Path to the crown file}
 
 \item{path_bbox}{chr. Path to the folder where the non NA Bbox returned by the function \code{extract_bboxImages()}
 are stored.}
 
-\item{path_out}{chr. The path to the directory use to stored the images. The
+\item{out_dir_path}{chr. The path to the directory use to stored the images. The
 function will create the folder, It doesn't need to exists.}
 
 \item{site}{chr. name of the site, p.e 'Mbalmayo'.}
@@ -51,38 +51,4 @@ name}}\emph{the date}.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
 The function upload square image with neighbouring tree and the title is add
 at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
 image size can be changed by specifying height and width parameters.
-}
-\examples{
-\dontrun{
-library(sf)
-library(dplyr)
-
-crownsFile <- sf::st_read(
-file.path(
-system.file(package="managecrownsdata"),
-'crowns/Bouamir_crowns.gpkg'
-)
-)
-
-check_crownsFile(crownsFile = crownsFile)
-
-crownsFile <- crownsFile \%>\% dplyr::rename(
-   geometry = geom
-)
-
-check_crownsFile(crownsFile = crownsFile)
-
-extract_crownsImages(
-      path_in = rgb_paths,
-      crownsFile = crownsFile,
-      path_bbox,
-      path_out,
-      site = NULL,
-      dates = NULL,
-      N_cores = 1,
-      width = 720,
-      height = 825
-   )
-}
-
 }

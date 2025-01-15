@@ -2,52 +2,11 @@
 #'
 #' @description A function to create the xlsx file to do the labeling
 #'
-#' @param crownsFile \code{sf object}. The crowns delineation file. It should include 'id',
-#' 'species', 'genus' and 'family' columns.
+#' @param path_crowns  chr. Path to the crown file
 #' @param site chr. site name.
 #' @param dates chr. vector of dates (format should be 'YYYYMMDD', p.e '20220925').
 #' @param save_xlsx logical. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters
 #' @param directory The path where to save the xlsx file.
-#'
-#' @examples
-#'
-#' library(sf)
-#' library(dplyr)
-#' library(stringr)
-#'
-#' rgb_paths <- list.files(
-#' file.path(
-#' system.file(package="managecrownsdata"), 'rgb/'),
-#' full.names = TRUE
-#' )
-#' path_crownsFile <- file.path(
-#' system.file(package="managecrownsdata"),
-#' 'crowns/Bouamir_crowns.gpkg'
-#' )
-#' crownsFile <- sf::read_sf(path_crownsFile)
-#'
-#' site = 'Bouamir'
-#' dates <- paste(
-#' str_sub(stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],1,4),
-#' str_sub(stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],5,6),
-#' str_sub(stringr::str_split(basename(rgb_paths), '_', simplify = TRUE)[,2],7,8),
-#' sep = ''
-#' )
-#'
-#' check_crownsFile(crownsFile = crownsFile)
-#'
-#' crownsFile <- crownsFile %>% rename(
-#' geometry = geom
-#' )
-#'
-#' check_crownsFile(crownsFile = crownsFile)
-#'
-#' create_labelingFile(
-#' crownsFile = crownsFile,
-#' site = site,
-#' dates = dates,
-#' save_xlsx = FALSE
-#' )
 #'
 #' @export
 #'
@@ -60,12 +19,15 @@
 create_labelingFile <-
 
    function(
-      crownsFile,
+      path_crowns,
       site = NULL,
       dates = NULL,
       save_xlsx = FALSE,
       directory = NULL
    ){
+
+      crownsFile <-  sf::read_sf(path_crowns)
+      sf::st_geometry(crownsFile)='geometry'
 
       # Create a list with the names of the columns we will add to labeling file,
       # and the value NA (we will fill the column with NA)
@@ -88,7 +50,7 @@ create_labelingFile <-
          dplyr::mutate(site = site) %>%
          dplyr::mutate(!!!new_col_list) %>%
          dplyr::ungroup() %>%
-         dplyr::select(site, id, species, genus, family, n, obs, update, everything())
+         dplyr::select(site, id, family, genus, species, n, obs, update, everything())
 
       if (save_xlsx == TRUE) {
 

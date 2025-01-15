@@ -5,17 +5,18 @@
 \title{Extract RGB metrics}
 \usage{
 extract_rgbValues(
-  crownsFile,
-  path_images,
+  path_in,
+  path_crowns,
+  out_dir_path,
   ncor = 1,
   sites = NULL,
   dates = NULL
 )
 }
 \arguments{
-\item{crownsFile}{A \code{sf} object with the crowns delineation.}
+\item{path_crowns}{chr. Path to the crown file}
 
-\item{path_images}{a list with the full paths to the RGB rasters.}
+\item{out_dir_path}{chr. The path to the directory use to stored the result.}
 
 \item{ncor}{num. Number of cores}
 
@@ -23,40 +24,12 @@ extract_rgbValues(
 
 \item{dates}{chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
 The order of the dates should match with the order of the path_images !}
+
+\item{path_images}{a list with the full paths to the RGB rasters.}
 }
 \description{
 The function extracts RGB metrics (red, green, blue, sumrgb,
 rcc, gcc, bcc, gndvi, gli) for each crown at each date. It first compute the metrics
 for the whole mosaics and then extracts the value at the crown scale using the \code{exactextractr::exact_extract}
 function. The mean and / or the variance can be extracted (see 'fun' parameter).
-}
-\examples{
-
-library(sf)
-library(dplyr)
-
-path_crownsFile <- file.path(
-system.file(package="managecrownsdata"),
-'crowns/Bouamir_crowns.gpkg')
-crownsFile <- sf::read_sf(path_crownsFile)
-rgb_paths <- list.files(
-file.path(
-system.file(package="managecrownsdata"), 'rgb/'),
-full.names = TRUE
-)
-
-check_crownsFile(crownsFile = crownsFile)
-
-crownsFile <- crownsFile \%>\% dplyr::rename(
-   geometry = geom
-)
-
-check_crownsFile(crownsFile = crownsFile)
-
-rgb_data <- extract_rgbValues(
-crownsFile = crownsFile,
-path_images = rgb_paths,
-ncor = 1
-)
-
 }

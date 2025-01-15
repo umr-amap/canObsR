@@ -4,10 +4,10 @@
 #'each date.
 #'
 #'@param path_in A list with the full paths to the RGB rasters.
-#'@param path_crowns  sf object
+#'@param path_crowns  chr. Path to the crown file
 #'@param path_bbox chr. Path to the folder where the non NA Bbox returned by the function `extract_bboxImages()`
 #'are stored.
-#'@param path_out chr. The path to the directory use to stored the images. The
+#'@param out_dir_path chr. The path to the directory use to stored the images. The
 #'  function will create the folder, It doesn't need to exists.
 #'@param site chr. name of the site, p.e 'Mbalmayo'.
 #'@param dates chr. Vector with dates (format should be '%Y_%m_%d', p.e
@@ -25,39 +25,6 @@
 #'at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
 #'image size can be changed by specifying height and width parameters.
 #'
-#'@examples
-#'\dontrun{
-#' library(sf)
-#' library(dplyr)
-#'
-#' crownsFile <- sf::st_read(
-#' file.path(
-#' system.file(package="managecrownsdata"),
-#' 'crowns/Bouamir_crowns.gpkg'
-#' )
-#' )
-# 'rgb_paths <- list.files(file.path(system.file(package="managecrownsdata"), 'rgb/'), full.names = TRUE)
-#'
-#' check_crownsFile(crownsFile = crownsFile)
-#'
-#' crownsFile <- crownsFile %>% dplyr::rename(
-#'    geometry = geom
-#' )
-#'
-#' check_crownsFile(crownsFile = crownsFile)
-#'
-#' extract_crownsImages(
-#'       path_in = rgb_paths,
-#'       crownsFile = crownsFile,
-#'       path_bbox,
-#'       path_out,
-#'       site = NULL,
-#'       dates = NULL,
-#'       N_cores = 1,
-#'       width = 720,
-#'       height = 825
-#'    )
-#'}
 #'
 #'@export
 #'
@@ -80,7 +47,7 @@ extract_crownsImages <-
       path_in,
       path_crowns,
       path_bbox,
-      path_out,
+      out_dir_path,
       site = NULL,
       dates = NULL,
       N_cores = 1,
@@ -92,7 +59,8 @@ extract_crownsImages <-
 
       bbox <- lapply(list.files(path_bbox, full.names = TRUE), sf::st_read)
       crownsFile <-  sf::read_sf(path_crowns)
-      path_images <- list.files("E:/UAV_observatory_data/2_drone_images_ref",
+      sf::st_geometry(crownsFile)='geometry'
+      path_images <- list.files(path_in,
                                 full.names = TRUE,
                                 pattern = '\\.tif$')
 
@@ -184,7 +152,7 @@ extract_crownsImages <-
 
 
 
-      # folders <- list.files(path_out, full.names = TRUE)
+      # folders <- list.files(out_dir_path, full.names = TRUE)
       # subfolders <- lapply(folders, list.files)
       # names(subfolders) <- stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
       #
@@ -204,7 +172,7 @@ extract_crownsImages <-
          tmp_sp <- crownsFile$species[i]
          if(is.null(tmp_sp) & !is.null(crownsFile$genus[i])){ tmp_sp <- paste(crownsFile$genus[i],'sp') }
          tmp_crown <- crownsFile[i,]
-         tmp_dir <- paste0(path_out, "/crown_", tmp_id, "_", tmp_sp)
+         tmp_dir <- paste0(out_dir_path, "/crown_", tmp_id, "_", tmp_sp)
 
          dir.create(tmp_dir)
 

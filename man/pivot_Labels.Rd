@@ -4,31 +4,18 @@
 \alias{pivot_Labels}
 \title{Format labels values from wide data to long data}
 \usage{
-pivot_Labels(wideLabels, simplify_labels = FALSE)
+pivot_Labels(labels_path, simplify_labels = FALSE, out_dir_path = NULL)
 }
 \arguments{
-\item{wideLabels}{\code{tibble} or \code{dataframe} which contains labeling data directly import from the xlsx file.}
+\item{labels_path}{chr. Path to the labeling file}
 
 \item{simplify_labels}{\code{logical} Decompose and simplify the labels when TRUE. By defaut it is FALSE.}
+
+\item{out_dir_path}{chr. The path to the directory use to stored the result.}
 }
 \value{
 \code{tibble}
 }
 \description{
 A function to format labels data from wide to long format
-}
-\examples{
-
-library(readxl)
-
-raw_labels <- read_excel(
-file.path(
-system.file(package="managecrownsdata"),
-'xlsx/labeling_file_Bouamir.xlsx')
-)
-
-pivot_Labels(raw_labels)
-
-pivot_Labels(raw_labels, simplify_labels = TRUE)
-
 }
