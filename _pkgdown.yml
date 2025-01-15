@@ -47,8 +47,4 @@ articles:
 - title: Building plots
   navbar: ~
   contents:
-  - extract_crowns_data
-  - extract_crowns_images
-  - plot_labels
-  - generate_orthomosaics
   - workflow
