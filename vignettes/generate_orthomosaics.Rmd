@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 Here is a short example to guide you step by step through the orthomosaic generating process with the functions [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html). These functions required, arosics(AROSICS), the Metashape python API and a valid Metashape license.  
 
-* First you will need to download the  [test data](https://filesender.renater.fr/?s=download&token=4aaa362c-5f9e-4f58-93f9-b4f995cbfcba) and unzip it. Test
+* First you will need to download the  [test data](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3) and unzip it. Test
 data contains, 2 sets of drones images from the same area obtained from 2 differents dates and a **DTM** digital terrain model from the the area which is the reference. 
 
 * Then run the following code, more details about the functions  [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) here.
