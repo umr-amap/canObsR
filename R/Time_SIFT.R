@@ -3,7 +3,7 @@
 #' @description
 #' Implementation in R of a pipeline that performs the Time-SIFT process to time series of drone images using the Metashape python API. All photos are loaded and aligned, then orthomosaics and (optionally) DEMs will be generated for each date or flight.
 #'
-#' @param pathDIR chr. Path to the folder where the data is located. Inside this folder, any structure of subfolders containing images is accepted, as long as the date is specified in the folders' name in YYYYMMDD/YYYYMM format. This date is what will be used later to distinct which image belongs to which date when building orthomosaics.
+#' @param path_in chr. Path to the folder where the data is located. Inside this folder, any structure of subfolders containing images is accepted, as long as the date is specified in the folders' name in YYYYMMDD/YYYYMM format. This date is what will be used later to distinct which image belongs to which date when building orthomosaics.
 #' @param out_dir_ortho chr. Folder where the orthomosaics are saved.
 #' @param out_dir_DEM chr. Folder where the DEMs are saved. If no path is specified, the DEMs are not saved by default.
 #' @param out_dir_project chr. Folder where the Metashape project is saved. If no path is specified, the project is not saved by default.
@@ -27,7 +27,7 @@
 #' \dontrun{
 #' library(reticulate)
 #'
-#' Time_SIFT(pathDIR = "path_to_my_drone_data",
+#' Time_SIFT(path_in = "path_to_my_drone_data",
 #'                out_dir_ortho = "my_output_folder/ORTHO",
 #'                #out_dir_DEM = "my_output_folder/DEM",
 #'                data_type = "RGB",
@@ -36,7 +36,7 @@
 #'                crs = "EPSG::32633",
 #'                )
 #'
-#' Time_SIFT(pathDIR = "path_to_my_drone_data",
+#' Time_SIFT(path_in = "path_to_my_drone_data",
 #'                out_dir_ortho = "my_output_folder/ORTHO",
 #'                #out_dir_DEM = "my_output_folder/DEM",
 #'                data_type = "MS",
@@ -49,7 +49,7 @@
 #'
 
 
-Time_SIFT <- function(pathDIR, out_dir_ortho, out_dir_DEM = NULL, out_dir_project = NULL,
+Time_SIFT <- function(path_in, out_dir_ortho, out_dir_DEM = NULL, out_dir_project = NULL,
                            data_type = "RGB", resol_ref = 0.05, crs = "EPSG::32622",
                            site_name = "", calibrate_col = TRUE, sun_sensor = FALSE,
                            group_by_flight = FALSE, downscale_factor_alignement = 1L,
@@ -58,7 +58,7 @@ Time_SIFT <- function(pathDIR, out_dir_ortho, out_dir_DEM = NULL, out_dir_projec
 
    source_python(system.file("PYTHON/__init__.py", package = "managecrownsdata"))
 
-   Time_SIFT_process(pathDIR = pathDIR,
+   Time_SIFT_process(pathDIR = path_in,
                      out_dir_ortho = out_dir_ortho,
                      out_dir_DEM = out_dir_DEM,
                      out_dir_project = out_dir_project,

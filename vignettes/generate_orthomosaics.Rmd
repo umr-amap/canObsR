@@ -32,7 +32,7 @@ use_condaenv('managecrownsdata_env')
 
 my_path <- 'XXXX/UAV_observatory_data_tuto1'
 
-Time_SIFT(pathDIR = file.path(directory, '1_drone_images'),
+Time_SIFT(path_in = file.path(directory, '1_drone_images'),
           out_dir_ortho = file.path(directory, '4_Time_SIFT_output'),
           data_type = "RGB",
           resol_ref = 0.5,
