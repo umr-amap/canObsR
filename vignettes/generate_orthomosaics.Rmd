@@ -20,7 +20,8 @@ Here is a short example to guide you step by step through the orthomosaic genera
 * First you will need to download the  [test data](https://filesender.renater.fr/?s=download&token=4aaa362c-5f9e-4f58-93f9-b4f995cbfcba) and unzip it. Test
 data contains, 2 sets of drones images from the same area obtained from 2 differents dates and a **DTM** digital terrain model from the the area which is the reference. 
 
-* Then run the following code, more details about [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html).
+* Then run the following code, more details about the functions  [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) here.
+
 
 
 ```{r, eval=F, echo=T}
@@ -47,7 +48,10 @@ arosics(path_in = file.path(directory, '4_Time_SIFT_output'),
         window_size = 500,
         window_pos = list(258131, 352973),
         save_data = FALSE
-) # Export Time_SFIFT outputs into '4_Time_SIFT_output' folder
+) # Export arosics outputs into '5_arosics_output' folder
 
 ```
 
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
+knitr::include_graphics("img/generate_mosaics.JPG")
+```

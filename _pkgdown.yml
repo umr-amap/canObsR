@@ -47,5 +47,6 @@ articles:
 - title: Building plots
   navbar: ~
   contents:
-  - workflow
   - generate_orthomosaics
+  - workflow
+
