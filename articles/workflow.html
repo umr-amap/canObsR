@@ -33,8 +33,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/workflow.html">workflow</a></li>
-    <li><a class="dropdown-item" href="../articles/generate_orthomosaics.html">generate_orthomosaics</a></li>
+<li><a class="dropdown-item" href="../articles/generate_orthomosaics.html">generate_orthomosaics</a></li>
+    <li><a class="dropdown-item" href="../articles/workflow.html">workflow</a></li>
   </ul>
 </li>
       </ul>
@@ -74,7 +74,83 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hugolblc/managecrownsdata" class="external-link">managecrownsdata</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hugolblc/managecrownsdata" class="external-link">managecrownsdata</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">my_path</span> <span class="op">&lt;-</span> <span class="st">'XXXX/UAV_observatory_data_tuto1'</span></span>
+<span></span>
+<span><span class="va">bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_nonNA_bboxImages.html">create_nonNA_bboxImages</a></span><span class="op">(</span></span>
+<span>  path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">"5_arosics_output"</span><span class="op">)</span>,</span>
+<span>  out_dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">"6_bbox"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="img%2Fcreate_nonNA_bboxImages.jpg" width="100%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_crownsFile.html">check_crownsFile</a></span><span class="op">(</span>path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">"3_crowns/crowns_2024_11_04.gpkg"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">read_sf</a></span><span class="op">(</span><span class="va">path_crowns</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>   <span class="fu">rename</span><span class="op">(</span></span>
+<span>      geometry <span class="op">=</span> <span class="va">geom</span>,</span>
+<span>      family <span class="op">=</span> <span class="va">tax_fam</span>,</span>
+<span>      genus <span class="op">=</span> <span class="va">tax_gen</span>,</span>
+<span>      species <span class="op">=</span> <span class="va">tx_sp_lvl</span>,</span>
+<span>      code_sp <span class="op">=</span> <span class="va">idtax_f</span></span>
+<span>   <span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>   <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">write_sf</a></span><span class="op">(</span><span class="va">.</span>,<span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">"3_crowns/crowns_2024_11_04_rename.gpkg"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/extract_crownsImages.html">extract_crownsImages</a></span><span class="op">(</span></span>
+<span>  path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">"5_arosics_output"</span><span class="op">)</span>,</span>
+<span>  path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">"3_crowns/crowns_2024_11_04_rename.gpkg"</span><span class="op">)</span>,</span>
+<span>  path_bbox <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">"6_bbox"</span><span class="op">)</span>,</span>
+<span>  out_dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">"7_crownsImages"</span><span class="op">)</span>,</span>
+<span>  site <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dates <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  N_cores <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">720</span>,</span>
+<span>  height <span class="op">=</span> <span class="fl">825</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="img%2Fextract_images.jpg" width="100%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rgb_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_rgbValues.html">extract_rgbValues</a></span> <span class="op">(</span></span>
+<span>      path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">"5_arosics_output"</span><span class="op">)</span>,</span>
+<span>      path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">"3_crowns/crowns_2024_11_04_rename.gpkg"</span><span class="op">)</span>,</span>
+<span>      out_dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">"9_outputs/"</span><span class="op">)</span>,</span>
+<span>      ncor <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>      sites <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>      dates <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>   <span class="op">)</span></span></code></pre></div>
+<p><img src="img%2Frgb_values.JPG" width="100%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pivotLabels</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pivot_Labels.html">pivot_Labels</a></span><span class="op">(</span>labels_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">"8_labeling_file/Bouamir_labelingFile.xlsx"</span><span class="op">)</span>,</span>
+<span>             out_dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">"9_outputs"</span><span class="op">)</span>,</span>
+<span>             simplify_labels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/heatmap_Labels.html">heatmap_Labels</a></span><span class="op">(</span><span class="va">pivotLabels</span>,</span>
+<span>               Specie <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>               Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>,</span>
+<span>               Family <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>               title <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<p><img src="img%2Fphenologramme1.png" width="100%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/heatmap_Labels.html">heatmap_Labels</a></span><span class="op">(</span><span class="va">pivotLabels</span>,</span>
+<span>               Specie <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>               Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>,</span>
+<span>               Family <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>               title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>               simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="img%2Fphenologramme2.png" width="100%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">merge_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/merge_values.html">merge_values</a></span><span class="op">(</span><span class="va">pivotLabels</span>, <span class="va">rgb_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plot_signal.html">plot_signal</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">merge_data</span>, Genus <span class="op">=</span> <span class="st">'Desbordesia'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="img%2Fsignal1.png" width="100%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_signal.html">plot_signal</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">merge_data</span>, Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>, slcted_id <span class="op">=</span> <span class="fl">2614</span><span class="op">)</span></span></code></pre></div>
+<p><img src="img%2Fsignal2.png" width="100%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_signal.html">plot_signal</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">merge_data</span>, Genus <span class="op">=</span> <span class="st">'Desbordesia'</span>, slcted_id <span class="op">=</span> <span class="fl">2614</span>, Band <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'gli'</span>, <span class="st">'gndvi'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="img%2Fsignal3.png" width="100%" style="display: block; margin: auto;"></p>
   </main>
 </div>
 
