@@ -54,20 +54,12 @@ def add_all_chunks(doc, pathDIR=None):
     print(pathDIR)
     #os.chdir(pathDIR)
     epochs = os.listdir(pathDIR)
-    # we select only the non-empty subfolders
-    list_files = [] 
-    for (dirpath, dirnames, filenames) in os.walk(pathDIR):
-        list_files += [os.path.join(dirpath, file) for file in filenames]
-    
-    ep_relative_paths = np.unique([os.path.relpath(os.path.dirname(file), start=pathDIR) for file in list_files])
-    epochs = [os.path.basename(dir_path) for dir_path in ep_relative_paths]
-    print("epochs : ", epochs)
-    
+    print(epochs)
     # We remove all existing chunks and add them one by one
     for chk in doc.chunks:
         doc.remove(chk)
-    for i in range(len(ep_relative_paths)):
-        ep_name, ep_path = epochs[i], os.path.join(pathDIR, ep_relative_paths[i])
+    for ep in epochs:
+        ep_name, ep_path = ep, os.path.join(pathDIR, ep)
         add_TimeSIFT_chunk(doc, ep_path = ep_path, epoch_name = ep_name)
 
 
