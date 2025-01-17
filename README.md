@@ -185,7 +185,7 @@ One of the main functions of the package is to generate orthomosaics in
 R, using arosics([AROSICS](https://github.com/GFZ/arosics)) and the
 Metashape python API. To guide you step by step into the workflow, you
 should download the test dataset
-[here](https://filesender.renater.fr/?s=download&token=a9dda9d3-4cdf-4c80-8563-e27f1137a909)
+[here](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3)
 and follow the instructions
 [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
 
