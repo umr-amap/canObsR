@@ -62,7 +62,6 @@
 <span>  mp <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  save_data <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  save_vector_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  dynamic_corr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  apply_matrix <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -119,10 +118,6 @@
 <dd><p>logical. saves the a map of the calculated tie point grid in a JPEG file. Has an effect only when performing local co-registration.</p></dd>
 
 
-<dt id="arg-dynamic-corr">dynamic_corr<a class="anchor" aria-label="anchor" href="#arg-dynamic-corr"></a></dt>
-<dd><p>logical. When correcting multiple images, uses the last corrected image as reference for the next co-registration. If False (default), all images are corrected using 'ref_filepath' as the reference image. If True, image 1 will use 'ref_filepath' as a reference, then image N (N&gt;=2) will use the corrected version of image N-1 as reference.</p></dd>
-
-
 <dt id="arg-apply-matrix">apply_matrix<a class="anchor" aria-label="anchor" href="#arg-apply-matrix"></a></dt>
 <dd><p>logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently. Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created. We hope to change that soon ; until then, apply_matrix is disabled by default)</p></dd>
 
@@ -153,7 +148,6 @@
 <span class="r-in"><span>             corr_type <span class="op">=</span> <span class="st">"local"</span>,</span></span>
 <span class="r-in"><span>             grid_res <span class="op">=</span> <span class="fl">500</span>,</span></span>
 <span class="r-in"><span>             save_data <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>             dynamic_corr <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>             mp <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>             <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -163,7 +157,6 @@
 <span class="r-in"><span>             corr_type <span class="op">=</span> <span class="st">"global"</span>,</span></span>
 <span class="r-in"><span>             max_shift <span class="op">=</span> <span class="fl">200</span>,</span></span>
 <span class="r-in"><span>             save_data <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>             dynamic_corr <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>             apply_matrix <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>             mp <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>             <span class="op">)</span></span></span>
