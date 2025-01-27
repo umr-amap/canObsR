@@ -337,7 +337,7 @@ def Time_SIFT_process(pathDIR,
                                                downscale_factor_depth_map = downscale_factor_depth_map, 
                                                suffix = suffix)
     print(f"Time spent for the final process for all images : {time.time() - t_split} seconds")
-    print(f"Time spent for the copmlete pipeline : {time.time() - start_time} seconds")
+    print(f"Time spent for the complete pipeline : {time.time() - start_time} seconds")
     doc.save(os.path.join(out_dir_ortho, '_temp_.psx'))
     
     if out_dir_project is not None :
