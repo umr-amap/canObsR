@@ -17,7 +17,6 @@ arosics(
   mp = NULL,
   save_data = TRUE,
   save_vector_plot = FALSE,
-  dynamic_corr = FALSE,
   apply_matrix = FALSE
 )
 }
@@ -45,8 +44,6 @@ arosics(
 \item{save_data}{logical. Saves the transformation metadata in a .pkl file, and the tie points data in a csv file. The latter only happens when performing local co-registration.}
 
 \item{save_vector_plot}{logical. saves the a map of the calculated tie point grid in a JPEG file. Has an effect only when performing local co-registration.}
-
-\item{dynamic_corr}{logical. When correcting multiple images, uses the last corrected image as reference for the next co-registration. If False (default), all images are corrected using 'ref_filepath' as the reference image. If True, image 1 will use 'ref_filepath' as a reference, then image N (N>=2) will use the corrected version of image N-1 as reference.}
 
 \item{apply_matrix}{logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently. Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created. We hope to change that soon ; until then, apply_matrix is disabled by default)}
 }
@@ -76,7 +73,6 @@ arosics(path_in = "path_to_input_folder",
              corr_type = "local",
              grid_res = 500,
              save_data = FALSE,
-             dynamic_corr = TRUE,
              mp = 5,
              )
 
@@ -86,7 +82,6 @@ arosics(path_in = "path_to_input_folder",
              corr_type = "global",
              max_shift = 200,
              save_data = TRUE,
-             dynamic_corr = FALSE,
              apply_matrix = TRUE,
              mp = 1,
              )

@@ -17,7 +17,6 @@ parser.add_argument('--path_in', type=str)
 parser.add_argument('--ref_filepath', type=str)
 parser.add_argument('--out_dir_path', type=str)
 parser.add_argument('--corr_type', type=str, default='global')
-parser.add_argument('--dynamic_corr', type=bool, default=False)
 parser.add_argument('--mp', default=1)
 parser.add_argument('--max_shift', type=int, default=250)
 parser.add_argument('--max_iter', type=int, default=100)
@@ -304,7 +303,6 @@ def complete_arosics_process(path_in,
                              compress_lzw=False, 
                              save_data = True, 
                              save_vector_plot = False, 
-                             dynamic_corr = False, 
                              apply_matrix=False, 
                              do_subprocess=False, 
                              suffix = "",
@@ -325,9 +323,6 @@ def complete_arosics_process(path_in,
     :param bool compress_lzw:  If True (default), perform a lzw compression on the image(s)
     :param bool save_data: If True (default), saves the transformation metadata in a .pkl file, and the tie points data in a csv file. The latter only happens when performing local co-registration
     :param bool save_vector_plot: If True, saves the a map of the calculated tie point grid in a JPEG file. Has an effect only when performing local co-registration.
-    :param bool dynamic_corr: When correcting multiple images, whether or not to use the last corrected image as reference for the next co-registration.
-        If False (default), all images are corrected using 'ref_filepath' as the reference image.
-        If True, image 1 will use 'ref_filepath' as a reference, then image N (N>=2) will use the corrected version of image N-1 as reference.
     :param bool apply_matrix: When correcting multiple images, whether or not to directly apply the shifts computed for the first image to all the remaining ones, instead of computing the shifts for each one independently. Defaults to False.
         Using this option allows faster computing time and better alignment between input images.
         The time saved will decrease if the images have different bounds, as additionnal work is necessary to ensure a correct alignement. (Currently, temporary padded images are created in that case, we hope to change that soon)
@@ -337,7 +332,6 @@ def complete_arosics_process(path_in,
 
     assert corr_type in ['global', 'local']
     rm_temp_files = False
-    dynamic_corr = str2bool(dynamic_corr)
     apply_matrix = str2bool(apply_matrix)
     save_vector_plot = str2bool(save_vector_plot)
     save_data = str2bool(save_data)
@@ -393,7 +387,7 @@ def complete_arosics_process(path_in,
         if len(files)==0:
             raise ValueError(f"The specified directory '{path_in}' does not contain any GeoTiff files.")
 
-        elif dynamic_corr or not apply_matrix :
+        elif not apply_matrix :
             list_CR_info = []
             for i in range(len(files)):
                 file = files[i]
@@ -401,20 +395,20 @@ def complete_arosics_process(path_in,
                 harmonize_crs(current_file_path, ref_filepath, check_ref = True if i==0 else False, compress_lzw=compress_lzw)
                 path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")
 
-                if not do_subprocess:
-                    CR_info = call_arosics(current_file_path, 
-                                           ref_filepath, 
-                                           path_out=path_out, 
-                                           corr_type=corr_type, 
-                                           mp=mp, 
-                                           window_size=window_size, 
-                                           window_pos=window_pos, 
-                                           max_shift=max_shift, 
-                                           max_iter=max_iter, 
-                                           grid_res=grid_res, 
-                                           save_vector_plot=save_vector_plot, 
-                                           save_data=save_data)
-                
+                #if not do_subprocess:
+                CR_info = call_arosics(current_file_path, 
+                                        ref_filepath, 
+                                        path_out=path_out, 
+                                        corr_type=corr_type, 
+                                        mp=mp, 
+                                        window_size=window_size, 
+                                        window_pos=window_pos, 
+                                        max_shift=max_shift, 
+                                        max_iter=max_iter, 
+                                        grid_res=grid_res, 
+                                        save_vector_plot=save_vector_plot, 
+                                        save_data=save_data)
+                """
                 else:
                     queue = multiprocessing.Queue()
                     process = multiprocessing.Process(target=call_arosics, args=(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, grid_res, save_data, save_vector_plot, queue))
@@ -431,10 +425,7 @@ def complete_arosics_process(path_in,
                         raise TimeoutError("The arosics process is taking too much time and has been terminated")
                     else:
                         print("Process terminated successfully")
-                
-                if dynamic_corr:
-                    ref_filepath = path_out
-
+                """
             return list_CR_info
           
         else:
@@ -539,7 +530,6 @@ if __name__ == '__main__':
                              grid_res = args.grid_res,
                              window_pos = args.wp,
                              window_size = args.ws,
-                             dynamic_corr = args.dynamic_corr,
                              apply_matrix = args.apply_matrix,
                              save_data = args.save_data,
                              save_vector_plot = args.save_plot,
