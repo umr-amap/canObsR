@@ -12,26 +12,6 @@
 #'
 #' @return \code{list} and \code{dotchart}
 #'
-#' @examples
-#'
-#'library(sf)
-#'
-#'crownsFile <- sf::st_read(
-#'file.path(
-#'system.file(package="managecrownsdata"),
-#''crowns/Bouamir_crowns.gpkg')
-#')
-#'
-#' path_bbox <- list.files(
-#' file.path(
-#' system.file(package="managecrownsdata"), 'bbox/'),
-#' full.names = TRUE
-#' )
-#'
-#' dates <- extr_dates(basename(path_bbox))
-#'
-#' check_availableCrowns(path_bbox = path_bbox, crownsFile = crownsFile, dates = dates)
-#'
 #' @export
 #'
 #' @import sf

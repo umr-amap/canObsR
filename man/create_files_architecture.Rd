@@ -14,17 +14,3 @@ create_files_architecture(path = NULL, main_folder_name = NULL)
 \description{
 Create the recommended files architecture.
 }
-\examples{
-
-\dontrun{
-
-# Run it to create the folder to your desktop, change the path if needed
-
-create_files_architecture(
-path = file.path(Sys.getenv("USERPROFILE"),"Desktop"),
-main_folder_name = 'UAV_observatory_data'
-)
-
-}
-
-}

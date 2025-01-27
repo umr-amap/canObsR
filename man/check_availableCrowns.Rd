@@ -22,24 +22,3 @@ dates of the image in the path_bbox}
 As the extend of images can changed from one image to another, this function return
 the number of crowns included in each image and the vector of the id contained for each id.
 }
-\examples{
-
-library(sf)
-
-crownsFile <- sf::st_read(
-file.path(
-system.file(package="managecrownsdata"),
-'crowns/Bouamir_crowns.gpkg')
-)
-
-path_bbox <- list.files(
-file.path(
-system.file(package="managecrownsdata"), 'bbox/'),
-full.names = TRUE
-)
-
-dates <- extr_dates(basename(path_bbox))
-
-check_availableCrowns(path_bbox = path_bbox, crownsFile = crownsFile, dates = dates)
-
-}

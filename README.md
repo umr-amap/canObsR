@@ -142,7 +142,7 @@ These steps required a Metashape license. To guide you step by step into
 the mosaic generating process you will find a
 [tutoriel](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
 that require the [test
-dataset](https://filesender.renater.fr/?s=download&token=a9dda9d3-4cdf-4c80-8563-e27f1137a909).
+dataset](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3).
 
 If you don’t have valid Metashape licence but already have the
 orthomosaics, you will find a tutoriel and test data here for the other

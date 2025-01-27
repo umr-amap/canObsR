@@ -5,41 +5,14 @@
 #' for the whole mosaics and then extracts the value at the crown scale using the \code{exactextractr::exact_extract}
 #' function. The mean and / or the variance can be extracted (see 'fun' parameter).
 #'
-#' @param crownsFile A \code{sf} object with the crowns delineation.
+#' @param path_crowns  chr. Path to the crown file
 #' @param path_images a list with the full paths to the RGB rasters.
+#' @param out_dir_path chr. The path to the directory use to stored the result.
 #' @param ncor num. Number of cores
 #' @param sites chr. name of the site, p.e 'Mbalmayo'.
 #' @param dates chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
 #' The order of the dates should match with the order of the path_images !
 #'
-#' @examples
-#'
-#' library(sf)
-#' library(dplyr)
-#'
-#' path_crownsFile <- file.path(
-#' system.file(package="managecrownsdata"),
-#' 'crowns/Bouamir_crowns.gpkg')
-#' crownsFile <- sf::read_sf(path_crownsFile)
-#' rgb_paths <- list.files(
-#' file.path(
-#' system.file(package="managecrownsdata"), 'rgb/'),
-#' full.names = TRUE
-#' )
-#'
-#' check_crownsFile(crownsFile = crownsFile)
-#'
-#' crownsFile <- crownsFile %>% dplyr::rename(
-#'    geometry = geom
-#' )
-#'
-#' check_crownsFile(crownsFile = crownsFile)
-#'
-#' rgb_data <- extract_rgbValues(
-#' crownsFile = crownsFile,
-#' path_images = rgb_paths,
-#' ncor = 1
-#' )
 #'
 #' @export
 #'
@@ -56,14 +29,21 @@
 extract_rgbValues <-
 
    function(
-      crownsFile,
-      path_images,
+      path_in,
+      path_crowns,
+      out_dir_path,
       ncor = 1,
       sites = NULL,
       dates = NULL
    ){
 
+      # Import data -----------------------------------------------
 
+      crownsFile <-  sf::read_sf(path_crowns)
+      sf::st_geometry(crownsFile)='geometry'
+      path_images <- list.files(path_in,
+                                full.names = TRUE,
+                                pattern = '\\.tif$')
 
 # check sites ------------------------------------------
 
@@ -207,6 +187,16 @@ extract_rgbValues <-
                                                         plot_name = as.factor(plot_name),
                                                         id = as.integer(id)) %>%
          dplyr::select(site, id, date, family, genus, species, type, metric, band, value, plot_name, code_sp)
+
+
+      if(!is.null(out_dir_path)){
+
+         save(results.final, file = file.path(out_dir_path, paste('rgbValues',
+                                                                  paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
+                                                                  , sep = '_' )
+         ))
+
+      }
 
       return(results.final)
 

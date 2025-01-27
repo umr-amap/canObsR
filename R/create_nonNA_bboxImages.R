@@ -8,22 +8,10 @@
 #' @param dates chr. Vector with dates (format should be '%Y%m%d', p.e
 #'  '20220925'). The order of the dates should match with the order of the
 #'  dates of the mosaics in the path_in folder.
-#' @param directory chr. Path to the directory used to export the vector files.
+#' @param out_dir_path chr. Path to the directory used to export the vector files.
 #' One file will be export per date. If NULL, the vector will not be exported.
 #' @param filename logical. Name of the files.
 #'
-#'
-#' @examples
-#'
-#'\dontrun{
-#'
-#' # my_directory <- "MY_PATH_FOR_OUTPUTS"
-#'
-#' bbox <- create_nonNA_bboxImages(
-#' path_in = system.file(package="managecrownsdata"), 'rgb/'),
-#' directory = my_directory)
-#'
-#'}
 #'
 #' @export
 #' @importFrom terra rast
@@ -35,7 +23,7 @@
 
 create_nonNA_bboxImages <-
 
-   function(path_in, dates = NULL, directory = NULL, filename = NULL){
+   function(path_in, dates = NULL, out_dir_path = NULL, filename = NULL){
 
       # Extract images paths ----------------------------------------------------
 
@@ -65,14 +53,14 @@ create_nonNA_bboxImages <-
             dplyr::rename("geometry" = "x") %>%
             sf::st_cast(.,"POLYGON") %>%
             dplyr::mutate(date = dates[i]) %>%
-            sf::st_transform(crs = st_crs(r))
+            sf::st_transform(crs = sf::st_crs(r))
 
          if(is.null(filename)){filename = 'NonNAarea'}
 
-         if(!is.null(directory)){
+         if(!is.null(out_dir_path)){
 
-            sf::write_sf(bbox, paste0(directory, '/', filename ,'_', dates[i], '.gpkg') )
-            print(paste0('#### FILE has been written :', paste0(" '",directory, '/', filename ,'_', dates[i], '.gpkg',"'")))
+            sf::write_sf(bbox, paste0(out_dir_path, '/', filename ,'_', dates[i], '.gpkg') )
+            print(paste0('#### FILE has been written :', paste0(" '",out_dir_path, '/', filename ,'_', dates[i], '.gpkg',"'")))
 
          }
 

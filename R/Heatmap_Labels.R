@@ -12,31 +12,6 @@
 #' @param repro logical. When TRUE, the flowers and fruits observations will be add to the plot.
 #' @return return a ggplot
 #'
-#' @examples
-#'
-#' library(readxl)
-#'
-#' raw_labels <- read_excel(
-#' file.path(system.file(package="managecrownsdata"),
-#' 'xlsx/labeling_file_Bouamir.xlsx')
-#' )
-#'
-#' pivotLabels <- pivot_Labels(raw_labels)
-#'
-#' heatmap_Labels(pivotLabels,
-#' Specie = NULL,
-#' Genus = 'Desbordesia',
-#' Family = NULL,
-#' title = NULL)
-#'
-#' pivotLabels_simplify <- pivot_Labels(raw_labels, simplify_labels = TRUE)
-#'
-#' heatmap_Labels(pivotLabels_simplify,
-#' Specie = NULL,
-#' Genus = 'Desbordesia',
-#' Family = NULL,
-#' title = NULL,
-#' simplify = TRUE)
 #'
 #' @export
 #' @importFrom stringr str_split

@@ -14,16 +14,44 @@ knitr::opts_chunk$set(
 )
 ```
 
-Here is a short example to guide you step by step through the mosaic generating process with the functions [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) 
 
-First you will need to download the test data [here](https://filesender.renater.fr/?s=download&token=4aaa362c-5f9e-4f58-93f9-b4f995cbfcba)
+Here is a short example to guide you step by step through the orthomosaic generating process with the functions [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html). These functions required, arosics(AROSICS), the Metashape python API and a valid Metashape license.  
+
+* First you will need to download the  [test data](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3) and unzip it. Test
+data contains, 2 sets of drones images from the same area obtained from 2 differents dates and a **DTM** digital terrain model from the the area which is the reference. 
+
+* Then run the following code, more details about the functions  [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) here.
 
 
-```{r setup, results='hide', message=FALSE, warning=FALSE}
+
+```{r, eval=F, echo=T}
 library(managecrownsdata)
+library(reticulate)
 
-# create_files_architecture(
-# path = file.path(Sys.getenv("USERPROFILE"),"Desktop"),
-# main_folder_name = 'UAV_observatory_data'
-# )
+use_condaenv('managecrownsdata_env')
+
+my_path <- 'XXXX/UAV_observatory_data_tuto1'
+
+Time_SIFT(path_in = file.path(directory, '1_drone_images'),
+          out_dir_ortho = file.path(directory, '4_Time_SIFT_output'),
+          data_type = "RGB",
+          resol_ref = 0.5,
+          site_name = "Bouamir",
+          crs = "EPSG::32633",
+) # Export Time_SFIFT outputs into '4_Time_SIFT_output' folder
+
+arosics(path_in = file.path(directory, '4_Time_SIFT_output'),
+        ref_filepath = file.path(directory, '2_drone_images_ref'),
+        out_dir_path = file.path(directory, '5_arosics_output'),
+        corr_type = "global",
+        #grid_res = 200,
+        window_size = 500,
+        window_pos = list(258131, 352973),
+        save_data = FALSE
+) # Export arosics outputs into '5_arosics_output' folder
+
+```
+
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
+knitr::include_graphics("img/generate_mosaics.JPG")
 ```
