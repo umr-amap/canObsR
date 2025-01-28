@@ -8,19 +8,7 @@
 - [Install](#install)
 - [Documentation](#documentation)
 - [How to use managecrownsdata](#how-to-use-managecrownsdata)
-- [General advices](#general-advices)
-- [Workflow](#workflow)
-- [STEP : 1 and 2](#step-1-and-2)
-- [STEP 3 : Generate orthomosaics](#step-3-generate-orthomosaics)
-- [STEP 4 : create_nonNA_bboxImages()](#step-4-create-nonna-bboximages)
-- [STEP 5 : Extract crowns images](#step-5-extract-crowns-images)
-- [STEP 6 : Create labeling file](#step-6-create-labeling-file)
-- [STEP 7 : Extract RGB metrics and merge them with
-  labels](#step-7-extract-rgb-metrics-and-merge-them-with-labels)
-- [STEP 8 : Analyses](#step-8-analyses)
-
-<!-- badges: start -->
-<!-- badges: end -->
+- [Generate orthomosaics](#generate-orthomosaics)
 
 # The package
 
@@ -125,3 +113,12 @@ should download the test dataset
 [here](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
 and follow the instructions
 [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
+
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/generate_mosaics.JPG" alt="Generate orthomosaics" width="100%" />
+<p class="caption">
+Generate orthomosaics
+</p>
+
+</div>
