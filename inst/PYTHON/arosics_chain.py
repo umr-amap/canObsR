@@ -12,16 +12,23 @@ import pickle
 from shapely.geometry import Polygon
 import multiprocessing
 
+def parse_tuple(arg):
+    try:
+        # Evaluate the string to convert it to a tuple
+        return tuple(map(int, arg.strip("()").split(",")))
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"Invalid tuple format: '{arg}'. Expected format: '(int,int)'")
+    
 parser = argparse.ArgumentParser()
-parser.add_argument('--path_in', type=str)
-parser.add_argument('--ref_filepath', type=str)
-parser.add_argument('--out_dir_path', type=str)
+parser.add_argument('--path_in', required=True, type=str)
+parser.add_argument('--ref_filepath', required=True, type=str)
+parser.add_argument('--out_dir_path', required=True, type=str)
 parser.add_argument('--corr_type', type=str, default='global')
 parser.add_argument('--mp', default=1)
 parser.add_argument('--max_shift', type=int, default=250)
 parser.add_argument('--max_iter', type=int, default=100)
 parser.add_argument('--ws', default=None)
-parser.add_argument('--wp', default=(None, None))
+parser.add_argument('--wp', type=parse_tuple, default=(None, None))
 parser.add_argument('--grid_res', type=int, default=1000)
 parser.add_argument('--apply_matrix', default=False)
 parser.add_argument('--save_plot', default=False)
@@ -210,8 +217,8 @@ def apply_saved_matrix(im_path, out_dir_path, metadata_path, GCP_path = None, su
         if GCP_path is not None:
             corr_type = 'local'
             GCP_df = pd.read_csv(GCP_path)
-        
-        coreg_info['GCPList'] = to_GCPList(GCP_df, -9999)
+            coreg_info['GCPList'] = to_GCPList(GCP_df, -9999)
+            
         current_file_path = os.path.join(im_path, file)
         path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")               #
         CR = DESHIFTER(current_file_path, coreg_info, path_out=path_out, fmt_out="GTIFF")
