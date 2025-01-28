@@ -27,7 +27,7 @@
 #' \dontrun{
 #' library(reticulate)
 #'
-#' arosics(path_in = "path_to_ortho.tif",
+#' align_Mosa(path_in = "path_to_ortho.tif",
 #'              ref_filepath = "ref_image.tif",
 #'              out_dir_path = "my_output_dir",
 #'              corr_type = "local",
@@ -36,7 +36,7 @@
 #'              save_vector_plot = TRUE,
 #'              )
 #'
-#' arosics(path_in = "path_to_input_folder",
+#' align_Mosa(path_in = "path_to_input_folder",
 #'              ref_filepath = "ref_image.tif",
 #'              out_dir_path = "my_output_dir",
 #'              corr_type = "local",
@@ -45,7 +45,7 @@
 #'              mp = 5,
 #'              )
 #'
-#' arosics(path_in = "path_to_input_folder",
+#' align_Mosa(path_in = "path_to_input_folder",
 #'              ref_filepath = "ref_image.tif",
 #'              out_dir_path = "my_output_dir",
 #'              corr_type = "global",
@@ -57,11 +57,11 @@
 #'              }
 
 
-arosics <- function(path_in, ref_filepath, out_dir_path,
-                         corr_type = "global", max_shift = 250L, max_iter = 100L,
-                         grid_res = 1000L, window_size = NULL, window_pos = list(NULL, NULL),
-                         mp = NULL, save_data = TRUE, save_vector_plot = FALSE,
-                         apply_matrix = FALSE) {
+align_Mosa <- function(path_in, ref_filepath, out_dir_path,
+                          corr_type = "global", max_shift = 250L, max_iter = 100L,
+                          grid_res = 1000L, window_size = NULL, window_pos = list(NULL, NULL),
+                          mp = NULL, save_data = TRUE, save_vector_plot = FALSE,
+                          apply_matrix = FALSE) {
 
    source_python(system.file("PYTHON/__init__.py", package = "managecrownsdata"))
 
@@ -80,3 +80,4 @@ arosics <- function(path_in, ref_filepath, out_dir_path,
                             apply_matrix = apply_matrix,
    )
 }
+

@@ -20,19 +20,7 @@ managecrownsdata
   - [Install](#install)
   - [Documentation](#documentation)
   - [How to use managecrownsdata](#how-to-use-managecrownsdata)
-  - [General advices](#general-advices)
-  - [Workflow](#workflow)
-  - [STEP : 1 and 2](#step-1-and-2)
-  - [STEP 3 : Generate orthomosaics](#step-3-generate-orthomosaics)
-  - [STEP 4 : create_nonNA_bboxImages()](#step-4-create-nonna-bboximages)
-  - [STEP 5 : Extract crowns images](#step-5-extract-crowns-images)
-  - [STEP 6 : Create labeling file](#step-6-create-labeling-file)
-  - [STEP 7 : Extract RGB metrics and merge them with labels](#step-7-extract-rgb-metrics-and-merge-them-with-labels)
-  - [STEP 8 : Analyses](#step-8-analyses)
-  
-
-<!-- badges: start -->
-<!-- badges: end -->
+  - [Generate orthomosaics](#generate-orthomosaics)
 
 # The package
 
@@ -112,79 +100,12 @@ $ python
 
 If that works, you can close the command prompt. You should be good to go !
 
-# General advices
-
-In order to facilitate your use of our package and ensure that you will not be lost when following the documentation, we strongly recommend you to following the workflow given below. To create this architecture you can use the function [`create_files_architecture()`](https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html) .
-
-![Recommanded workflow](man/figures/steps.gif)
-
-# Workflow
-
-One of the main function of the package is to generate orthomosaics, using 
-the Metashape python API and arosics([AROSICS](https://github.com/GFZ/arosics)) within the functions [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) and [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html). These steps required a Metashape license. To guide you step by step into the mosaic generating process you will find a  [tutoriel](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html) that require the  [test dataset](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3).
-
-If you don't have valid Metashape licence but already have the orthomosaics, you will find a tutoriel and test data here for the other package functions [here](https://hugolblc.github.io/managecrownsdata/articles/workflow.html). 
-
-
-
-#  1 and 2
-
-* 1*  
-Use the function [`create_files_architecture()`](https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html) to create the recommended files architecture. 
-
-* 2*  
-Manually add your files (raw rgb images and crowns file) to the correct folders. 
-
-- Add your rgb images into the '1_drone_images' folder
-
-Structure your data in one of the following ways : either place one folder by flight directly in your input folder, or use one directory by date, each consisting of subdirectories for each flight (see exemples below). In both cases, the date must be indicated in the name of the folders directly containing images, in the YYYYMMDD or YYYYMM formats.
-
-```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Accepted folder structures", message=FALSE, warning=FALSE, out.width='100%'}
-knitr::include_graphics("man/figures/drone_images_achitecture.jpg")
-```
-- Add your crowns data files into the '4_crowns' folder
-
-#  3 Generate orthomosaics
+# Generate orthomosaics
 
 One of the main functions of the package is to generate orthomosaics in R, using 
-arosics([AROSICS](https://github.com/GFZ/arosics)) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset [here](https://zenodo.org/records/14748367?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjY3MjE2Y2M1LTY4NjctNDEwNS1hMTViLTkwNmMzNGM0YzA5NCIsImRhdGEiOnt9LCJyYW5kb20iOiJkYjhlMWZhMDZiYmNkNTg2YzA4OGYxMTg0ODE3MmI3YiJ9.xKZdG_R2NvApekkLM4FanVbM-ZWbGqNjXYucPKydbzeLdur08A69N9ROgeTdPR42PP_OrL4eF_hljxh3wQHfwA) and follow the instructions [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
+arosics([AROSICS](https://github.com/GFZ/arosics)) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset [here](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw) and follow the instructions [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
 
-
-Our test data consists of a few drone images of the same zone taken at two different dates. The functions [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) and [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) will be used to generate and co-registrate the two orthomosaics.
-
-```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate mosaics from drone images", message=FALSE, warning=FALSE, out.width='100%'}
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("man/figures/generate_mosaics.JPG")
 ```
 
-
-# STEP 4 create nonNA bboxImages
-
-```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Extract crowns images", message=FALSE, warning=FALSE, out.width='100%'}
-knitr::include_graphics("man/figures/create_nonNA_bboxImages.jpg")
-```
-
-
-# STEP 5 Extract crowns images
-
-
-To guide you step by step into the workflow, we should follow the instructions [here](https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html)  
-
-To run the exemples, all data are included into the packages. In order to reduce the size of the data, we have reduced the spatial resolution of images.
-
-```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Extract crowns images", message=FALSE, warning=FALSE, out.width='100%'}
-knitr::include_graphics("man/figures/extract_images.jpg")
-```
-
-# STEP 6 Create labeling file
-
-Once you have the crowns images you can associate manually a label which difine the vegetative and/or reproductive state of trees a the different date. To do it you should create a xlsx file whith the `create_labelingFile()` function. More information [here](https://hugolblc.github.io/managecrownsdata/reference/create_labellingFile.html)
-
-```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Labeling file to do manual labelling", message=FALSE, warning=FALSE, out.width='50%'}
-knitr::include_graphics("man/figures/create_labellingFile.jpg")
-```
-
-
-# STEP 7 Extract RGB metrics and merge them with labels
-
-
-# STEP 8 Analyses

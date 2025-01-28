@@ -27,7 +27,7 @@
 #' \dontrun{
 #' library(reticulate)
 #'
-#' Time_SIFT(path_in = "path_to_my_drone_data",
+#' generate_Mosa(path_in = "path_to_my_drone_data",
 #'                out_dir_ortho = "my_output_folder/ORTHO",
 #'                #out_dir_DEM = "my_output_folder/DEM",
 #'                data_type = "RGB",
@@ -36,7 +36,7 @@
 #'                crs = "EPSG::32633",
 #'                )
 #'
-#' Time_SIFT(path_in = "path_to_my_drone_data",
+#' generate_Mosa(path_in = "path_to_my_drone_data",
 #'                out_dir_ortho = "my_output_folder/ORTHO",
 #'                #out_dir_DEM = "my_output_folder/DEM",
 #'                data_type = "MS",
@@ -49,11 +49,11 @@
 #'
 
 
-Time_SIFT <- function(path_in, out_dir_ortho, out_dir_DEM = NULL, out_dir_project = NULL,
-                           data_type = "RGB", resol_ref = 0.05, crs = "EPSG::32622",
-                           site_name = "", calibrate_col = TRUE, sun_sensor = FALSE,
-                           group_by_flight = FALSE, downscale_factor_alignement = 1L,
-                           downscale_factor_depth_map = 2L) {
+generate_Mosa <- function(path_in, out_dir_ortho, out_dir_DEM = NULL, out_dir_project = NULL,
+                       data_type = "RGB", resol_ref = 0.05, crs = "EPSG::32622",
+                       site_name = "", calibrate_col = TRUE, sun_sensor = FALSE,
+                       group_by_flight = FALSE, downscale_factor_alignement = 1L,
+                       downscale_factor_depth_map = 2L) {
 
 
    source_python(system.file("PYTHON/__init__.py", package = "managecrownsdata"))

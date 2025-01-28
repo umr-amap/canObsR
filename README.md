@@ -8,19 +8,7 @@
 - [Install](#install)
 - [Documentation](#documentation)
 - [How to use managecrownsdata](#how-to-use-managecrownsdata)
-- [General advices](#general-advices)
-- [Workflow](#workflow)
-- [STEP : 1 and 2](#step-1-and-2)
-- [STEP 3 : Generate orthomosaics](#step-3-generate-orthomosaics)
-- [STEP 4 : create_nonNA_bboxImages()](#step-4-create-nonna-bboximages)
-- [STEP 5 : Extract crowns images](#step-5-extract-crowns-images)
-- [STEP 6 : Create labeling file](#step-6-create-labeling-file)
-- [STEP 7 : Extract RGB metrics and merge them with
-  labels](#step-7-extract-rgb-metrics-and-merge-them-with-labels)
-- [STEP 8 : Analyses](#step-8-analyses)
-
-<!-- badges: start -->
-<!-- badges: end -->
+- [Generate orthomosaics](#generate-orthomosaics)
 
 # The package
 
@@ -116,142 +104,21 @@ To activate the key, follow these steps :
 If that works, you can close the command prompt. You should be good to
 go !
 
-# General advices
-
-In order to facilitate your use of our package and ensure that you will
-not be lost when following the documentation, we strongly recommend you
-to following the workflow given below. To create this architecture you
-can use the function
-[`create_files_architecture()`](https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html)
-.
-
-<figure>
-<img src="man/figures/steps.gif" alt="Recommanded workflow" />
-<figcaption aria-hidden="true">Recommanded workflow</figcaption>
-</figure>
-
-# Workflow
-
-One of the main function of the package is to generate orthomosaics,
-using the Metashape python API and
-arosics([AROSICS](https://github.com/GFZ/arosics)) within the functions
-[`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html)
-and
-[`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html).
-These steps required a Metashape license. To guide you step by step into
-the mosaic generating process you will find a
-[tutoriel](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
-that require the [test
-dataset](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3).
-
-If you don’t have valid Metashape licence but already have the
-orthomosaics, you will find a tutoriel and test data here for the other
-package functions
-[here](https://hugolblc.github.io/managecrownsdata/articles/workflow.html).
-
-# 1 and 2
-
-- 1\*  
-  Use the function
-  [`create_files_architecture()`](https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html)
-  to create the recommended files architecture.
-
-- 2\*  
-  Manually add your files (raw rgb images and crowns file) to the
-  correct folders.
-
-- Add your rgb images into the ‘1_drone_images’ folder
-
-Structure your data in one of the following ways : either place one
-folder by flight directly in your input folder, or use one directory by
-date, each consisting of subdirectories for each flight (see exemples
-below). In both cases, the date must be indicated in the name of the
-folders directly containing images, in the YYYYMMDD or YYYYMM formats.
-
-<div class="figure" style="text-align: center">
-
-<img src="man/figures/drone_images_achitecture.jpg" alt="Accepted folder structures" width="100%" />
-<p class="caption">
-Accepted folder structures
-</p>
-
-</div>
-
-- Add your crowns data files into the ‘4_crowns’ folder
-
-# 3 Generate orthomosaics
+# Generate orthomosaics
 
 One of the main functions of the package is to generate orthomosaics in
 R, using arosics([AROSICS](https://github.com/GFZ/arosics)) and the
 Metashape python API. To guide you step by step into the workflow, you
 should download the test dataset
-[here](https://filesender.renater.fr/?s=download&token=a9dda9d3-4cdf-4c80-8563-e27f1137a909)
+[here](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
 and follow the instructions
-[here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
-
-Our test data consists of a few drone images of the same zone taken at
-two different dates and the functions
-[`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html)
-and
-[`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html)
-will be used to generate the orthomosaics.
+[here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
 
 <div class="figure" style="text-align: center">
 
-<img src="man/figures/generate_mosaics.JPG" alt="Generate mosaics from drone images" width="100%" />
+<img src="man/figures/generate_mosaics.JPG" alt="Generate orthomosaics" width="100%" />
 <p class="caption">
-Generate mosaics from drone images
+Generate orthomosaics
 </p>
 
 </div>
-
-# STEP 4 create nonNA bboxImages
-
-<div class="figure" style="text-align: center">
-
-<img src="man/figures/create_nonNA_bboxImages.jpg" alt="Extract crowns images" width="100%" />
-<p class="caption">
-Extract crowns images
-</p>
-
-</div>
-
-# STEP 5 Extract crowns images
-
-To guide you step by step into the workflow, we should follow the
-instructions
-[here](https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html)
-
-To run the exemples, all data are included into the packages. In order
-to reduce the size of the data, we have reduced the spatial resolution
-of images.
-
-<div class="figure" style="text-align: center">
-
-<img src="man/figures/extract_images.jpg" alt="Extract crowns images" width="100%" />
-<p class="caption">
-Extract crowns images
-</p>
-
-</div>
-
-# STEP 6 Create labeling file
-
-Once you have the crowns images you can associate manually a label which
-difine the vegetative and/or reproductive state of trees a the different
-date. To do it you should create a xlsx file whith the
-`create_labelingFile()` function. More information
-[here](https://hugolblc.github.io/managecrownsdata/reference/create_labellingFile.html)
-
-<div class="figure" style="text-align: center">
-
-<img src="man/figures/create_labellingFile.jpg" alt="Labeling file to do manual labelling" width="50%" />
-<p class="caption">
-Labeling file to do manual labelling
-</p>
-
-</div>
-
-# STEP 7 Extract RGB metrics and merge them with labels
-
-# STEP 8 Analyses

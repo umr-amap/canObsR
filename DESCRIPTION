@@ -1,9 +1,12 @@
 Package: managecrownsdata
-Title: What the Package Does (One Line, Title Case)
+Title: Generate orthomosaics
 Version: 0.0.0.9000
-Authors@R: 
-    person("Hugo", "Leblanc", ,"hugo.leblanc53@gmail.com", role = c("aut", "cre"))
-Description: Design to handle crown observatories data.
+Authors@R: c(
+    person("Hugo", "Leblanc", ,, role = c("aut", "cre")),
+    person("Hadrien", "Tulet", , role = "aut"),
+    person("Pierre", "Ploton", , role = "aut")
+    )
+Description: Aims at streamlining, standardizing and facilitating processing of repetead UAV surveys
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
