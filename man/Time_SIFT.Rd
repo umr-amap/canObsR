@@ -5,7 +5,7 @@
 \title{Implement Time-SIFT in R}
 \usage{
 Time_SIFT(
-  pathDIR,
+  path_in,
   out_dir_ortho,
   out_dir_DEM = NULL,
   out_dir_project = NULL,
@@ -21,7 +21,7 @@ Time_SIFT(
 )
 }
 \arguments{
-\item{pathDIR}{chr. Path to the folder where the data is located. Inside this folder, any structure of subfolders containing images is accepted, as long as the date is specified in the folders' name in YYYYMMDD/YYYYMM format. This date is what will be used later to distinct which image belongs to which date when building orthomosaics.}
+\item{path_in}{chr. Path to the folder where the data is located. Inside this folder, any structure of subfolders containing images is accepted, as long as the date is specified in the folders' name in YYYYMMDD/YYYYMM format. This date is what will be used later to distinct which image belongs to which date when building orthomosaics.}
 
 \item{out_dir_ortho}{chr. Folder where the orthomosaics are saved.}
 
@@ -58,7 +58,7 @@ Implementation in R of a pipeline that performs the Time-SIFT process to time se
 \dontrun{
 library(reticulate)
 
-Time_SIFT(pathDIR = "path_to_my_drone_data",
+Time_SIFT(path_in = "path_to_my_drone_data",
                out_dir_ortho = "my_output_folder/ORTHO",
                #out_dir_DEM = "my_output_folder/DEM",
                data_type = "RGB",
@@ -67,7 +67,7 @@ Time_SIFT(pathDIR = "path_to_my_drone_data",
                crs = "EPSG::32633",
                )
 
-Time_SIFT(pathDIR = "path_to_my_drone_data",
+Time_SIFT(path_in = "path_to_my_drone_data",
                out_dir_ortho = "my_output_folder/ORTHO",
                #out_dir_DEM = "my_output_folder/DEM",
                data_type = "MS",
