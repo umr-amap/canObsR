@@ -121,7 +121,7 @@ In order to facilitate your use of our package and ensure that you will not be l
 # Workflow
 
 One of the main function of the package is to generate orthomosaics, using 
-the Metashape python API and arosics([AROSICS](https://github.com/GFZ/arosics)) within the functions [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) and [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html). These steps required a Metashape license. To guide you step by step into the mosaic generating process you will find a  [tutoriel](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html) that require the  [test dataset](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3).
+the Metashape python API and arosics([AROSICS](https://github.com/GFZ/arosics)) within the functions [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) and [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html). These steps required a Metashape license. To guide you step by step into the mosaic generating process you will find a  [tutoriel](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html) that require the  [test dataset](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3).
 
 If you don't have valid Metashape licence but already have the orthomosaics, you will find a tutoriel and test data here for the other package functions [here](https://hugolblc.github.io/managecrownsdata/articles/workflow.html). 
 
@@ -154,7 +154,7 @@ arosics([AROSICS](https://github.com/GFZ/arosics)) and the Metashape python API.
 >>>>>>> 04eb8136b0565962b74c1336fb90bf6b68edc3f3
 
 
-Our test data consists of a few drone images of the same zone taken at two different dates. The functions [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) and [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) will be used to generate and co-registrate the two orthomosaics.
+Our test data consists of a few drone images of the same zone taken at two different dates. The functions [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) and [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) will be used to generate and co-registrate the two orthomosaics.
 
 ```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate mosaics from drone images", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("man/figures/generate_mosaics.JPG")

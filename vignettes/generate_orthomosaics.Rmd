@@ -15,12 +15,12 @@ knitr::opts_chunk$set(
 ```
 
 
-Here is a short example to guide you step by step through the orthomosaic generating process with the functions [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html). These functions required, arosics(AROSICS), the Metashape python API and a valid Metashape license.  
+Here is a short example to guide you step by step through the orthomosaic generating process with the functions [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html). These functions required, arosics(AROSICS), the Metashape python API and a valid Metashape license.  
 
 * First you will need to download the  [test data](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3) and unzip it. Test
 data contains, 2 sets of drones images from the same area obtained from 2 differents dates and a **DTM** digital terrain model from the the area which is the reference. 
 
-* Then run the following code, more details about the functions  [`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) here.
+* Then run the following code, more details about the functions  [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) here.
 
 
 
@@ -40,7 +40,7 @@ Time_SIFT(path_in = file.path(directory, '1_drone_images'),
           crs = "EPSG::32633",
 ) # Export Time_SFIFT outputs into '4_Time_SIFT_output' folder
 
-arosics(path_in = file.path(directory, '4_Time_SIFT_output'),
+generate_Mosa(path_in = file.path(directory, '4_Time_SIFT_output'),
         ref_filepath = file.path(directory, '2_drone_images_ref'),
         out_dir_path = file.path(directory, '5_arosics_output'),
         corr_type = "global",
