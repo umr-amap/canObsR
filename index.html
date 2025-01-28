@@ -140,87 +140,9 @@
 </div>
 </div>
 <div class="section level1">
-<h1 id="general-advices">General advices<a class="anchor" aria-label="anchor" href="#general-advices"></a>
+<h1 id="generate-orthomosaics">Generate orthomosaics<a class="anchor" aria-label="anchor" href="#generate-orthomosaics"></a>
 </h1>
-<p>In order to facilitate your use of our package and ensure that you will not be lost when following the documentation, we strongly recommend you to following the workflow given below. To create this architecture you can use the function <a href="https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html" class="external-link"><code>create_files_architecture()</code></a> .</p>
-<figure><img src="reference/figures/steps.gif" alt="Recommanded workflow"><figcaption aria-hidden="true">
-Recommanded workflow
-</figcaption></figure>
-</div>
-<div class="section level1">
-<h1 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
-</h1>
-<p>One of the main function of the package is to generate orthomosaics, using the Metashape python API and arosics(<a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>) within the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html" class="external-link"><code>Time_SIFT()</code></a> and <a href="https://hugolblc.github.io/managecrownsdata/reference/arosics.html" class="external-link"><code>arosics()</code></a>. These steps required a Metashape license. To guide you step by step into the mosaic generating process you will find a <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html" class="external-link">tutoriel</a> that require the <a href="https://filesender.renater.fr/?s=download&amp;token=e67ac550-0546-4204-9a5a-24989cc0aff3" class="external-link">test dataset</a>.</p>
-<p>If you don’t have valid Metashape licence but already have the orthomosaics, you will find a tutoriel and test data here for the other package functions <a href="https://hugolblc.github.io/managecrownsdata/articles/workflow.html" class="external-link">here</a>.</p>
-</div>
-<div class="section level1">
-<h1 id="id_1-and-2">1 and 2<a class="anchor" aria-label="anchor" href="#id_1-and-2"></a>
-</h1>
-<ul>
-<li><p>1*<br>
-Use the function <a href="https://hugolblc.github.io/managecrownsdata/reference/create_files_architecture.html" class="external-link"><code>create_files_architecture()</code></a> to create the recommended files architecture.</p></li>
-<li><p>2*<br>
-Manually add your files (raw rgb images and crowns file) to the correct folders.</p></li>
-<li><p>Add your rgb images into the ‘1_drone_images’ folder</p></li>
-</ul>
-<p>Structure your data in one of the following ways : either place one folder by flight directly in your input folder, or use one directory by date, each consisting of subdirectories for each flight (see exemples below). In both cases, the date must be indicated in the name of the folders directly containing images, in the YYYYMMDD or YYYYMM formats.</p>
-<div class="figure" style="text-align: center">
-<img src="reference/figures/drone_images_achitecture.jpg" alt="Accepted folder structures" width="100%"><p class="caption">
-Accepted folder structures
-</p>
-</div>
-<ul>
-<li>Add your crowns data files into the ‘4_crowns’ folder</li>
-</ul>
-</div>
-<div class="section level1">
-<h1 id="id_3-generate-orthomosaics">3 Generate orthomosaics<a class="anchor" aria-label="anchor" href="#id_3-generate-orthomosaics"></a>
-</h1>
-<p>One of the main functions of the package is to generate orthomosaics in R, using &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD arosics(<a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset <a href="https://filesender.renater.fr/?s=download&amp;token=e67ac550-0546-4204-9a5a-24989cc0aff3" class="external-link">here</a> and follow the instructions <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html" class="external-link">here</a> ======= arosics(<a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset <a href="https://zenodo.org/records/14748367?preview=1&amp;token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjY3MjE2Y2M1LTY4NjctNDEwNS1hMTViLTkwNmMzNGM0YzA5NCIsImRhdGEiOnt9LCJyYW5kb20iOiJkYjhlMWZhMDZiYmNkNTg2YzA4OGYxMTg0ODE3MmI3YiJ9.xKZdG_R2NvApekkLM4FanVbM-ZWbGqNjXYucPKydbzeLdur08A69N9ROgeTdPR42PP_OrL4eF_hljxh3wQHfwA" class="external-link">here</a> and follow the instructions <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html" class="external-link">here</a> &gt;&gt;&gt;&gt;&gt;&gt;&gt; 04eb8136b0565962b74c1336fb90bf6b68edc3f3</p>
-<p>Our test data consists of a few drone images of the same zone taken at two different dates. The functions <a href="https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html" class="external-link"><code>Time_SIFT()</code></a> and <a href="https://hugolblc.github.io/managecrownsdata/reference/arosics.html" class="external-link"><code>arosics()</code></a> will be used to generate and co-registrate the two orthomosaics.</p>
-<div class="figure" style="text-align: center">
-<img src="reference/figures/generate_mosaics.JPG" alt="Generate mosaics from drone images" width="100%"><p class="caption">
-Generate mosaics from drone images
-</p>
-</div>
-</div>
-<div class="section level1">
-<h1 id="step-4-create-nonna-bboximages">STEP 4 create nonNA bboxImages<a class="anchor" aria-label="anchor" href="#step-4-create-nonna-bboximages"></a>
-</h1>
-<div class="figure" style="text-align: center">
-<img src="reference/figures/create_nonNA_bboxImages.jpg" alt="Extract crowns images" width="100%"><p class="caption">
-Extract crowns images
-</p>
-</div>
-</div>
-<div class="section level1">
-<h1 id="step-5-extract-crowns-images">STEP 5 Extract crowns images<a class="anchor" aria-label="anchor" href="#step-5-extract-crowns-images"></a>
-</h1>
-<p>To guide you step by step into the workflow, we should follow the instructions <a href="https://hugolblc.github.io/managecrownsdata/articles/extract_crowns_images.html" class="external-link">here</a></p>
-<p>To run the exemples, all data are included into the packages. In order to reduce the size of the data, we have reduced the spatial resolution of images.</p>
-<div class="figure" style="text-align: center">
-<img src="reference/figures/extract_images.jpg" alt="Extract crowns images" width="100%"><p class="caption">
-Extract crowns images
-</p>
-</div>
-</div>
-<div class="section level1">
-<h1 id="step-6-create-labeling-file">STEP 6 Create labeling file<a class="anchor" aria-label="anchor" href="#step-6-create-labeling-file"></a>
-</h1>
-<p>Once you have the crowns images you can associate manually a label which difine the vegetative and/or reproductive state of trees a the different date. To do it you should create a xlsx file whith the <code><a href="reference/create_labelingFile.html">create_labelingFile()</a></code> function. More information <a href="https://hugolblc.github.io/managecrownsdata/reference/create_labellingFile.html" class="external-link">here</a></p>
-<div class="figure" style="text-align: center">
-<img src="reference/figures/create_labellingFile.jpg" alt="Labeling file to do manual labelling" width="50%"><p class="caption">
-Labeling file to do manual labelling
-</p>
-</div>
-</div>
-<div class="section level1">
-<h1 id="step-7-extract-rgb-metrics-and-merge-them-with-labels">STEP 7 Extract RGB metrics and merge them with labels<a class="anchor" aria-label="anchor" href="#step-7-extract-rgb-metrics-and-merge-them-with-labels"></a>
-</h1>
-</div>
-<div class="section level1">
-<h1 id="step-8-analyses">STEP 8 Analyses<a class="anchor" aria-label="anchor" href="#step-8-analyses"></a>
-</h1>
+<p>One of the main functions of the package is to generate orthomosaics in R, using arosics(<a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>) and the Metashape python API. To guide you step by step into the workflow, you should download the test dataset <a href="https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw" class="external-link">here</a> and follow the instructions <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html" class="external-link">here</a>.</p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
