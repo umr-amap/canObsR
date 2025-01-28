@@ -15,12 +15,12 @@ knitr::opts_chunk$set(
 ```
 
 
-Here is a short example to guide you step by step through the orthomosaic generating process with the functions [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html). These functions required, arosics(AROSICS), the Metashape python API and a valid Metashape license.  
+Here is a short example to guide you step by step through the orthomosaic generating process with the functions [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html). These functions required, arosics(AROSICS), the Metashape python API and a valid Metashape license.  
 
 * First you will need to download the  [test data](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3) and unzip it. Test
 data contains, 2 sets of drones images from the same area obtained from 2 differents dates and a **DTM** digital terrain model from the the area which is the reference. 
 
-* Then run the following code, more details about the functions  [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html) here.
+* Then run the following code, more details about the functions  [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) here.
 
 
 
@@ -32,7 +32,7 @@ use_condaenv('managecrownsdata_env')
 
 my_path <- 'XXXX/UAV_observatory_data_tuto1'
 
-Time_SIFT(path_in = file.path(directory, '1_drone_images'),
+generate_Mosa(path_in = file.path(directory, '1_drone_images'),
           out_dir_ortho = file.path(directory, '4_Time_SIFT_output'),
           data_type = "RGB",
           resol_ref = 0.5,
