@@ -1,5 +1,5 @@
 ---
-title: "generate_orthomosaics"
+title: "Generate orthomosaics"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{generate_orthomosaics}
@@ -15,12 +15,12 @@ knitr::opts_chunk$set(
 ```
 
 
-Here is a short example to guide you step by step through the orthomosaic generating process with the functions [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html). These functions required, arosics(AROSICS), the Metashape python API and a valid Metashape license.  
+Here is a short example to guide you step by step through the orthomosaic generating process with the functions [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`align_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/align_Mosa.html). These functions required, arosics(AROSICS), the Metashape python API and a valid Metashape license.  
 
 * First you will need to download the  [test data](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3) and unzip it. Test
 data contains, 2 sets of drones images from the same area obtained from 2 differents dates and a **DTM** digital terrain model from the the area which is the reference. 
 
-* Then run the following code, more details about the functions  [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) here.
+* Then run the following code, more details about the functions  [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`align_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/align_Mosa.html).
 
 
 
@@ -40,7 +40,7 @@ generate_Mosa(path_in = file.path(directory, 'my_drone_data'),
           crs = "EPSG::32633",
 ) # Export Time_SFIFT outputs into 'outputs_arosics' folder
 
-generate_Mosa(path_in = file.path(directory, 'outputs_arosics'),
+align_Mosa(path_in = file.path(directory, 'outputs_arosics'),
         ref_filepath = file.path(directory, 'Bouamir_LiDAR_mars2022_ref_red.tif'),
         out_dir_path = file.path(directory, 'outputs_TS'),
         corr_type = "global",
