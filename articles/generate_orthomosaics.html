@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>generate_orthomosaics • managecrownsdata</title>
-<script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -16,11 +16,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">managecrownsdata</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,14 +43,6 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/hugolblc/managecrownsdata/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
-  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
-<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
-    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
-    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
-  </ul>
-</li>
       </ul>
 </div>
 
@@ -74,8 +66,8 @@
     
     
 <p>Here is a short example to guide you step by step through the
-orthomosaic generating process with the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/arosics.html"><code>arosics()</code></a>
-and <a href="https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html"><code>Time_SIFT()</code></a>.
+orthomosaic generating process with the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html" class="external-link"><code>generate_Mosa()</code></a>
+and <a href="https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html" class="external-link"><code>generate_Mosa()</code></a>.
 These functions required, arosics(AROSICS), the Metashape python API and
 a valid Metashape license.</p>
 <ul>
@@ -84,8 +76,8 @@ data</a> and unzip it. Test data contains, 2 sets of drones images from
 the same area obtained from 2 differents dates and a
 <strong>DTM</strong> digital terrain model from the the area which is
 the reference.</p></li>
-<li><p>Then run the following code, more details about the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/arosics.html"><code>arosics()</code></a>
-and <a href="https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html"><code>Time_SIFT()</code></a>
+<li><p>Then run the following code, more details about the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html" class="external-link"><code>generate_Mosa()</code></a>
+and <a href="https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html" class="external-link"><code>generate_Mosa()</code></a>
 here.</p></li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -96,7 +88,7 @@ here.</p></li>
 <span></span>
 <span><span class="va">my_path</span> <span class="op">&lt;-</span> <span class="st">'XXXX/UAV_observatory_data_tuto1'</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/Time_SIFT.html">Time_SIFT</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'1_drone_images'</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="../reference/generate_Mosa.html">generate_Mosa</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'1_drone_images'</span><span class="op">)</span>,</span>
 <span>          out_dir_ortho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'4_Time_SIFT_output'</span><span class="op">)</span>,</span>
 <span>          data_type <span class="op">=</span> <span class="st">"RGB"</span>,</span>
 <span>          resol_ref <span class="op">=</span> <span class="fl">0.5</span>,</span>
@@ -104,7 +96,7 @@ here.</p></li>
 <span>          crs <span class="op">=</span> <span class="st">"EPSG::32633"</span>,</span>
 <span><span class="op">)</span> <span class="co"># Export Time_SFIFT outputs into '4_Time_SIFT_output' folder</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/arosics.html">arosics</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'4_Time_SIFT_output'</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="../reference/generate_Mosa.html">generate_Mosa</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'4_Time_SIFT_output'</span><span class="op">)</span>,</span>
 <span>        ref_filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'2_drone_images_ref'</span><span class="op">)</span>,</span>
 <span>        out_dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'5_arosics_output'</span><span class="op">)</span>,</span>
 <span>        corr_type <span class="op">=</span> <span class="st">"global"</span>,</span>
