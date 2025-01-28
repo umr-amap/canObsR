@@ -34,6 +34,7 @@ parser.add_argument('--apply_matrix', default=False)
 parser.add_argument('--save_plot', default=False)
 parser.add_argument('--save_data', default=True)
 parser.add_argument('--compress_lzw', default=False)
+parser.add_argument('--suffix', type=str, default="")
 args = parser.parse_args()
 
 
@@ -218,7 +219,7 @@ def apply_saved_matrix(im_path, out_dir_path, metadata_path, GCP_path = None, su
             corr_type = 'local'
             GCP_df = pd.read_csv(GCP_path)
             coreg_info['GCPList'] = to_GCPList(GCP_df, -9999)
-            
+
         current_file_path = os.path.join(im_path, file)
         path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")               #
         CR = DESHIFTER(current_file_path, coreg_info, path_out=path_out, fmt_out="GTIFF")
@@ -541,4 +542,5 @@ if __name__ == '__main__':
                              save_data = args.save_data,
                              save_vector_plot = args.save_plot,
                              compress_lzw = args.compress_lzw,
+                             suffix = args.suffix,
                              )
