@@ -2,80 +2,88 @@
 % Please edit documentation in R/align_Mosa.R
 \name{align_Mosa}
 \alias{align_Mosa}
-\title{Implement Time-SIFT in R}
+\title{Implement AROSICS in R}
 \usage{
 align_Mosa(
   path_in,
-  out_dir_ortho,
-  out_dir_DEM = NULL,
-  out_dir_project = NULL,
-  data_type = "RGB",
-  resol_ref = 0.05,
-  crs = "EPSG::32622",
-  site_name = "",
-  calibrate_col = TRUE,
-  sun_sensor = FALSE,
-  group_by_flight = FALSE,
-  downscale_factor_alignement = 1L,
-  downscale_factor_depth_map = 2L
+  ref_filepath,
+  out_dir_path,
+  corr_type = "global",
+  max_shift = 250L,
+  max_iter = 100L,
+  grid_res = 1000L,
+  window_size = NULL,
+  window_pos = list(NULL, NULL),
+  mp = NULL,
+  save_data = TRUE,
+  save_vector_plot = FALSE,
+  apply_matrix = FALSE
 )
 }
 \arguments{
-\item{path_in}{chr. Path to the folder where the data is located. Inside this folder, any structure of subfolders containing images is accepted, as long as the date is specified in the folders' name in YYYYMMDD/YYYYMM format. This date is what will be used later to distinct which image belongs to which date when building orthomosaics.}
+\item{path_in}{chr. Path to the target image, or to a folder containing multiple target images. Images must be of Geotiff format.}
 
-\item{out_dir_ortho}{chr. Folder where the orthomosaics are saved.}
+\item{ref_filepath}{chr. Path to the reference image.}
 
-\item{out_dir_DEM}{chr. Folder where the DEMs are saved. If no path is specified, the DEMs are not saved by default.}
+\item{out_dir_path}{chr. Directory where the outputs are saved.}
 
-\item{out_dir_project}{chr. Folder where the Metashape project is saved. If no path is specified, the project is not saved by default.}
+\item{corr_type}{chr. Type of co-registration. Either 'global' (default) or 'local'.}
 
-\item{data_type}{chr. The type of the data used. Either 'RGB' (default) or 'MS' (for multispectral images).}
+\item{max_shift}{int. Maximum shift distance in reference image pixel units}
 
-\item{resol_ref}{num. The resolution (in meters) used to generate DEMs and orthomosaics. Defaults to 0.05.}
+\item{max_iter}{int. Maximum number of iterations for matching (default: 5).}
 
-\item{crs}{chr. Coordinate system used for the orthomosaic, in a string format. Example: crs="EPSG::32622" (default value).}
+\item{grid_res}{int. Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration.}
 
-\item{site_name}{chr. Adds the data site name into the names of all created folders and files, to better separate generated data from different projects. If not specified, the names will stay generic.}
+\item{window_size}{int. Custom matching window size \link{pixels} as (X, Y) tuple (default: (1000, 1000)).}
 
-\item{calibrate_col}{logical. Applies white balance.}
+\item{window_pos}{tuple. Custom matching window position as (X, Y) map coordinate in the same projection as the reference image (default: central position of image overlap). Only used when performing global co-registration.}
 
-\item{sun_sensor}{logical. Calibrates the reflectance using the sun sensor. Only applies to multispectral images.}
+\item{mp}{int. Number of CPUs to use. If None (default), all available CPUs are used. If mp=1, no multiprocessing is done.}
 
-\item{group_by_flight}{logical. Regroups data by flight (i.e. one orthomosaic for each subfolder of the input folder containing images). If FALSE, regroups it by date (default).}
+\item{save_data}{logical. Saves the transformation metadata in a .pkl file, and the tie points data in a csv file. The latter only happens when performing local co-registration.}
 
-\item{downscale_factor_alignement}{int. Alignment accuracy (0 - Highest, 1 - High, 2 - Medium, 4 - Low, 8 - Lowest). Defaults to 1.}
+\item{save_vector_plot}{logical. saves the a map of the calculated tie point grid in a JPEG file. Has an effect only when performing local co-registration.}
 
-\item{downscale_factor_depth_map}{int. Depth map quality (1 - Ultra high, 2 - High, 4 - Medium, 8 - Low, 16 - Lowest). Defaults to 2.}
+\item{apply_matrix}{logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently. Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created. We hope to change that soon ; until then, apply_matrix is disabled by default)}
 }
 \value{
 None
 }
 \description{
-Implementation in R of a pipeline that performs the Time-SIFT process to time series of drone images using the Metashape python API. All photos are loaded and aligned, then orthomosaics and (optionally) DEMs will be generated for each date or flight.
+Implementation in R of a pipeline that uses arosics(\href{https://github.com/GFZ/arosics}{AROSICS}) to perform a global or local co-registration on a file or a group of files located inside a folder
 }
 \examples{
 
 \dontrun{
 library(reticulate)
 
-align_Mosa(path_in = "path_to_my_drone_data",
-               out_dir_ortho = "my_output_folder/ORTHO",
-               #out_dir_DEM = "my_output_folder/DEM",
-               data_type = "RGB",
-               resol_ref = 0.5,
-               site_name = "Bouamir",
-               crs = "EPSG::32633",
-               )
+align_Mosa(path_in = "path_to_ortho.tif",
+             ref_filepath = "ref_image.tif",
+             out_dir_path = "my_output_dir",
+             corr_type = "local",
+             grid_res = 500,
+             save_data = TRUE,
+             save_vector_plot = TRUE,
+             )
 
-align_Mosa(path_in = "path_to_my_drone_data",
-               out_dir_ortho = "my_output_folder/ORTHO",
-               #out_dir_DEM = "my_output_folder/DEM",
-               data_type = "MS",
-               sun_sensor = TRUE,
-               crs = "EPSG::32622",
-               downscale_factor_depth_map = 4,
-               group_by_flight = TRUE
-               )
-               }
+align_Mosa(path_in = "path_to_input_folder",
+             ref_filepath = "ref_image.tif",
+             out_dir_path = "my_output_dir",
+             corr_type = "local",
+             grid_res = 500,
+             save_data = FALSE,
+             mp = 5,
+             )
 
+align_Mosa(path_in = "path_to_input_folder",
+             ref_filepath = "ref_image.tif",
+             out_dir_path = "my_output_dir",
+             corr_type = "global",
+             max_shift = 200,
+             save_data = TRUE,
+             apply_matrix = TRUE,
+             mp = 1,
+             )
+             }
 }

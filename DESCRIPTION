@@ -1,13 +1,9 @@
 Package: managecrownsdata
-Title: Process repetead UAV surveys
+Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
     person("Hugo", "Leblanc", ,"hugo.leblanc53@gmail.com", role = c("aut", "cre"))
-Description: This R package aims at streamlining, standardizing and facilitating 
-processing of repetead UAV surveys from R. It focuses (for now) on RGB data. It notably 
-allows generating 3D and 4D mosaics & mosaics spatial alignment using state-of-the-art 
-approaches,  provides tools to generate reference labels, segment crowns (not now) and 
-classify crown phenophases (not now).
+Description: Design to handle crown observatories data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
