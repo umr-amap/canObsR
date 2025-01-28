@@ -182,19 +182,27 @@ Accepted folder structures
 # 3 Generate orthomosaics
 
 One of the main functions of the package is to generate orthomosaics in
-R, using arosics([AROSICS](https://github.com/GFZ/arosics)) and the
-Metashape python API. To guide you step by step into the workflow, you
-should download the test dataset
+R, using \<\<\<\<\<\<\< HEAD
+arosics([AROSICS](https://github.com/GFZ/arosics)) and the Metashape
+python API. To guide you step by step into the workflow, you should
+download the test dataset
 [here](https://filesender.renater.fr/?s=download&token=e67ac550-0546-4204-9a5a-24989cc0aff3)
 and follow the instructions
 [here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
+======= arosics([AROSICS](https://github.com/GFZ/arosics)) and the
+Metashape python API. To guide you step by step into the workflow, you
+should download the test dataset
+[here](https://zenodo.org/records/14748367?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjY3MjE2Y2M1LTY4NjctNDEwNS1hMTViLTkwNmMzNGM0YzA5NCIsImRhdGEiOnt9LCJyYW5kb20iOiJkYjhlMWZhMDZiYmNkNTg2YzA4OGYxMTg0ODE3MmI3YiJ9.xKZdG_R2NvApekkLM4FanVbM-ZWbGqNjXYucPKydbzeLdur08A69N9ROgeTdPR42PP_OrL4eF_hljxh3wQHfwA)
+and follow the instructions
+[here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html)
+\>\>\>\>\>\>\> 04eb8136b0565962b74c1336fb90bf6b68edc3f3
 
 Our test data consists of a few drone images of the same zone taken at
-two different dates and the functions
-[`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html)
-and
+two different dates. The functions
 [`Time_SIFT()`](https://hugolblc.github.io/managecrownsdata/reference/Time_SIFT.html)
-will be used to generate the orthomosaics.
+and
+[`arosics()`](https://hugolblc.github.io/managecrownsdata/reference/arosics.html)
+will be used to generate and co-registrate the two orthomosaics.
 
 <div class="figure" style="text-align: center">
 
