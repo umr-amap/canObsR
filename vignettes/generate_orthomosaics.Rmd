@@ -47,6 +47,7 @@ arosics(path_in = file.path(directory, '4_Time_SIFT_output'),
         #grid_res = 200,
         window_size = 500,
         window_pos = list(258131, 352973),
+        apply_matrix = TRUE,
         save_data = FALSE
 ) # Export arosics outputs into '5_arosics_output' folder
 
