@@ -11,8 +11,8 @@ reference:
 - title: Images proccessing
   desc: Process RGB mosaics
   contents:
-  - arosics
-  - Time_SIFT
+  - generate_Mosa
+  - align_Mosa
 
 - title: Create and check data to facilitate
   desc: Create and check data to facilitate the workflow
