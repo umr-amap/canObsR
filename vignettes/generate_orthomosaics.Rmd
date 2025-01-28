@@ -30,25 +30,25 @@ library(reticulate)
 
 use_condaenv('managecrownsdata_env')
 
-my_path <- 'XXXX/UAV_observatory_data_tuto1'
+my_path <- 'XXXX/test_data'
 
-generate_Mosa(path_in = file.path(directory, '1_drone_images'),
-          out_dir_ortho = file.path(directory, '4_Time_SIFT_output'),
+generate_Mosa(path_in = file.path(directory, 'my_drone_data'),
+          out_dir_ortho = file.path(directory, 'outputs_arosics'),
           data_type = "RGB",
           resol_ref = 0.5,
           site_name = "Bouamir",
           crs = "EPSG::32633",
-) # Export Time_SFIFT outputs into '4_Time_SIFT_output' folder
+) # Export Time_SFIFT outputs into 'outputs_arosics' folder
 
-generate_Mosa(path_in = file.path(directory, '4_Time_SIFT_output'),
-        ref_filepath = file.path(directory, '2_drone_images_ref'),
-        out_dir_path = file.path(directory, '5_arosics_output'),
+generate_Mosa(path_in = file.path(directory, 'outputs_arosics'),
+        ref_filepath = file.path(directory, 'Bouamir_LiDAR_mars2022_ref_red.tif'),
+        out_dir_path = file.path(directory, 'outputs_TS'),
         corr_type = "global",
         #grid_res = 200,
         window_size = 500,
         window_pos = list(258131, 352973),
         save_data = FALSE
-) # Export arosics outputs into '5_arosics_output' folder
+) # Export arosics outputs into 'outputs_TS' folder
 
 ```
 
