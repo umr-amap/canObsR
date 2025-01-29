@@ -28,14 +28,15 @@ reference:
 
 - title: Plots
   desc: >
-    xxxx.
+    Plot crowns data
   contents:
-  - heatmap_labels
+  - heatmap_Labels
   - plot_signal
 
 
-- title: Plots
+- title: Others functions
   desc: >
+    xxxx.
   contents:
   - check_available_Crowns
   - check_crownsFile

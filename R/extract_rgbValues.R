@@ -29,7 +29,7 @@
 extract_rgbValues <-
 
    function(
-      path_in,
+      path_images,
       path_crowns,
       out_dir_path,
       ncor = 1,
@@ -41,9 +41,6 @@ extract_rgbValues <-
 
       crownsFile <-  sf::read_sf(path_crowns)
       sf::st_geometry(crownsFile)='geometry'
-      path_images <- list.files(path_in,
-                                full.names = TRUE,
-                                pattern = '\\.tif$')
 
 # check sites ------------------------------------------
 
