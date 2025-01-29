@@ -18,7 +18,7 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/generate_orthomosaics.html">generate_orthomosaics</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/generate_orthomosaics.html">Generate orthomosaics</a></li>
     <li><a class="dropdown-item" href="../articles/workflow.html">workflow</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -56,7 +56,8 @@
 <span>  mp <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  save_data <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  save_vector_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  apply_matrix <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  apply_matrix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  suffix <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -115,6 +116,10 @@
 <dt id="arg-apply-matrix">apply_matrix<a class="anchor" aria-label="anchor" href="#arg-apply-matrix"></a></dt>
 <dd><p>logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently. Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created. We hope to change that soon ; until then, apply_matrix is disabled by default)</p></dd>
 
+
+<dt id="arg-suffix">suffix<a class="anchor" aria-label="anchor" href="#arg-suffix"></a></dt>
+<dd><p>chr. Text to add at the end of the output filenames.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -143,6 +148,7 @@
 <span class="r-in"><span>             grid_res <span class="op">=</span> <span class="fl">500</span>,</span></span>
 <span class="r-in"><span>             save_data <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>             mp <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>             suffix <span class="op">=</span> <span class="st">"_aligned"</span>,</span></span>
 <span class="r-in"><span>             <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">align_Mosa</span><span class="op">(</span>path_in <span class="op">=</span> <span class="st">"path_to_input_folder"</span>,</span></span>

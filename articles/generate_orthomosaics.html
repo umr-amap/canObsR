@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>generate_orthomosaics • managecrownsdata</title>
+<title>Generate orthomosaics • managecrownsdata</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="generate_orthomosaics">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Generate orthomosaics">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,7 +33,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/generate_orthomosaics.html">generate_orthomosaics</a></li>
+<li><a class="dropdown-item" href="../articles/generate_orthomosaics.html">Generate orthomosaics</a></li>
     <li><a class="dropdown-item" href="../articles/workflow.html">workflow</a></li>
   </ul>
 </li>
@@ -56,7 +56,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>generate_orthomosaics</h1>
+      <h1>Generate orthomosaics</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/hugolblc/managecrownsdata/blob/master/vignettes/generate_orthomosaics.Rmd" class="external-link"><code>vignettes/generate_orthomosaics.Rmd</code></a></small>
@@ -67,7 +67,7 @@
     
 <p>Here is a short example to guide you step by step through the
 orthomosaic generating process with the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html" class="external-link"><code>generate_Mosa()</code></a>
-and <a href="https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html" class="external-link"><code>generate_Mosa()</code></a>.
+and <a href="https://hugolblc.github.io/managecrownsdata/reference/align_Mosa.html" class="external-link"><code>align_Mosa()</code></a>.
 These functions required, arosics(AROSICS), the Metashape python API and
 a valid Metashape license.</p>
 <ul>
@@ -77,8 +77,7 @@ the same area obtained from 2 differents dates and a
 <strong>DTM</strong> digital terrain model from the the area which is
 the reference.</p></li>
 <li><p>Then run the following code, more details about the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html" class="external-link"><code>generate_Mosa()</code></a>
-and <a href="https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html" class="external-link"><code>generate_Mosa()</code></a>
-here.</p></li>
+and <a href="https://hugolblc.github.io/managecrownsdata/reference/align_Mosa.html" class="external-link"><code>align_Mosa()</code></a>.</p></li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hugolblc/managecrownsdata" class="external-link">managecrownsdata</a></span><span class="op">)</span></span>
@@ -89,20 +88,21 @@ here.</p></li>
 <span><span class="va">my_path</span> <span class="op">&lt;-</span> <span class="st">'XXXX/test_data'</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/generate_Mosa.html">generate_Mosa</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'my_drone_data'</span><span class="op">)</span>,</span>
-<span>          out_dir_ortho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'outputs_arosics'</span><span class="op">)</span>,</span>
+<span>          out_dir_ortho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'orthomosaics'</span><span class="op">)</span>,</span>
 <span>          data_type <span class="op">=</span> <span class="st">"RGB"</span>,</span>
 <span>          resol_ref <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>          site_name <span class="op">=</span> <span class="st">"Bouamir"</span>,</span>
 <span>          crs <span class="op">=</span> <span class="st">"EPSG::32633"</span>,</span>
 <span><span class="op">)</span> <span class="co"># Export Time_SFIFT outputs into 'outputs_arosics' folder</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/generate_Mosa.html">generate_Mosa</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'outputs_arosics'</span><span class="op">)</span>,</span>
-<span>        ref_filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'Bouamir_LiDAR_mars2022_ref_red.tif'</span><span class="op">)</span>,</span>
-<span>        out_dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'outputs_TS'</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="../reference/align_Mosa.html">align_Mosa</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'orthomosaics'</span><span class="op">)</span>,</span>
+<span>        ref_filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'Bouamir_LiDAR_ref.tif'</span><span class="op">)</span>,</span>
+<span>        out_dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">directory</span>, <span class="st">'aligned_orthomosaics'</span><span class="op">)</span>,</span>
 <span>        corr_type <span class="op">=</span> <span class="st">"global"</span>,</span>
 <span>        <span class="co">#grid_res = 200,</span></span>
 <span>        window_size <span class="op">=</span> <span class="fl">500</span>,</span>
 <span>        window_pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">258131</span>, <span class="fl">352973</span><span class="op">)</span>,</span>
+<span>        apply_matrix <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>        save_data <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span> <span class="co"># Export arosics outputs into 'outputs_TS' folder</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
