@@ -40,10 +40,12 @@ reference:
   contents:
   - check_availableCrowns
   - check_crownsFile
-  - create_file_architecture
+  - create_files_architecture
   - create_labelingFile
+  - extr_dates
 
 articles:
+- title: Tutorials
   contents:
   - generate_orthomosaics
   - workflow
