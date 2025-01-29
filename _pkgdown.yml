@@ -1,4 +1,43 @@
-url: ~
+url: https://hugolblc.github.io/managecrownsdata/
+
 template:
   bootstrap: 5
+  light-switch: true
 
+development:
+  mode: auto
+
+reference:
+- title: Image proccessing
+  desc: >
+    Generate and align orthomosaics
+  contents:
+  - generate_Mosa
+  - align_Mosa
+
+- title: Extract crowns data
+  desc: >
+    Fine-tune the arrangement of plots by reordering or splitting axes into separate panels.
+    These functions allow for more detailed customization of plot layouts.
+  contents:
+  - create_nonNA_bbox
+  - extract_crownsImages
+  - extract_rgbValues
+  - pivot_Labels
+  - merge_values
+
+- title: Plots
+  desc: >
+    xxxx.
+  contents:
+  - heatmap_labels
+  - plot_signal
+
+
+- title: Plots
+  desc: >
+  contents:
+  - check_available_Crowns
+  - check_crownsFile
+  - create_file_architecture
+  - create_labelingFile

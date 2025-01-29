@@ -3,7 +3,7 @@
 #'@description The function extracts and save .jpeg images for each crown at
 #'each date.
 #'
-#'@param path_in A list with the full paths to the RGB rasters.
+#'@param path_images A list with the full paths to the RGB rasters.
 #'@param path_crowns  chr. Path to the crown file
 #'@param path_bbox chr. Path to the folder where the non NA Bbox returned by the function `extract_bboxImages()`
 #'are stored.
@@ -44,7 +44,7 @@
 extract_crownsImages <-
 
    function(
-      path_in,
+      path_images,
       path_crowns,
       path_bbox,
       out_dir_path,
@@ -60,9 +60,6 @@ extract_crownsImages <-
       bbox <- lapply(list.files(path_bbox, full.names = TRUE), sf::st_read)
       crownsFile <-  sf::read_sf(path_crowns)
       sf::st_geometry(crownsFile)='geometry'
-      path_images <- list.files(path_in,
-                                full.names = TRUE,
-                                pattern = '\\.tif$')
 
       # check site ------------------------------------------
 

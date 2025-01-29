@@ -18,7 +18,7 @@ align_Mosa(
   save_data = TRUE,
   save_vector_plot = FALSE,
   apply_matrix = FALSE,
-  suffix = FALSE
+  suffix = ""
 )
 }
 \arguments{

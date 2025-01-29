@@ -5,7 +5,7 @@
 \title{Extract crowns images}
 \usage{
 extract_crownsImages(
-  path_in,
+  path_images,
   path_crowns,
   path_bbox,
   out_dir_path,
@@ -17,7 +17,7 @@ extract_crownsImages(
 )
 }
 \arguments{
-\item{path_in}{A list with the full paths to the RGB rasters.}
+\item{path_images}{A list with the full paths to the RGB rasters.}
 
 \item{path_crowns}{chr. Path to the crown file}
 

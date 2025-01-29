@@ -18,7 +18,7 @@ generate_Mosa(
   group_by_flight = FALSE,
   downscale_factor_alignement = 1L,
   downscale_factor_depth_map = 2L,
-  suffix = "",
+  suffix = ""
 )
 }
 \arguments{

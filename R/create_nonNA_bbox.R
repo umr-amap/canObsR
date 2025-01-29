@@ -21,7 +21,7 @@
 #' @import dplyr
 
 
-create_nonNA_bboxImages <-
+create_nonNA_bbox <-
 
    function(path_in, dates = NULL, out_dir_path = NULL, filename = NULL){
 
