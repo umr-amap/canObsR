@@ -17,7 +17,8 @@ generate_Mosa(
   sun_sensor = FALSE,
   group_by_flight = FALSE,
   downscale_factor_alignement = 1L,
-  downscale_factor_depth_map = 2L
+  downscale_factor_depth_map = 2L,
+  suffix = "",
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ generate_Mosa(
 \item{downscale_factor_alignement}{int. Alignment accuracy (0 - Highest, 1 - High, 2 - Medium, 4 - Low, 8 - Lowest). Defaults to 1.}
 
 \item{downscale_factor_depth_map}{int. Depth map quality (1 - Ultra high, 2 - High, 4 - Medium, 8 - Low, 16 - Lowest). Defaults to 2.}
+
+\item{suffix}{chr. Text to add at the end of the output filenames.}
 }
 \value{
 None
@@ -74,7 +77,8 @@ generate_Mosa(path_in = "path_to_my_drone_data",
                sun_sensor = TRUE,
                crs = "EPSG::32622",
                downscale_factor_depth_map = 4,
-               group_by_flight = TRUE
+               group_by_flight = TRUE,
+               suffix = "_ORTHO",
                )
                }
 

@@ -17,7 +17,8 @@ align_Mosa(
   mp = NULL,
   save_data = TRUE,
   save_vector_plot = FALSE,
-  apply_matrix = FALSE
+  apply_matrix = FALSE,
+  suffix = FALSE
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ align_Mosa(
 \item{save_vector_plot}{logical. saves the a map of the calculated tie point grid in a JPEG file. Has an effect only when performing local co-registration.}
 
 \item{apply_matrix}{logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently. Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created. We hope to change that soon ; until then, apply_matrix is disabled by default)}
+
+\item{suffix}{chr. Text to add at the end of the output filenames.}
 }
 \value{
 None
@@ -74,6 +77,7 @@ align_Mosa(path_in = "path_to_input_folder",
              grid_res = 500,
              save_data = FALSE,
              mp = 5,
+             suffix = "_aligned",
              )
 
 align_Mosa(path_in = "path_to_input_folder",

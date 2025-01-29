@@ -12,21 +12,29 @@ import pickle
 from shapely.geometry import Polygon
 import multiprocessing
 
+def parse_tuple(arg):
+    try:
+        # Evaluate the string to convert it to a tuple
+        return tuple(map(int, arg.strip("()").split(",")))
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"Invalid tuple format: '{arg}'. Expected format: '(int,int)'")
+    
 parser = argparse.ArgumentParser()
-parser.add_argument('--path_in', type=str)
-parser.add_argument('--ref_filepath', type=str)
-parser.add_argument('--out_dir_path', type=str)
+parser.add_argument('--path_in', required=True, type=str)
+parser.add_argument('--ref_filepath', required=True, type=str)
+parser.add_argument('--out_dir_path', required=True, type=str)
 parser.add_argument('--corr_type', type=str, default='global')
 parser.add_argument('--mp', default=1)
 parser.add_argument('--max_shift', type=int, default=250)
 parser.add_argument('--max_iter', type=int, default=100)
 parser.add_argument('--ws', default=None)
-parser.add_argument('--wp', default=(None, None))
+parser.add_argument('--wp', type=parse_tuple, default=(None, None))
 parser.add_argument('--grid_res', type=int, default=1000)
 parser.add_argument('--apply_matrix', default=False)
 parser.add_argument('--save_plot', default=False)
 parser.add_argument('--save_data', default=True)
 parser.add_argument('--compress_lzw', default=False)
+parser.add_argument('--suffix', type=str, default="")
 args = parser.parse_args()
 
 
@@ -210,8 +218,8 @@ def apply_saved_matrix(im_path, out_dir_path, metadata_path, GCP_path = None, su
         if GCP_path is not None:
             corr_type = 'local'
             GCP_df = pd.read_csv(GCP_path)
-        
-        coreg_info['GCPList'] = to_GCPList(GCP_df, -9999)
+            coreg_info['GCPList'] = to_GCPList(GCP_df, -9999)
+
         current_file_path = os.path.join(im_path, file)
         path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")               #
         CR = DESHIFTER(current_file_path, coreg_info, path_out=path_out, fmt_out="GTIFF")
@@ -254,7 +262,7 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
     """
     #CPUs = None if mp else 1
     CPUs = mp if mp is None else int(mp)
-    print(f"CPUs : {CPUs if CPUs is not None else "all"}")
+    print(f"CPUs : {CPUs if CPUs is not None else 'all'}")
 
     print("Input image : ", os.path.basename(path_in))
     print("Reference image : ", os.path.basename(path_ref))
@@ -442,7 +450,7 @@ def complete_arosics_process(path_in,
             """
             If the images don't all have the same extent, add padding so they do
             """
-            if not (all(x == hlist[0] for x in hlist) and all(x == glist[0] for x in glist)):     #and (np.max(dlist)-np.max(glist)) < 0.9*(np.max(dlist)-np.min(glist)) and (np.min(hlist)-np.max(blist)) < 0.9*(np.max(hlist)-np.max(blist))  #if apply_mask
+            if not (all(x == hlist[0] for x in hlist) and all(x == glist[0] for x in glist)):
                 rm_temp_files=True
                 mask_coords = [np.min(glist), np.min(blist), np.max(dlist), np.max(hlist)]
                 geom = Polygon([(mask_coords[0], mask_coords[1]), (mask_coords[0], mask_coords[3]), (mask_coords[2], mask_coords[3]), (mask_coords[2], mask_coords[1])])
@@ -481,36 +489,38 @@ def complete_arosics_process(path_in,
                     with rasterio.open(out_path, "w", **profile) as dst:
                         dst.write(padded_data)
                         dst.close()
+            try:
+                first_file = files[0]
+                harmonize_crs(os.path.join(path_in, first_file), ref_filepath, compress_lzw=compress_lzw)
+                path_out = os.path.join(out_dir_path, first_file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")
+                CR_info = call_arosics(os.path.join(path_in, first_file), ref_filepath, path_out=path_out, corr_type=corr_type, mp=mp, window_size=window_size, window_pos=window_pos, max_shift=max_shift, max_iter=max_iter, grid_res=grid_res, save_vector_plot=save_vector_plot, save_data=save_data)
+                """"
+                queue = multiprocessing.Queue()
+                process = multiprocessing.Process(target=call_arosics, args=(os.path.join(path_in, first_file), ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, grid_res, save_data, save_vector_plot, queue))
+                process.start()
+                process.join()    
+                # Terminate the process if needed (ensure cleanup)
+                CR_info = queue.get()
 
-            first_file = files[0]
-            harmonize_crs(os.path.join(path_in, first_file), ref_filepath, compress_lzw=compress_lzw)
-            path_out = os.path.join(out_dir_path, first_file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")
-            CR_info = call_arosics(os.path.join(path_in, first_file), ref_filepath, path_out=path_out, corr_type=corr_type, mp=mp, window_size=window_size, window_pos=window_pos, max_shift=max_shift, max_iter=max_iter, grid_res=grid_res, save_vector_plot=save_vector_plot, save_data=save_data)
-            """"
-            queue = multiprocessing.Queue()
-            process = multiprocessing.Process(target=call_arosics, args=(os.path.join(path_in, first_file), ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, grid_res, save_data, save_vector_plot, queue))
-            process.start()
-            process.join()    
-            # Terminate the process if needed (ensure cleanup)
-            CR_info = queue.get()
+                process.terminate()
 
-            process.terminate()
-
-            if process.is_alive():
-                raise TimeoutError("The arosics process is taking too much time and has been terminated")
-            else:
-                print("Process terminated successfully")
-            """
-            for file in files[1:]:
-                current_file_path = os.path.join(path_in, file)
-                harmonize_crs(current_file_path, ref_filepath, check_ref=False, compress_lzw=compress_lzw)
-                path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")              #f'_aligned_{corr_type}.tif'
-                DS = DESHIFTER(current_file_path, CR_info, path_out=path_out, fmt_out="GTIFF")
-                DS.correct_shifts()
-
-            if rm_temp_files:
-                for file in files:
-                    os.remove(os.path.join(path_in, file))
+                if process.is_alive():
+                    raise TimeoutError("The arosics process is taking too much time and has been terminated")
+                else:
+                    print("Process terminated successfully")
+                """
+                for file in files[1:]:
+                    current_file_path = os.path.join(path_in, file)
+                    harmonize_crs(current_file_path, ref_filepath, check_ref=False, compress_lzw=compress_lzw)
+                    path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")              #f'_aligned_{corr_type}.tif'
+                    DS = DESHIFTER(current_file_path, CR_info, path_out=path_out, fmt_out="GTIFF")
+                    DS.correct_shifts()
+            finally:
+                # Deletes temp files even if an error occurs
+                if rm_temp_files:
+                    for file in files:
+                        if "_temp.tif" in file:
+                            os.remove(os.path.join(path_in, file)) 
             return CR_info
     
     else:
@@ -534,4 +544,5 @@ if __name__ == '__main__':
                              save_data = args.save_data,
                              save_vector_plot = args.save_plot,
                              compress_lzw = args.compress_lzw,
+                             suffix = args.suffix,
                              )
