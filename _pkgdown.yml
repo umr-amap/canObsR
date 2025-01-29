@@ -38,7 +38,12 @@ reference:
   desc: >
     xxxx.
   contents:
-  - check_available_Crowns
+  - check_availableCrowns
   - check_crownsFile
   - create_file_architecture
   - create_labelingFile
+
+articles:
+  contents:
+  - generate_orthomosaics
+  - workflow
