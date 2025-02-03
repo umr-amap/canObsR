@@ -7,9 +7,8 @@
 extract_crownsImages(
   path_images,
   path_crowns,
-  path_bbox,
   out_dir_path,
-  site = NULL,
+  sites = NULL,
   dates = NULL,
   N_cores = 1,
   width = 720,
@@ -21,13 +20,10 @@ extract_crownsImages(
 
 \item{path_crowns}{chr. Path to the crown file}
 
-\item{path_bbox}{chr. Path to the folder where the non NA Bbox returned by the function \code{extract_bboxImages()}
-are stored.}
-
 \item{out_dir_path}{chr. The path to the directory use to stored the images. The
 function will create the folder, It doesn't need to exists.}
 
-\item{site}{chr. name of the site, p.e 'Mbalmayo'.}
+\item{sites}{chr. name of the site, p.e 'Mbalmayo'.}
 
 \item{dates}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
 '2022_09_25'). The order of the dates should match with the order of the

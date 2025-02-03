@@ -5,11 +5,9 @@
 #'
 #'@param path_images A list with the full paths to the RGB rasters.
 #'@param path_crowns  chr. Path to the crown file
-#'@param path_bbox chr. Path to the folder where the non NA Bbox returned by the function `extract_bboxImages()`
-#'are stored.
 #'@param out_dir_path chr. The path to the directory use to stored the images. The
 #'  function will create the folder, It doesn't need to exists.
-#'@param site chr. name of the site, p.e 'Mbalmayo'.
+#'@param sites chr. name of the site, p.e 'Mbalmayo'.
 #'@param dates chr. Vector with dates (format should be '%Y_%m_%d', p.e
 #'  '2022_09_25'). The order of the dates should match with the order of the
 #'  dates of the image in the path_images
@@ -37,8 +35,9 @@
 #'@importFrom magrittr "%>%"
 #'@import sf
 #'@import dplyr
-
-
+#' @import foreach
+#' @import parallel
+#' @import doParallel
 
 
 extract_crownsImages <-
@@ -46,9 +45,8 @@ extract_crownsImages <-
    function(
       path_images,
       path_crowns,
-      path_bbox,
       out_dir_path,
-      site = NULL,
+      sites = NULL,
       dates = NULL,
       N_cores = 1,
       width = 720,
@@ -57,41 +55,41 @@ extract_crownsImages <-
 
       # Import data -----------------------------------------------
 
-      bbox <- lapply(list.files(path_bbox, full.names = TRUE), sf::st_read)
       crownsFile <-  sf::read_sf(path_crowns)
       sf::st_geometry(crownsFile)='geometry'
 
-      # check site ------------------------------------------
+      # crownsFile = crownsFile %>% mutate(species = tx_sp_lvl, genus = tax_gen)
 
-      # site should be NULL or a character vector
-      if ( !(is.character(site) | is.null(site)) ) {
-         stop("site should be a character vector or NULL")
+      # check sites ------------------------------------------
+      # sites should be NULL or a character vector
+      if ( !(is.character(sites) | is.null(sites)) ) {
+         stop("sites should be a character vector or NULL")
       }
 
-      # Get the site if NULL from the paths
-      if(is.null(site)){
-         site = extr_sites(basename(path_images))
+      # Get the sites if NULL from the paths
+      if(is.null(sites)){
+         sites = extr_sites(basename(path_images))
       }
 
-      # site should be a vector of 1 elements or with the same length as path_images
-      if ( !(length(site) == 1 | length(site) == length(path_images)) ) {
+      # sites should be a vector of 1 elements or with the same length as path_images
+      if ( !(length(sites) == 1 | length(sites) == length(path_images)) ) {
          length_path <- length(path_images)
-         stop("length(site) should be 1 or ", length(path_images), ' not ',length(site))
+         stop("length(sites) should be 1 or ", length(path_images), ' not ',length(sites))
       }
 
-      # Return a message if there is more than one site
-      if ( length(unique(site)) > 1 ) {
+      # Return a message if there is more than one sites
+      if ( length(unique(sites)) > 1 ) {
          length_path <- length(path_images)
-         message("You are working with several different site :", paste(unique(site), collapse = ' '))
+         message("You are working with several different sites :", paste(unique(sites), collapse = ' '))
       }
 
-      # If length(site) == 1, create a vector with with the same length as path_images
-      if ( length(site) == 1 ) {
-         site <- rep(site, length(path_images))
+      # If length(sites) == 1, create a vector with with the same length as path_images
+      if ( length(sites) == 1 ) {
+         sites <- rep(sites, length(path_images))
       }
-
 
       # Check dates -------------------------------------------------------------
+
 
       # dates should be NULL or a character vector
       if ( !(is.character(dates) | is.null(dates)) ) {
@@ -106,7 +104,7 @@ extract_crownsImages <-
       # dates should be a vector with the same length as path_images
       if ( !(length(dates) == length(path_images)) ) {
          length_path <- length(path_images)
-         stop("length(dates) should be ", length(path_images), ' not ',length(site))
+         stop("length(dates) should be ", length(path_images), ' not ',length(sites))
       }
 
       # dates format should be 'yyymmdd' as character
@@ -128,7 +126,6 @@ extract_crownsImages <-
 
       }
 
-
       # Check crs ---------------------------------------------------------------
 
       for (i in 1:length(path_images)) {
@@ -142,84 +139,77 @@ extract_crownsImages <-
          if( !is.null(crs_pb) ){
             stop(paste("The crs from image(s)",paste(crs_pb,collapse = ','), "and crownsFile do not match"))
          }
+      }
 
 
+      # Prepare crowns file -----------------------------------------------------
+
+      if( 'date' %in% base::names(crownsFile) ) { crownsFile <- crownsFile %>% dplyr::select(-date) }
+      crownsFile <- sf::st_make_valid(crownsFile) # remove invalide geometry
+      crowns_simplified = sf::st_simplify(crownsFile, dTolerance = .5)
+
+      crowns_simplified <-
+         crowns_simplified %>%
+         dplyr::filter(
+            !is.na(sf::st_dimension(crowns_simplified)) & # remove invalide geometry
+               sf::st_geometry_type(crowns_simplified) == "POLYGON" # remove incorrect polygon (polygons with nodes)
+         )
+
+
+      # Prepare polygon groups for parallel computing ---------------------------
+
+      num_cores = N_cores
+      num_in_group <- floor(length(path_images) / num_cores)
+      if(num_in_group<1){num_in_group=1}
+
+      img_group <- data.frame(img = path_images) %>%
+         dplyr::mutate(
+            #--- create grid id ---#
+            grid_id = 1:nrow(.),
+            #--- assign group id  ---#
+            group_id = grid_id %/% num_in_group + 1
+         )
+
+      num_cores2 = max(img_group$group_id)
+
+
+      # Extraction --------------------------------------------------------------
+
+      # Create folder if not existed
+
+      for(i in 1:nrow(crowns_simplified)){
+
+         tmp_id <- crowns_simplified$id[i]
+         tmp_sp <- crowns_simplified$species[i]
+         if(is.null(tmp_sp) & !is.null(crowns_simplified$genus[i])){ tmp_sp <- crowns_simplified$genus[i] }
+         tmp_dir <- paste0(out_dir_path, "/crown_", tmp_id, "_", tmp_sp)
+
+         if(!dir.exists(tmp_dir)){dir.create(tmp_dir)}
 
       }
 
 
+      for(j in 1:length(path_images)) {
 
-      # folders <- list.files(out_dir_path, full.names = TRUE)
-      # subfolders <- lapply(folders, list.files)
-      # names(subfolders) <- stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
-      #
-      # stringr::str_split(basename(folders), pattern = '_', simplify = TRUE)[,2]
-      #
-      # lapply(folders, list.files)
+         # Prepare parrallel imputing parameter (specify image path for iteration j)
+         Funlist = list(fun_extract_img, path_images[j], crowns_simplified, dates[j], sites[j], width = width, height = height, out_dir_path = out_dir_path)
 
-      for (i in 1:length(unique(crownsFile$id))) {
+         # Do the job
+         cl <- parallel::makeCluster(num_cores2)
+         doParallel::registerDoParallel(cl)
+         foreach::foreach(i = 1:num_cores2,
+                          .packages = c("sf", "terra", "dplyr", "exactextractr","grDevices","stars")) %dopar% {
+            Funlist[[1]](i,
+                         path = Funlist[[2]],
+                         crowns_simplified = Funlist[[3]],
+                         date =  Funlist[[4]],
+                         site = Funlist[[5]],
+                         width =  Funlist[[6]],
+                         height =  Funlist[[7]],
+                         out_dir_path =  Funlist[[8]]) }
+         parallel::stopCluster(cl)
 
-
-         # tmp_id %in% names(subfolders)
-
-
-         # Extract data for each id and create the folder for the outputs ----------
-
-         tmp_id <- crownsFile$id[i]
-         tmp_sp <- crownsFile$species[i]
-         if(is.null(tmp_sp) & !is.null(crownsFile$genus[i])){ tmp_sp <- paste(crownsFile$genus[i],'sp') }
-         tmp_crown <- crownsFile[i,]
-         tmp_dir <- paste0(out_dir_path, "/crown_", tmp_id, "_", tmp_sp)
-
-         dir.create(tmp_dir)
-
-         crown_bbox <- create_bbox_shp (shp = tmp_crown)
-
-         for (j in 1:length(path_images)) {
-
-
-            # Define the file and the image size for the export -----------------------
-
-            grDevices::jpeg(file = file.path(
-               paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", dates[j], ".jpeg")
-            ),
-            width = width,
-            height = height)
-
-            if (as.logical(sf::st_contains(bbox[[j]], crown_bbox, sparse = F))) {
-
-
-               # If data are available, plot the crown -----------------------------------
-
-               x <- stars::read_stars(path_images[j], proxy = T)[crown_bbox][, , , 1:3]
-
-               terra::plotRGB(
-                  terra::rast(x),
-                  main = paste(dates[j], "|", tmp_sp, "| id =", tmp_id),
-                  ext = sf::st_as_sf(crown_bbox),
-                  axes = T,
-                  mar = 2
-               )
-               base::plot(
-                  tmp_crown$geometry,
-                  border = "red",
-                  lwd = 2,
-                  add = T
-               )
-
-
-            } else {
-
-               # If data are not available, plot "NO DATA" -------------------------------
-
-               plot_nodata()
-
-            }
-
-            grDevices::dev.off()
-         }
-
-         print(paste("CROWN  ", i, " DONE", "   /    ", length(unique(crownsFile$id))))
+         print(paste("IMAGE  ", j, " DONE", "   /    ", length(path_images)))
 
       }
    }
