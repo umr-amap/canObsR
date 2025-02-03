@@ -17,8 +17,7 @@ align_Mosa(
   mp = NULL,
   save_data = TRUE,
   save_vector_plot = FALSE,
-  apply_matrix = FALSE,
-  suffix = ""
+  apply_matrix = FALSE
 )
 }
 \arguments{
@@ -36,7 +35,7 @@ align_Mosa(
 
 \item{grid_res}{int. Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration.}
 
-\item{window_size}{int. Custom matching window size \link{pixels} as (X, Y) tuple (default: (1000, 1000)).}
+\item{window_size}{int. Custom matching window size (in pixels) as (X, Y) tuple (default: (1000, 1000)).}
 
 \item{window_pos}{tuple. Custom matching window position as (X, Y) map coordinate in the same projection as the reference image (default: central position of image overlap). Only used when performing global co-registration.}
 
@@ -47,8 +46,6 @@ align_Mosa(
 \item{save_vector_plot}{logical. saves the a map of the calculated tie point grid in a JPEG file. Has an effect only when performing local co-registration.}
 
 \item{apply_matrix}{logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently. Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created. We hope to change that soon ; until then, apply_matrix is disabled by default)}
-
-\item{suffix}{chr. Text to add at the end of the output filenames.}
 }
 \value{
 None
@@ -67,7 +64,7 @@ align_Mosa(path_in = "path_to_ortho.tif",
              corr_type = "local",
              grid_res = 500,
              save_data = TRUE,
-             save_vector_plot = TRUE,
+             save_vector_plot = TRUE
              )
 
 align_Mosa(path_in = "path_to_input_folder",
@@ -77,7 +74,7 @@ align_Mosa(path_in = "path_to_input_folder",
              grid_res = 500,
              save_data = FALSE,
              mp = 5,
-             suffix = "_aligned",
+
              )
 
 align_Mosa(path_in = "path_to_input_folder",
@@ -87,7 +84,7 @@ align_Mosa(path_in = "path_to_input_folder",
              max_shift = 200,
              save_data = TRUE,
              apply_matrix = TRUE,
-             mp = 1,
+             mp = 1
              )
              }
 }

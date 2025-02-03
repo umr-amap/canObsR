@@ -1,4 +1,4 @@
-Package: managecrownsdata
+Package: canObsR
 Title: Process repetead UAV survey
 Version: 0.0.0.9000
 Author: Hugo Leblanc, Hadrien Tulet, Pierre Ploton
@@ -31,8 +31,8 @@ Imports:
     terra,
     tidyr,
     writexl
-URL: https://github.com/hugolblc/managecrownsdata, https://hugolblc.github.io/managecrownsdata/
-BugReports: https://github.com/hugolblc/managecrownsdata/issues
+URL: https://github.com/umr-amap/canObsR,
+BugReports: https://github.com/umr-amap/canObsR/issues
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)

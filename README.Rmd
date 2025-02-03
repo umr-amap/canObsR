@@ -58,7 +58,7 @@ After completing the installation steps, you can create your own python environm
 ```{r}
 # Imports
 library(reticulate)
-library(managecrownsdata)
+library(canObsR)
 ```
 
 

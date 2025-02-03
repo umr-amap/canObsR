@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r, eval=F, echo=T}
-library(managecrownsdata)
+library(canObsR)
 library(tidyverse)
 
 my_path <- 'XXXX/UAV_observatory_data_tuto1'

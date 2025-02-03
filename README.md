@@ -52,7 +52,7 @@ functions.
 ``` r
 # Imports
 library(reticulate)
-library(managecrownsdata)
+library(canObsR)
 ```
 
 ``` r

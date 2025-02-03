@@ -18,7 +18,7 @@ generate_Mosa(
   group_by_flight = FALSE,
   downscale_factor_alignement = 1L,
   downscale_factor_depth_map = 2L,
-  suffix = ""
+  suffix = "_"
 )
 }
 \arguments{
@@ -67,7 +67,7 @@ generate_Mosa(path_in = "path_to_my_drone_data",
                data_type = "RGB",
                resol_ref = 0.5,
                site_name = "Bouamir",
-               crs = "EPSG::32633",
+               crs = "EPSG::32633"
                )
 
 generate_Mosa(path_in = "path_to_my_drone_data",
@@ -78,7 +78,7 @@ generate_Mosa(path_in = "path_to_my_drone_data",
                crs = "EPSG::32622",
                downscale_factor_depth_map = 4,
                group_by_flight = TRUE,
-               suffix = "_ORTHO",
+               suffix = "_ORTHO"
                )
                }
 

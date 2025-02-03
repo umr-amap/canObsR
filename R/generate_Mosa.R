@@ -34,7 +34,7 @@
 #'                data_type = "RGB",
 #'                resol_ref = 0.5,
 #'                site_name = "Bouamir",
-#'                crs = "EPSG::32633",
+#'                crs = "EPSG::32633"
 #'                )
 #'
 #' generate_Mosa(path_in = "path_to_my_drone_data",
@@ -45,7 +45,7 @@
 #'                crs = "EPSG::32622",
 #'                downscale_factor_depth_map = 4,
 #'                group_by_flight = TRUE,
-#'                suffix = "_ORTHO",
+#'                suffix = "_ORTHO"
 #'                )
 #'                }
 #'
@@ -55,10 +55,10 @@ generate_Mosa <- function(path_in, out_dir_ortho, out_dir_DEM = NULL, out_dir_pr
                        data_type = "RGB", resol_ref = 0.05, crs = "EPSG::32622",
                        site_name = "", calibrate_col = TRUE, sun_sensor = FALSE,
                        group_by_flight = FALSE, downscale_factor_alignement = 1L,
-                       downscale_factor_depth_map = 2L, suffix = "") {
+                       downscale_factor_depth_map = 2L, suffix = "_") {
 
 
-   source_python(system.file("PYTHON/__init__.py", package = "managecrownsdata"))
+   source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
 
    Time_SIFT_process(pathDIR = path_in,
                      out_dir_ortho = out_dir_ortho,

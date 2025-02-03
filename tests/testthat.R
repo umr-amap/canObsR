@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(managecrownsdata)
+library(canObsR)
 
-test_check("managecrownsdata")
+test_check("canObsR")
