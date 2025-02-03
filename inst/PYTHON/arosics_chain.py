@@ -20,9 +20,9 @@ def parse_tuple(arg):
         raise argparse.ArgumentTypeError(f"Invalid tuple format: '{arg}'. Expected format: '(int,int)'")
     
 parser = argparse.ArgumentParser()
-parser.add_argument('--path_in', required=True, type=str)
-parser.add_argument('--ref_filepath', required=True, type=str)
-parser.add_argument('--out_dir_path', required=True, type=str)
+parser.add_argument('--path_in', type=str)
+parser.add_argument('--ref_filepath',type=str)
+parser.add_argument('--out_dir_path', type=str)
 parser.add_argument('--corr_type', type=str, default='global')
 parser.add_argument('--mp', default=1)
 parser.add_argument('--max_shift', type=int, default=250)
