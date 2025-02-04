@@ -135,21 +135,21 @@ fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path){
 
    for (l in 1:nrow(img_group_i)){
 
-      # path = img_group_i[l,"img"]
-      # r = terra::rast(path, lyrs = 1)
-      # r[[1]][r[[1]] == 255 ] = NA
-      # r[[1]][!is.na(r[[1]])] = 1
-      #
-      # poly <- terra::as.polygons(r[[1]])
-      # bbox <- sf::st_as_sf(poly) %>%
-      #    sf::st_boundary() %>%
-      #    dplyr::filter(!sf::st_is_empty(.)) %>%
-      #    sf::st_combine() %>%
-      #    sf::st_convex_hull() %>%
-      #    sf::st_as_sf() %>%
-      #    dplyr::rename("geometry" = "x") %>%
-      #    sf::st_cast(.,"POLYGON") %>%
-      #    sf::st_transform(crs = sf::st_crs(r))
+      path = img_group_i[l,"img"]
+      r = terra::rast(path, lyrs = 1)
+      r[[1]][r[[1]] == 255 ] = NA
+      r[[1]][!is.na(r[[1]])] = 1
+
+      poly <- terra::as.polygons(r[[1]])
+      bbox <- sf::st_as_sf(poly) %>%
+         sf::st_boundary() %>%
+         dplyr::filter(!sf::st_is_empty(.)) %>%
+         sf::st_combine() %>%
+         sf::st_convex_hull() %>%
+         sf::st_as_sf() %>%
+         dplyr::rename("geometry" = "x") %>%
+         sf::st_cast(.,"POLYGON") %>%
+         sf::st_transform(crs = sf::st_crs(r))
 
       for(k in 1:nrow(crowns_simplified)){
 
@@ -175,11 +175,10 @@ fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path){
          width = img_group_i[l,"width"],
          height = img_group_i[l,"height"])
 
-         # if (as.logical(sf::st_contains(bbox, crown_bbox, sparse = F))) {
-         if (TRUE){
+         if (as.logical(sf::st_contains(bbox, crown_bbox, sparse = F))) {
             # If data are available, plot the crown -----------------------------------
 
-            x <- stars::read_stars(img_group_i[l,"img"], proxy = T)[crown_bbox][, , , 1:3]
+            x <- stars::read_stars(path, proxy = T)[crown_bbox][, , , 1:3]
 
             terra::plotRGB(
                terra::rast(x),

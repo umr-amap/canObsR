@@ -35,9 +35,9 @@
 #'@importFrom magrittr "%>%"
 #'@import sf
 #'@import dplyr
-#' @import foreach
-#' @import parallel
-#' @import doParallel
+#'@import foreach
+#'@import parallel
+#'@import doParallel
 
 
 extract_crownsImages <-
