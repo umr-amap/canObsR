@@ -29,6 +29,7 @@ parser.add_argument('--max_shift', type=int, default=250)
 parser.add_argument('--max_iter', type=int, default=100)
 parser.add_argument('--ws', default=None)
 parser.add_argument('--wp', type=parse_tuple, default=(None, None))
+parser.add_argument('--min_reliability', type=int, default=60)
 parser.add_argument('--grid_res', type=int, default=1000)
 parser.add_argument('--apply_matrix', default=False)
 parser.add_argument('--save_plot', default=False)
@@ -227,7 +228,7 @@ def apply_saved_matrix(im_path, out_dir_path, metadata_path, GCP_path = None, su
 
 
 
-def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shift=250, max_iter=100, window_size=1500, window_pos = (None, None), mp=None, grid_res=1000, save_data = True, save_vector_plot = False, queue=None):
+def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shift=250, max_iter=100, window_size=1500, window_pos = (None, None), mp=None, min_reliability = 60, grid_res=1000, save_data = True, save_vector_plot = False, queue=None):
     """
     Calls arosics functions to perform a global or local co-registration between two images. Option to save the coregistrated image, and in the case of a local CoReg, the tie points data and the vector shift map.
 
@@ -248,6 +249,8 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
             custom matching window size [pixels] as (X, Y) tuple (default: (256,256))
         window_pos (tuple(int)): 
             custom matching window position as (X, Y) map coordinate in the same projection as the reference image (default: central position of image overlap). Only used when performing global co-registration
+        min_reliability (int):
+            minimum reliability threshold (in %), below which tie points are marked as false-positives. Only applies to local co-registration
         grid_res (int): 
             tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration
         mp (int): 
@@ -279,7 +282,7 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
                 pickle.dump(CR.coreg_info, file)
 
     elif corr_type=='local':
-        CR = COREG_LOCAL(path_ref, path_in, path_out=path_out, fmt_out="GTIFF", window_size=(window_size, window_size), max_shift=max_shift, max_iter=max_iter, CPUs=CPUs, grid_res=grid_res)
+        CR = COREG_LOCAL(path_ref, path_in, path_out=path_out, fmt_out="GTIFF", window_size=(window_size, window_size), max_shift=max_shift, max_iter=max_iter, CPUs=CPUs, grid_res=grid_res, min_reliability = min_reliability)
         CR.correct_shifts()
         if save_data:
             df = CR.CoRegPoints_table
@@ -304,6 +307,7 @@ def complete_arosics_process(path_in,
                              corr_type = 'global', 
                              max_shift=250,
                              max_iter=100, 
+                             min_reliability=60,
                              grid_res=1000, 
                              window_size=None, 
                              window_pos = (None, None), 
@@ -324,6 +328,7 @@ def complete_arosics_process(path_in,
     :param str corr_type: Type of co-registration. Either 'global' (default) or 'local'.
     :param int max_shift: Maximum shift distance in reference image pixel units.
     :param int max_iter: Maximum number of iterations for matching (default: 5).
+    :param int min_reliability: Minimum reliability threshold (in %), below which tie points are marked as false-positives. Only applies to local co-registration
     :param int grid_res: Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration.
     :param int window_size: Custom matching window size [pixels] as (X, Y) tuple.
     :param tuple window_pos: Custom matching window position as (X, Y) map coordinate in the same projection as the reference image (default: central position of image overlap). Only used when performing global co-registration.
@@ -382,6 +387,7 @@ def complete_arosics_process(path_in,
                                    window_pos=window_pos, 
                                    max_shift=max_shift, 
                                    max_iter=max_iter, 
+                                   min_reliability=min_reliability, 
                                    grid_res=grid_res, 
                                    save_vector_plot=save_vector_plot, 
                                    save_data=save_data)
@@ -413,13 +419,14 @@ def complete_arosics_process(path_in,
                                         window_pos=window_pos, 
                                         max_shift=max_shift, 
                                         max_iter=max_iter, 
+                                        min_reliability=min_reliability,
                                         grid_res=grid_res, 
                                         save_vector_plot=save_vector_plot, 
                                         save_data=save_data)
                 """
                 else:
                     queue = multiprocessing.Queue()
-                    process = multiprocessing.Process(target=call_arosics, args=(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, grid_res, save_data, save_vector_plot, queue))
+                    process = multiprocessing.Process(target=call_arosics, args=(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, min_reliability, grid_res, save_data, save_vector_plot, queue))
                     process.start()
                     process.join()     
                     # Terminate the process if needed (ensure cleanup)
@@ -493,10 +500,10 @@ def complete_arosics_process(path_in,
                 first_file = files[0]
                 harmonize_crs(os.path.join(path_in, first_file), ref_filepath, compress_lzw=compress_lzw)
                 path_out = os.path.join(out_dir_path, first_file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")
-                CR_info = call_arosics(os.path.join(path_in, first_file), ref_filepath, path_out=path_out, corr_type=corr_type, mp=mp, window_size=window_size, window_pos=window_pos, max_shift=max_shift, max_iter=max_iter, grid_res=grid_res, save_vector_plot=save_vector_plot, save_data=save_data)
+                CR_info = call_arosics(os.path.join(path_in, first_file), ref_filepath, path_out=path_out, corr_type=corr_type, mp=mp, window_size=window_size, window_pos=window_pos, max_shift=max_shift, max_iter=max_iter, min_reliability=min_reliability, grid_res=grid_res, save_vector_plot=save_vector_plot, save_data=save_data)
                 """"
                 queue = multiprocessing.Queue()
-                process = multiprocessing.Process(target=call_arosics, args=(os.path.join(path_in, first_file), ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, grid_res, save_data, save_vector_plot, queue))
+                process = multiprocessing.Process(target=call_arosics, args=(os.path.join(path_in, first_file), ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, min_reliability, grid_res, save_data, save_vector_plot, queue))
                 process.start()
                 process.join()    
                 # Terminate the process if needed (ensure cleanup)
@@ -538,6 +545,7 @@ if __name__ == '__main__':
                              max_shift = args.max_shift,
                              max_iter = args.max_iter,
                              grid_res = args.grid_res,
+                             min_reliability = args.min_reliability,
                              window_pos = args.wp,
                              window_size = args.ws,
                              apply_matrix = args.apply_matrix,

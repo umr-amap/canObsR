@@ -9,6 +9,7 @@
 #' @param corr_type chr. Type of co-registration. Either 'global' (default) or 'local'.
 #' @param max_shift int. Maximum shift distance in reference image pixel units
 #' @param max_iter int. Maximum number of iterations for matching (default: 5).
+#' @param min_reliability int. Minimum reliability threshold (in percents), below which tie points are marked as false-positives. Only applies to local co-registration.
 #' @param grid_res int. Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration.
 #' @param window_size int. Custom matching window size (in pixels) as (X, Y) tuple (default: (1000, 1000)).
 #' @param window_pos tuple. Custom matching window position as (X, Y) map coordinate in the same projection as the reference image (default: central position of image overlap). Only used when performing global co-registration.
@@ -59,9 +60,9 @@
 
 align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                           corr_type = "global", max_shift = 250L, max_iter = 100L,
-                          grid_res = 1000L, window_size = NULL, window_pos = list(NULL, NULL),
-                          mp = NULL, save_data = TRUE, save_vector_plot = FALSE,
-                          apply_matrix = FALSE) {
+                          min_reliability = 60, grid_res = 1000L, window_size = NULL, 
+                          window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE, 
+                          save_vector_plot = FALSE, apply_matrix = FALSE) {
 
    source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
 
@@ -71,6 +72,7 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                             corr_type = corr_type,
                             max_shift = max_shift,
                             max_iter = max_iter,
+                            min_reliability = min_reliability,
                             grid_res = grid_res,
                             window_size = window_size,
                             window_pos = window_pos,

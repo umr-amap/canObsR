@@ -11,6 +11,7 @@ align_Mosa(
   corr_type = "global",
   max_shift = 250L,
   max_iter = 100L,
+  min_reliability=60,
   grid_res = 1000L,
   window_size = NULL,
   window_pos = list(NULL, NULL),
@@ -32,6 +33,8 @@ align_Mosa(
 \item{max_shift}{int. Maximum shift distance in reference image pixel units}
 
 \item{max_iter}{int. Maximum number of iterations for matching (default: 5).}
+
+\item{min_reliability}{int. Minimum reliability threshold (in percents), below which tie points are marked as false-positives. Only applies to local co-registration.}
 
 \item{grid_res}{int. Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration.}
 
