@@ -52,6 +52,50 @@ align_Mosa(path_in = file.path(directory, 'orthomosaics'),
         save_data = FALSE
 ) # Export arosics outputs into 'outputs_TS' folder
 
+
+```
+
+Texte pour expliquer la boucle
+
+```{r, eval=F, echo=T}
+dir_mosa = "test_data/outputs_TS/ORTHO"
+out_dir_path = "test_data/outputs_arosics2/"
+
+PATHs.df = dir(dir_mosa, full.names = T)
+PATHs.df = PATHs.df[which(grepl(PATHs.df, pattern=".tif"))]
+PATHs.df = data.frame(path_in = PATHs.df)
+PATHs.df$output_mosa_name = NA
+
+PATHs.df$path_ref = "test_data/Bouamir_LiDAR_ref.tif" 
+for(i in 1:nrow(PATHs.df))                      
+{
+  # name of the ouput mosaic
+  tmp = PATHs.df$path_in[i]
+  tmp = strsplit(tmp, "/")[[1]]
+  PATHs.df$output_mosa_name[i] = filename_out = tmp[4]
+  if (i!=1){
+     PATHs.df$path_ref[i] = paste0(out_dir_path, PATHs.df$output_mosa_name[i-1]) 
+  }
+}
+
+for(i in 1:nrow(PATHs.df)) 
+{
+  path_in = PATHs.df$path_in[i]
+  ref_filepath = PATHs.df$path_ref[i]
+  
+  arosics(path_in = path_in,
+        ref_filepath = ref_filepath,
+        out_dir_path = out_dir_path,
+        corr_type = "local",
+        grid_res = 200,
+        window_size = 500,
+        apply_matrix = FALSE,
+        save_data = TRUE
+        )
+ 
+  print("<!> DONE <!>")
+  print("######################################")
+}
 ```
 
 ```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
