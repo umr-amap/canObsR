@@ -196,7 +196,7 @@ extract_crownsImages <-
       }
 
       # Prepare parrallel imputing parameter (specify image path for iteration j)
-      Funlist = list(fun_extract_img2, img_group, crowns_simplified, out_dir_path = out_dir_path)
+      Funlist = list(fun_extract_img, img_group, crowns_simplified, out_dir_path = out_dir_path)
 
       # Do the job
       cl <- parallel::makeCluster(length(unique(img_group$group_id)))
