@@ -50,6 +50,7 @@
 <span>  corr_type <span class="op">=</span> <span class="st">"global"</span>,</span>
 <span>  max_shift <span class="op">=</span> <span class="fl">250L</span>,</span>
 <span>  max_iter <span class="op">=</span> <span class="fl">100L</span>,</span>
+<span>  min_reliability<span class="op">=</span><span class="fl">60</span>,</span>
 <span>  grid_res <span class="op">=</span> <span class="fl">1000L</span>,</span>
 <span>  window_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  window_pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="cn">NULL</span><span class="op">)</span>,</span>
@@ -86,6 +87,10 @@
 
 <dt id="arg-max-iter">max_iter<a class="anchor" aria-label="anchor" href="#arg-max-iter"></a></dt>
 <dd><p>int. Maximum number of iterations for matching (default: 5).</p></dd>
+
+
+<dt id="arg-min-reliability">min_reliability<a class="anchor" aria-label="anchor" href="#arg-min-reliability"></a></dt>
+<dd><p>int. Minimum reliability threshold (in percents), below which tie points are marked as false-positives. Only applies to local co-registration.</p></dd>
 
 
 <dt id="arg-grid-res">grid_res<a class="anchor" aria-label="anchor" href="#arg-grid-res"></a></dt>
