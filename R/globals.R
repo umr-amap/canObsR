@@ -179,7 +179,7 @@ fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path){
          if (TRUE){
             # If data are available, plot the crown -----------------------------------
 
-            x <- stars::read_stars(path, proxy = T)[crown_bbox][, , , 1:3]
+            x <- stars::read_stars(img_group_i[l,"img"], proxy = T)[crown_bbox][, , , 1:3]
 
             terra::plotRGB(
                terra::rast(x),
