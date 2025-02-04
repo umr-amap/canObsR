@@ -164,13 +164,20 @@ extract_crownsImages <-
 
       img_group <- data.frame(img = path_images) %>%
          dplyr::mutate(
+
+            date = dates,
+
+            site = sites,
+
+            width = width,
+
+            height = height,
+
             #--- create grid id ---#
             grid_id = 1:nrow(.),
             #--- assign group id  ---#
             group_id = grid_id %/% num_in_group + 1
          )
-
-      num_cores2 = max(img_group$group_id)
 
 
       # Extraction --------------------------------------------------------------
@@ -188,28 +195,20 @@ extract_crownsImages <-
 
       }
 
+      # Prepare parrallel imputing parameter (specify image path for iteration j)
+      Funlist = list(fun_extract_img2, img_group, crowns_simplified, out_dir_path = out_dir_path)
 
-      for(j in 1:length(path_images)) {
+      # Do the job
+      cl <- parallel::makeCluster(length(unique(img_group$group_id)))
+      doParallel::registerDoParallel(cl)
+      foreach::foreach(i = unique(img_group$group_id),
+                       .packages = c("sf", "terra", "dplyr", "exactextractr","grDevices","stars")) %dopar% {
+                          Funlist[[1]](i,
+                                       img_group = Funlist[[2]],
+                                       crowns_simplified = Funlist[[3]],
+                                       out_dir_path =  Funlist[[4]]) }
+      parallel::stopCluster(cl)
 
-         # Prepare parrallel imputing parameter (specify image path for iteration j)
-         Funlist = list(fun_extract_img, path_images[j], crowns_simplified, dates[j], sites[j], width = width, height = height, out_dir_path = out_dir_path)
 
-         # Do the job
-         cl <- parallel::makeCluster(num_cores2)
-         doParallel::registerDoParallel(cl)
-         foreach::foreach(i = 1:num_cores2,
-                          .packages = c("sf", "terra", "dplyr", "exactextractr","grDevices","stars")) %dopar% {
-            Funlist[[1]](i,
-                         path = Funlist[[2]],
-                         crowns_simplified = Funlist[[3]],
-                         date =  Funlist[[4]],
-                         site = Funlist[[5]],
-                         width =  Funlist[[6]],
-                         height =  Funlist[[7]],
-                         out_dir_path =  Funlist[[8]]) }
-         parallel::stopCluster(cl)
-
-         print(paste("IMAGE  ", j, " DONE", "   /    ", length(path_images)))
-
-      }
    }
+
