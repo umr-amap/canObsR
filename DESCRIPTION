@@ -31,7 +31,7 @@ Imports:
     terra,
     tidyr,
     writexl
-URL: https://github.com/umr-amap/canObsR,
+URL: https://github.com/umr-amap/canObsR, https://umr-amap.github.io/canObs/
 BugReports: https://github.com/umr-amap/canObsR/issues
 VignetteBuilder: knitr
 Depends: 

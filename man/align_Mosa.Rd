@@ -11,7 +11,7 @@ align_Mosa(
   corr_type = "global",
   max_shift = 250L,
   max_iter = 100L,
-  min_reliability=60,
+  min_reliability = 60,
   grid_res = 1000L,
   window_size = NULL,
   window_pos = list(NULL, NULL),
