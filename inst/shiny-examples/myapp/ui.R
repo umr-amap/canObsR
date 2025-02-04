@@ -1,4 +1,5 @@
-ui <- shinyUI({
+library(shiny)
+
    fluidPage(
       tabsetPanel(
          tabPanel("Second Tab",
@@ -10,4 +11,3 @@ ui <- shinyUI({
                               selected = 'a'))
       )
    )
-})
