@@ -105,7 +105,14 @@ and <a href="https://hugolblc.github.io/managecrownsdata/reference/align_Mosa.ht
 <span>        apply_matrix <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>        save_data <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span> <span class="co"># Export arosics outputs into 'outputs_TS' folder</span></span></code></pre></div>
-<p>Texte pour expliquer la boucle</p>
+<p>When aligning a time serie of mosaics, you may want to dynamically
+register each mosaic to the previous one, to prevent . Here follows a
+snippet of code that allows you to do just that : the first image is
+aligned using the specified reference file, and then each subsequent
+image N uses the aligned version of the image N-1 as a reference. Note :
+In the test data, using this technique, you may observe that the
+resulting second image is not properly aligned to the first. This is
+largely due to its small size.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dir_mosa</span> <span class="op">=</span> <span class="st">"test_data/outputs_TS/ORTHO"</span></span>
 <span><span class="va">out_dir_path</span> <span class="op">=</span> <span class="st">"test_data/outputs_arosics2/"</span></span>
@@ -145,6 +152,10 @@ and <a href="https://hugolblc.github.io/managecrownsdata/reference/align_Mosa.ht
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"&lt;!&gt; DONE &lt;!&gt;"</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"######################################"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
+<p>In this case, both the input and reference images are potentially
+heavy mosaics. Depending on their size, it may be useful to downgrade
+their resolution to get a faster result without much impact on
+quality.</p>
 <div class="figure" style="text-align: center">
 <img src="img%2Fgenerate_mosaics.JPG" alt="Generate orthomosaics" width="100%"><p class="caption">
 Generate orthomosaics
