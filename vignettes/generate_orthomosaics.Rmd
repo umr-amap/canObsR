@@ -55,8 +55,8 @@ align_Mosa(path_in = file.path(directory, 'orthomosaics'),
 
 ```
 
-Texte pour expliquer la boucle
-
+When aligning a time serie of mosaics, you may want to dynamically register each mosaic to the previous one, to prevent . Here follows a snippet of code that allows you to do just that : the first image is aligned using the specified reference file, and then each subsequent image N uses the aligned version of the image N-1 as a reference.
+Note : In the test data, using this technique, you may observe that the resulting second image is not properly aligned to the first. This is largely due to its small size.
 ```{r, eval=F, echo=T}
 dir_mosa = "test_data/outputs_TS/ORTHO"
 out_dir_path = "test_data/outputs_arosics2/"
@@ -97,6 +97,8 @@ for(i in 1:nrow(PATHs.df))
   print("######################################")
 }
 ```
+
+In this case, both the input and reference images are potentially heavy mosaics. Depending on their size, it may be useful to downgrade their resolution to get a faster result without much impact on quality.  
 
 ```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("img/generate_mosaics.JPG")
