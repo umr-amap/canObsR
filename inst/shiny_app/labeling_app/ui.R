@@ -50,8 +50,9 @@ navbarPage(
 
                            shiny::radioButtons("filter_trees", "Filter :", choices = c("All", "Not all labels", "No label"), inline = TRUE),
                            shiny::selectInput("fam_choice", "Family :", choices = NULL, selected = NULL),
-                           shiny::selectInput("gen_choice", "Genus :", choices = c('a','b','c')),
-                           shiny::selectInput("sp_choice", "Species :", choices = c('a','b','c')),
+                           shiny::selectInput("gen_choice", "Genus :", choices = NULL, selected = NULL),
+                           shiny::selectInput("sp_choice", "Species :", choices = NULL, selected = NULL),
+                           shiny::selectInput("id_choice", "Id :", choices = NULL, selected = NULL),
                            shiny::br(),
                            shiny::h4("Add / Change label"),
                            fluidPage(column(
