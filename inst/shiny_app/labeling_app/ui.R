@@ -2,11 +2,14 @@ library(shiny)
 library(leaflet)
 library(DT)
 library(shinythemes)
+library(dplyr)
+library(tibble)
+library(readxl)
 
 
 navbarPage(
    title = "Labeling app",
-   theme = shinytheme('united'),
+   theme = shinythemes::shinytheme('united'),
 
 
    tabPanel(
@@ -23,14 +26,10 @@ navbarPage(
 
                         br(),
 
-                        shiny::fileInput(
-                           inputId = 'labeling_file',
-                           'Labeling file',
-                           accept = '.xlsx',
-                           buttonLabel = "Browse...",
-                           placeholder = ".xlsx",
-                           multiple = FALSE
-                        ),
+                        shiny::fileInput("file1", "Choose Excel File",
+                                               multiple = FALSE,
+                                               accept = c(".xls",
+                                                          ".xlsx")),
 
                         shiny::fileInput(
                            inputId = 'image_folder',
@@ -41,7 +40,7 @@ navbarPage(
                            multiple = FALSE
                         )
 
-                        ),
+               ),
                tabPanel(title = "Filter",
 
                         fluidPage(
@@ -50,7 +49,7 @@ navbarPage(
                            title = "Interpretation",
 
                            shiny::radioButtons("filter_trees", "Filter :", choices = c("All", "Not all labels", "No label"), inline = TRUE),
-                           shiny::selectInput("fam_choice", "Family :", choices = c('a','b','c')),
+                           shiny::selectInput("fam_choice", "Family :", choices = NULL, selected = NULL),
                            shiny::selectInput("gen_choice", "Genus :", choices = c('a','b','c')),
                            shiny::selectInput("sp_choice", "Species :", choices = c('a','b','c')),
                            shiny::br(),
@@ -169,7 +168,7 @@ navbarPage(
                   shiny::actionButton("refresh_table", "Refresh")
                ),
                shiny::mainPanel(
-                  DT::dataTableOutput("labels_table")
+                  DTOutput("contents")
                )
             )
    ))

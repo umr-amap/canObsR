@@ -1,5 +1,5 @@
 #' @export
-#'
+#' https://deanattali.com/2015/04/21/r-package-shiny-app/
 
 runExample <- function(example) {
    # locate all the shiny app examples that exist
