@@ -1,5 +1,6 @@
 #' @export
-#' https://deanattali.com/2015/04/21/r-package-shiny-app/
+#'
+#' #https://deanattali.com/2015/04/21/r-package-shiny-app/
 
 shiny_labels <- function() {
 
