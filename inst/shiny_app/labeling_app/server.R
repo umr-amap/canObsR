@@ -6,43 +6,48 @@ server <- function(input,output,session){
    })
 
    selected_gen <- reactive({
-      if(!is.null(input$fam_choice)) {
-
-         data() %>%
-            dplyr::filter (family == input$fam_choice) %>%
-            .[['genus']] %>%
-            unique() %>%
-            as.character() %>%
-            sort()
-
-      }
+      req(input$fam_choice)
+      data() %>%
+         dplyr::filter (family == input$fam_choice) %>%
+         .[['genus']] %>%
+         unique() %>%
+         as.character() %>%
+         sort()
    })
 
    selected_sp <- reactive({
-      if(!is.null(input$gen_choice)) {
 
-         data() %>%
-            dplyr::filter (genus == input$gen_choice) %>%
-            .[['species']] %>%
-            unique()%>%
-            as.character() %>%
-            sort()
-      }
+      req(input$gen_choice)
+      data() %>%
+         dplyr::filter (genus == input$gen_choice) %>%
+         .[['species']] %>%
+         unique() %>%
+         as.character() %>%
+         sort()
    })
 
    selected_id <- reactive({
 
-      if(!is.null(input$sp_choice)) {
+      req(input$sp_choice)
+      data() %>%
+         dplyr::filter (species == input$sp_choice) %>%
+         .[['id']] %>%
+         unique() %>%
+         as.character() %>%
+         sort()
 
+   })
 
-         data() %>%
-            dplyr::filter (species == input$sp_choice) %>%
-            .[['id']] %>%
-            unique()%>%
-            as.character() %>%
-            sort()
+   selected_id <- reactive({
 
-      }
+      req(input$sp_choice)
+      data() %>%
+         dplyr::filter (species == input$sp_choice) %>%
+         .[['id']] %>%
+         unique() %>%
+         as.character() %>%
+         sort()
+
    })
 
    observeEvent(input$file1, {
@@ -82,9 +87,16 @@ server <- function(input,output,session){
    })
 
 
-   output$contents <- renderDT({
-      datatable(data())
-   })
+   observeEvent(input$id_choice, {
+
+      datatable <- data() %>%
+         dplyr::filter(id == selected_id())
+
+      output$contents <- renderDT({
+         datatable(datatable)
+      })
+
+      })
 
 
 }

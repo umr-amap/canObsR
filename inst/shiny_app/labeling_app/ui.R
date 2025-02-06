@@ -31,13 +31,10 @@ navbarPage(
                                                accept = c(".xls",
                                                           ".xlsx")),
 
-                        shiny::fileInput(
+                        shiny::textInput(
                            inputId = 'image_folder',
-                           'Image folder',
-                           accept = '.xlsx',
-                           buttonLabel = "Browse...",
-                           placeholder = ".xlsx",
-                           multiple = FALSE
+                           label = 'Comments',
+                           value = 'E:/VIA/Crowns/Bouamir_data/RGB_crowns_img'
                         )
 
                ),
