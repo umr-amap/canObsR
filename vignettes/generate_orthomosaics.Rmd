@@ -55,11 +55,10 @@ align_Mosa(path_in = file.path(directory, 'orthomosaics'),
 
 ```
 
-When aligning a time serie of mosaics, you may want to dynamically register each mosaic to the previous one, to prevent . Here follows a snippet of code that allows you to do just that : the first image is aligned using the specified reference file, and then each subsequent image N uses the aligned version of the image N-1 as a reference.
-Note : In the test data, using this technique, you may observe that the resulting second image is not properly aligned to the first. This is largely due to its small size.
+When aligning a long time serie of mosaics, you may want to dynamically register each mosaic to the previous one instead of keeping one reference for the whole serie, in order to limit the time difference between a mosaic and its reference. Here follows a snippet of code that allows you to do just that : the first image is aligned using the specified reference file, and then each subsequent image N uses the aligned version of the image N-1 as a reference.
 ```{r, eval=F, echo=T}
 dir_mosa = "test_data/outputs_TS/ORTHO"
-out_dir_path = "test_data/outputs_arosics2/"
+out_dir_path = "test_data/outputs_arosics/"
 
 PATHs.df = dir(dir_mosa, full.names = T)
 PATHs.df = PATHs.df[which(grepl(PATHs.df, pattern=".tif"))]
