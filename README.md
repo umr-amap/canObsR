@@ -112,7 +112,7 @@ Metashape python API. To guide you step by step into the workflow, you
 should download the test dataset
 [here](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
 and follow the instructions
-[here](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
+[here](https://hugolblc.github.io/canObs/articles/generate_orthomosaics.html).
 
 <div class="figure" style="text-align: center">
 
