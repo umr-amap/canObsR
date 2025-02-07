@@ -66,8 +66,8 @@
     
     
 <p>Here is a short example to guide you step by step through the
-orthomosaic generating process with the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html" class="external-link"><code>generate_Mosa()</code></a>
-and <a href="https://hugolblc.github.io/managecrownsdata/reference/align_Mosa.html" class="external-link"><code>align_Mosa()</code></a>.
+orthomosaic generating process with the functions <a href="https://umr-amap.github.io/canObsR/reference/generate_Mosa.html"><code>generate_Mosa()</code></a>
+and <a href="https://umr-amap.github.io/canObsR/reference/align_Mosa.html"><code>align_Mosa()</code></a>.
 These functions required, arosics(AROSICS), the Metashape python API and
 a valid Metashape license.</p>
 <ul>
@@ -76,8 +76,8 @@ data</a> and unzip it. Test data contains, 2 sets of drones images from
 the same area obtained from 2 differents dates and a
 <strong>DTM</strong> digital terrain model from the the area which is
 the reference.</p></li>
-<li><p>Then run the following code, more details about the functions <a href="https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html" class="external-link"><code>generate_Mosa()</code></a>
-and <a href="https://hugolblc.github.io/managecrownsdata/reference/align_Mosa.html" class="external-link"><code>align_Mosa()</code></a>.</p></li>
+<li><p>Then run the following code, more details about the functions <a href="https://umr-amap.github.io/canObsR/reference/generate_Mosa.html"><code>generate_Mosa()</code></a>
+and <a href="https://umr-amap.github.io/canObsR/reference/align_Mosa.html"><code>align_Mosa()</code></a>.</p></li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/umr-amap/canObsR" class="external-link">canObsR</a></span><span class="op">)</span></span>
@@ -108,10 +108,11 @@ and <a href="https://hugolblc.github.io/managecrownsdata/reference/align_Mosa.ht
 <p>When aligning a long time serie of mosaics, you may want to
 dynamically register each mosaic to the previous one instead of keeping
 one reference for the whole serie, in order to limit the time difference
-between a mosaic and its reference. Here follows a snippet of code that
-allows you to do just that : the first image is aligned using the
-specified reference file, and then each subsequent image N uses the
-aligned version of the image N-1 as a reference.</p>
+between a mosaic and its reference.</p>
+<p>Here follows a snippet of code that allows you to do just that : the
+first image is aligned using the specified reference file, and then each
+subsequent image N uses the aligned version of the image N-1 as a
+reference.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dir_mosa</span> <span class="op">=</span> <span class="st">"test_data/outputs_TS/ORTHO"</span></span>
 <span><span class="va">out_dir_path</span> <span class="op">=</span> <span class="st">"test_data/outputs_arosics/"</span></span>
@@ -151,9 +152,9 @@ aligned version of the image N-1 as a reference.</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"&lt;!&gt; DONE &lt;!&gt;"</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"######################################"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>In this case, both the input and reference images are potentially
-heavy mosaics. Depending on their size, it may be useful to downgrade
-their resolution to get a faster result without much impact on
+<p>Note : in this case, both the input and reference images are
+potentially heavy mosaics. Depending on their size, it may be useful to
+downgrade their resolution to get a faster result without much impact on
 quality.</p>
 <div class="figure" style="text-align: center">
 <img src="img%2Fgenerate_mosaics.JPG" alt="Generate orthomosaics" width="100%"><p class="caption">
