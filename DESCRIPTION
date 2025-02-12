@@ -30,7 +30,8 @@ Imports:
     stringr,
     terra,
     tidyr,
-    writexl
+    writexl,
+    openxlsx
 URL: https://github.com/umr-amap/canObsR,
 BugReports: https://github.com/umr-amap/canObsR/issues
 VignetteBuilder: knitr

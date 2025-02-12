@@ -58,9 +58,14 @@ plot_nodata <- function() {
 #' @param names_img chr. The files basenames.
 #' @export
 #' @import stringr
-extr_dates <- function(names_img) {
-   dates <- stringr::str_split(names_img, '_', simplify = TRUE)[,2]
-   dates <- stringr::str_remove(dates, '.gpkg')
+extr_dates <- function(names_img, n = 2, sep = '_', extension = '.gpkg') {
+   dates <- stringr::str_split(names_img, '_', simplify = TRUE)[,n] %>% str_remove(., extension)
+   if(sep == '_'){
+      dates <- paste(stringr::str_sub(dates,1,4),stringr::str_sub(dates,5,6),stringr::str_sub(dates,7,8), sep = '_')
+   }
+   if(sep == ''){
+      dates <- dates
+   }
    return(dates)
 }
 

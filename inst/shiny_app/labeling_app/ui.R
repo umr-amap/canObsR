@@ -21,16 +21,20 @@ navbarPage(
                br(),
 
                shiny::fileInput(
-                  "file1",
-                  "Choose Excel File",
-                  multiple = FALSE,
-                  accept = c(".xls", ".xlsx")
+                  inputId = "file",
+                  label = "Choose Excel File", accept = c(".xlsx")),
+
+               shiny::textInput(
+                  inputId = "new_filename",
+                  label = "New filename",
+                  value = paste0(file.path(Sys.getenv("USERPROFILE"),"Desktop"),'/copy_',format(Sys.Date(),"%Y_%m_%d"),'.xlsx')
                ),
+
 
                shiny::textInput(
                   inputId = 'image_folder',
-                  label = 'Comments',
-                  value = 'E:/VIA/Crowns/Bouamir_data/RGB_crowns_img'
+                  label = 'Images folder',
+                  value = "C:/Users/2022hl001/Desktop/CanObsR/"
                )
 
             ),
@@ -87,7 +91,7 @@ navbarPage(
                         radioButtons(
                            inputId = "interpretation_3",
                            label = "Pheno 3 :",
-                           choices = c('', 'Fl', 'Fr'),
+                           choices = c('', 'fl', 'fr'),
                            selected = '',
                            width = "100%"
 
@@ -159,6 +163,7 @@ navbarPage(
          align = "center",
 
          h4(textOutput("image_info")),
+         h4(textOutput("test")),
          imageOutput('img', height = "650px"),
          textOutput("title"),
          span(
