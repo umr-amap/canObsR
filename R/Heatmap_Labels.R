@@ -30,11 +30,15 @@ heatmap_Labels <-
             repro = FALSE
    ){
 
+
       longLabels <- longLabels %>%
          { if (!is.null(Species)) dplyr::filter (., species == Species) else . } %>%
          { if (!is.null(Genus)) dplyr::filter (., genus == Genus) else . } %>%
          { if (!is.null(Family)) dplyr::filter (., family == Family) else . }
 
+      if (nrow(longLabels) == 0) {
+         stop("This taxa does not exists in the data")
+      }
 
       longLabels <- longLabels %>%
          dplyr::mutate(phenophase = dplyr::case_when(phenophase == 'NA' ~ NA, TRUE ~ phenophase)) %>%
@@ -43,6 +47,10 @@ heatmap_Labels <-
                                                 NA %in% (unique(phenophase)) ~ TRUE, TRUE ~ FALSE)) %>%
          dplyr::filter(na == FALSE) %>%
          dplyr::ungroup()
+
+      if (nrow(longLabels) == 0) {
+         stop("No label for this taxa")
+      }
 
       ncol = 1
 

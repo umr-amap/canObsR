@@ -53,9 +53,9 @@ create_labelingFile <- function(
                         stringsAsFactors = FALSE) %>%
          dplyr::mutate(phenophase = '', comments = '', update = '', obs = '', Usable_crown = '') %>%
          dplyr::left_join(crownsFile) %>%
-         dplyr::group_by(species) %>%
+         dplyr::group_by(species, genus, family) %>%
          dplyr::mutate (n = n()/length(dates)) %>%
-         dplyr::arrange(desc(n), species, id) %>%
+         dplyr::arrange(desc(n), species, genus, family, id) %>%
          dplyr::mutate(site = site) %>%
          dplyr::ungroup() %>%
          dplyr::select(site, id, family, genus, species, n, obs, update, everything())

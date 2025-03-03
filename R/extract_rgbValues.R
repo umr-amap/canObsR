@@ -81,7 +81,7 @@ extract_rgbValues <-
 
       # Get the sites if NULL from the paths
       if(is.null(dates)){
-         dates = extr_dates(basename(path_images))
+         dates = extr_dates(basename(path_images), sep = '', extension = '.tif')
       }
 
       # dates should be a vector with the same length as path_images
