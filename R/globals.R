@@ -56,7 +56,26 @@ plot_nodata <- function() {
 
 #' Extract dates from files names
 #' @param names_img chr. The files basenames.
+#' @param n int. Will take the character string number n after the separation.
+#' @param sep chr. The separator
+#' @param extension chr. The extension of the file names to be removed.
 #' @export
+#' @examples
+#' names_img <- c("crown_896_Hylodendron gabunense_20220427.jpeg",
+#'                "crown_896_Hylodendron gabunense_20220511.jpeg",
+#'                "crown_896_Hylodendron gabunense_20220525.jpeg")
+#'
+#' extr_dates(names_img = names_img,
+#'            n = 4,
+#'            sep = '_',
+#'            extension = '.jpeg')
+#'
+#' extr_dates(names_img = names_img,
+#'            n = 4,
+#'            sep = ' ',
+#'            extension = '.jpeg')
+#'
+#'
 #' @import stringr
 extr_dates <- function(names_img, n = 2, sep = '_', extension = '.gpkg') {
    dates <- stringr::str_split(names_img, '_', simplify = TRUE)[,n] %>% str_remove(., extension)

@@ -7,6 +7,19 @@
 #' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e c('2022_09_25','2022_10_10').
 #' @param directory The path where to save the xlsx file.
 #'
+#' @examples
+#'
+#' library(canObsR)
+#'
+#' data(crowns)
+#'
+#' create_labelingFile(
+#' crowns,
+#' site = 'Site1',
+#' dates = c('2025_05_10','2025_05_20'),
+#' path_out = NULL
+#' )
+#'
 #' @export
 #'
 #' @import dplyr
@@ -17,22 +30,10 @@
 
 create_labelingFile <- function(
       crownsFile,
-      site = NULL,
-      dates = NULL,
+      site,
+      dates,
       path_out = NULL
    ){
-
-
-# Check path out ----------------------------------------------
-
-      dir_path <- dirname(path_out)
-      if (!dir.exists(dir_path)) {
-         stop("The folder does not exist : ", dir_path)
-      }
-
-      if (!str_sub(path_out,nchar(path_out)-4,nchar(path_out)) == '.xlsx') {
-         stop("Path out extension should end by .xlsx : ", path_out)
-      }
 
 
 
@@ -64,10 +65,24 @@ create_labelingFile <- function(
 
 # Save xlsx ---------------------------------------------------------------
 
-      openxlsx::write.xlsx(labeling_file, file = path_out, rowNames = FALSE)
+      if(!is.null(path_out)){
 
-      message("File create with success : ", path_out)
+         # Check path out ----------------------------------------------
 
+         dir_path <- dirname(path_out)
+         if (!dir.exists(dir_path)) {
+            stop("The folder does not exist : ", dir_path)
+         }
+
+         if (!str_sub(path_out,nchar(path_out)-4,nchar(path_out)) == '.xlsx') {
+            stop("Path out extension should end by .xlsx : ", path_out)
+         }
+
+         openxlsx::write.xlsx(labeling_file, file = path_out, rowNames = FALSE)
+
+         message("File create with success : ", path_out)
+
+      }
 
 # return tibble -----------------------------------------------------------
 

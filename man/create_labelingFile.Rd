@@ -4,10 +4,10 @@
 \alias{create_labelingFile}
 \title{Create xlsx labeling file}
 \usage{
-create_labelingFile(path_crowns, site = NULL, dates = NULL, path_out = NULL)
+create_labelingFile(crownsFile, site, dates, path_out = NULL)
 }
 \arguments{
-\item{path_crowns}{chr. Path to the crown file}
+\item{crownsFile}{sf. Crowns file}
 
 \item{site}{chr. site name.}
 
@@ -17,4 +17,18 @@ create_labelingFile(path_crowns, site = NULL, dates = NULL, path_out = NULL)
 }
 \description{
 A function to create the xlsx file to do the labeling
+}
+\examples{
+
+library(canObsR)
+
+data(crowns)
+
+create_labelingFile(
+crowns,
+site = 'Site1',
+dates = c('2025_05_10','2025_05_20'),
+path_out = NULL
+)
+
 }
