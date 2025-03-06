@@ -3,7 +3,7 @@ server <- function(input,output,session){
 
 # Reactive values ---------------------------------------------------------
 
-   data <- reactiveVal(NULL) # All data
+   data <- reactiveVal(data_labeling) # All data
 
 
    input_values <- reactiveValues(
@@ -52,7 +52,7 @@ server <- function(input,output,session){
 
       req(input$id_choice, input$sp_choice)
       # Construire le chemin du dossier de l'arbre
-      # Attention : le nom du dossier est constitué de "crow", l'id, et l'espèce séparés par '_'
+      # Attention : le nom du dossier est constitué de "crown", l'id, et l'espèce séparés par '_'
       # Si le dossier est nommé "crown_1_Pycnanthus angolensis", adaptez la chaine de caractères.
       tree_folder <- file.path(input$image_folder, paste0("crown_", input$id_choice, "_", input$sp_choice))
       if (!dir.exists(tree_folder)) {
@@ -69,7 +69,7 @@ server <- function(input,output,session){
       # On extrait la date en découpant la chaîne.
       imgs <- data.frame(
          path = imgs,
-         date = stringr::str_split(imgs, "_", simplify = TRUE)[, 4] %>% stringr::str_remove(., '.jpeg') %>% as.Date(., "%Y%m%d"),
+         date = extr_dates(basename(imgs), n =4, extension = '.jpeg') %>% as.Date(., "%Y_%m_%d"),
          row = 1:length(imgs)
       ) %>%
          arrange(date)
@@ -79,29 +79,19 @@ server <- function(input,output,session){
 
    # To plot the table
    reactive_excel_data <- reactive({
-      req(input$file)
+      # req(input$file)
       data() %>%
          filter(id == input$id_choice)
    })
 
 
-# Read file ---------------------------------------------------------
 
-   observeEvent(input$file, {
-      req(input$file)
-      inFile <- input$file$datapath
-      df <- openxlsx::read.xlsx(inFile) %>%
-         dplyr::mutate(date = as.Date(date, "%Y_%m_%d"))
-      data(df)
-
-   })
 
 
 
 
 
 # Filter up to id ---------------------------------------------------------
-
 
    output$fam_filter <- renderUI({
       selectInput(
@@ -230,16 +220,17 @@ server <- function(input,output,session){
             backgroundColor = styleEqual("D", c("red")))%>%
          formatStyle(
             # On peut appliquer le style à toutes les colonnes avec target = 'row'
-            columns = 'r',
+            columns = 'date',
             target = 'row',
-            backgroundColor = styleEqual(c(current_index()), c("lightblue"))
+            backgroundColor = styleEqual(c(images_list()$date[current_index()]), c("lightblue"))
          )
    })
 
    output$pheno_data <- renderText({
 
       req(input$id_choice, current_index())
-      pheno_x <- reactive_excel_data() %>% slice(current_index()) %>% .[['phenophase']] %>% as.character()
+
+      pheno_x <- reactive_excel_data() %>% filter(id == as.numeric(input$id_choice) & date == images_list()$date[current_index()]) %>% .[['phenophase']] %>% as.character()
 
       if(is.na(pheno_x) | is.null(pheno_x)){x <- 'Not interpreted'}else{x <- pheno_x}
 
@@ -247,6 +238,56 @@ server <- function(input,output,session){
    })
 
 
+   output$plot1 <- renderPlot({
+
+      req(input$id_choice, current_index())
+
+      sp_data <- data() %>%
+         dplyr::group_by(id) %>%
+         dplyr::mutate(na = dplyr::case_when(length(unique(phenophase)) == 1 &
+                                                NA %in% (unique(phenophase)) ~ TRUE, TRUE ~ FALSE)) %>%
+         summarise(n = sum(na) / n(),
+                   species = unique(species)) %>%
+         ungroup() %>%
+         group_by(species) %>%
+         summarise(n=1 - (sum(n)/n())) %>%
+         mutate(sp_choice = if_else(!is.na(species) & species == input$sp_choice,'red','grey')) %>%
+         filter(n>0) %>%
+         rbind(., data.frame(species = 'Other', n= 0, sp_choice = 'grey')) %>%
+         arrange(desc(n))
+
+      barplot(height = sp_data$n * 100,
+              ylab = 'Percentage done',
+              space = .5,
+              names.arg = sp_data$species,
+              col = sp_data$sp_choice,
+              main = 'Crowns done per species')
+
+   })
+
+   output$plot2 <- renderPlot({
+
+      req(input$id_choice, current_index())
+
+      ind_data <- data_labeling %>%
+         filter(species ==  input$sp_choice) %>%
+         mutate(done = if_else(is.na(phenophase), 0, 1)) %>%
+         group_by(id) %>%
+         summarise(n = sum(done) / 50 *100) %>%
+         mutate(id_choice = if_else(!is.na(id) & id == input$id_choice,'red','grey')) %>%
+         mutate(not_done = 100- n)
+
+
+
+      barplot(n ~ id,
+              data = ind_data,
+              col = ind_data$id_choice,
+              ylab = 'Percentage done',
+              ylim = c(0,100))
+
+      abline(h = 100,  col = "red", lty = 1, lwd = 2)
+
+   })
 
    observeEvent(input$save_label,{
 
@@ -273,17 +314,26 @@ server <- function(input,output,session){
       } else {tmp_pheno <- NA}
 
       tree_id <- as.numeric(input$id_choice)
-      ddate <-  extr_dates(basename(images_list()$path[current_index()]), n =4, extension = '.jpeg') %>% as.Date(., "%Y_%m_%d")
 
-      output$test <- renderText({paste(tree_id, ddate, tmp_pheno,input$Comments_input, sep = '  |  ')})
+      output$test <- renderText({paste(tree_id, images_list()$date[current_index()], tmp_pheno,input$Comments_input, sep = '  |  ')})
+
       updated_data <- data() %>%
-         dplyr::mutate(phenophase = ifelse(id == tree_id & date == ddate,
+         dplyr::mutate(phenophase = ifelse(id == tree_id & date == images_list()$date[current_index()],
                                            as.character(tmp_pheno), as.character(phenophase)),
-                       comments = ifelse(id == tree_id & date == ddate,
-                                         input$Comments_input, as.character(comments))) %>%
-         arrange(desc(n),id,date)
+                       comments = ifelse(id == tree_id & date == images_list()$date[current_index()],
+                                         input$Comments_input, as.character(comments)),
+                       obs = ifelse(id == tree_id & date == images_list()$date[current_index()],
+                                         input$encoder, as.character(obs)),
+                       update = ifelse(id == tree_id & date == images_list()$date[current_index()],
+                                       format(Sys.Date(),"%Y_%m_%d"), update),
+                       Usable_crown = ifelse(id == tree_id & date == images_list()$date[current_index()] & input$usable_crown,
+                                       1, Usable_crown)) %>%
+         dplyr::arrange(desc(n),id,date) %>%
+         dplyr::select(site, id, family, genus, species, n, obs, update, everything())
 
-      save_data <- updated_data %>% dplyr::mutate(date = paste(str_sub(as.character(date),1,4),str_sub(date,6,7),str_sub(date,9,10), sep = '_'))
+      save_data <- updated_data %>%
+         dplyr::mutate(date = paste(stringr::str_sub(as.character(date),1,4),str_sub(date,6,7),str_sub(date,9,10), sep = '_'))
+
       openxlsx::write.xlsx(save_data,input$new_filename, overwrite = TRUE)
       data(updated_data)
 
