@@ -94,8 +94,22 @@ extr_sites <- function(names_img) {
 }
 
 # Prepare function to extract raster values at polygon locations in a parallel fashion (function version based on exactextractr::exact_extract)
-fun_extract = function(i, path, crowns_simplified, date, site)
+fun_extract = function(i, path, crowns_simplified, date, site, tempdir_custom)
 {
+
+   if(!is.null(tempdir_custom)) {
+
+      # Pour R (impacte tous les packages)
+      Sys.setenv(TMPDIR = tempdir_custom)
+
+      # Pour terra
+      terra::terraOptions(tempdir = tempdir_custom)
+
+      # Pour stars (via GDAL)
+      Sys.setenv(GDAL_TEMP = tempdir_custom)
+      Sys.setenv(GDAL_PAM_PROXY_DIR = tempdir_custom)
+   }
+
    image = terra::rast(path)
    res = exactextractr::exact_extract(image, dplyr::filter(crowns_simplified, group_id == i), include_xy = F, include_cols = c("id", "species"))
    res <- dplyr::bind_rows(res)
@@ -152,7 +166,20 @@ fun_extract = function(i, path, crowns_simplified, date, site)
    return(res)
 }
 
-fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path){
+fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path, tempdir_custom){
+
+   if(!is.null(tempdir_custom)) {
+
+      # Pour R (impacte tous les packages)
+      Sys.setenv(TMPDIR = tempdir_custom)
+
+      # Pour terra
+      terra::terraOptions(tempdir = tempdir_custom)
+
+      # Pour stars (via GDAL)
+      Sys.setenv(GDAL_TEMP = tempdir_custom)
+      Sys.setenv(GDAL_PAM_PROXY_DIR = tempdir_custom)
+   }
 
 
    img_group_i <- dplyr::filter(img_group, group_id == i)
@@ -160,6 +187,9 @@ fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path){
    for (l in 1:nrow(img_group_i)){
 
       path = img_group_i[l,"img"]
+
+      print(paste(basename(path), 'in progress...'))
+
       r = terra::rast(path, lyrs = 1)
       r[[1]][r[[1]] == 255 ] = NA
       r[[1]][!is.na(r[[1]])] = 1
@@ -231,6 +261,7 @@ fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path){
 
       }
 
+      print(paste('----',basename(path), 'DONE','----'))
    }
 
 }

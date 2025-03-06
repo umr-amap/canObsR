@@ -10,6 +10,7 @@ extract_crownsImages(
   out_dir_path,
   sites = NULL,
   dates = NULL,
+  tempdir_custom = NULL,
   N_cores = 1,
   width = 720,
   height = 825
@@ -28,6 +29,8 @@ function will create the folder, It doesn't need to exists.}
 \item{dates}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
 '2022_09_25'). The order of the dates should match with the order of the
 dates of the image in the path_images}
+
+\item{tempdir_custom}{chr. Path where to store temporary files}
 
 \item{N_cores}{xx}
 

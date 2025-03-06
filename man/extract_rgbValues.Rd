@@ -10,7 +10,8 @@ extract_rgbValues(
   out_dir_path,
   ncor = 1,
   sites = NULL,
-  dates = NULL
+  dates = NULL,
+  tempdir_custom = NULL
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ extract_rgbValues(
 
 \item{dates}{chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
 The order of the dates should match with the order of the path_images !}
+
+\item{tempdir_custom}{chr. Path where to store temporary files}
 }
 \description{
 The function extracts RGB metrics (red, green, blue, sumrgb,

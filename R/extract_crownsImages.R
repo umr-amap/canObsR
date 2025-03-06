@@ -11,6 +11,7 @@
 #'@param dates chr. Vector with dates (format should be '%Y_%m_%d', p.e
 #'  '2022_09_25'). The order of the dates should match with the order of the
 #'  dates of the image in the path_images
+#'@param tempdir_custom chr. Path where to store temporary files
 #'@param N_cores xx
 #'@param height num. The height of the device
 #'@param width num. The width of the device
@@ -48,6 +49,7 @@ extract_crownsImages <-
       out_dir_path,
       sites = NULL,
       dates = NULL,
+      tempdir_custom = NULL,
       N_cores = 1,
       width = 720,
       height = 825
@@ -196,7 +198,7 @@ extract_crownsImages <-
       }
 
       # Prepare parrallel imputing parameter (specify image path for iteration j)
-      Funlist = list(fun_extract_img, img_group, crowns_simplified, out_dir_path = out_dir_path)
+      Funlist = list(fun_extract_img, img_group, crowns_simplified, out_dir_path = out_dir_path, tempdir_custom = tempdir_custom)
 
       # Do the job
       cl <- parallel::makeCluster(length(unique(img_group$group_id)))
@@ -206,7 +208,8 @@ extract_crownsImages <-
                           Funlist[[1]](i,
                                        img_group = Funlist[[2]],
                                        crowns_simplified = Funlist[[3]],
-                                       out_dir_path =  Funlist[[4]]) }
+                                       out_dir_path =  Funlist[[4]],
+                                       tempdir_custom = Funlist[[5]]) }
       parallel::stopCluster(cl)
 
 

@@ -12,6 +12,7 @@
 #' @param sites chr. name of the site, p.e 'Mbalmayo'.
 #' @param dates chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
 #' The order of the dates should match with the order of the path_images !
+#' @param tempdir_custom chr. Path where to store temporary files
 #'
 #'
 #' @export
@@ -34,7 +35,8 @@ extract_rgbValues <-
       out_dir_path,
       ncor = 1,
       sites = NULL,
-      dates = NULL
+      dates = NULL,
+      tempdir_custom = NULL
    ){
 
       # Import data -----------------------------------------------
@@ -158,12 +160,12 @@ extract_rgbValues <-
       for(j in 1:length(path_images)) {
 
          # Prepare parrallel imputing parameter (specify image path for iteration j)
-         Funlist = list(fun_extract, path_images[j], crowns_simplified, dates[j], sites[j])
+         Funlist = list(fun_extract, path_images[j], crowns_simplified, dates[j], sites[j], tempdir_custom = tempdir_custom)
 
          # Do the job
          cl <- parallel::makeCluster(num_cores2)
          doParallel::registerDoParallel(cl)
-         results <- foreach(i = 1:num_cores2, .combine=rbind, .packages = c("sf", "terra", "dplyr", "exactextractr")) %dopar% { Funlist[[1]](i, Funlist[[2]], Funlist[[3]], Funlist[[4]], Funlist[[5]]) }
+         results <- foreach(i = 1:num_cores2, .combine=rbind, .packages = c("sf", "terra", "dplyr", "exactextractr")) %dopar% { Funlist[[1]](i, Funlist[[2]], Funlist[[3]], Funlist[[4]], Funlist[[5]], Funlist[[6]]) }
          parallel::stopCluster(cl)
 
          if(j == 1) { results.final = results }
