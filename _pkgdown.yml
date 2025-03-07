@@ -1,4 +1,72 @@
-url: ~
+url: https://umr-amap.github.io/canObsR/
+
+
 template:
   bootstrap: 5
+  bootswatch: minty
+  light-switch: true
+
+development:
+  mode: auto
+
+navbar:
+  title: "canObsR package"
+  structure:
+    left:  [articles, reference]
+    right: [search, github, lightswitch]
+
+articles:
+- title: Tutorials
+  contents:
+  - generate_orthomosaics
+  - workflow
+
+reference:
+- title: Image proccessing
+  desc: >
+    Generate and align orthomosaics
+  contents:
+  - generate_Mosa
+  - align_Mosa
+
+- title: Extract crowns data
+- subtitle: Check plot coordinates
+  contents:
+  - create_labelingFile
+  - extract_crownsImages
+  - extract_rgbValues
+  - merge_values
+  - pivot_Labels
+
+- title: Plots
+  desc: >
+    Plot crowns data
+  contents:
+  - heatmap_Labels
+  - plot_signal
+
+
+- title: Shiny applications
+  desc: >
+    xxxx
+  contents:
+  - shiny_labels
+
+- title: Others functions
+  desc: >
+    xxxx.
+  contents:
+  - check_availableCrowns
+  - check_crownsFile
+  - create_files_architecture
+  - create_nonNA_bbox
+  - extr_dates
+
+- title: Datasets
+  desc: >
+   The four datasets used for examples and vignettes
+  contents:
+  - crowns
+  - data_labeling
+  - rgb_data
 
