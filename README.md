@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# managecrownsdata
+# canObsR
 
 - [The package](#the-package)
 - [Citation](#citation)
