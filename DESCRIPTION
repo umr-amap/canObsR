@@ -1,5 +1,6 @@
 Package: canObsR
 Title: Process repetead UAV survey
+Date: 2025-03-05
 Version: 0.0.0.9000
 Author: Hugo Leblanc, Hadrien Tulet, Pierre Ploton
 Maintainer: Hugo Leblanc <hugo.leblanc@ird.fr>
