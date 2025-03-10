@@ -4,7 +4,6 @@ template:
   bootstrap: 5
   bootswatch: flatly
   light-switch: true
-  logo: logo.png
   includes:
     in_header: pkgdown/custom.css
     after_body: pkgdown/footer.html
@@ -19,12 +18,6 @@ navbar:
     left:  [articles, reference]
     right: [search, github, lightswitch]
 
-articles:
-- title: Tutorials
-  navbar: ~
-  contents:
-  - generate_orthomosaics
-  - workflow
 
 reference:
 - title: Image proccessing
