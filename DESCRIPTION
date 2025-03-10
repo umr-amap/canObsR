@@ -26,6 +26,7 @@ Imports:
     readxl,
     reticulate,
     sf,
+    shiny,
     stars,
     stats,
     stringr,
