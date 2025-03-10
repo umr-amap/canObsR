@@ -24,6 +24,10 @@ data contains, 2 sets of drones images from the same area obtained from 2 differ
 * Then run the following code, more details about the functions  [`generate_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/generate_Mosa.html) and [`align_Mosa()`](https://hugolblc.github.io/managecrownsdata/reference/align_Mosa.html).
 
 
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
+knitr::include_graphics("img/generate_mosaics.JPG")
+```
+
 
 ```{r, eval=F, echo=T}
 library(canObsR)
@@ -54,6 +58,4 @@ align_Mosa(path_in = file.path(directory, 'orthomosaics'),
 
 ```
 
-```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
-knitr::include_graphics("img/generate_mosaics.JPG")
-```
+
