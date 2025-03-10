@@ -1,41 +1,41 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# managecrownsdata
+# canObsR
 
 - [The package](#the-package)
 - [Citation](#citation)
 - [Install](#install)
 - [Documentation](#documentation)
-- [How to use managecrownsdata](#how-to-use-managecrownsdata)
+- [How to use canObsR](#how-to-use-canObsR)
 - [Generate orthomosaics](#generate-orthomosaics)
 
 # The package
 
 This R package aims at streamlining, standardizing and facilitating
-processing of repetead UAV surveys from R. It focuses (for now) on RGB
-data. It notably allows generating 3D and 4D mosaics & mosaics spatial
-alignment using state-of-the-art approaches, provides tools to generate
-reference labels, segment crowns (not now) and classify crown
-phenophases (not now).
+processing of repetead UAV surveys from R. It focuses on RGB data. It
+notably allows generating 3D and 4D mosaics & mosaics spatial alignment
+using state-of-the-art approaches, provides tools to generate reference
+labels, segment crowns (not now) and classify crown phenophases (not
+now).
 
 # Citation
 
-To cite ‘managecrownsdata’, please use citation(‘managecrownsdata’).
+To cite ‘canObsR’, please use citation(‘canObsR’).
 
 # Installation
 
 ``` r
 library(devtools)
-install_github("https://github.com/hugolblc/managecrownsdata.git")
+install_github("https://github.com/umr-amap/canObsR.git")
 ```
 
 # Documentation
 
 In addition to the usual R package documentation, we also have extensive
-docs and examples [here](https://hugolblc.github.io/managecrownsdata/)
+docs and examples [here](https://umr-amap.github.io/canObsR/)
 
-# How to use managecrownsdata
+# How to use canObsR
 
 ## Python environment
 
@@ -57,8 +57,8 @@ library(canObsR)
 
 ``` r
 # Python env creation
-env_name <- "managecrownsdata_env"   # use the name you want for your environment
-environment = file.path( system.file(package="managecrownsdata"), 'PYTHON/environment.yaml')   # use the environment.yaml file included in the package
+env_name <- "canObsR_env"   # use the name you want for your environment
+environment = file.path( system.file(package="canObsR"), 'PYTHON/environment.yaml')   # use the environment.yaml file included in the package
 
 conda_create(env_name, environment = environment)
 use_condaenv(env_name)
@@ -107,12 +107,11 @@ go !
 # Generate orthomosaics
 
 One of the main functions of the package is to generate orthomosaics in
-R, using arosics([AROSICS](https://github.com/GFZ/arosics)) and the
-Metashape python API. To guide you step by step into the workflow, you
-should download the test dataset
-[here](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
-and follow the instructions
-[here](https://umr-amap.github.io/canObsR/articles/generate_orthomosaics.html).
+R, using [AROSICS](https://github.com/GFZ/arosics) and the Metashape
+python API. To guide you step by step into the workflow, you should
+download the test
+[dataset](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
+and follow [the instructions](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
 
 <div class="figure" style="text-align: center">
 

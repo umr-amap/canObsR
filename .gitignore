@@ -6,6 +6,8 @@
 .quarto
 docs
 inst/doc
+inst/xlsx/*
+inst/crowns/*
 test_data/*
 *.md
 pandoc*

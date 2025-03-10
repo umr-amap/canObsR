@@ -24,12 +24,12 @@ pivot_Labels <- function(labels_path,
 
    longLabels <- labels_path %>%
       readxl::read_excel() %>%
-      tidyr::gather(-c(id, obs, Comm, update, Usable_crown, n, site, species, genus, family),
+      tidyr::gather(-c(id, obs, comments, update, Usable_crown, n, site, species, genus, family),
                     key = date,
                     value = phenophase) %>%
       dplyr::mutate(date = as.Date(date, "%Y_%m_%d"),
                     id = as.integer(id)) %>%
-      dplyr::select(site, id, species, genus, family, n, date, phenophase, obs, Comm, update, Usable_crown)
+      dplyr::select(site, id, species, genus, family, n, date, phenophase, obs, comments, update, Usable_crown)
 
 
    if(simplify_labels) {
@@ -103,7 +103,7 @@ pivot_Labels <- function(labels_path,
 
          dplyr::select(-PPrepro) %>%
 
-         dplyr::select(site:phenophase, PPfoliar1, PPfoliar2, PPFlo:PPfoliar2_uncertainty, obs, Comm, update, Usable_crown)
+         dplyr::select(site:phenophase, PPfoliar1, PPfoliar2, PPFlo:PPfoliar2_uncertainty, obs, comments, update, Usable_crown)
 
 
       file.name = 'LongLabels_simplify'

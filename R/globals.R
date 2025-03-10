@@ -56,11 +56,35 @@ plot_nodata <- function() {
 
 #' Extract dates from files names
 #' @param names_img chr. The files basenames.
+#' @param n int. Will take the character string number n after the separation.
+#' @param sep chr. The separator
+#' @param extension chr. The extension of the file names to be removed.
 #' @export
+#' @examples
+#' names_img <- c("crown_896_Hylodendron gabunense_20220427.jpeg",
+#'                "crown_896_Hylodendron gabunense_20220511.jpeg",
+#'                "crown_896_Hylodendron gabunense_20220525.jpeg")
+#'
+#' extr_dates(names_img = names_img,
+#'            n = 4,
+#'            sep = '_',
+#'            extension = '.jpeg')
+#'
+#' extr_dates(names_img = names_img,
+#'            n = 4,
+#'            sep = ' ',
+#'            extension = '.jpeg')
+#'
+#'
 #' @import stringr
-extr_dates <- function(names_img) {
-   dates <- stringr::str_split(names_img, '_', simplify = TRUE)[,2]
-   dates <- stringr::str_remove(dates, '.gpkg')
+extr_dates <- function(names_img, n = 2, sep = '_', extension = '.gpkg') {
+   dates <- stringr::str_split(names_img, '_', simplify = TRUE)[,n] %>% str_remove(., extension)
+   if(sep == '_'){
+      dates <- paste(stringr::str_sub(dates,1,4),stringr::str_sub(dates,5,6),stringr::str_sub(dates,7,8), sep = '_')
+   }
+   if(sep == ''){
+      dates <- dates
+   }
    return(dates)
 }
 
@@ -70,8 +94,22 @@ extr_sites <- function(names_img) {
 }
 
 # Prepare function to extract raster values at polygon locations in a parallel fashion (function version based on exactextractr::exact_extract)
-fun_extract = function(i, path, crowns_simplified, date, site)
+fun_extract = function(i, path, crowns_simplified, date, site, tempdir_custom)
 {
+
+   if(!is.null(tempdir_custom)) {
+
+      # Pour R (impacte tous les packages)
+      Sys.setenv(TMPDIR = tempdir_custom)
+
+      # Pour terra
+      terra::terraOptions(tempdir = tempdir_custom)
+
+      # Pour stars (via GDAL)
+      Sys.setenv(GDAL_TEMP = tempdir_custom)
+      Sys.setenv(GDAL_PAM_PROXY_DIR = tempdir_custom)
+   }
+
    image = terra::rast(path)
    res = exactextractr::exact_extract(image, dplyr::filter(crowns_simplified, group_id == i), include_xy = F, include_cols = c("id", "species"))
    res <- dplyr::bind_rows(res)
@@ -127,6 +165,107 @@ fun_extract = function(i, path, crowns_simplified, date, site)
 
    return(res)
 }
+
+fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path, tempdir_custom){
+
+   if(!is.null(tempdir_custom)) {
+
+      # Pour R (impacte tous les packages)
+      Sys.setenv(TMPDIR = tempdir_custom)
+
+      # Pour terra
+      terra::terraOptions(tempdir = tempdir_custom)
+
+      # Pour stars (via GDAL)
+      Sys.setenv(GDAL_TEMP = tempdir_custom)
+      Sys.setenv(GDAL_PAM_PROXY_DIR = tempdir_custom)
+   }
+
+
+   img_group_i <- dplyr::filter(img_group, group_id == i)
+
+   for (l in 1:nrow(img_group_i)){
+
+      path = img_group_i[l,"img"]
+
+      print(paste(basename(path), 'in progress...'))
+
+      r = terra::rast(path, lyrs = 1)
+      r[[1]][r[[1]] == 255 ] = NA
+      r[[1]][!is.na(r[[1]])] = 1
+
+      poly <- terra::as.polygons(r[[1]])
+      bbox <- sf::st_as_sf(poly) %>%
+         sf::st_boundary() %>%
+         dplyr::filter(!sf::st_is_empty(.)) %>%
+         sf::st_combine() %>%
+         sf::st_convex_hull() %>%
+         sf::st_as_sf() %>%
+         dplyr::rename("geometry" = "x") %>%
+         sf::st_cast(.,"POLYGON") %>%
+         sf::st_transform(crs = sf::st_crs(r))
+
+      for(k in 1:nrow(crowns_simplified)){
+
+         # Extract data for each id and create the folder for the outputs ----------
+
+         tmp_id <- crowns_simplified$id[k]
+         tmp_sp <- crowns_simplified$species[k]
+         if (is.null(tmp_sp) &
+             !is.null(crowns_simplified$genus[k])) {
+            tmp_sp <- crowns_simplified$genus[k]
+         }
+         tmp_crown <- crowns_simplified[k, ]
+         tmp_dir <- paste0(out_dir_path, "/crown_", tmp_id, "_", tmp_sp)
+
+         crown_bbox <- create_bbox_shp (shp = tmp_crown)
+
+
+         # Define the file and the image size for the export -----------------------
+
+         grDevices::jpeg(file = file.path(
+            paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", img_group_i[l,"date"], ".jpeg")
+         ),
+         width = img_group_i[l,"width"],
+         height = img_group_i[l,"height"])
+
+         if (as.logical(sf::st_contains(bbox, crown_bbox, sparse = F))) {
+            # If data are available, plot the crown -----------------------------------
+
+            x <- stars::read_stars(path, proxy = T)[crown_bbox][, , , 1:3]
+
+            terra::plotRGB(
+               terra::rast(x),
+               main = paste(img_group_i[l,"date"], "|", tmp_sp, "| id =", tmp_id),
+               ext = sf::st_as_sf(crown_bbox),
+               axes = T,
+               mar = 2
+            )
+            base::plot(
+               tmp_crown$geometry,
+               border = "red",
+               lwd = 2,
+               add = T
+            )
+
+
+         } else {
+            # If data are not available, plot "NO DATA" -------------------------------
+
+            plot_nodata()
+
+         }
+
+         grDevices::dev.off()
+
+
+      }
+
+      print(paste('----',basename(path), 'DONE','----'))
+   }
+
+}
+
 
 color_label <-
    c(

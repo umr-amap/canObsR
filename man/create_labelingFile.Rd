@@ -4,25 +4,31 @@
 \alias{create_labelingFile}
 \title{Create xlsx labeling file}
 \usage{
-create_labelingFile(
-  path_crowns,
-  site = NULL,
-  dates = NULL,
-  save_xlsx = FALSE,
-  directory = NULL
-)
+create_labelingFile(crownsFile, site, dates, path_out = NULL)
 }
 \arguments{
-\item{path_crowns}{chr. Path to the crown file}
+\item{crownsFile}{sf. Crowns file}
 
 \item{site}{chr. site name.}
 
-\item{dates}{chr. vector of dates (format should be 'YYYYMMDD', p.e '20220925').}
-
-\item{save_xlsx}{logical. If TRUE, it will save the table as xlsx file. Indicate the path as the directory parameters}
+\item{dates}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e c('2022_09_25','2022_10_10').}
 
 \item{directory}{The path where to save the xlsx file.}
 }
 \description{
 A function to create the xlsx file to do the labeling
+}
+\examples{
+
+library(canObsR)
+
+data(crowns)
+
+create_labelingFile(
+crowns,
+site = 'Site1',
+dates = c('2025_05_10','2025_05_20'),
+path_out = NULL
+)
+
 }

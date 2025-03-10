@@ -20,7 +20,7 @@ merge_values <- function(longLabels, rgbValues) {
 
    merge_data <- dplyr::left_join(rgbValues, longLabels, by = c('id','date'), relationship = "many-to-one") %>%
       dplyr::select(site, id, date, family, genus, species, phenophase, type, metric, band, value,
-                    plot_name, code_sp, obs, Comm, update, Usable_crown)
+                    plot_name, code_sp, obs, comments, update, Usable_crown)
 
    return(merge_data)
 

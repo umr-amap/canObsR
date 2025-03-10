@@ -4,11 +4,34 @@
 \alias{extr_dates}
 \title{Extract dates from files names}
 \usage{
-extr_dates(names_img)
+extr_dates(names_img, n = 2, sep = "_", extension = ".gpkg")
 }
 \arguments{
 \item{names_img}{chr. The files basenames.}
+
+\item{n}{int. Will take the character string number n after the separation.}
+
+\item{sep}{chr. The separator}
+
+\item{extension}{chr. The extension of the file names to be removed.}
 }
 \description{
 Extract dates from files names
+}
+\examples{
+names_img <- c("crown_896_Hylodendron gabunense_20220427.jpeg",
+               "crown_896_Hylodendron gabunense_20220511.jpeg",
+               "crown_896_Hylodendron gabunense_20220525.jpeg")
+
+extr_dates(names_img = names_img,
+           n = 4,
+           sep = '_',
+           extension = '.jpeg')
+
+extr_dates(names_img = names_img,
+           n = 4,
+           sep = ' ',
+           extension = '.jpeg')
+
+
 }

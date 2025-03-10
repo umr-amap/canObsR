@@ -24,12 +24,11 @@ data contains, 2 sets of drones images from the same area obtained from 2 differ
 * Then run the following code, more details about the functions  [`generate_Mosa()`](https://umr-amap.github.io/canObsR/reference/generate_Mosa.html) and [`align_Mosa()`](https://umr-amap.github.io/canObsR/reference/align_Mosa.html).
 
 
-
 ```{r, eval=F, echo=T}
 library(canObsR)
 library(reticulate)
 
-use_condaenv('managecrownsdata_env')
+use_condaenv('canObsR_env')
 
 my_path <- 'XXXX/test_data'
 
@@ -53,6 +52,10 @@ align_Mosa(path_in = file.path(directory, 'orthomosaics'),
 ) # Export arosics outputs into 'outputs_TS' folder
 
 
+```
+
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
+knitr::include_graphics("img/generate_mosaics.JPG")
 ```
 
 When aligning a long time serie of mosaics, you may want to dynamically register each mosaic to the previous one instead of keeping one reference for the whole serie, in order to limit the time difference between a mosaic and its reference. 
@@ -101,6 +104,4 @@ for(i in 1:nrow(PATHs.df))
 
 Note : in this case, both the input and reference images are potentially heavy mosaics. Depending on their size, it may be useful to downgrade their resolution to get a faster result without much impact on quality.  
 
-```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
-knitr::include_graphics("img/generate_mosaics.JPG")
-```
+
