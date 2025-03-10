@@ -1,22 +1,27 @@
 url: https://umr-amap.github.io/canObsR/
 
-
 template:
   bootstrap: 5
-  bootswatch: minty
+  bootswatch: flatly
   light-switch: true
+  logo: logo.png
+  includes:
+    in_header: pkgdown/custom.css
+    after_body: pkgdown/footer.html
+    before_body: pkgdown/home.html
 
 development:
   mode: auto
 
 navbar:
-  title: "canObsR package"
+  title: "📦 canObsR"
   structure:
     left:  [articles, reference]
     right: [search, github, lightswitch]
 
 articles:
 - title: Tutorials
+  navbar: ~
   contents:
   - generate_orthomosaics
   - workflow

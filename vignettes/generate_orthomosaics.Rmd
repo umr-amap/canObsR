@@ -29,7 +29,7 @@ data contains, 2 sets of drones images from the same area obtained from 2 differ
 library(canObsR)
 library(reticulate)
 
-use_condaenv('managecrownsdata_env')
+use_condaenv('canObsR_env')
 
 my_path <- 'XXXX/test_data'
 
