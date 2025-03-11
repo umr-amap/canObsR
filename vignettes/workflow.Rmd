@@ -112,7 +112,8 @@ merge_data <- merge_values(data_labeling, rgb_data)
 
 plot_signal(data = merge_data, Genus = 'Desbordesia')
 plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 2614)
-plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 936, Band = 'gli', show_Labels = TRUE)
+plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 2614, Band = c('gndvi','gli'))
+plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 936, Band = c('gndvi','gli'), show_Labels = TRUE)
 
 ```
 

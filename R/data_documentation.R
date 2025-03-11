@@ -55,7 +55,7 @@
 #'
 #' @docType data
 #' @format
-#' A data.frame with 225888 observations on the following 12 variables:
+#' A data.frame with 263536 observations on the following 12 variables:
 #'   - `site`: site
 #'   - `id`: Crown id
 #'   - `date`: date of the rgb survey
