@@ -89,7 +89,7 @@
 <div class="section level1">
 <h1 id="the-package">The package<a class="anchor" aria-label="anchor" href="#the-package"></a>
 </h1>
-<p>This R package aims at streamlining, standardizing and facilitating processing of repetead UAV surveys from R. It focuses on RGB data. It notably allows generating 3D and 4D mosaics &amp; mosaics spatial alignment using state-of-the-art approaches, provides tools to generate reference labels, segment crowns (not now) and classify crown phenophases (not now).</p>
+<p>canObsR aims at streamlining, standardizing and facilitating processing of repetead UAV surveys from R. It focuses on RGB data. It notably allows generating 3D and 4D mosaics &amp; mosaics spatial alignment using state-of-the-art approaches, provides tools to generate reference labels, segment crowns (not now) and classify crown phenophases (not now).</p>
 </div>
 <div class="section level1">
 <h1 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -145,7 +145,7 @@
 <p>To activate the key, follow these steps :</p>
 <ul>
 <li>Open an anaconda command prompt</li>
-<li>Activate the environnement you just created : $ conda activate managecrownsdata_env</li>
+<li>Activate the environnement you just created : $ conda activate canObs_env</li>
 <li>start python and activate the licence : $ python &gt;&gt;&gt; import Metashape &gt;&gt;&gt; Metashape.license.activate(“AAAA-BBBB-CCCC-DDDD”) # replace with your license key</li>
 </ul>
 <p>If that works, you can close the command prompt. You should be good to go !</p>
@@ -155,7 +155,7 @@
 <div class="section level1">
 <h1 id="generate-orthomosaics">Generate orthomosaics<a class="anchor" aria-label="anchor" href="#generate-orthomosaics"></a>
 </h1>
-<p>One of the main functions of the package is to generate orthomosaics in R, using <a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a> and the Metashape python API. To guide you step by step into the workflow, you should download the test <a href="https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw" class="external-link">dataset</a> and follow <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html" class="external-link">the instructions</a>.</p>
+<p>One of the main functions of the package is to generate orthomosaics in R, using <a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a> and the Metashape python API. To guide you step by step into the workflow, you should download the <a href="https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw" class="external-link">test dataset</a> and follow <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html" class="external-link">the instructions</a>.</p>
 <div class="figure" style="text-align: center">
 <img src="reference/figures/generate_mosaics.JPG" alt="Generate orthomosaics" width="100%"><p class="caption">
 Generate orthomosaics

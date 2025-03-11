@@ -83,11 +83,11 @@ each date.</p>
 
 
 <dl><dt id="arg-path-images">path_images<a class="anchor" aria-label="anchor" href="#arg-path-images"></a></dt>
-<dd><p>A list with the full paths to the RGB rasters.</p></dd>
+<dd><p>list with the full paths to the RGB rasters.</p></dd>
 
 
 <dt id="arg-path-crowns">path_crowns<a class="anchor" aria-label="anchor" href="#arg-path-crowns"></a></dt>
-<dd><p>chr. Path to the crown file</p></dd>
+<dd><p>chr. Path to the crown delinetion shapefile</p></dd>
 
 
 <dt id="arg-out-dir-path">out_dir_path<a class="anchor" aria-label="anchor" href="#arg-out-dir-path"></a></dt>
@@ -110,7 +110,7 @@ dates of the image in the path_images</p></dd>
 
 
 <dt id="arg-n-cores">N_cores<a class="anchor" aria-label="anchor" href="#arg-n-cores"></a></dt>
-<dd><p>xx</p></dd>
+<dd><p>Number of cores use in the parallelisation proccess.</p></dd>
 
 
 <dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
@@ -127,11 +127,29 @@ dates of the image in the path_images</p></dd>
 images. The folder names are 'crown_<em>the id</em><em><em>the species name</em>' for exemple
 'crown_5_Lophira alata'. The the images names are 'crown</em><em>the id</em><em><em>the species
 name</em></em><em>the date</em>.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
-The function upload square image with neighbouring tree and the title is add
-at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
-image size can be changed by specifying height and width parameters.</p>
+The function upload square image with neighbouring trees and the title is add
+at the top, image size is 720*825 pixels by defaut. The image size can be changed
+by specifying height and width parameters.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">imgs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">'my-path-to-images'</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">path_crowns</span> <span class="op">=</span> <span class="st">"my-path-to-crowns-shapefile"</span></span></span>
+<span class="r-in"><span><span class="va">out_dir_path</span> <span class="op">=</span> <span class="st">"output-directory"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">extract_crownsImages</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  path_images <span class="op">=</span> <span class="va">imgs</span>,</span></span>
+<span class="r-in"><span>  path_crowns <span class="op">=</span> <span class="va">path_crowns</span>,</span></span>
+<span class="r-in"><span>  out_dir_path <span class="op">=</span>  <span class="va">out_dir_path</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
