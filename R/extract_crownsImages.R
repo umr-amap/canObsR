@@ -3,8 +3,8 @@
 #'@description The function extracts and save .jpeg images for each crown at
 #'each date.
 #'
-#'@param path_images A list with the full paths to the RGB rasters.
-#'@param path_crowns  chr. Path to the crown file
+#'@param path_images list with the full paths to the RGB rasters.
+#'@param path_crowns  chr. Path to the crown delinetion shapefile
 #'@param out_dir_path chr. The path to the directory use to stored the images. The
 #'  function will create the folder, It doesn't need to exists.
 #'@param sites chr. name of the site, p.e 'Mbalmayo'.
@@ -12,7 +12,7 @@
 #'  '2022_09_25'). The order of the dates should match with the order of the
 #'  dates of the image in the path_images
 #'@param tempdir_custom chr. Path where to store temporary files
-#'@param N_cores xx
+#'@param N_cores Number of cores use in the parallelisation proccess.
 #'@param height num. The height of the device
 #'@param width num. The width of the device
 #'
@@ -20,12 +20,26 @@
 #'images. The folder names are 'crown_*the id*_*the species name*' for exemple
 #''crown_5_Lophira alata'. The the images names are 'crown_*the id*_*the species
 #'name*_*the date*.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
-#'The function upload square image with neighbouring tree and the title is add
-#'at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
-#'image size can be changed by specifying height and width parameters.
-#'
+#'The function upload square image with neighbouring trees and the title is add
+#'at the top, image size is 720*825 pixels by defaut. The image size can be changed
+#'by specifying height and width parameters.
 #'
 #'@export
+#'
+#'@examples
+#'
+#' \dontrun{
+#'
+#' imgs = list.files('my-path-to-images', full.names = T)
+#' path_crowns = "my-path-to-crowns-shapefile"
+#' out_dir_path = "output-directory"
+#'
+#' extract_crownsImages(
+#'   path_images = imgs,
+#'   path_crowns = path_crowns,
+#'   out_dir_path =  out_dir_path
+#' )
+#' }
 #'
 #'@importFrom stars st_as_stars
 #'@importFrom stars read_stars
@@ -59,8 +73,6 @@ extract_crownsImages <-
 
       crownsFile <-  sf::read_sf(path_crowns)
       sf::st_geometry(crownsFile)='geometry'
-
-      # crownsFile = crownsFile %>% mutate(species = tx_sp_lvl, genus = tax_gen)
 
       # check sites ------------------------------------------
       # sites should be NULL or a character vector

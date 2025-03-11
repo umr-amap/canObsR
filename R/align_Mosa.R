@@ -1,7 +1,7 @@
-#' Implement AROSICS in R
+#' Align orthomosaics by using AROSICS in R
 #'
 #' @description
-#' Implementation in R of a pipeline that uses arosics([AROSICS](https://github.com/GFZ/arosics)) to perform a global or local co-registration on a file or a group of files located inside a folder
+#' Implementation in R a pipeline that uses [AROSICS](https://github.com/GFZ/arosics) to perform a global or local co-registration on a file or a group of files located inside a folder
 #'
 #' @param path_in chr. Path to the target image, or to a folder containing multiple target images. Images must be of Geotiff format.
 #' @param ref_filepath chr. Path to the reference image.
@@ -60,8 +60,8 @@
 
 align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                           corr_type = "global", max_shift = 250L, max_iter = 100L,
-                          min_reliability = 60, grid_res = 1000L, window_size = NULL, 
-                          window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE, 
+                          min_reliability = 60, grid_res = 1000L, window_size = NULL,
+                          window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE,
                           save_vector_plot = FALSE, apply_matrix = FALSE) {
 
    source_python(system.file("PYTHON/__init__.py", package = "canObsR"))

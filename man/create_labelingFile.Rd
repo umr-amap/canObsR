@@ -7,16 +7,20 @@
 create_labelingFile(crownsFile, site, dates, path_out = NULL)
 }
 \arguments{
-\item{crownsFile}{sf. Crowns file}
+\item{crownsFile}{sf or data.frame. Crowns file with at least the variables (id, family, genus, species, code_sp)}
 
-\item{site}{chr. site name.}
+\item{site}{chr. site name (p.e "Bouamir").}
 
 \item{dates}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e c('2022_09_25','2022_10_10').}
 
-\item{directory}{The path where to save the xlsx file.}
+\item{path_out}{The path where to save the xlsx file. If NULL, the file will not be exported and will be return as tibble.}
+}
+\value{
+A tibble with the variable site, id, family, genus, species, n, obs, update, date, phenophase and comments.
+where n, obs, update, phenophase and comments and comments will be NULL. This tibble can be used in the \code{shiny_labels()} applications to be filled.
 }
 \description{
-A function to create the xlsx file to do the labeling
+A function to create the xlsx file where to encode the phenophase.
 }
 \examples{
 

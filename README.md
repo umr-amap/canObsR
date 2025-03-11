@@ -12,10 +12,10 @@
 
 # The package
 
-This R package aims at streamlining, standardizing and facilitating
-processing of repetead UAV surveys from R. It focuses on RGB data. It
-notably allows generating 3D and 4D mosaics & mosaics spatial alignment
-using state-of-the-art approaches, provides tools to generate reference
+canObsR aims at streamlining, standardizing and facilitating processing
+of repetead UAV surveys from R. It focuses on RGB data. It notably
+allows generating 3D and 4D mosaics & mosaics spatial alignment using
+state-of-the-art approaches, provides tools to generate reference
 labels, segment crowns (not now) and classify crown phenophases (not
 now).
 
@@ -96,7 +96,7 @@ To activate the key, follow these steps :
 
 - Open an anaconda command prompt
 - Activate the environnement you just created : \$ conda activate
-  managecrownsdata_env
+  canObs_env
 - start python and activate the licence : \$ python \>\>\> import
   Metashape \>\>\> Metashape.license.activate(“AAAA-BBBB-CCCC-DDDD”) \#
   replace with your license key
@@ -109,9 +109,10 @@ go !
 One of the main functions of the package is to generate orthomosaics in
 R, using [AROSICS](https://github.com/GFZ/arosics) and the Metashape
 python API. To guide you step by step into the workflow, you should
-download the test
-[dataset](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
-and follow [the instructions](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
+download the [test
+dataset](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
+and follow [the
+instructions](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
 
 <div class="figure" style="text-align: center">
 

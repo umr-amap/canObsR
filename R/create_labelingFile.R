@@ -1,11 +1,14 @@
 #' Create xlsx labeling file
 #'
-#' @description A function to create the xlsx file to do the labeling
+#' @description A function to create the xlsx file where to encode the phenophase.
 #'
-#' @param crownsFile  sf. Crowns file
-#' @param site chr. site name.
+#' @param crownsFile  sf or data.frame. Crowns file with at least the variables (id, family, genus, species, code_sp)
+#' @param site chr. site name (p.e "Bouamir").
 #' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e c('2022_09_25','2022_10_10').
-#' @param directory The path where to save the xlsx file.
+#' @param path_out The path where to save the xlsx file. If NULL, the file will not be exported and will be return as tibble.
+#'
+#' @return A tibble with the variable site, id, family, genus, species, n, obs, update, date, phenophase and comments.
+#' where n, obs, update, phenophase and comments and comments will be NULL. This tibble can be used in the `shiny_labels()` applications to be filled.
 #'
 #' @examples
 #'

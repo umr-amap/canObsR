@@ -15,24 +15,46 @@ extract_rgbValues(
 )
 }
 \arguments{
-\item{path_images}{a list with the full paths to the RGB rasters.}
+\item{path_images}{list with the full paths to the RGB rasters.}
 
-\item{path_crowns}{chr. Path to the crown file}
+\item{path_crowns}{chr. Path to the crown delinetion shapefile}
 
-\item{out_dir_path}{chr. The path to the directory use to stored the result.}
+\item{out_dir_path}{chr. The path to the directory use to stored the images}
 
-\item{ncor}{num. Number of cores}
+\item{ncor}{Number of cores use in the parallelisation proccess.}
 
 \item{sites}{chr. name of the site, p.e 'Mbalmayo'.}
 
-\item{dates}{chr. vector of dates (format should be 'yyyy_mm_dd', p.e '2022_09_25').
+\item{dates}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e '2022_09_25').
 The order of the dates should match with the order of the path_images !}
 
 \item{tempdir_custom}{chr. Path where to store temporary files}
 }
+\value{
+A tibble with the variable site, id, date, family, genus, species, type, metric, band, value, plot_name and code_sp.
+}
 \description{
 The function extracts RGB metrics (red, green, blue, sumrgb,
-rcc, gcc, bcc, gndvi, gli) for each crown at each date. It first compute the metrics
-for the whole mosaics and then extracts the value at the crown scale using the \code{exactextractr::exact_extract}
+rcc, gcc, bcc, gndvi, gli) for each crown at each date. It extracts the value
+at the crown scale using the \code{exactextractr::exact_extract}
 function. The mean and / or the variance can be extracted (see 'fun' parameter).
+}
+\examples{
+
+\dontrun{
+
+imgs = list.files('my-path-to-images', full.names = T)
+path_crowns = "my-path-to-crowns-shapefile"
+out_dir_path = "output-directory"
+
+rgb_data <- extract_rgbValues (
+  path_images = imgs,
+  path_crowns = path_crowns,
+  out_dir_path = out_dir_path,
+  ncor = 10,
+  sites = NULL,
+  dates = NULL
+)
+}
+
 }

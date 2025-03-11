@@ -1,4 +1,4 @@
-#' Implement Time-SIFT in R
+#' Generate orthomosaics
 #'
 #' @description
 #' Implementation in R of a pipeline that performs the Time-SIFT process to time series of drone images using the Metashape python API. All photos are loaded and aligned, then orthomosaics and (optionally) DEMs will be generated for each date or flight.

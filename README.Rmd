@@ -24,7 +24,7 @@ canObsR
 
 # The package
 
-This R package aims at streamlining, standardizing and facilitating processing of repetead UAV surveys from R. It focuses on RGB data. It notably allows generating 3D and 4D mosaics & mosaics spatial alignment using state-of-the-art approaches,  provides tools to generate reference labels, segment crowns (not now) and classify crown phenophases (not now).
+canObsR aims at streamlining, standardizing and facilitating processing of repetead UAV surveys from R. It focuses on RGB data. It notably allows generating 3D and 4D mosaics & mosaics spatial alignment using state-of-the-art approaches,  provides tools to generate reference labels, segment crowns (not now) and classify crown phenophases (not now).
 
 # Citation
 
@@ -103,7 +103,7 @@ If that works, you can close the command prompt. You should be good to go !
 # Generate orthomosaics
 
 One of the main functions of the package is to generate orthomosaics in R, using 
-[AROSICS](https://github.com/GFZ/arosics) and the Metashape python API. To guide you step by step into the workflow, you should download the test [dataset](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw) and follow [the instructions](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
+[AROSICS](https://github.com/GFZ/arosics) and the Metashape python API. To guide you step by step into the workflow, you should download the  [test dataset](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw) and follow [the instructions](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
 
 ```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("man/figures/generate_mosaics.JPG")

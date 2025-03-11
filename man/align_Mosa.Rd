@@ -2,7 +2,7 @@
 % Please edit documentation in R/align_Mosa.R
 \name{align_Mosa}
 \alias{align_Mosa}
-\title{Implement AROSICS in R}
+\title{Align orthomosaics by using AROSICS in R}
 \usage{
 align_Mosa(
   path_in,
@@ -54,7 +54,7 @@ align_Mosa(
 None
 }
 \description{
-Implementation in R of a pipeline that uses arosics(\href{https://github.com/GFZ/arosics}{AROSICS}) to perform a global or local co-registration on a file or a group of files located inside a folder
+Implementation in R a pipeline that uses \href{https://github.com/GFZ/arosics}{AROSICS} to perform a global or local co-registration on a file or a group of files located inside a folder
 }
 \examples{
 

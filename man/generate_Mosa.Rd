@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_Mosa.R
 \name{generate_Mosa}
 \alias{generate_Mosa}
-\title{Implement Time-SIFT in R}
+\title{Generate orthomosaics}
 \usage{
 generate_Mosa(
   path_in,

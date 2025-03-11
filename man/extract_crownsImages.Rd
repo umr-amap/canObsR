@@ -17,9 +17,9 @@ extract_crownsImages(
 )
 }
 \arguments{
-\item{path_images}{A list with the full paths to the RGB rasters.}
+\item{path_images}{list with the full paths to the RGB rasters.}
 
-\item{path_crowns}{chr. Path to the crown file}
+\item{path_crowns}{chr. Path to the crown delinetion shapefile}
 
 \item{out_dir_path}{chr. The path to the directory use to stored the images. The
 function will create the folder, It doesn't need to exists.}
@@ -32,7 +32,7 @@ dates of the image in the path_images}
 
 \item{tempdir_custom}{chr. Path where to store temporary files}
 
-\item{N_cores}{xx}
+\item{N_cores}{Number of cores use in the parallelisation proccess.}
 
 \item{width}{num. The width of the device}
 
@@ -47,7 +47,23 @@ The extract_crownsImages() create one folder per id and save the
 images. The folder names are 'crown_\emph{the id}\emph{\emph{the species name}' for exemple
 'crown_5_Lophira alata'. The the images names are 'crown}\emph{the id}\emph{\emph{the species
 name}}\emph{the date}.jpeg' for exemple 'crown_5_Lophira alata_2022-11-08.jpeg'.
-The function upload square image with neighbouring tree and the title is add
-at the top, image size is 720*825 pixels. When specific_quality is TRUE, the
-image size can be changed by specifying height and width parameters.
+The function upload square image with neighbouring trees and the title is add
+at the top, image size is 720*825 pixels by defaut. The image size can be changed
+by specifying height and width parameters.
+}
+\examples{
+
+\dontrun{
+
+imgs = list.files('my-path-to-images', full.names = T)
+path_crowns = "my-path-to-crowns-shapefile"
+out_dir_path = "output-directory"
+
+extract_crownsImages(
+  path_images = imgs,
+  path_crowns = path_crowns,
+  out_dir_path =  out_dir_path
+)
+}
+
 }
