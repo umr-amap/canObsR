@@ -21,7 +21,9 @@ knitr::include_graphics("img/Image1.jpg")
 
 ```{r, echo=T}
 library(canObsR)
-library(tidyverse)
+library(tidyr)
+library(dplyr)
+library(stringr)
 
 data("data_labeling")
 data("rgb_data")
