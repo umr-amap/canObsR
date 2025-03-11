@@ -120,7 +120,9 @@ fun_extract = function(i, path, crowns_simplified, date, site, tempdir_custom)
       dplyr::mutate(
          rcc = red / (red + green + blue),
          gcc = green / (red + green + blue),
-         gli = (2*green - red - blue) / (2*green + red + blue)
+         gli = (2*green - red - blue) / (2*green + red + blue),
+         gndvi = (green - red) / (green + red),
+         sumrgb = red + green + blue
       ) %>%
       dplyr::group_by(id, species)
 
@@ -132,6 +134,8 @@ fun_extract = function(i, path, crowns_simplified, date, site, tempdir_custom)
          gcc = mean(gcc, na.rm=T),
          rcc = mean(rcc, na.rm=T),
          gli = mean(gli, na.rm=T),
+         gndvi =  mean(gndvi, na.rm=T),
+         sumrgb =  mean(sumrgb, na.rm=T),
          type = 'RGB',
          metric = 'mean',
          date = date,
