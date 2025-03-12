@@ -106,13 +106,13 @@ go !
 
 # Generate orthomosaics
 
-One of the main functions of the package is to generate orthomosaics in
-R, using [AROSICS](https://github.com/GFZ/arosics) and the Metashape
-python API. To guide you step by step into the workflow, you should
-download the [test
+One of the main functions of the package is to generate orthomosaics and
+to align them in R, using Metashape and
+[AROSICS](https://github.com/GFZ/arosics). To guide you step by step
+into the workflow, you should download the [test
 dataset](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
 and follow [the
-instructions](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
+article](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
 
 <div class="figure" style="text-align: center">
 
