@@ -88,7 +88,7 @@
     
     
 <p>Here is a short example to guide you step by step through the
-orthomosaic generating process with the functions <a href="https://umr-amap.github.io/canObsR/reference/generate_Mosa.html"><code>generate_Mosa()</code></a>
+orthomosaic generating process and their alignment with the functions <a href="https://umr-amap.github.io/canObsR/reference/generate_Mosa.html"><code>generate_Mosa()</code></a>
 and <a href="https://umr-amap.github.io/canObsR/reference/align_Mosa.html"><code>align_Mosa()</code></a>.
 These functions required, arosics(AROSICS), the Metashape python API and
 a valid Metashape license.</p>
@@ -96,8 +96,8 @@ a valid Metashape license.</p>
 <li><p>First you will need to download the <a href="https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw" class="external-link">test
 data</a> and unzip it. Test data contains, 2 sets of drones images from
 the same area obtained from 2 differents dates and a
-<strong>DTM</strong> digital terrain model from the the area which is
-the reference.</p></li>
+<strong>CHM</strong> canopy height model from the area which is the
+reference.</p></li>
 <li><p>Then run the following code, more details about the functions <a href="https://umr-amap.github.io/canObsR/reference/generate_Mosa.html"><code>generate_Mosa()</code></a>
 and <a href="https://umr-amap.github.io/canObsR/reference/align_Mosa.html"><code>align_Mosa()</code></a>.</p></li>
 </ul>
@@ -110,23 +110,23 @@ and <a href="https://umr-amap.github.io/canObsR/reference/align_Mosa.html"><code
 <span><span class="va">my_path</span> <span class="op">&lt;-</span> <span class="st">'XXXX/test_data'</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/generate_Mosa.html">generate_Mosa</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'my_drone_data'</span><span class="op">)</span>,</span>
-<span>          out_dir_ortho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'orthomosaics'</span><span class="op">)</span>,</span>
+<span>          out_dir_ortho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'outputs_TS'</span><span class="op">)</span>,</span>
 <span>          data_type <span class="op">=</span> <span class="st">"RGB"</span>,</span>
 <span>          resol_ref <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>          site_name <span class="op">=</span> <span class="st">"Bouamir"</span>,</span>
 <span>          crs <span class="op">=</span> <span class="st">"EPSG::32633"</span>,</span>
-<span><span class="op">)</span> <span class="co"># Export Time_SFIFT outputs into 'outputs_arosics' folder</span></span>
+<span><span class="op">)</span> </span>
 <span></span>
-<span><span class="fu"><a href="../reference/align_Mosa.html">align_Mosa</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'orthomosaics'</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="../reference/align_Mosa.html">align_Mosa</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'outputs_TS'</span><span class="op">)</span>,</span>
 <span>        ref_filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'Bouamir_LiDAR_ref.tif'</span><span class="op">)</span>,</span>
-<span>        out_dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'aligned_orthomosaics'</span><span class="op">)</span>,</span>
+<span>        out_dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'outputs_arosics'</span><span class="op">)</span>,</span>
 <span>        corr_type <span class="op">=</span> <span class="st">"global"</span>,</span>
 <span>        <span class="co">#grid_res = 200,</span></span>
 <span>        window_size <span class="op">=</span> <span class="fl">500</span>,</span>
 <span>        window_pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">258131</span>, <span class="fl">352973</span><span class="op">)</span>,</span>
 <span>        apply_matrix <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>        save_data <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span> <span class="co"># Export arosics outputs into 'outputs_TS' folder</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="img%2Fgenerate_mosaics.JPG" alt="Generate orthomosaics" width="100%"><p class="caption">
 Generate orthomosaics
@@ -141,15 +141,15 @@ first image is aligned using the specified reference file, and then each
 subsequent image N uses the aligned version of the image N-1 as a
 reference.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dir_mosa</span> <span class="op">=</span> <span class="st">"test_data/outputs_TS/ORTHO"</span></span>
-<span><span class="va">out_dir_path</span> <span class="op">=</span> <span class="st">"test_data/outputs_arosics/"</span></span>
+<code class="sourceCode R"><span><span class="va">dir_mosa</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'outputs_TS'</span><span class="op">)</span></span>
+<span><span class="va">out_dir_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'outputs_arosics'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">PATHs.df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="va">dir_mosa</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="va">PATHs.df</span> <span class="op">=</span> <span class="va">PATHs.df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="va">PATHs.df</span>, pattern<span class="op">=</span><span class="st">".tif"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">PATHs.df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="va">PATHs.df</span><span class="op">)</span></span>
 <span><span class="va">PATHs.df</span><span class="op">$</span><span class="va">output_mosa_name</span> <span class="op">=</span> <span class="cn">NA</span></span>
 <span></span>
-<span><span class="va">PATHs.df</span><span class="op">$</span><span class="va">path_ref</span> <span class="op">=</span> <span class="st">"test_data/Bouamir_LiDAR_ref.tif"</span> </span>
+<span><span class="va">PATHs.df</span><span class="op">$</span><span class="va">path_ref</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'outputs_arosics'</span><span class="op">)</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">PATHs.df</span><span class="op">)</span><span class="op">)</span>                      </span>
 <span><span class="op">{</span></span>
 <span>  <span class="co"># name of the ouput mosaic</span></span>
