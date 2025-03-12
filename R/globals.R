@@ -1,5 +1,5 @@
 utils::globalVariables(c(".", "type", "metric","band","value",'family','genus',
-                         "species","plot_name","code_sp","st_contains","crowns",
+                         "species","st_contains","crowns",
                          "text","obs","update",'sp','site','Comm','Usable_crown',
                          'phenophase','repro','complete_arosics_process','na',
                          'Time_SIFT_process', 'PPfoliar1', 'phenophase1', 'PPfoliar',
@@ -160,12 +160,10 @@ fun_extract = function(i, path, crowns_simplified, date, site, tempdir_custom)
       dplyr::ungroup()%>%
       tidyr::gather(-c(id, species, type, metric, date, site), key = band, value = value)
 
-   crowns <- crowns_simplified %>% select(id, genus, family,plot_name, code_sp)
-
    res <-
       rbind(res_mean, res_var) %>%
-      dplyr::inner_join(., dplyr::as_tibble(crowns_simplified)[,c('id', 'genus', 'family', 'plot_name', 'code_sp')], by = 'id') %>%
-      dplyr::select(site, id, date, site, family, genus, species, type, metric, band, value, plot_name, code_sp)
+      dplyr::inner_join(., dplyr::as_tibble(crowns_simplified)[,c('id', 'genus', 'family')], by = 'id') %>%
+      dplyr::select(site, id, date, site, family, genus, species, type, metric, band, value)
 
    return(res)
 }

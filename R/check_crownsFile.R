@@ -1,16 +1,16 @@
-#' Check the crown file compatibility
+#' Check the crowns file compatibility
 #'
 #' @description
-#' Check the crown file compatibility with the `managecrownsdata` functions. Return text,
+#' Check the crown file compatibility with the `canObsR` functions. Return text,
 #' that give informations about the file modifications needed.
 #'
-#' @param path_crowns  chr. Path to the crown file
+#' @param path_crowns  chr. Path to the crown delinetion shapefile
 #'
-#' @return Text that give you information about your file.
+#' @return Text that give you informations about your file.
 #' Indicates whether your file will be compatible or not  for the other functions of the package.
 #' Pay attention to the line starting with '-- ERROR --'.
-#' @export
 #'
+#' @export
 #'
 #' @import sf
 #'
@@ -22,7 +22,7 @@ check_crownsFile <- function(path_crowns){
    # Check variables names ---------------------------------------------------
 
    vars <- names(crownsFile)
-   var_needed <- c('geometry', 'id', 'family', 'genus', 'species', 'plot_name', 'code_sp')
+   var_needed <- c('id', 'family', 'genus', 'species')
 
    var_check <- c(
       '##########     VARIABLES CHECK     ##########',

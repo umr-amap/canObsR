@@ -5,7 +5,7 @@
 \alias{rgb_data}
 \title{RGB indices data}
 \format{
-A data.frame with 225888 observations on the following 12 variables:
+A data.frame with 263536 observations on the following 10 variables:
 \itemize{
 \item \code{site}: site
 \item \code{id}: Crown id
@@ -17,8 +17,6 @@ A data.frame with 225888 observations on the following 12 variables:
 \item \code{metric}: metric
 \item \code{band}: band
 \item \code{value}: value
-\item \code{plot_name}: Plot name
-\item \code{code_sp}: Species code
 }
 }
 \usage{

@@ -31,7 +31,7 @@ The order of the dates should match with the order of the path_images !}
 \item{tempdir_custom}{chr. Path where to store temporary files}
 }
 \value{
-A tibble with the variable site, id, date, family, genus, species, type, metric, band, value, plot_name and code_sp.
+A tibble with the variable site, id, date, family, genus, species, type, metric, band and value.
 }
 \description{
 The function extracts RGB metrics (red, green, blue, sumrgb,

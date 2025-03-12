@@ -16,7 +16,7 @@
 #'
 #' @export
 #'
-#' @return A tibble with the variable site, id, date, family, genus, species, type, metric, band, value, plot_name and code_sp.
+#' @return A tibble with the variable site, id, date, family, genus, species, type, metric, band and value.
 #'
 #' @examples
 #'
@@ -202,9 +202,8 @@ extract_rgbValues <-
                                                         type = as.factor(type),
                                                         metric = as.factor(metric),
                                                         band = as.factor(band),
-                                                        plot_name = as.factor(plot_name),
                                                         id = as.integer(id)) %>%
-         dplyr::select(site, id, date, family, genus, species, type, metric, band, value, plot_name, code_sp)
+         dplyr::select(site, id, date, family, genus, species, type, metric, band, value)
 
 
       if(!is.null(out_dir_path)){

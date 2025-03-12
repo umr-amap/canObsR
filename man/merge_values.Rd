@@ -12,7 +12,7 @@ merge_values(data_labeling, rgb_data)
 \item{rgb_data}{\code{tibble} or \code{dataframe} with the rgb metrics values.}
 }
 \value{
-A tibble with the variable site, id, date, family, genus, species, phenophase, type, metric, band, value, plot_name, code_sp, obs, comments, update, Usable_crown.
+A tibble with the variable site, id, date, family, genus, species, phenophase, type, metric, band, value, obs, comments, update, Usable_crown.
 }
 \description{
 A function to merge the labels from long format and the rgb metrics

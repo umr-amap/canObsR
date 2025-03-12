@@ -2,19 +2,19 @@
 % Please edit documentation in R/check_crownsFile.R
 \name{check_crownsFile}
 \alias{check_crownsFile}
-\title{Check the crown file compatibility}
+\title{Check the crowns file compatibility}
 \usage{
 check_crownsFile(path_crowns)
 }
 \arguments{
-\item{path_crowns}{chr. Path to the crown file}
+\item{path_crowns}{chr. Path to the crown delinetion shapefile}
 }
 \value{
-Text that give you information about your file.
+Text that give you informations about your file.
 Indicates whether your file will be compatible or not  for the other functions of the package.
 Pay attention to the line starting with '-- ERROR --'.
 }
 \description{
-Check the crown file compatibility with the \code{managecrownsdata} functions. Return text,
+Check the crown file compatibility with the \code{canObsR} functions. Return text,
 that give informations about the file modifications needed.
 }

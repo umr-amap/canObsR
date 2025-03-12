@@ -7,7 +7,7 @@
 create_labelingFile(crownsFile, site, dates, path_out = NULL)
 }
 \arguments{
-\item{crownsFile}{sf or data.frame. Crowns file with at least the variables (id, family, genus, species, code_sp)}
+\item{crownsFile}{sf or data.frame. Crowns file with at least the variables (id, family, genus, species)}
 
 \item{site}{chr. site name (p.e "Bouamir").}
 

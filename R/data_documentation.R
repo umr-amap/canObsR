@@ -4,12 +4,11 @@
 #'
 #' @docType data
 #' @format
-#' A sf object with 378 observations on the following 6 variables:
+#' A sf object with 378 observations on the following 5 variables:
 #'   - `id`: Crown id
 #'   - `family`: family
 #'   - `genus`: genus
 #'   - `species`: species
-#'   - `code_sp`: Species code
 #'   - `geom`: geometry
 #'
 #' @usage data("crowns")
@@ -55,7 +54,7 @@
 #'
 #' @docType data
 #' @format
-#' A data.frame with 263536 observations on the following 12 variables:
+#' A data.frame with 263536 observations on the following 10 variables:
 #'   - `site`: site
 #'   - `id`: Crown id
 #'   - `date`: date of the rgb survey
@@ -66,8 +65,6 @@
 #'   - `metric`: metric
 #'   - `band`: band
 #'   - `value`: value
-#'   - `plot_name`: Plot name
-#'   - `code_sp`: Species code
 #'
 #' @usage data("rgb_data")
 #'

@@ -5,13 +5,12 @@
 \alias{crowns}
 \title{crowns delineation data}
 \format{
-A sf object with 378 observations on the following 6 variables:
+A sf object with 378 observations on the following 5 variables:
 \itemize{
 \item \code{id}: Crown id
 \item \code{family}: family
 \item \code{genus}: genus
 \item \code{species}: species
-\item \code{code_sp}: Species code
 \item \code{geom}: geometry
 }
 }

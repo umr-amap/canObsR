@@ -2,7 +2,7 @@
 #'
 #' @description A function to create the xlsx file where to encode the phenophase.
 #'
-#' @param crownsFile  sf or data.frame. Crowns file with at least the variables (id, family, genus, species, code_sp)
+#' @param crownsFile  sf or data.frame. Crowns file with at least the variables (id, family, genus, species)
 #' @param site chr. site name (p.e "Bouamir").
 #' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e c('2022_09_25','2022_10_10').
 #' @param path_out The path where to save the xlsx file. If NULL, the file will not be exported and will be return as tibble.
