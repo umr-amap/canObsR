@@ -77,7 +77,7 @@ def add_TimeSIFT_chunk(doc, ep_path="", epoch_name=""):
         dirName=ep_path
         listOfFiles = list()
         for (dirpath, dirnames, filenames) in os.walk(dirName):
-            listOfFiles += [os.path.join(dirpath, file) for file in filenames]      #if file.lower().endswith(('.png', '.jpeg', '.jpg', '.tif', '.tiff'))
+            listOfFiles += [os.path.join(dirpath, file) for file in filenames if file.lower().endswith(('.png', '.jpeg', '.jpg', '.tif', '.tiff'))]     
 
         chunk.addPhotos(listOfFiles)
         for cam in chunk.cameras:
