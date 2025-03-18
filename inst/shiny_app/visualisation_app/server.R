@@ -6,7 +6,7 @@ server <- function(input, output, session) {
    col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
    pheno <- reactiveValues(pheno = NULL, color = NULL)
 
-   if(color_label == 'auto'){
+   if(color == 'auto'){
       data('color_label')
       color_label
    }
