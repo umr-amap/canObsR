@@ -4,7 +4,7 @@
 \alias{shiny_visualisation}
 \title{Visualisation shiny app}
 \usage{
-shiny_visualisation(color = "auto")
+shiny_visualisation()
 }
 \description{
 Shiny app to do the visualise the crowns data (labels and rgb indices).

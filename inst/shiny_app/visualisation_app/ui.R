@@ -15,6 +15,10 @@ ui <- fluidPage(
    sidebarLayout(
       sidebarPanel(
          fileInput("file", "Importer un fichier CSV", accept = ".csv"),
+         shiny::textInput(inputId = "new_filename",
+                          label = "New filename",
+                          value = paste0(file.path(Sys.getenv("USERPROFILE"), "Desktop"),'/copy_labeling_file_',format(Sys.Date(), "%Y_%m_%d"),'.xlsx')
+         ),
          selectInput("sp_choice", "Espèce", choices = NULL),
          selectInput("id_choice", "ID de l'arbre", choices = NULL),
          selectInput("band_choice", "Bande spectrale", choices = NULL),
@@ -35,7 +39,9 @@ ui <- fluidPage(
                         column(width = 6,
                                checkboxInput("density_plot", "Density plot"),
                                plotOutput("plot2")
-                               )
+                               ),
+                        column(width = 6,
+                               imageOutput("image"))
                      )
 
             ),
@@ -43,8 +49,6 @@ ui <- fluidPage(
 
                      fluidPage(
 
-                        column(
-                           width = 9,
                            list(tags$head(tags$style(HTML("
                                  .multicol {
                                    height: 250px;
@@ -59,15 +63,10 @@ ui <- fluidPage(
 
                            checkboxInput("clear_points", "Décocher tous les points"),
                            uiOutput("points_checkboxes"),
-                           colourInput("pheno_color", "Couleur", value = NULL),
+                           colourInput("pheno_color", "Couleur", value = '#18451B'),
                            actionButton("pheno_color_add", "Modify"),
-
-                        ),
-                        column(
-                           width = 3,
-                           uiOutput("color_legend_pheno")
-
-                        )
+                           br(),
+                           uiOutput("color_legend")
                      )
             )
          )
