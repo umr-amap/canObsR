@@ -1,18 +1,14 @@
 options(shiny.maxRequestSize=100*1024^2)
+
 server <- function(input, output, session) {
 
    qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
    col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
    pheno <- reactiveValues(pheno = NULL, color = NULL)
 
-   renderColorLegend <- function(colors) {
-      tagList(
-         lapply(names(colors), function(name) {
-            div(style = sprintf("display: inline-block; width: 120px; margin: 5px; padding: 5px; background-color: %s; color: white; text-align: center; border-radius: 5px;",
-                                colors[[name]]),
-                name)
-         })
-      )
+   if(color_label == 'auto'){
+      data('color_label')
+      color_label
    }
 
    dataset <- reactive({
@@ -26,9 +22,14 @@ server <- function(input, output, session) {
       updateSelectInput(session, "slcted_pheno", choices = sort(unique(dataset()$phenophase)))
       updateSelectInput(session, "slcted_ppfoliar", choices = sort(unique(dataset()$PPfoliar1)))
 
+      diff <- setdiff( unique(c(data$phenophase,data$PPfoliar1)),names(color_label))
+      col_diff <- sample(col_vector,length(diff), replace = TRUE)
+      col_diff <- sort(setNames(c(as.character(color_label),col_diff), c(names(color_label),diff)))
+      col_diff <- col_diff[ sort(names(col_diff)) ]
+      col_diff <- col_diff[ names(col_diff) %in% c(data$phenophase,data$PPfoliar1) ]
 
-      pheno$pheno <- sort(unique(c(dataset()$phenophase, dataset()$PPfoliar1)))
-      pheno$color <- sample(col_vector,length(pheno$pheno), replace = TRUE)
+      pheno$pheno <- names(col_diff)
+      pheno$color <- as.character(col_diff)
       colors_set <- setNames(pheno$color,pheno$pheno)
 
       output$points_checkboxes <- renderUI({
@@ -46,10 +47,66 @@ server <- function(input, output, session) {
                                           inline   = FALSE)))
 
       })
+
+      output$color_legend_pheno <-  renderUI({
+         # Création d'une liste de balises HTML <span> avec couleur
+         elements <- lapply(seq_along(pheno$pheno), function(i) {
+            div(style = "display: flex; flex-direction: column; align-items: center; text-align: center;",
+                div(style = paste("width: 30px; height: 30px; background-color:", pheno$color[i],
+                                  "; border-radius: 50%; margin-bottom: 5px;"), ""),  # Rond coloré
+                span(pheno$pheno[i], style = paste("color:", 'black', "; font-size: 18px; font-weight: bold;"))
+            )
+         })
+
+         do.call(tagList, elements)  # Rassemble tous les éléments dans un seul bloc
+      })
+
+
    })
 
 
+   observeEvent(input$clear_points,{
 
+      if(input$clear_points){
+
+         output$points_checkboxes <- renderUI({
+
+            point_ids <- pheno$pheno
+
+
+            list(h3("Multicolumn checkboxGroupInput"),
+                 tags$div(align = 'left',
+                          class = 'multicol',
+                          checkboxGroupInput(inputId  = "selected_points",
+                                             label    = "Sélectionnez les points :",
+                                             choices  = point_ids,
+                                             selected = NULL,
+                                             inline   = FALSE)))
+
+         })
+
+      } else {
+
+         output$points_checkboxes <- renderUI({
+
+            point_ids <- pheno$pheno
+
+
+            list(h3("Multicolumn checkboxGroupInput"),
+                 tags$div(align = 'left',
+                          class = 'multicol',
+                          checkboxGroupInput(inputId  = "selected_points",
+                                             label    = "Sélectionnez les points :",
+                                             choices  = point_ids,
+                                             selected = point_ids,
+                                             inline   = FALSE)))
+
+         })
+
+      }
+
+
+   })
 
    observeEvent(input$pheno_color_add,{
 
@@ -89,6 +146,7 @@ server <- function(input, output, session) {
    })
 
    selected_data <- eventReactive(input$go, {
+
       req(input$id_choice, input$band_choice, input$metric_choice)
       filtered_data() %>%
          filter(band == input$band_choice, metric == input$metric_choice) %>%
@@ -103,6 +161,30 @@ server <- function(input, output, session) {
    })
 
    observeEvent(input$go,{
+
+
+      output$test <- renderText({min(selected_data()$date)})
+
+output$dates <- renderUI({
+
+      sliderTextInput(inputId = "date_choice1",
+                      label = "Date",
+                      choices = (selected_data()$date),
+                      selected = min(selected_data()$date),
+                      grid = TRUE
+
+      )
+
+
+      # output$dates <- renderUI({
+      #
+      #    sliderInput("datesi",
+      #                "Dates:",
+      #                min = min(selected_data()$date),
+      #                max = max(selected_data()$date),
+      #                value=min(selected_data()$date))
+      #
+      })
 
       colors_set <- setNames(pheno$color,pheno$pheno)
 
@@ -142,13 +224,29 @@ server <- function(input, output, session) {
          p
       })
 
+
       output$plot2 <- renderPlot({
          req(selected_data())
-         p <- ggplot(selected_data(), aes(x = phenophase, y = value)) +
-            geom_boxplot(aes(fill = phenophase)) +
-            geom_point(color = 'red') +
-            scale_fill_manual(values = colors_set) +
-            theme_minimal()
+
+
+         if(input$density_plot){
+            p <- ggplot(selected_data()) +
+               {if (input$Simplify) geom_density(aes(x = value, fill = PPfoliar1), color = 'black', alpha = .5, size = 0.5) } +
+               {if (!input$Simplify) geom_density(aes(x = value, fill = phenophase), color = 'black', alpha = .5, size = 0.5) } +
+               ggplot2::scale_fill_manual ( values = colors_set ) +
+               theme_classic()
+
+         }else{
+
+            p <- ggplot(selected_data()) +
+               {if (input$Simplify) geom_boxplot(aes( x = PPfoliar1, y = value, fill = PPfoliar1)) } +
+               {if (!input$Simplify) geom_boxplot(aes( x = phenophase, y = value, fill = phenophase)) } +
+               geom_point(aes( x = PPfoliar1, y = value), color = 'red') +
+               scale_fill_manual(values = colors_set) +
+               theme_minimal()
+         }
+
+
          p
       })
 

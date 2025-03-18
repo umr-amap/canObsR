@@ -273,50 +273,71 @@ color_label <-
    c(
       "D" = "grey",
       "D?" = "grey",
+      "D*L" = "grey",
+      "D*L?" = "grey",
 
       'L' = "green4",
       'L?' = "green4",
+      "L/F" = "green4",
+      "F/L" = "green4",
+      "L/F?" = "green4",
+      "F/L?" = "green4",
+      "L/F" = "green4",
+      "F/L" = "green4",
+      "L/F?" = "green4",
+      "F/L?" = "green4",
+      "L;fl" = 'green4',
+      "L;fr" = "green4",
+      "L;fl?" = 'green4',
+      "L;fr?" = "green4",
+      "L*F/L" = "green4",
+      "L*L/D" = "green4",
+      "L*D" = "green4",
+      "L*D?" = "green4",
 
       "F" = "green",
       "F?" = "green",
+      "F;fl" = 'green',
+      "F;fr" = 'green',
+      "F;fl?" = 'green',
+      "F;fr?" = 'green',
+      "F*L/D?" = "green",
+      "F*L/D?" = "green",
+      "F*L?" = "green",
+      "F*L" = "green",
 
       "L/D" = "lightgreen",
       "D/L" = "lightgreen",
       "L/D?" = "lightgreen",
       "D/L?" = "lightgreen",
-
-      "L/F" = "green4",
-      "F/L" = "green4",
-      "L/F?" = "green4",
-      "F/L?" = "green4",
+      "L/D;fr" = 'lightgreen',
+      "L/D;fr?" = 'lightgreen',
+      "L/D;fl" = 'lightgreen',
+      "L/D;fl?" = 'lightgreen',
 
       'D/F' = "green3",
       "F/D" = "green3",
       'D/F?' = "green3",
       "F/D?" = "green3",
 
-      "P" = 'maroon',
-      "P?" = 'maroon',
-
-      "L*D" = "lightcyan4",
-      "L*D?" = "lightcyan4",
-      "D*L" = "lightcyan4",
-      "D*L?" = "lightcyan4",
+      "P" = 'yellow',
+      "P?" = 'yellow',
 
       "D*F" = "cyan4",
       "D*F?" = "cyan4",
       "F*D" = "cyan4",
       "F*D?" = "cyan4",
 
-      "F*L?" = "cyan3",
-      "F*L" = "cyan3",
       "L*F?" = "cyan3",
       "L*F" = "cyan3",
 
       "L/D*F" = "lightblue",
       "L/D*F?" = "lightblue",
       "F*L/D?" = "lightblue",
-      "F*L/D?" = "lightblue"
+      "F*L/D?" = "lightblue",
+
+      "no_obs" = "black",
+      'NA' = 'black'
 
    )
 

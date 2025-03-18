@@ -19,16 +19,25 @@ ui <- fluidPage(
          selectInput("id_choice", "ID de l'arbre", choices = NULL),
          selectInput("band_choice", "Bande spectrale", choices = NULL),
          selectInput("metric_choice", "Métrique", choices = NULL),
-         actionButton("go", "Visualiser"),
          checkboxInput("Simplify", "Simplifier les labels"),
-         downloadButton("download", "Télécharger les données")
+         actionButton("go", "Visualiser"),
+         br(),
+         br(),
+         uiOutput("dates")
+
       ),
 
       mainPanel(
          tabsetPanel(
             tabPanel("Graphiques",
                      plotOutput("plot1"),
-                     plotOutput("plot2")
+                     fluidRow(
+                        column(width = 6,
+                               checkboxInput("density_plot", "Density plot"),
+                               plotOutput("plot2")
+                               )
+                     )
+
             ),
             tabPanel("Personnalisation des couleurs",
 
@@ -38,7 +47,7 @@ ui <- fluidPage(
                            width = 9,
                            list(tags$head(tags$style(HTML("
                                  .multicol {
-                                   height: 150px;
+                                   height: 250px;
                                    -webkit-column-count: 5; /* Chrome, Safari, Opera */
                                    -moz-column-count: 5;    /* Firefox */
                                    column-count: 5;
@@ -48,9 +57,11 @@ ui <- fluidPage(
                                  "))
                            )),
 
+                           checkboxInput("clear_points", "Décocher tous les points"),
                            uiOutput("points_checkboxes"),
                            colourInput("pheno_color", "Couleur", value = NULL),
-                           checkboxInput("pheno_color_add", "Modify")
+                           actionButton("pheno_color_add", "Modify"),
+
                         ),
                         column(
                            width = 3,
@@ -58,9 +69,6 @@ ui <- fluidPage(
 
                         )
                      )
-
-
-
             )
          )
       )
