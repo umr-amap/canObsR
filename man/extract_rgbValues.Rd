@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_rgbValues.R
 \name{extract_rgbValues}
 \alias{extract_rgbValues}
-\title{Extract RGB metrics}
+\title{Extract spectral indices from RGB at the crown scale}
 \usage{
 extract_rgbValues(
   path_images,
@@ -11,7 +11,8 @@ extract_rgbValues(
   ncor = 1,
   sites = NULL,
   dates = NULL,
-  tempdir_custom = NULL
+  tempdir_custom = NULL,
+  file_type = ".RData"
 )
 }
 \arguments{
@@ -29,12 +30,14 @@ extract_rgbValues(
 The order of the dates should match with the order of the path_images !}
 
 \item{tempdir_custom}{chr. Path where to store temporary files}
+
+\item{file_type}{chr. By default it is '.RData' but can be '.csv' or '.xlsx'}
 }
 \value{
 A tibble with the variable site, id, date, family, genus, species, type, metric, band and value.
 }
 \description{
-The function extracts RGB metrics (red, green, blue, sumrgb,
+The function extracts RGB indices (red, green, blue, sumrgb,
 rcc, gcc, bcc, gndvi, gli) for each crown at each date. It extracts the value
 at the crown scale using the \code{exactextractr::exact_extract}
 function. The mean and / or the variance can be extracted (see 'fun' parameter).

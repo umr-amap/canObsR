@@ -1,6 +1,6 @@
-#' Extract RGB metrics
+#' Extract spectral indices from RGB at the crown scale
 #'
-#' @description The function extracts RGB metrics (red, green, blue, sumrgb,
+#' @description The function extracts RGB indices (red, green, blue, sumrgb,
 #' rcc, gcc, bcc, gndvi, gli) for each crown at each date. It extracts the value
 #' at the crown scale using the \code{exactextractr::exact_extract}
 #' function. The mean and / or the variance can be extracted (see 'fun' parameter).
@@ -13,6 +13,7 @@
 #' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e '2022_09_25').
 #' The order of the dates should match with the order of the path_images !
 #' @param tempdir_custom chr. Path where to store temporary files
+#' @param file_type chr. By default it is '.RData' but can be '.csv' or '.xlsx'
 #'
 #' @export
 #'
@@ -45,6 +46,7 @@
 #' @import doParallel
 #' @import sf
 #' @import dplyr
+#' @import writexl
 #'
 extract_rgbValues <-
 
@@ -55,7 +57,8 @@ extract_rgbValues <-
       ncor = 1,
       sites = NULL,
       dates = NULL,
-      tempdir_custom = NULL
+      tempdir_custom = NULL,
+      file_type = '.RData'
    ){
 
       # Import data -----------------------------------------------
@@ -206,11 +209,29 @@ extract_rgbValues <-
          dplyr::select(site, id, date, family, genus, species, type, metric, band, value)
 
 
-      if(!is.null(out_dir_path)){
+      if(!is.null(out_dir_path) & file_type == '.RData'){
 
          save(results.final, file = file.path(out_dir_path, paste('rgbValues',
                                                                   paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
                                                                   , sep = '_' )
+         ))
+
+      }
+
+      if(!is.null(out_dir_path) & file_type == '.csv'){
+
+         write.csv(results.final, file = file.path(out_dir_path, paste('rgbValues',
+                                                                  paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
+                                                                  , sep = '_' )
+         ))
+
+      }
+
+      if(!is.null(out_dir_path) & file_type == '.xlsx'){
+
+         write_xlsx(results.final, path = file.path(out_dir_path, paste('rgbValues',
+                                                                       paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
+                                                                       , sep = '_' )
          ))
 
       }
