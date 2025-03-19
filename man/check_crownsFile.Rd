@@ -7,7 +7,7 @@
 check_crownsFile(path_crowns)
 }
 \arguments{
-\item{path_crowns}{chr. Path to the crown delineation shapefile}
+\item{path_crowns}{chr. Path to the crown delinetion shapefile}
 }
 \value{
 Text that give you informations about your file.
@@ -15,7 +15,7 @@ Indicates whether your file will be compatible or not  for the other functions o
 Pay attention to the line starting with '-- ERROR --'.
 }
 \description{
-Check the crown file compatibility with the \code{canObsR} functions.
-Your crown file must have at least the following variables 'id' and 'species'
+Check the crown file compatibility with the \code{canObsR} functions. Your crown
+file must have at least the following variables 'id', 'family', 'genus' and 'species'
 and it should not have duplicated id.
 }

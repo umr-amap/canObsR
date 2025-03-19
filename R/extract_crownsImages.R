@@ -198,6 +198,8 @@ extract_crownsImages <-
 
       # Create folder if not existed
 
+      if(!dir.exists(out_dir_path)){dir.create(out_dir_path)}
+
       for(i in 1:nrow(crowns_simplified)){
 
          tmp_id <- crowns_simplified$id[i]

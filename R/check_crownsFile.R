@@ -1,11 +1,11 @@
 #' Check the crowns file compatibility
 #'
 #' @description
-#' Check the crown file compatibility with the `canObsR` functions.
-#' Your crown file must have at least the following variables 'id' and 'species'
+#' Check the crown file compatibility with the `canObsR` functions. Your crown
+#' file must have at least the following variables 'id', 'family', 'genus' and 'species'
 #' and it should not have duplicated id.
 #'
-#' @param path_crowns  chr. Path to the crown delineation shapefile
+#' @param path_crowns  chr. Path to the crown delinetion shapefile
 #'
 #' @return Text that give you informations about your file.
 #' Indicates whether your file will be compatible or not  for the other functions of the package.
@@ -23,7 +23,7 @@ check_crownsFile <- function(path_crowns){
    # Check variables names ---------------------------------------------------
 
    vars <- names(crownsFile)
-   var_needed <- c('id','species')
+   var_needed <- c('id', 'family', 'genus', 'species')
 
    var_check <- c(
       '##########     VARIABLES CHECK     ##########',
