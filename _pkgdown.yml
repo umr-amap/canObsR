@@ -49,6 +49,7 @@ reference:
     xxxx
   contents:
   - shiny_labels
+  - shiny_visualisation
 
 - title: Others functions
   desc: >

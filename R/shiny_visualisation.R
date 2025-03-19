@@ -2,7 +2,6 @@
 #'
 #' @description Shiny app to do the visualise the crowns data (labels and rgb indices).
 #'
-#'
 #' @export
 #'
 #' @examples
