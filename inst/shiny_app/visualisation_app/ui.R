@@ -1,10 +1,13 @@
 library(shiny)
 library(shinythemes)
-library(tidyverse)
-library(shinyWidgets)
-library(plotly)
-library(colourpicker)
+library(dplyr)
 library(RColorBrewer)
+library(ggplot2)
+library(tidyr)
+library(shinyWidgets)
+library(stringr)
+library(colourpicker)
+
 
 
 

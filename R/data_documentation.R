@@ -73,3 +73,19 @@
 #' @keywords datasets internal
 #'
 "rgb_data"
+
+#' Vector to associate color to label
+#'
+#' Vector to associate color to label in ggplot
+#'
+#' @docType data
+#' @format
+#' A vector
+#'
+#' @usage data("color_label")
+#'
+#' @examples
+#' data('color_label')
+#' @keywords datasets internal
+#'
+"color_label"

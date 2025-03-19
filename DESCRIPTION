@@ -33,7 +33,11 @@ Imports:
     terra,
     tidyr,
     writexl,
-    openxlsx
+    openxlsx,
+    colourpicker,
+    shinyWidgets,
+    RColorBrewer,
+    shinythemes
 URL: https://github.com/umr-amap/canObsR,
 BugReports: https://github.com/umr-amap/canObsR/issues
 VignetteBuilder: knitr

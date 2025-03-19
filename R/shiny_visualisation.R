@@ -12,7 +12,14 @@
 #' # shiny_visualisation() # Run it
 #'
 #' @import shiny
-#'
+#' @import shinythemes
+#' @import shinyWidgets
+#' @import dplyr
+#' @import ggplot2
+#' @import tidyr
+#' @import colourpicker
+#' @import RColorBrewer
+#' @import stringr
 
 #https://deanattali.com/2015/04/21/r-package-shiny-app/
 

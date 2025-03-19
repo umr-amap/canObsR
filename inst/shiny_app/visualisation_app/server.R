@@ -211,8 +211,8 @@ server <- function(input, output, session) {
                id == input$id_choice ~ 'id',
                TRUE ~ 'other'
             )) %>%
-         dplyr::group_by(id) %>%
-         dplyr::mutate(y_lvl = min(value, na.rm = T)) %>%
+         group_by(id) %>%
+         mutate(y_lvl = min(value, na.rm = T)) %>%
          ungroup()
    })
 
