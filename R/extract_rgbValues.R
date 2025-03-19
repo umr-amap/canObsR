@@ -216,6 +216,11 @@ extract_rgbValues <-
                                                                   , sep = '_' )
          ))
 
+         print(paste('File has been written :',file.path(out_dir_path, paste('rgbValues',
+                                                                       paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
+                                                                       , sep = '_' )
+         )))
+
       }
 
       if(!is.null(out_dir_path) & file_type == '.csv'){
@@ -225,14 +230,24 @@ extract_rgbValues <-
                                                                   , sep = '_' )
          ))
 
+         print(paste('File has been written :',file.path(out_dir_path, paste('rgbValues',
+                                                                             paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
+                                                                             , sep = '_' )
+         )))
+
       }
 
       if(!is.null(out_dir_path) & file_type == '.xlsx'){
 
          write_xlsx(results.final, path = file.path(out_dir_path, paste('rgbValues',
-                                                                       paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
+                                                                       paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx')
                                                                        , sep = '_' )
          ))
+
+         print(paste('File has been written :',file.path(out_dir_path, paste('rgbValues',
+                                                                             paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx')
+                                                                             , sep = '_' )
+         )))
 
       }
 
