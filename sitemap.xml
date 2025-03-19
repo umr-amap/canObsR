@@ -10,6 +10,7 @@
 <url><loc>https://umr-amap.github.io/canObsR/reference/align_Mosa.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/check_availableCrowns.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/check_crownsFile.html</loc></url>
+<url><loc>https://umr-amap.github.io/canObsR/reference/color_label.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/create_files_architecture.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/create_labelingFile.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/create_nonNA_bbox.html</loc></url>
@@ -26,5 +27,6 @@
 <url><loc>https://umr-amap.github.io/canObsR/reference/plot_signal.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/rgb_data.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/shiny_labels.html</loc></url>
+<url><loc>https://umr-amap.github.io/canObsR/reference/shiny_visualisation.html</loc></url>
 </urlset>
 
