@@ -66,7 +66,8 @@ create_labelingFile <- function(
 
          if(!is.null(out_dir_path) ){
 
-            write.xlsx(results.final, file = file.path(out_dir_path, paste(site,'_labelingFile',
+
+            write.xlsx(labeling_file, file = file.path(out_dir_path, paste(site,'_labelingFile',
                                                                            paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx')
                                                                            , sep = '_' )
             ))
