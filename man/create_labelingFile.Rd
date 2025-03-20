@@ -13,10 +13,8 @@ create_labelingFile(path_crowns, site, dates, out_dir_path = NULL)
 
 \item{dates}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e c('2022_09_25','2022_10_10').}
 
-\item{out_dir_path}{chr. The path to the directory use to stored the images. By defaut it is NULL,
-the data will not be saved but will be return as tibble.}
-
-\item{file_type}{chr. Needed only if \code{out_dir_path} is not NULL. By default it is '.RData' but can be '.csv' or '.xlsx'.}
+\item{out_dir_path}{chr. The path to the directory used to store the images. By defaut it is NULL,
+the data will not be saved but will be return as tibble. If it is not NULL, an xlsx file will be saved.}
 }
 \value{
 A tibble with the variable site, id, family, genus, species, n, obs, update, date, phenophase and comments.

@@ -21,7 +21,7 @@
 #'
 #' @import dplyr
 #' @import tidyr
-#' @import stingr
+#' @import stringr
 
 merge_values <- function(data_labeling, rgb_data) {
 

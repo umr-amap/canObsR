@@ -5,10 +5,8 @@
 #' @param path_crowns  chr. Path to the crown delinetion shapefile
 #' @param site chr. site name (p.e "Bouamir").
 #' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e c('2022_09_25','2022_10_10').
-#' @param out_dir_path chr. The path to the directory use to stored the images. By defaut it is NULL,
-#' the data will not be saved but will be return as tibble.
-#' @param file_type chr. Needed only if `out_dir_path` is not NULL. By default it is '.RData' but can be '.csv' or '.xlsx'.
-
+#' @param out_dir_path chr. The path to the directory used to store the images. By defaut it is NULL,
+#' the data will not be saved but will be return as tibble. If it is not NULL, an xlsx file will be saved.
 #' @return A tibble with the variable site, id, family, genus, species, n, obs, update, date, phenophase and comments.
 #' where n, obs, update, phenophase and comments and comments will be NULL. This tibble can be used in the `shiny_labels()` applications to be filled.
 #'
@@ -65,37 +63,10 @@ create_labelingFile <- function(
             stop("The folder does not exist : ", out_dir_path)
          }
 
-         if(!is.null(out_dir_path) & file_type == '.RData'){
 
-            save(labeling_file, file = file.path(out_dir_path, paste(site,'_labelingFile',
-                                                                     paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
-                                                                     , sep = '_' )
-            ))
+         if(!is.null(out_dir_path) ){
 
-            print(paste('File has been written :',file.path(out_dir_path, paste(site,'_labelingFile',
-                                                                                paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
-                                                                                , sep = '_' )
-            )))
-
-         }
-
-         if(!is.null(out_dir_path) & file_type == '.csv'){
-
-            write.csv(results.final, file = file.path(out_dir_path, paste(site,'_labelingFile',
-                                                                          paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
-                                                                          , sep = '_' )
-            ))
-
-            print(paste('File has been written :',file.path(out_dir_path, paste(site,'_labelingFile',
-                                                                                paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
-                                                                                , sep = '_' )
-            )))
-
-         }
-
-         if(!is.null(out_dir_path) & file_type == '.xlsx'){
-
-            write.xlsx(results.final, path = file.path(out_dir_path, paste(site,'_labelingFile',
+            write.xlsx(results.final, file = file.path(out_dir_path, paste(site,'_labelingFile',
                                                                            paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx')
                                                                            , sep = '_' )
             ))
