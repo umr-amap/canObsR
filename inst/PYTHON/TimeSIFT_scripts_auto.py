@@ -25,6 +25,7 @@ parser.add_argument('--site_name', type=str, default = "")
 parser.add_argument('--calibrate_col', default = True)
 parser.add_argument('--sun_sensor', default = False)
 parser.add_argument('--group_by_flight', default = False)
+parser.add_argument('--from_mesh', default = False)
 parser.add_argument('--downscale_factor_alignement', type=int, default = 1)
 parser.add_argument('--downscale_factor_depth_map', type=int, default = 2)
 parser.add_argument('--suffix', type=str, default = "")
@@ -155,32 +156,12 @@ def split_TimeSIFT_chunk(doc, group_by_flight = False):
             t = [pattern in cam.label for cam in NewChunk.cameras]
             list_cameras = [NewChunk.cameras[i] for i, x in enumerate(t) if not x]
             NewChunk.remove(list_cameras)
-
-
-def merge_chunk_with_same_date(doc):
-    """
-    Not useful anymore. Merging by date now done in split_TIMESift_chunk
-    """
-    dates = []
-    Non_ts_chunks = [chk for chk in doc.chunks if re.search("TimeSIFT",chk.label) is None]
-    for chk in Non_ts_chunks:
-        chunk_date = chk.label[:8]
-        if chunk_date not in dates :
-            dates.append(chunk_date)
-    print("Dates : ", dates)
-    for date in dates:
-        chunks_to_merge = [chk.key for chk in Non_ts_chunks if chk.label[:8]==date]
-        doc.mergeChunks(chunks=chunks_to_merge)
-        merged_chunk = doc.chunks[-1]
-        merged_chunk.label = date
-        for chk in [chk for chk in Non_ts_chunks if chk.label[:8]==date]:  
-            doc.remove(chk)
-
     
 
-def process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = None, out_dir_DEM = None, site_name="", resol_ref = None, crs = None, downscale_factor_depth_map = 2, suffix = ""):
+def process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = None, out_dir_DEM = None, site_name="", resol_ref = None, crs = None, from_mesh=False, downscale_factor_depth_map = 2, suffix = ""):
     """
-    Generate depth map, dense cloud, DEM and orthomosaic for one image. Always saves orthomosaic and saves DEM if specified
+    Generate depth map, dense cloud, DEM and orthomosaic for one image. Always saves orthomosaic and saves DEM if specified. Can also create orthomosaic based on the mesh model, 
+    in which case the DEM will not be generated.
 
     Parameters:
     out_dir_ortho (str): 
@@ -202,10 +183,16 @@ def process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = None, out_di
         NewChunk.buildPointCloud(point_colors=True)
         t_dense_cloud = time.time()
         print(f"Time to build dense cloud : {t_dense_cloud - t_depth_maps} seconds")
-        NewChunk.buildDem(source_data=scan.PointCloudData,resolution=resol_ref)
-        t_DEM = time.time()
-        print(f"Time to build DEM : {t_DEM - t_dense_cloud} seconds")
-        NewChunk.buildOrthomosaic(surface_data=scan.ElevationData,resolution=resol_ref)
+        t_dense_cloud = time.time()
+        if from_mesh:
+            NewChunk.buildUV(mapping_mode=scan.AdaptiveOrthophotoMapping)
+            NewChunk.buildModel(source_data=scan.PointCloudData)
+            NewChunk.buildOrthomosaic(surface_data=scan.ModelData, resolution=resol_ref)
+        else:
+            NewChunk.buildDem(source_data=scan.PointCloudData, resolution=resol_ref)
+            t_DEM = time.time()
+            print(f"Time to build DEM : {t_DEM - t_dense_cloud} seconds")
+            NewChunk.buildOrthomosaic(surface_data=scan.ElevationData, resolution=resol_ref)
         t_ortho = time.time()
         print(f"Time to build ortho : {t_ortho - t_DEM} seconds")
         print(f"Total process time for the image : {t_ortho - start_time} seconds")
@@ -243,6 +230,7 @@ def Time_SIFT_process(pathDIR,
                       calibrate_col = True,
                       sun_sensor = False,
                       group_by_flight = False,
+                      from_mesh = False,
                       downscale_factor_alignement = 1,
                       downscale_factor_depth_map = 2,
                       suffix = "",
@@ -262,6 +250,7 @@ def Time_SIFT_process(pathDIR,
     :param bool calibrate_col: Whether or not to apply white balance. Defaults to True.
     :param bool sun_sensor: Whether or not to calibrate the reflectance using the sun sensor. Only applies to multispectral images. Defaults to False.
     :param bool group_by_flight: If True, regroups data by flight. Else, regroup it by date (default).
+    :param bool from_mesh: Generates the orthomosaics based on the mesh model rather than the DEM. In this case, the DEM will not be created.
     :param int downscale_factor_alignement: Alignment accuracy (0 - Highest, 1 - High, 2 - Medium, 4 - Low, 8 - Lowest). Defaults to 1.
     :param int downscale_factor_depth_map: Depth map quality (1 - Ultra high, 2 - High, 4 - Medium, 8 - Low, 16 - Lowest). Defaults to 2.
 
@@ -326,7 +315,6 @@ def Time_SIFT_process(pathDIR,
     doc.save(os.path.join(out_dir_ortho, '_temp_.psx'))
     
     split_TimeSIFT_chunk(doc, group_by_flight = group_by_flight)
-    #merge_chunk_with_same_date(doc)
     t_split = time.time()
     #print("Temps écoulé pour la division et regroupement par date : ", t_split - t_align)
     process_splited_TimeSIFT_chunks_one_by_one(doc, 
@@ -335,6 +323,7 @@ def Time_SIFT_process(pathDIR,
                                                site_name = site_name,
                                                resol_ref = resol_ref, 
                                                crs = crs, 
+                                               from_mesh = from_mesh,
                                                downscale_factor_depth_map = downscale_factor_depth_map, 
                                                suffix = suffix)
     print(f"Time spent for the final process for all images : {time.time() - t_split} seconds")
@@ -372,6 +361,7 @@ if __name__ == '__main__':
                       calibrate_col = args.calibrate_col,
                       sun_sensor = args.sun_sensor,
                       group_by_flight = args.group_by_flight,
+                      from_mesh = args.from_mesh,
                       downscale_factor_alignement = args.downscale_factor_alignement,
                       downscale_factor_depth_map = args.downscale_factor_depth_map,
                       suffix = args.suffix,
