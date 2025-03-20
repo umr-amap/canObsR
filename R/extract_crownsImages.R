@@ -48,6 +48,7 @@
 #'@importFrom grDevices jpeg
 #'@importFrom grDevices dev.off
 #'@importFrom magrittr "%>%"
+#'@import stringr
 #'@import sf
 #'@import dplyr
 #'@import foreach
@@ -71,8 +72,8 @@ extract_crownsImages <-
 
       # Import data -----------------------------------------------
 
-      crownsFile <-  sf::read_sf(path_crowns)
-      sf::st_geometry(crownsFile)='geometry'
+      crownsFile <-  read_sf(path_crowns)
+      st_geometry(crownsFile)='geometry'
 
       # check sites ------------------------------------------
       # sites should be NULL or a character vector
@@ -122,7 +123,7 @@ extract_crownsImages <-
       }
 
       # dates format should be 'yyymmdd' as character
-      if ( FALSE %in% (unique(stringr::str_length(dates) == 8)) ){
+      if ( FALSE %in% (unique(str_length(dates) == 8)) ){
          stop("## The format for the dates should be 'yyyymmdd'")
       }
 
@@ -146,7 +147,7 @@ extract_crownsImages <-
 
          if( i == 1 ){ crs_pb <- NULL }
 
-         check_crs <- (sf::st_crs( terra::rast(path_images[i]) ) == sf::st_crs(crownsFile))
+         check_crs <- (st_crs( rast(path_images[i]) ) == st_crs(crownsFile))
 
          if( !check_crs ){ crs_pb <- c(crs_pb, i) }
 
@@ -158,15 +159,15 @@ extract_crownsImages <-
 
       # Prepare crowns file -----------------------------------------------------
 
-      if( 'date' %in% base::names(crownsFile) ) { crownsFile <- crownsFile %>% dplyr::select(-date) }
-      crownsFile <- sf::st_make_valid(crownsFile) # remove invalide geometry
-      crowns_simplified = sf::st_simplify(crownsFile, dTolerance = .5)
+      if( 'date' %in% names(crownsFile) ) { crownsFile <- crownsFile %>% dplyr::select(-date) }
+      crownsFile <- st_make_valid(crownsFile) # remove invalide geometry
+      crowns_simplified = st_simplify(crownsFile, dTolerance = .5)
 
       crowns_simplified <-
          crowns_simplified %>%
          dplyr::filter(
-            !is.na(sf::st_dimension(crowns_simplified)) & # remove invalide geometry
-               sf::st_geometry_type(crowns_simplified) == "POLYGON" # remove incorrect polygon (polygons with nodes)
+            !is.na(st_dimension(crowns_simplified)) & # remove invalide geometry
+               st_geometry_type(crowns_simplified) == "POLYGON" # remove incorrect polygon (polygons with nodes)
          )
 
 
@@ -177,7 +178,7 @@ extract_crownsImages <-
       if(num_in_group<1){num_in_group=1}
 
       img_group <- data.frame(img = path_images) %>%
-         dplyr::mutate(
+         mutate(
 
             date = dates,
 
@@ -215,16 +216,16 @@ extract_crownsImages <-
       Funlist = list(fun_extract_img, img_group, crowns_simplified, out_dir_path = out_dir_path, tempdir_custom = tempdir_custom)
 
       # Do the job
-      cl <- parallel::makeCluster(length(unique(img_group$group_id)))
-      doParallel::registerDoParallel(cl)
-      foreach::foreach(i = unique(img_group$group_id),
+      cl <- makeCluster(length(unique(img_group$group_id)))
+      registerDoParallel(cl)
+      foreach(i = unique(img_group$group_id),
                        .packages = c("sf", "terra", "dplyr", "exactextractr","grDevices","stars")) %dopar% {
                           Funlist[[1]](i,
                                        img_group = Funlist[[2]],
                                        crowns_simplified = Funlist[[3]],
                                        out_dir_path =  Funlist[[4]],
                                        tempdir_custom = Funlist[[5]]) }
-      parallel::stopCluster(cl)
+      stopCluster(cl)
 
 
    }

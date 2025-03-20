@@ -18,7 +18,7 @@
 
 check_crownsFile <- function(path_crowns){
 
-   crownsFile <-  sf::read_sf(path_crowns)
+   crownsFile <-  read_sf(path_crowns)
 
    # Check variables names ---------------------------------------------------
 

@@ -4,16 +4,19 @@
 \alias{create_labelingFile}
 \title{Create xlsx labeling file}
 \usage{
-create_labelingFile(crownsFile, site, dates, path_out = NULL)
+create_labelingFile(path_crowns, site, dates, out_dir_path = NULL)
 }
 \arguments{
-\item{crownsFile}{sf or data.frame. Crowns file with at least the variables (id, family, genus, species)}
+\item{path_crowns}{chr. Path to the crown delinetion shapefile}
 
 \item{site}{chr. site name (p.e "Bouamir").}
 
 \item{dates}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e c('2022_09_25','2022_10_10').}
 
-\item{path_out}{The path where to save the xlsx file. If NULL, the file will not be exported and will be return as tibble.}
+\item{out_dir_path}{chr. The path to the directory use to stored the images. By defaut it is NULL,
+the data will not be saved but will be return as tibble.}
+
+\item{file_type}{chr. Needed only if \code{out_dir_path} is not NULL. By default it is '.RData' but can be '.csv' or '.xlsx'.}
 }
 \value{
 A tibble with the variable site, id, family, genus, species, n, obs, update, date, phenophase and comments.
@@ -21,18 +24,4 @@ where n, obs, update, phenophase and comments and comments will be NULL. This ti
 }
 \description{
 A function to create the xlsx file where to encode the phenophase.
-}
-\examples{
-
-library(canObsR)
-
-data(crowns)
-
-create_labelingFile(
-crowns,
-site = 'Site1',
-dates = c('2025_05_10','2025_05_20'),
-path_out = NULL
-)
-
 }

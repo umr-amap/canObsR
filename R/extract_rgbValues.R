@@ -41,12 +41,12 @@
 #' @importFrom stars read_stars
 #' @importFrom terra rast
 #' @importFrom stats var
+#' @importFrom openxlsx write.xlsx
 #' @import foreach
 #' @import parallel
 #' @import doParallel
 #' @import sf
 #' @import dplyr
-#' @import writexl
 #'
 extract_rgbValues <-
 
@@ -115,7 +115,7 @@ extract_rgbValues <-
       }
 
       # dates format should be 'yyymmdd' as character
-      if ( FALSE %in% (unique(stringr::str_length(dates) == 8)) ){
+      if ( FALSE %in% (unique(str_length(dates) == 8)) ){
          stop("## The format for the dates should be 'yyyymmdd'")
       }
 
@@ -138,7 +138,7 @@ extract_rgbValues <-
 
       for (i in 1:length(path_images)) {
 
-         check_crs <- (sf::st_crs( terra::rast(path_images[i]) ) == sf::st_crs(crownsFile))
+         check_crs <- (st_crs( rast(path_images[i]) ) == st_crs(crownsFile))
 
          if(!check_crs){
             stop("The crs from images and crownsFile do not match")
@@ -150,15 +150,15 @@ extract_rgbValues <-
 
 # Prepare crowns file -----------------------------------------------------
 
-      if( 'date' %in% base::names(crownsFile) ) { crownsFile <- crownsFile %>% dplyr::select(-date) }
-      crownsFile <- sf::st_make_valid(crownsFile) # remove invalide geometry
-      crowns_simplified = sf::st_simplify(crownsFile, dTolerance = .5)
+      if( 'date' %in% names(crownsFile) ) { crownsFile <- crownsFile %>% dplyr::select(-date) }
+      crownsFile <- st_make_valid(crownsFile) # remove invalide geometry
+      crowns_simplified = st_simplify(crownsFile, dTolerance = .5)
 
       crowns_simplified <-
          crowns_simplified %>%
          dplyr::filter(
-            !is.na(sf::st_dimension(crowns_simplified)) & # remove invalide geometry
-               sf::st_geometry_type(crowns_simplified) == "POLYGON" # remove incorrect polygon (polygons with nodes)
+            !is.na(st_dimension(crowns_simplified)) & # remove invalide geometry
+               st_geometry_type(crowns_simplified) == "POLYGON" # remove incorrect polygon (polygons with nodes)
          )
 
 
@@ -167,7 +167,7 @@ extract_rgbValues <-
       num_cores = ncor
       num_in_group <- floor(nrow(crowns_simplified) / num_cores)
       crowns_simplified <- crowns_simplified %>%
-         dplyr::mutate(
+         mutate(
             #--- create grid id ---#
             grid_id = 1:nrow(.),
             #--- assign group id  ---#
@@ -185,10 +185,10 @@ extract_rgbValues <-
          Funlist = list(fun_extract, path_images[j], crowns_simplified, dates[j], sites[j], tempdir_custom = tempdir_custom)
 
          # Do the job
-         cl <- parallel::makeCluster(num_cores2)
-         doParallel::registerDoParallel(cl)
+         cl <- makeCluster(num_cores2)
+         registerDoParallel(cl)
          results <- foreach(i = 1:num_cores2, .combine=rbind, .packages = c("sf", "terra", "dplyr", "exactextractr")) %dopar% { Funlist[[1]](i, Funlist[[2]], Funlist[[3]], Funlist[[4]], Funlist[[5]], Funlist[[6]]) }
-         parallel::stopCluster(cl)
+         stopCluster(cl)
 
          if(j == 1) { results.final = results }
          if(j >  1) { results.final = rbind(results.final, results) }
@@ -197,7 +197,7 @@ extract_rgbValues <-
 
       }
 
-      results.final <- results.final %>% dplyr::mutate (date = as.Date(date, '%Y%m%d'),
+      results.final <- results.final %>% mutate (date = as.Date(date, '%Y%m%d'),
                                                         site = as.factor(site),
                                                         family = as.factor(family),
                                                         genus = as.factor(genus),
@@ -211,12 +211,12 @@ extract_rgbValues <-
 
       if(!is.null(out_dir_path) & file_type == '.RData'){
 
-         save(results.final, file = file.path(out_dir_path, paste('rgbValues',
+         save(results.final, file = file.path(out_dir_path, paste(site[1],'_rgbValues',
                                                                   paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
                                                                   , sep = '_' )
          ))
 
-         print(paste('File has been written :',file.path(out_dir_path, paste('rgbValues',
+         print(paste('File has been written :',file.path(out_dir_path, paste(site[1],'_rgbValues',
                                                                        paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
                                                                        , sep = '_' )
          )))
@@ -225,12 +225,12 @@ extract_rgbValues <-
 
       if(!is.null(out_dir_path) & file_type == '.csv'){
 
-         write.csv(results.final, file = file.path(out_dir_path, paste('rgbValues',
+         write.csv(results.final, file = file.path(out_dir_path, paste(site[1],'_rgbValues',
                                                                   paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
                                                                   , sep = '_' )
          ))
 
-         print(paste('File has been written :',file.path(out_dir_path, paste('rgbValues',
+         print(paste('File has been written :',file.path(out_dir_path, paste(site[1],'_rgbValues',
                                                                              paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
                                                                              , sep = '_' )
          )))
@@ -239,12 +239,12 @@ extract_rgbValues <-
 
       if(!is.null(out_dir_path) & file_type == '.xlsx'){
 
-         write_xlsx(results.final, path = file.path(out_dir_path, paste('rgbValues',
+         write.xlsx(results.final, path = file.path(out_dir_path, paste(site[1],'_rgbValues',
                                                                        paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx')
                                                                        , sep = '_' )
          ))
 
-         print(paste('File has been written :',file.path(out_dir_path, paste('rgbValues',
+         print(paste('File has been written :',file.path(out_dir_path, paste(site[1],'_rgbValues',
                                                                              paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx')
                                                                              , sep = '_' )
          )))

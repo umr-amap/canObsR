@@ -39,27 +39,27 @@ create_nonNA_bbox <-
 
       for (i in 1:length(paths)) {
 
-         r = terra::rast(paths[i], lyrs = 1)
+         r = rast(paths[i], lyrs = 1)
          r[[1]][r[[1]] == 255 ] = NA
          r[[1]][!is.na(r[[1]])] = 1
 
          poly <- terra::as.polygons(r[[1]])
-         bbox <- sf::st_as_sf(poly) %>%
-            sf::st_boundary() %>%
-            dplyr::filter(!sf::st_is_empty(.)) %>%
-            sf::st_combine() %>%
-            sf::st_convex_hull() %>%
-            sf::st_as_sf() %>%
-            dplyr::rename("geometry" = "x") %>%
-            sf::st_cast(.,"POLYGON") %>%
-            dplyr::mutate(date = dates[i]) %>%
-            sf::st_transform(crs = sf::st_crs(r))
+         bbox <- st_as_sf(poly) %>%
+            st_boundary() %>%
+            dplyr::filter(!st_is_empty(.)) %>%
+            st_combine() %>%
+            st_convex_hull() %>%
+            st_as_sf() %>%
+            rename("geometry" = "x") %>%
+            st_cast(.,"POLYGON") %>%
+            mutate(date = dates[i]) %>%
+            st_transform(crs = sf::st_crs(r))
 
          if(is.null(filename)){filename = 'NonNAarea'}
 
          if(!is.null(out_dir_path)){
 
-            sf::write_sf(bbox, paste0(out_dir_path, '/', filename ,'_', dates[i], '.gpkg') )
+            write_sf(bbox, paste0(out_dir_path, '/', filename ,'_', dates[i], '.gpkg') )
             print(paste0('#### FILE has been written :', paste0(" '",out_dir_path, '/', filename ,'_', dates[i], '.gpkg',"'")))
 
          }

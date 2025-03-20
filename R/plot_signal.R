@@ -47,62 +47,62 @@ plot_signal <- function(data,
 
    if(!is.null(slcted_id)) {
 
-      data <- data %>% dplyr::mutate( highlight = ifelse(id==slcted_id, paste(slcted_id), "Other"))
+      data <- data %>% mutate( highlight = ifelse(id==slcted_id, paste(slcted_id), "Other"))
 
       data <- data %>%
-         dplyr::group_by(id, band) %>%
-         dplyr::mutate(y_lvl = (stats::quantile(value, na.rm = T, probs = 0.1) )) %>%
-         dplyr::ungroup()
+         group_by(id, band) %>%
+         mutate(y_lvl = (quantile(value, na.rm = T, probs = 0.1) )) %>%
+         ungroup()
    }
 
 
-   ggplot2::ggplot (data) +
+   ggplot (data) +
 
-      {if ( is.null(slcted_id) & !is.null(facet_by))   ggplot2::geom_line (data = data, ggplot2::aes (x = date, y = value, group = id, colour = band) ) } +
+      {if ( is.null(slcted_id) & !is.null(facet_by))   geom_line (data = data, aes (x = date, y = value, group = id, colour = band) ) } +
 
-      {if ( is.null(slcted_id) &  is.null(facet_by) )   ggplot2::geom_line (data = data, ggplot2::aes (x = date, y = value, group = id) ) } +
+      {if ( is.null(slcted_id) &  is.null(facet_by) )   geom_line (data = data, aes (x = date, y = value, group = id) ) } +
 
 
       {if ( !is.null(slcted_id) &  is.null(facet_by) )
-         ggplot2::geom_line (data = dplyr::filter(data, highlight != paste(slcted_id) ),
-                             ggplot2::aes(x = date, y = value, group = id),
+         geom_line (data = dplyr::filter(data, highlight != paste(slcted_id) ),
+                             aes(x = date, y = value, group = id),
                              colour = "lightgrey",
                              linewidth = 1)
       } +
 
       {if ( !is.null(slcted_id) &  !is.null(facet_by) )
-         ggplot2::geom_line (data = dplyr::filter(data, highlight != paste(slcted_id) ),
-                             ggplot2::aes(x = date, y = value, group = id),
+         geom_line (data = dplyr::filter(data, highlight != paste(slcted_id) ),
+                             aes(x = date, y = value, group = id),
                              colour = "lightgrey",
                              linewidth = 1)
       } +
 
       {if ( !is.null(slcted_id) &  is.null(facet_by) )
-         ggplot2::geom_line(data = dplyr::filter(data, highlight == paste(slcted_id)),
-                            ggplot2::aes(x = date, y = value, group = id),
+         geom_line(data = dplyr::filter(data, highlight == paste(slcted_id)),
+                           aes(x = date, y = value, group = id),
                             size = 2.5)
       } +
 
       {if (!is.null(slcted_id) &  !is.null(facet_by) )
-         ggplot2::geom_line(data = dplyr::filter(data, highlight == paste(slcted_id)),
-                            ggplot2::aes(x = date, y = value, group = id, colour = band),
+         geom_line(data = dplyr::filter(data, highlight == paste(slcted_id)),
+                            aes(x = date, y = value, group = id, colour = band),
                             size = 2.5)
       } +
 
 
       {if (!is.null(slcted_id) & show_Labels)
-         ggplot2::geom_point (data = dplyr::filter(data, highlight == paste(slcted_id) ),
-                              ggplot2::aes(x = date, y = y_lvl, colour = phenophase),
+         geom_point (data = dplyr::filter(data, highlight == paste(slcted_id) ),
+                              aes(x = date, y = y_lvl, colour = phenophase),
                               na.rm=TRUE, fontface = "bold", size = 2)
       } +
 
-      {if ( !is.null(facet_by) )  ggplot2::facet_grid( rows =  vars(get(facet_by)), scales = 'free') } +
+      {if ( !is.null(facet_by) )  facet_grid( rows =  vars(get(facet_by)), scales = 'free') } +
 
       {if ( !is.null(slcted_id) )
-         ggplot2::scale_fill_discrete()
+         scale_fill_discrete()
       }  +
 
-      ggplot2::ggtitle(title) +
+      ggtitle(title) +
 
       theme_classic()
 

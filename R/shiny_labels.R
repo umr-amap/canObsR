@@ -23,5 +23,5 @@ shiny_labels <- function(data_labeling) {
 
    # find and launch the app
    appDir <- system.file("shiny_app", "labeling_app", package = "canObsR")
-   shiny::runApp(appDir, display.mode = "normal")
+   runApp(appDir, display.mode = "normal")
 }

@@ -14,7 +14,7 @@
 #' @import dplyr
 #' @import tidyr
 #' @import stringr
-#' @importFrom readxl read_excel
+#' @importFrom openxlsx read.xlsx
 
 
 
@@ -23,11 +23,11 @@ pivot_Labels <- function(labels_path,
                          out_dir_path = NULL) {
 
    longLabels <- labels_path %>%
-      readxl::read_excel() %>%
-      tidyr::gather(-c(id, obs, comments, update, Usable_crown, n, site, species, genus, family),
+      read.xlsx() %>%
+      gather(-c(id, obs, comments, update, Usable_crown, n, site, species, genus, family),
                     key = date,
                     value = phenophase) %>%
-      dplyr::mutate(date = as.Date(date, "%Y_%m_%d"),
+      mutate(date = as.Date(date, "%Y_%m_%d"),
                     id = as.integer(id)) %>%
       dplyr::select(site, id, species, genus, family, n, date, phenophase, obs, comments, update, Usable_crown)
 
@@ -35,68 +35,68 @@ pivot_Labels <- function(labels_path,
    if(simplify_labels) {
 
       longLabels <- longLabels %>%
-         dplyr::mutate(phenophase =
-                          dplyr::case_when(
+         mutate(phenophase =
+                          case_when(
                              phenophase == "NA" ~ 'no_obs',
-                             stringr::str_detect(phenophase, 'Fr') ~ stringr::str_replace(phenophase, 'Fr', 'fr'),
-                             stringr::str_detect(phenophase, 'Fl') ~ stringr::str_replace(phenophase, 'Fl', 'fl'),
+                             str_detect(phenophase, 'Fr') ~ str_replace(phenophase, 'Fr', 'fr'),
+                             str_detect(phenophase, 'Fl') ~ str_replace(phenophase, 'Fl', 'fl'),
                              phenophase == "?" ~ NA,
-                             stringr::str_detect(phenophase, ',') ~ stringr::str_replace(phenophase, ',', '/'),
-                             stringr::str_detect(phenophase, "\\;$") ~ stringr::str_sub(phenophase, 1, nchar(phenophase)-1),
+                             str_detect(phenophase, ',') ~ str_replace(phenophase, ',', '/'),
+                             str_detect(phenophase, "\\;$") ~ str_sub(phenophase, 1, nchar(phenophase)-1),
                              TRUE ~ phenophase
                           )) %>%
 
-         dplyr::mutate(phenophase1 = phenophase) %>%
+         mutate(phenophase1 = phenophase) %>%
 
          tidyr::separate(phenophase1, c('PPfoliar','PPrepro'), ';', fill = "right") %>%
 
          tidyr::separate(PPfoliar, c('PPfoliar1','PPfoliar2'), '\\*', fill = "right") %>%
 
 
-         dplyr::mutate(
+         mutate(
 
-            PPfoliar2 = dplyr::case_when(
+            PPfoliar2 = case_when(
                !is.na(PPfoliar1) & is.na(PPfoliar2) ~ 'no_obs',
                TRUE ~ PPfoliar2
             ),
 
-            PPFlo = dplyr::case_when(
+            PPFlo = case_when(
                is.na(PPfoliar1) ~ NA,
-               stringr::str_detect(PPrepro, 'fl') ~ 1,
+               str_detect(PPrepro, 'fl') ~ 1,
                TRUE ~ 0
             ),
-            PPFr = dplyr::case_when(
+            PPFr = case_when(
                is.na(PPfoliar1) ~ NA,
-               stringr::str_detect(PPrepro, 'fr') ~ 1,
-               TRUE ~ 0
-            ),
-
-            PPFlo_uncertainty = dplyr::case_when(
-               is.na(PPfoliar1) ~ NA,
-               stringr::str_detect(PPrepro, '\\?') &  PPFlo == 1 ~ 1,
-               TRUE ~ 0
-            ),
-            PPFr_uncertainty = dplyr::case_when(
-               is.na(PPfoliar1) ~ NA,
-               stringr::str_detect(PPrepro, '\\?') &  PPFr == 1 ~ 1,
+               str_detect(PPrepro, 'fr') ~ 1,
                TRUE ~ 0
             ),
 
-            desynchr = dplyr::case_when(
+            PPFlo_uncertainty = case_when(
+               is.na(PPfoliar1) ~ NA,
+               str_detect(PPrepro, '\\?') &  PPFlo == 1 ~ 1,
+               TRUE ~ 0
+            ),
+            PPFr_uncertainty = case_when(
+               is.na(PPfoliar1) ~ NA,
+               str_detect(PPrepro, '\\?') &  PPFr == 1 ~ 1,
+               TRUE ~ 0
+            ),
+
+            desynchr = case_when(
                is.na(PPfoliar1) ~ NA,
                !is.na(PPfoliar2) &  PPfoliar2!= 'no_obs' ~ 1,
                TRUE ~ 0
             ),
 
-            PPfoliar1_uncertainty = dplyr::case_when(
+            PPfoliar1_uncertainty = case_when(
                is.na(PPfoliar1) ~ NA,
-               stringr::str_detect(PPfoliar1, '\\?') ~ 1,
+               str_detect(PPfoliar1, '\\?') ~ 1,
                TRUE ~ 0
             ),
 
-            PPfoliar2_uncertainty = dplyr::case_when(
+            PPfoliar2_uncertainty = case_when(
                is.na(PPfoliar2) ~ NA,
-               stringr::str_detect(PPfoliar2, '\\?') ~ 1,
+               str_detect(PPfoliar2, '\\?') ~ 1,
                TRUE ~ 0
             )
          )  %>%
@@ -113,8 +113,8 @@ pivot_Labels <- function(labels_path,
       longLabels <-
          longLabels %>%
          mutate(phenophase =
-                   dplyr::case_when(
-                      stringr::str_detect(phenophase, "\\;$") ~ stringr::str_sub(phenophase, 1, nchar(phenophase) - 1),
+                   case_when(
+                      str_detect(phenophase, "\\;$") ~ str_sub(phenophase, 1, nchar(phenophase) - 1),
                       TRUE ~ phenophase
                    ))
 

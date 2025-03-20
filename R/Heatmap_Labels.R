@@ -41,12 +41,12 @@ heatmap_Labels <-
       }
 
       longLabels <- longLabels %>%
-         dplyr::mutate(phenophase = dplyr::case_when(phenophase == 'NA' ~ NA, TRUE ~ phenophase)) %>%
+         mutate(phenophase = case_when(phenophase == 'NA' ~ NA, TRUE ~ phenophase)) %>%
          dplyr::group_by(id) %>%
-         dplyr::mutate(na = dplyr::case_when(length(unique(phenophase)) == 1 &
+         mutate(na = case_when(length(unique(phenophase)) == 1 &
                                                 NA %in% (unique(phenophase)) ~ TRUE, TRUE ~ FALSE)) %>%
          dplyr::filter(na == FALSE) %>%
-         dplyr::ungroup()
+         ungroup()
 
       if (nrow(longLabels) == 0) {
          stop("No label for this taxa")
@@ -56,7 +56,7 @@ heatmap_Labels <-
 
       if(!simplify) {
 
-         x <- stringr::str_split(longLabels$phenophase, '\\;', simplify = T)
+         x <- str_split(longLabels$phenophase, '\\;', simplify = T)
 
          longLabels$phenophase <- x[,1]
          if (ncol(x) == 2) { longLabels$repro <- x[,2] }
@@ -85,22 +85,22 @@ heatmap_Labels <-
       }
 
 
-      ggplot2::ggplot( longLabels, aes(date, id)) +
+     ggplot( longLabels, aes(date, id)) +
 
-         {if (!simplify)    ggplot2::geom_tile(aes( fill = phenophase))} +
-         {if (simplify)    ggplot2::geom_tile(aes( fill = PPfoliar1))} +
+         {if (!simplify)   geom_tile(aes( fill = phenophase))} +
+         {if (simplify)   geom_tile(aes( fill = PPfoliar1))} +
 
-         {if (!simplify & ncol == 2)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro), size = 2 )} +
+         {if (!simplify & ncol == 2)   geom_point ( aes(date, id, shape = repro, color = repro), size = 2 )} +
          {if (!simplify & ncol == 2)    scale_size(guide = 'none') } +
 
-         {if (simplify)    ggplot2::geom_point ( aes(date, id, shape = repro, color = repro), size = 2 )} +
+         {if (simplify)   geom_point ( aes(date, id, shape = repro, color = repro), size = 2 )} +
          {if (simplify)    scale_size(guide = 'none') } +
 
-         ggplot2::scale_fill_manual ( values = color_label ) +
-         ggplot2::scale_color_manual ( values = color_pheno ) +
-         ggplot2::scale_shape_manual ( values = shape_pheno ) +
+        scale_fill_manual ( values = color_label ) +
+        scale_color_manual ( values = color_pheno ) +
+        scale_shape_manual ( values = shape_pheno ) +
 
-         ggplot2::ggtitle(title) +
+        ggtitle(title) +
 
          theme(
             panel.background = element_blank(),

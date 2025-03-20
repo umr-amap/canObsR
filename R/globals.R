@@ -79,9 +79,9 @@ plot_nodata <- function() {
 #'
 #' @import stringr
 extr_dates <- function(names_img, n = 2, sep = '_', extension = '.gpkg') {
-   dates <- stringr::str_split(names_img, '_', simplify = TRUE)[,n] %>% str_remove(., extension)
+   dates <- str_split(names_img, '_', simplify = TRUE)[,n] %>% str_remove(., extension)
    if(sep == '_'){
-      dates <- paste(stringr::str_sub(dates,1,4),stringr::str_sub(dates,5,6),stringr::str_sub(dates,7,8), sep = '_')
+      dates <- paste(str_sub(dates,1,4),str_sub(dates,5,6),str_sub(dates,7,8), sep = '_')
    }
    if(sep == ''){
       dates <- dates
@@ -170,6 +170,7 @@ fun_extract = function(i, path, crowns_simplified, date, site, tempdir_custom)
 }
 
 fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path, tempdir_custom){
+
 
    if(!is.null(tempdir_custom)) {
 

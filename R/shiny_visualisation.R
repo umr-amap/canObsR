@@ -26,5 +26,5 @@ shiny_visualisation <- function() {
 
    # find and launch the app
    appDir <- system.file("shiny_app", "visualisation_app", package = "canObsR")
-   shiny::runApp(appDir, display.mode = "normal")
+   runApp(appDir, display.mode = "normal")
 }
