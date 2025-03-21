@@ -5,7 +5,6 @@ server <- function(input,output,session){
 
    data <- reactiveVal(.GlobalEnv$.aecay.labels) # All data
 
-
    input_values <- reactiveValues(
       fam_choice = '',
       gen_choice = '',
@@ -38,21 +37,13 @@ server <- function(input,output,session){
 
    selected_sp <- reactive({
       req(input$gen_choice)
-      sp <- c('',sort(unique(data()$species[data()$genus == input$gen_choice])))
-
-      sp[is.na(sp)] <- 'NA'
-
-      sp
-
+      c('',sort(unique(data()$species[data()$family == input$fam_choice & data()$genus == input$gen_choice])))
    })
 
    selected_id <- reactive({
       req(input$sp_choice)
-      if(input$sp_choice == 'NA'){
-         sort(unique(data()$id[is.na(data()$species) & data()$genus == input$gen_choice]))
-      }else{
-         sort(unique(data()$id[data()$species == input$sp_choice]))
-      }
+      sort(unique(data()$id[data()$family == input$fam_choice & data()$species == input$sp_choice & data()$genus == input$gen_choice]))
+
    })
 
 
