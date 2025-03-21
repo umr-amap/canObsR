@@ -4,7 +4,7 @@
 #'
 #' @param path_crowns  chr. Path to the crown delinetion shapefile
 #' @param site chr. site name (p.e "Bouamir").
-#' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e c('2022_09_25','2022_10_10').
+#' @param dates chr. vector of dates (format should be '%Y-%m-%d' or '%Y%m%d' or '%Y_%m_%d').
 #' @param out_dir_path chr. The path to the directory used to store the images. By defaut it is NULL,
 #' the data will not be saved but will be return as tibble. If it is not NULL, an xlsx file will be saved.
 #' @return A tibble with the variable site, id, family, genus, species, n, obs, update, date, phenophase and comments.
@@ -14,6 +14,7 @@
 #' @export
 #'
 #' @import dplyr
+#' @import stringr
 #' @importFrom openxlsx write.xlsx
 #' @importFrom magrittr "%>%"
 
@@ -25,6 +26,23 @@ create_labelingFile <- function(
    ){
 
 
+
+# Check dates format ------------------------------------------------------
+
+   if (!is.na(as.Date(unique(dates), "%Y-%m-%d"))){
+
+      dates <- str_replace_all(dates,'-','_')
+   }
+
+   if (!is.na(as.Date(unique(dates), "%Y%m%d"))){
+
+      dates <- paste(str_sub(dates,1,4),str_sub(dates,5,6),str_sub(dates,7,8),sep='_')
+   }
+
+   if (is.na(as.Date(unique(dates), "%Y_%m_%d"))){
+
+      stop(paste("Format of dates should be '%Y-%m-%d' or '%Y%m%d' or '%Y_%m_%d'"))
+   }
 
 # Extract id, species, genus, family from the crowns file ------------------------------------
 

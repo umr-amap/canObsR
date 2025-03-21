@@ -3,7 +3,7 @@ server <- function(input,output,session){
 
 # Reactive values ---------------------------------------------------------
 
-   data <- reactiveVal(data_labeling) # All data
+   data <- reactiveVal(.GlobalEnv$.aecay.dataset) # All data
 
 
    input_values <- reactiveValues(

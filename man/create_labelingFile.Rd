@@ -11,7 +11,7 @@ create_labelingFile(path_crowns, site, dates, out_dir_path = NULL)
 
 \item{site}{chr. site name (p.e "Bouamir").}
 
-\item{dates}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e c('2022_09_25','2022_10_10').}
+\item{dates}{chr. vector of dates (format should be '\%Y-\%m-\%d' or '\%Y\%m\%d' or '\%Y_\%m_\%d').}
 
 \item{out_dir_path}{chr. The path to the directory used to store the images. By defaut it is NULL,
 the data will not be saved but will be return as tibble. If it is not NULL, an xlsx file will be saved.}

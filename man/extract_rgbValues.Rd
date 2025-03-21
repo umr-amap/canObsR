@@ -7,7 +7,7 @@
 extract_rgbValues(
   path_images,
   path_crowns,
-  out_dir_path,
+  out_dir_path = NULL,
   ncor = 1,
   sites = NULL,
   dates = NULL,
