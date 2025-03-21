@@ -38,12 +38,11 @@ server <- function(input,output,session){
 
    selected_sp <- reactive({
       req(input$gen_choice)
+      sp <- c('',sort(unique(data()$species[data()$genus == input$gen_choice])))
 
-      if(is.null(unique(data()$species[data()$genus == input$gen_choice]))){
-         c('','NA')
-      }else{
-         c('',sort(unique(data()$species[data()$genus == input$gen_choice])))
-      }
+      sp[is.na(sp)] <- 'NA'
+
+      sp
 
    })
 
