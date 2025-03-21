@@ -3,7 +3,7 @@ server <- function(input,output,session){
 
 # Reactive values ---------------------------------------------------------
 
-   data <- reactiveVal(.GlobalEnv$.aecay.dataset) # All data
+   data <- reactiveVal(.GlobalEnv$.aecay.labels) # All data
 
 
    input_values <- reactiveValues(
@@ -38,12 +38,22 @@ server <- function(input,output,session){
 
    selected_sp <- reactive({
       req(input$gen_choice)
-      c('',sort(unique(data()$species[data()$genus == input$gen_choice])))
+
+      if(is.null(unique(data()$species[data()$genus == input$gen_choice]))){
+         c('','NA')
+      }else{
+         c('',sort(unique(data()$species[data()$genus == input$gen_choice])))
+      }
+
    })
 
    selected_id <- reactive({
       req(input$sp_choice)
-      sort(unique(data()$id[data()$species == input$sp_choice]))
+      if(input$sp_choice == 'NA'){
+         sort(unique(data()$id[is.na(data()$species) & data()$genus == input$gen_choice]))
+      }else{
+         sort(unique(data()$id[data()$species == input$sp_choice]))
+      }
    })
 
 
@@ -202,22 +212,48 @@ server <- function(input,output,session){
             columns = 'phenophase',
             fontWeight = "bold",
             # target = 'row',
-            backgroundColor = styleEqual("L", c("darkgreen"))) %>%
+            backgroundColor = styleEqual(c(
+               "L", "L?", "L/F", "F/L", "L/F?", "F/L?", "L;fl", "L;fr",
+               "L;fl?", "L;fr?", "L*F/L", "L*L/D", "L*D", "L*D?"
+            ), c("green4"))) %>%
          # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
          formatStyle(
             columns = 'phenophase',
             # target = 'row',
-            backgroundColor = styleEqual("F", c("green"))) %>%
+            backgroundColor = styleEqual(c("F", "F?", "F;fl", "F;fr", "F;fl?", "F;fr?",
+                                           "F*L/D?", "F*L?", "F*L"), c("green"))) %>%
          # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
          formatStyle(
             columns = 'phenophase',
             # target = 'row',
-            backgroundColor = styleEqual(c("D/L",'L/D','D/F'), c("lightgreen"))) %>%
+            backgroundColor = styleEqual(c(
+               "L/D", "D/L", "L/D?", "D/L?", "L/D;fr", "L/D;fr?", "L/D;fl", "L/D;fl?"), c("lightgreen"))) %>%
          # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
          formatStyle(
             columns = 'phenophase',
             # target = 'row',
-            backgroundColor = styleEqual("D", c("red")))%>%
+            backgroundColor = styleEqual(c(
+               'D/F', "F/D", 'D/F?', "F/D?"), c("green3"))) %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = 'phenophase',
+            # target = 'row',
+            backgroundColor = styleEqual(c("D", "D?", "D*L", "D*L?"), c("red"))) %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = 'phenophase',
+            # target = 'row',
+            backgroundColor = styleEqual(c( "D*F","D*F?","F*D","F*D?"), c("cyan4"))) %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = 'phenophase',
+            # target = 'row',
+            backgroundColor = styleEqual(c("L*F?","L*F"), c("cyan3")))  %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = 'phenophase',
+            # target = 'row',
+            backgroundColor = styleEqual(c("L/D*F","L/D*F?","F*L/D?","F*L/D?"), c("lightblue"))) %>%
          formatStyle(
             # On peut appliquer le style à toutes les colonnes avec target = 'row'
             columns = 'date',
@@ -243,8 +279,8 @@ server <- function(input,output,session){
       req(input$id_choice, current_index())
 
       sp_data <- data() %>%
-         dplyr::group_by(id) %>%
-         dplyr::mutate(na = dplyr::case_when(length(unique(phenophase)) == 1 &
+         group_by(id) %>%
+         mutate(na = case_when(length(unique(phenophase)) == 1 &
                                                 NA %in% (unique(phenophase)) ~ TRUE, TRUE ~ FALSE)) %>%
          summarise(n = sum(na) / n(),
                    species = unique(species)) %>%

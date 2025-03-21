@@ -24,9 +24,6 @@
 
 shiny_visualisation <- function(data_labeling) {
 
-   # find and launch the app
-   .GlobalEnv$.aecay.dataset <- data_labeling
-   on.exit(rm(.aecay.dataset, envir=.GlobalEnv))
    appDir <- system.file("shiny_app", "visualisation_app", package = "canObsR")
    runApp(appDir, display.mode = "normal")
 }

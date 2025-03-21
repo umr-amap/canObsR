@@ -21,6 +21,9 @@
 
 shiny_labels <- function(data_labeling) {
 
+   .GlobalEnv$.aecay.labels <- data_labeling
+   on.exit(rm(.aecay.labels, envir=.GlobalEnv))
+
    # find and launch the app
    appDir <- system.file("shiny_app", "labeling_app", package = "canObsR")
    runApp(appDir, display.mode = "normal")
