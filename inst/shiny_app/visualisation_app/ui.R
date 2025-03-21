@@ -18,9 +18,9 @@ ui <- fluidPage(
    sidebarLayout(
       sidebarPanel(
          fileInput("file", "Importer un fichier CSV", accept = ".csv"),
-         shiny::textInput(inputId = "new_filename",
-                          label = "New filename",
-                          value = paste0(file.path(Sys.getenv("USERPROFILE"), "Desktop"),'/copy_labeling_file_',format(Sys.Date(), "%Y_%m_%d"),'.xlsx')
+         shiny::textInput(inputId = "image_folder",
+                          label = "Images folder",
+                          value = paste0('MY-PATH-TO-THE-IMAGES-FOLDER')
          ),
          selectInput("sp_choice", "Espèce", choices = NULL),
          selectInput("id_choice", "ID de l'arbre", choices = NULL),

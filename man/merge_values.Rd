@@ -4,7 +4,12 @@
 \alias{merge_values}
 \title{Merge labels and rgb values}
 \usage{
-merge_values(data_labeling, rgb_data)
+merge_values(
+  data_labeling,
+  rgb_data,
+  out_dir_path = NULL,
+  file_type = ".RData"
+)
 }
 \arguments{
 \item{data_labeling}{\code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.}

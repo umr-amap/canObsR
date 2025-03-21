@@ -215,9 +215,6 @@ fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path, tempdi
 
          tmp_id <- crowns_simplified$id[k]
          tmp_sp <- crowns_simplified$species[k]
-         if (tmp_sp == "indet") {
-            tmp_sp <- crowns_simplified$genus[k]
-         }
          tmp_crown <- crowns_simplified[k, ]
          tmp_dir <- paste0(out_dir_path, "/crown_", tmp_id, "_", tmp_sp)
 

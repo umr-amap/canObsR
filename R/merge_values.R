@@ -23,7 +23,10 @@
 #' @import tidyr
 #' @import stringr
 
-merge_values <- function(data_labeling, rgb_data) {
+merge_values <- function(data_labeling,
+                         rgb_data,
+                         out_dir_path = NULL,
+                         file_type = '.RData') {
 
    data_labeling <- data_labeling %>% dplyr::mutate(phenophase = case_when(phenophase ==
                                                                                      "NA" ~ "no_obs", str_detect(phenophase, "Fr") ~ str_replace(phenophase, "Fr", "fr"), str_detect(phenophase, "Fl") ~ str_replace(phenophase, "Fl", "fl"), phenophase == "?" ~ NA, str_detect(phenophase, ",") ~ str_replace(phenophase, ",", "/"), str_detect(phenophase, "\\;$") ~
@@ -96,6 +99,48 @@ merge_values <- function(data_labeling, rgb_data) {
    merge_data <- left_join(rgb_data, data_labeling, by = c('id','date'), relationship = "many-to-one") %>%
       dplyr::select(site, id, date, family, genus, species, phenophase, type, metric, band, value,
                     PPfoliar1, PPfoliar2, PPFlo, PPFr, PPFlo_uncertainty, PPFr_uncertainty, desynchr, PPfoliar2_uncertainty, obs, comments, update, Usable_crown)
+
+
+   if(!is.null(out_dir_path) & file_type == '.RData'){
+
+      save(merge_data, file = file.path(out_dir_path, paste(sites[1],'merge_data',
+                                                               paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
+                                                               , sep = '_' )
+      ))
+
+      print(paste('File has been written :',file.path(out_dir_path, paste(sites[1],'merge_data',
+                                                                          paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
+                                                                          , sep = '_' )
+      )))
+
+   }
+
+   if(!is.null(out_dir_path) & file_type == '.csv'){
+
+      write.csv(merge_data, file = file.path(out_dir_path, paste(sites[1],'merge_data',
+                                                                    paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
+                                                                    , sep = '_' )
+      ))
+
+      print(paste('File has been written :',file.path(out_dir_path, paste(sites[1],'merge_data',
+                                                                          paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
+                                                                          , sep = '_' )
+      )))
+
+   }
+
+   if(!is.null(out_dir_path) & file_type == '.xlsx'){
+
+      write.xlsx(merge_data, file = file.path(out_dir_path, paste(sites[1],'merge_data',
+                                                                     paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx')
+                                                                     , sep = '_' )
+      ))
+
+      print(paste('File has been written :',file.path(out_dir_path, paste(sites[1],'merge_data',
+                                                                          paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx')
+                                                                          , sep = '_' )
+      )))
+   }
 
    return(merge_data)
 

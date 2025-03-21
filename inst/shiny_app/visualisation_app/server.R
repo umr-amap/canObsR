@@ -307,7 +307,7 @@ server <- function(input, output, session) {
 
          filename <-
             normalizePath(file.path(
-               input$new_filename,
+               input$image_folder,
                paste0('crown_', input$id_choice, '_', slcted_sp),
                paste0(
                   'crown_',

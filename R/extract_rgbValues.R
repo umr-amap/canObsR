@@ -211,12 +211,12 @@ extract_rgbValues <-
 
       if(!is.null(out_dir_path) & file_type == '.RData'){
 
-         save(results.final, file = file.path(out_dir_path, paste(site[1],'_rgbValues',
+         save(results.final, file = file.path(out_dir_path, paste(sites[1],'rgbValues',
                                                                   paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
                                                                   , sep = '_' )
          ))
 
-         print(paste('File has been written :',file.path(out_dir_path, paste(site[1],'_rgbValues',
+         print(paste('File has been written :',file.path(out_dir_path, paste(sites[1],'rgbValues',
                                                                        paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.RData')
                                                                        , sep = '_' )
          )))
@@ -225,12 +225,12 @@ extract_rgbValues <-
 
       if(!is.null(out_dir_path) & file_type == '.csv'){
 
-         write.csv(results.final, file = file.path(out_dir_path, paste(site[1],'_rgbValues',
+         write.csv(results.final, file = file.path(out_dir_path, paste(sites[1],'rgbValues',
                                                                   paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
                                                                   , sep = '_' )
          ))
 
-         print(paste('File has been written :',file.path(out_dir_path, paste(sites[1],'_rgbValues',
+         print(paste('File has been written :',file.path(out_dir_path, paste(sites[1],'rgbValues',
                                                                              paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.csv')
                                                                              , sep = '_' )
          )))
@@ -239,12 +239,12 @@ extract_rgbValues <-
 
       if(!is.null(out_dir_path) & file_type == '.xlsx'){
 
-         write.xlsx(results.final, file = file.path(out_dir_path, paste(sites[1],'_rgbValues',
+         write.xlsx(results.final, file = file.path(out_dir_path, paste(sites[1],'rgbValues',
                                                                        paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx')
                                                                        , sep = '_' )
          ))
 
-         print(paste('File has been written :',file.path(out_dir_path, paste(sites[1],'_rgbValues',
+         print(paste('File has been written :',file.path(out_dir_path, paste(sites[1],'rgbValues',
                                                                              paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx')
                                                                              , sep = '_' )
          )))
