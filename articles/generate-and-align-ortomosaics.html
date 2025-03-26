@@ -146,29 +146,30 @@ reference.</p>
 <code class="sourceCode R"><span><span class="va">dir_mosa</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'2_orthomosaics'</span><span class="op">)</span></span>
 <span><span class="va">out_dir_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'3_orthomosaics_aligned'</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">PATHs.df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="va">dir_mosa</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
-<span><span class="va">PATHs.df</span> <span class="op">=</span> <span class="va">PATHs.df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="va">PATHs.df</span>, pattern<span class="op">=</span><span class="st">".tif"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="va">PATHs.df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="va">PATHs.df</span><span class="op">)</span></span>
-<span><span class="va">PATHs.df</span><span class="op">$</span><span class="va">output_mosa_name</span> <span class="op">=</span> <span class="cn">NA</span></span>
 <span></span>
-<span><span class="va">PATHs.df</span><span class="op">$</span><span class="va">path_ref</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'3_orthomosaics_aligned'</span><span class="op">)</span></span>
+<span><span class="va">PATHs.df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>   path.in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="va">dir_mosa</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
+<span>   output_mosa_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="va">dir_mosa</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>   path_ref <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add reference used for each mosaic</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">PATHs.df</span><span class="op">)</span><span class="op">)</span>                      </span>
 <span><span class="op">{</span></span>
-<span>  <span class="co"># name of the ouput mosaic</span></span>
-<span>  <span class="va">tmp</span> <span class="op">=</span> <span class="va">PATHs.df</span><span class="op">$</span><span class="va">path_in</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
-<span>  <span class="va">tmp</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="st">"/"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span>  <span class="va">PATHs.df</span><span class="op">$</span><span class="va">output_mosa_name</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="va">filename_out</span> <span class="op">=</span> <span class="va">tmp</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">i</span><span class="op">!=</span><span class="fl">1</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">i</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span><span class="op">{</span></span>
+<span>     <span class="va">PATHs.df</span><span class="op">$</span><span class="va">path_ref</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'Bouamir_LiDAR_ref.tif'</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="kw">else</span><span class="op">{</span></span>
 <span>     <span class="va">PATHs.df</span><span class="op">$</span><span class="va">path_ref</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">out_dir_path</span>, <span class="va">PATHs.df</span><span class="op">$</span><span class="va">output_mosa_name</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> </span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span>
 <span></span>
+<span><span class="co"># Do the alignement with the dynamic alignment process</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">PATHs.df</span><span class="op">)</span><span class="op">)</span> </span>
 <span><span class="op">{</span></span>
 <span>  <span class="va">path_in</span> <span class="op">=</span> <span class="va">PATHs.df</span><span class="op">$</span><span class="va">path_in</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
 <span>  <span class="va">ref_filepath</span> <span class="op">=</span> <span class="va">PATHs.df</span><span class="op">$</span><span class="va">path_ref</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
 <span>  </span>
-<span>  <span class="fu">arosics</span><span class="op">(</span>path_in <span class="op">=</span> <span class="va">path_in</span>,</span>
+<span>  <span class="fu"><a href="../reference/align_Mosa.html">align_Mosa</a></span><span class="op">(</span>path_in <span class="op">=</span> <span class="va">path_in</span>,</span>
 <span>        ref_filepath <span class="op">=</span> <span class="va">ref_filepath</span>,</span>
 <span>        out_dir_path <span class="op">=</span> <span class="va">out_dir_path</span>,</span>
 <span>        corr_type <span class="op">=</span> <span class="st">"local"</span>,</span>
@@ -181,6 +182,11 @@ reference.</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"&lt;!&gt; DONE &lt;!&gt;"</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"######################################"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="img%2FdynamicCorr.gif" alt="Dynamic process of generating and aligning orthomosaics with test data" width="100%"><p class="caption">
+Dynamic process of generating and aligning orthomosaics with test data
+</p>
+</div>
 <p>Note : in this case, both the input and reference images are
 potentially heavy mosaics. Depending on their size, it may be useful to
 downgrade their resolution to get a faster result without much impact on
