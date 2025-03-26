@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   generate-and-align-ortomosaics: generate-and-align-ortomosaics.html
   workflow: workflow.html
-last_built: 2025-03-26T10:04Z
+last_built: 2025-03-26T10:27Z
 urls:
   reference: https://umr-amap.github.io/canObsR/reference
   article: https://umr-amap.github.io/canObsR/articles
