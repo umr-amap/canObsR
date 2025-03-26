@@ -68,29 +68,30 @@ Here follows a snippet of code that allows you to do just that : the first image
 dir_mosa = file.path(my_path, '2_orthomosaics')
 out_dir_path = file.path(my_path, '3_orthomosaics_aligned')
 
-PATHs.df = dir(dir_mosa, full.names = T)
-PATHs.df = PATHs.df[which(grepl(PATHs.df, pattern=".tif"))]
-PATHs.df = data.frame(path_in = PATHs.df)
-PATHs.df$output_mosa_name = NA
 
-PATHs.df$path_ref = file.path(my_path, '3_orthomosaics_aligned')
+PATHs.df = data.frame(
+   path.in = dir(dir_mosa, full.names = T),
+   output_mosa_name = basename(dir(dir_mosa, full.names = T)),
+   path_ref = NA
+)
+
+# Add reference used for each mosaic
 for(i in 1:nrow(PATHs.df))                      
 {
-  # name of the ouput mosaic
-  tmp = PATHs.df$path_in[i]
-  tmp = strsplit(tmp, "/")[[1]]
-  PATHs.df$output_mosa_name[i] = filename_out = tmp[4]
-  if (i!=1){
+  if (i==1){
+     PATHs.df$path_ref[i] = file.path(my_path, 'Bouamir_LiDAR_ref.tif')
+  }else{
      PATHs.df$path_ref[i] = paste0(out_dir_path, PATHs.df$output_mosa_name[i-1]) 
   }
 }
 
+# Do the alignement with the dynamic alignment process
 for(i in 1:nrow(PATHs.df)) 
 {
   path_in = PATHs.df$path_in[i]
   ref_filepath = PATHs.df$path_ref[i]
   
-  arosics(path_in = path_in,
+  align_Mosa(path_in = path_in,
         ref_filepath = ref_filepath,
         out_dir_path = out_dir_path,
         corr_type = "local",
@@ -103,6 +104,9 @@ for(i in 1:nrow(PATHs.df))
   print("<!> DONE <!>")
   print("######################################")
 }
+```
+```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Dynamic process of generating and aligning orthomosaics with test data", message=FALSE, warning=FALSE, out.width='100%'}
+knitr::include_graphics("img/dynamicCorr.gif")
 ```
 
 Note : in this case, both the input and reference images are potentially heavy mosaics. Depending on their size, it may be useful to downgrade their resolution to get a faster result without much impact on quality.  
