@@ -45,14 +45,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/Extract-crowns-data.html">Extract-crowns-data</a></li>
-    <li><a class="dropdown-item" href="articles/generate-and-align-ortomosaics.html">Generate and align ortomosaics</a></li>
-    <li><a class="dropdown-item" href="articles/workflow.html">workflow</a></li>
-  </ul>
-</li>
+<li class="nav-item"><a class="nav-link" href="articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -121,7 +114,19 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Imports</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/umr-amap/canObsR" class="external-link">canObsR</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/umr-amap/canObsR" class="external-link">canObsR</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'colourpicker::runExample'</span></span>
+<span><span class="co">#&gt; par 'shiny::runExample' lors du chargement de 'canObsR'</span></span>
+<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'dplyr::intersect' par</span></span>
+<span><span class="co">#&gt; 'terra::intersect' lors du chargement de 'canObsR'</span></span>
+<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'shinyWidgets::panel' par</span></span>
+<span><span class="co">#&gt; 'terra::panel' lors du chargement de 'canObsR'</span></span>
+<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'dplyr::union' par</span></span>
+<span><span class="co">#&gt; 'terra::union' lors du chargement de 'canObsR'</span></span>
+<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'terra::extract' par</span></span>
+<span><span class="co">#&gt; 'tidyr::extract' lors du chargement de 'canObsR'</span></span>
+<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'terra::quantile' par</span></span>
+<span><span class="co">#&gt; 'stats::quantile' lors du chargement de 'canObsR'</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Python env creation</span></span>
 <span><span class="va">env_name</span> <span class="op">&lt;-</span> <span class="st">"canObsR_env"</span>   <span class="co"># use the name you want for your environment</span></span>
@@ -156,7 +161,7 @@
 <div class="section level1">
 <h1 id="generate-orthomosaics">Generate orthomosaics<a class="anchor" aria-label="anchor" href="#generate-orthomosaics"></a>
 </h1>
-<p>One of the main functions of the package is to generate orthomosaics and to align them in R, using Metashape and <a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>. To guide you step by step into the workflow, you should download the <a href="https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw" class="external-link">test dataset</a> and follow <a href="https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html" class="external-link">the article</a>.</p>
+<p>One of the main functions of the package is to generate orthomosaics and to align them in R, using Metashape and <a href="https://github.com/GFZ/arosics" class="external-link">AROSICS</a>. To guide you step by step into the workflow, you should download the <a href="https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw" class="external-link">test dataset</a> and follow <a href="https://umr-amap.github.io/canObsR/articles/generate-and-align-ortomosaics.html">the article</a>.</p>
 <div class="figure" style="text-align: center">
 <img src="reference/figures/generate_mosaics.JPG" alt="Generate orthomosaics" width="100%"><p class="caption">
 Generate orthomosaics

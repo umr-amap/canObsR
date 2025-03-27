@@ -43,14 +43,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/Extract-crowns-data.html">Extract-crowns-data</a></li>
-    <li><a class="dropdown-item" href="../articles/generate-and-align-ortomosaics.html">Generate and align ortomosaics</a></li>
-    <li><a class="dropdown-item" href="../articles/workflow.html">workflow</a></li>
-  </ul>
-</li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -88,13 +81,21 @@
 
     
     
+<p><img src="img%2FImage1.jpg" width="100%" style="display: block; margin: auto;"></p>
+<p>Here is a short example to guide you step by step through the
+extraction of crown scale data. All you need to start it is a <em>RGB
+orthomosaics time serie</em> and a <em>shape file of the crown
+delineations</em>. To run the following code you can use the outputs of
+the of the <a href="https://umr-amap.github.io/canObsR/articles/generate-and-align-ortomosaics.html">Generate
+ans align orthomosaics article</a> or directly download the test data
+(link is coming).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/umr-amap/canObsR" class="external-link">canObsR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ycphs.github.io/openxlsx/index.html" class="external-link">openxlsx</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">############## Set variables -------------------------------------------------------------</span></span>
+<span><span class="co">############## Set variables ---------------------------------------------------</span></span>
 <span></span>
 <span><span class="co"># Path to the main directory</span></span>
 <span><span class="va">path</span> <span class="op">=</span> <span class="st">'XXXX/canObsR_data'</span></span>
@@ -103,10 +104,8 @@
 <span><span class="va">imgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'3_orthomosaics_aligned'</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Extract the dates of the images</span></span>
-<span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extr_dates.html">extr_dates</a></span><span class="op">(</span>names_img <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">imgs</span><span class="op">)</span>, </span>
-<span>                    n <span class="op">=</span> <span class="fl">2</span>, </span>
-<span>                    sep <span class="op">=</span> <span class="st">'_'</span>, </span>
-<span>                    extension <span class="op">=</span> <span class="st">'.gpkg'</span><span class="op">)</span></span>
+<span><span class="va">dates</span> <span class="op">&lt;-</span> </span>
+<span>   <span class="fu"><a href="../reference/extr_dates.html">extr_dates</a></span><span class="op">(</span>names_img <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">imgs</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">2</span>, sep <span class="op">=</span> <span class="st">'_'</span>, extension <span class="op">=</span> <span class="st">'.gpkg'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Number of cores used for the paralelized functions</span></span>
 <span><span class="va">N_cores</span> <span class="op">=</span> <span class="fl">10</span></span>
@@ -117,7 +116,7 @@
 <span><span class="co"># the temporary files.</span></span>
 <span><span class="va">Tmpfiles_directory</span> <span class="op">=</span> <span class="st">'XXX/R_tmpdir'</span> <span class="co"># NULL if you want to use the default folder</span></span>
 <span></span>
-<span><span class="co">############## STEP 1 Check and modify the crowns file  ----------------------------------</span></span>
+<span><span class="co">############## STEP 1 Check and modify the crowns file  ------------------------</span></span>
 <span></span>
 <span><span class="co"># Check the crowns file compatibility</span></span>
 <span></span>
@@ -128,20 +127,20 @@
 <span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">read_sf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns.gpkg'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>  <span class="co"># Load the file</span></span>
 <span>   </span>
 <span>   <span class="fu">rename</span><span class="op">(</span></span>
-<span>      family <span class="op">=</span> <span class="va">tax_fam</span>,    <span class="co"># Rename the corresponding variable as 'family'</span></span>
-<span>      genus <span class="op">=</span> <span class="va">tax_gen</span>,     <span class="co"># Rename the corresponding variable as 'genus'</span></span>
-<span>      species <span class="op">=</span> <span class="va">tx_sp_lvl</span>  <span class="co"># Rename the corresponding variable as 'species'</span></span>
+<span>      family <span class="op">=</span> <span class="va">tax_fam</span>,          <span class="co"># Rename the corresponding variable as 'family'</span></span>
+<span>      genus <span class="op">=</span> <span class="va">tax_gen</span>,            <span class="co"># Rename the corresponding variable as 'genus'</span></span>
+<span>      species <span class="op">=</span> <span class="va">tx_sp_lvl</span>       <span class="co"># Rename the corresponding variable as 'species'</span></span>
 <span>   <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>   </span>
-<span>   <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">write_sf</a></span><span class="op">(</span><span class="va">.</span>,<span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_rename.gpkg'</span><span class="op">)</span><span class="op">)</span> <span class="co"># And save the file</span></span>
+<span>   <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">write_sf</a></span><span class="op">(</span><span class="va">.</span>,<span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span><span class="op">)</span> <span class="co"># And save the file</span></span>
 <span></span>
 <span><span class="co"># Check the new crowns file compatibility</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/check_crownsFile.html">check_crownsFile</a></span><span class="op">(</span>path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_rename.gpkg'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/check_crownsFile.html">check_crownsFile</a></span><span class="op">(</span>path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Rename NA to 'indet'</span></span>
 <span></span>
-<span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">read_sf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_rename.gpkg'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># Load the new file</span></span>
+<span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">read_sf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>     <span class="co"># Load the new file</span></span>
 <span>   </span>
 <span>   <span class="fu">mutate</span><span class="op">(</span></span>
 <span>      <span class="co"># Rename NA to 'indet' in the family variable</span></span>
@@ -154,57 +153,77 @@
 <span>      species <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">genus</span>, <span class="st">'indet'</span><span class="op">)</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">species</span><span class="op">)</span></span>
 <span>      <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>   </span>
-<span>   <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">write_sf</a></span><span class="op">(</span><span class="va">.</span>,<span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_rename.gpkg'</span><span class="op">)</span><span class="op">)</span> <span class="co"># And save the file</span></span>
+<span>   <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">write_sf</a></span><span class="op">(</span><span class="va">.</span>,<span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span><span class="op">)</span> <span class="co"># And save the file</span></span>
 <span></span>
 <span><span class="co"># Re-check the new crowns file compatibility</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/check_crownsFile.html">check_crownsFile</a></span><span class="op">(</span>path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_rename.gpkg'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/check_crownsFile.html">check_crownsFile</a></span><span class="op">(</span>path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># File compatibility should be OK</span></span>
 <span></span>
 <span></span>
-<span><span class="co">############## STEP 2 Extract crowns images ----------------------------------------------</span></span>
+<span><span class="co">############## STEP 2 Extract crowns images ------------------------------------</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/extract_crownsImages.html">extract_crownsImages</a></span><span class="op">(</span></span>
-<span>   path_images <span class="op">=</span> <span class="va">imgs</span>,                                                   <span class="co"># Path to mosaics</span></span>
-<span>   path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_rename.gpkg'</span><span class="op">)</span>,    <span class="co"># Path to compatible crowns file</span></span>
-<span>   out_dir_path <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'4_crowns_img'</span><span class="op">)</span>,                   <span class="co"># Path to output folder</span></span>
-<span>   tempdir_custom <span class="op">=</span> <span class="va">Tmpfiles_directory</span>,                       <span class="co"># Path to tmp file directory</span></span>
-<span>   site <span class="op">=</span> <span class="cn">NULL</span>,                            <span class="co"># If NULL, will be extract from the path_images</span></span>
-<span>   dates <span class="op">=</span> <span class="cn">NULL</span>,                           <span class="co"># If NULL, will be extract from the path_images</span></span>
-<span>   N_cores <span class="op">=</span> <span class="va">N_cores</span>,                                                    <span class="co"># Number of cores </span></span>
-<span>   width <span class="op">=</span> <span class="fl">720</span>,                                                     <span class="co"># By default it is 720 </span></span>
-<span>   height <span class="op">=</span> <span class="fl">825</span>                                                     <span class="co"># By default it is 720 </span></span>
+<span>   path_images <span class="op">=</span> <span class="va">imgs</span>,                                         <span class="co"># Path to mosaics</span></span>
+<span>   path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span>, <span class="co"># Path to  crowns file</span></span>
+<span>   out_dir_path <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'4_crowns_img'</span><span class="op">)</span>,       <span class="co"># Path to output folder</span></span>
+<span>   tempdir_custom <span class="op">=</span> <span class="va">Tmpfiles_directory</span>,             <span class="co"># Path to tmp file directory</span></span>
+<span>   site <span class="op">=</span> <span class="cn">NULL</span>,                  <span class="co"># If NULL, will be extract from the path_images</span></span>
+<span>   dates <span class="op">=</span> <span class="cn">NULL</span>,                 <span class="co"># If NULL, will be extract from the path_images</span></span>
+<span>   N_cores <span class="op">=</span> <span class="va">N_cores</span>,                                          <span class="co"># Number of cores </span></span>
+<span>   width <span class="op">=</span> <span class="fl">720</span>,                                           <span class="co"># By default it is 720 </span></span>
+<span>   height <span class="op">=</span> <span class="fl">825</span>                                           <span class="co"># By default it is 720 </span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">############## STEP 3 Extract spectral indices from mosaic at the crown scale ------------</span></span>
+<span><span class="co">############## STEP 3 Extract spectral indices from mosaic at the crown scale --</span></span>
 <span></span>
 <span><span class="va">rgb_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_rgbValues.html">extract_rgbValues</a></span> <span class="op">(</span></span>
-<span>   path_images <span class="op">=</span> <span class="va">imgs</span>,                                                   <span class="co"># Path to mosaics</span></span>
-<span>   path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_rename.gpkg'</span><span class="op">)</span>,    <span class="co"># Path to compatible crowns file</span></span>
-<span>   out_dir_path <span class="op">=</span>  <span class="va">path</span>,                                           <span class="co"># Path to output folder</span></span>
-<span>   tempdir_custom <span class="op">=</span> <span class="va">Tmpfiles_directory</span>,                       <span class="co"># Path to tmp file directory</span></span>
-<span>   ncor <span class="op">=</span> <span class="va">N_cores</span>,                                                       <span class="co"># Number of cores </span></span>
-<span>   sites <span class="op">=</span> <span class="cn">NULL</span>,                           <span class="co"># If NULL, will be extract from the path_images</span></span>
-<span>   dates <span class="op">=</span> <span class="cn">NULL</span>,                           <span class="co"># If NULL, will be extract from the path_images</span></span>
-<span>   file_type <span class="op">=</span> <span class="st">'.xlsx'</span>                             <span class="co"># Could be '.csv' or '.xlsx' or 'RData'</span></span>
+<span>   path_images <span class="op">=</span> <span class="va">imgs</span>,                                         <span class="co"># Path to mosaics</span></span>
+<span>   path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span>, <span class="co"># Path to  crowns file</span></span>
+<span>   out_dir_path <span class="op">=</span>  <span class="va">path</span>,                                 <span class="co"># Path to output folder</span></span>
+<span>   tempdir_custom <span class="op">=</span> <span class="va">Tmpfiles_directory</span>,             <span class="co"># Path to tmp file directory</span></span>
+<span>   ncor <span class="op">=</span> <span class="va">N_cores</span>,                                             <span class="co"># Number of cores </span></span>
+<span>   sites <span class="op">=</span> <span class="cn">NULL</span>,                 <span class="co"># If NULL, will be extract from the path_images</span></span>
+<span>   dates <span class="op">=</span> <span class="cn">NULL</span>,                 <span class="co"># If NULL, will be extract from the path_images</span></span>
+<span>   file_type <span class="op">=</span> <span class="st">'.xlsx'</span>                   <span class="co"># Could be '.csv' or '.xlsx' or 'RData'</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span></span>
-<span><span class="co">############## STEP 4 Create file to do the labeling  ------------------------------------</span></span>
+<span><span class="co">############## STEP 4 Create file to do the labeling  --------------------------</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/create_labelingFile.html">create_labelingFile</a></span><span class="op">(</span>path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_rename.gpkg'</span><span class="op">)</span>,</span>
-<span>                    site <span class="op">=</span> <span class="st">'Bouamir'</span>, </span>
-<span>                    dates <span class="op">=</span> <span class="va">dates</span>, </span>
-<span>                    out_dir_path <span class="op">=</span> <span class="va">path</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/create_labelingFile.html">create_labelingFile</a></span><span class="op">(</span></span>
+<span>   path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span>, <span class="co"># Path to  crowns file</span></span>
+<span>   site <span class="op">=</span> <span class="st">'Bouamir'</span>,                                                 <span class="co"># Site name</span></span>
+<span>   dates <span class="op">=</span> <span class="va">dates</span>,                                      <span class="co"># Dates of the RGB survey</span></span>
+<span>   out_dir_path <span class="op">=</span> <span class="va">path</span><span class="op">)</span>                                  <span class="co"># Path to output folder</span></span>
 <span></span>
-<span><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openXL</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">site</span>,<span class="st">'labelingFile'</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,format<span class="op">=</span><span class="st">"%Y-%m-%d"</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"%Y%m%d"</span><span class="op">)</span>, <span class="st">'.xlsx'</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">'_'</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span>                 </span>
-<span><span class="va">labeling_file</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">read.xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">'Bouamir_labelingFile'</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,format<span class="op">=</span><span class="st">"%Y-%m-%d"</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"%Y%m%d"</span><span class="op">)</span>, <span class="st">'.xlsx'</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">'_'</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># open it</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/openXL.html" class="external-link">openXL</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">site</span>,<span class="st">'labelingFile'</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,format<span class="op">=</span><span class="st">"%Y-%m-%d"</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"%Y%m%d"</span><span class="op">)</span>, <span class="st">'.xlsx'</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">'_'</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>         </span>
+<span></span>
+<span><span class="co">############## STEP 5 Fill the labelingFile with shiny app  --------------------</span></span>
+<span>        </span>
+<span><span class="co"># Import the labelingFile</span></span>
+<span><span class="va">labeling_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">read.xlsx</a></span><span class="op">(</span></span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
+<span>      <span class="va">path</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span>
+<span>         <span class="st">'Bouamir_labelingFile'</span>,</span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,format<span class="op">=</span><span class="st">"%Y-%m-%d"</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"%Y%m%d"</span><span class="op">)</span>, <span class="st">'.xlsx'</span><span class="op">)</span>, </span>
+<span>         sep <span class="op">=</span> <span class="st">'_'</span> <span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>   <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Start the app</span></span>
 <span><span class="va">labeling_file</span><span class="op">$</span><span class="va">date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">labeling_file</span><span class="op">$</span><span class="va">date</span>, <span class="st">"%Y_%m_%d"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/shiny_labels.html">shiny_labels</a></span><span class="op">(</span>data_labeling <span class="op">=</span> <span class="va">labeling_file</span>,</span>
-<span>             newFile <span class="op">=</span> <span class="st">'E:/new.xlsx'</span><span class="op">)</span> <span class="co"># Tester app (text pheno et plot reste à faire)</span></span></code></pre></div>
+<span></span>
+<span><span class="fu"><a href="../reference/shiny_labels.html">shiny_labels</a></span><span class="op">(</span></span>
+<span>   data_labeling <span class="op">=</span> <span class="va">labeling_file</span>,</span>
+<span>   newFile <span class="op">=</span> <span class="st">'E:/new.xlsx'</span>,</span>
+<span>   imgFolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'4_crowns_img'</span><span class="op">)</span> <span class="co"># Path to the crowns images folder</span></span>
+<span>   <span class="op">)</span> </span></code></pre></div>
   </main>
 </div>
 
