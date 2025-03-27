@@ -86,11 +86,6 @@ server <- function(input,output,session){
 
 
 
-
-
-
-
-
 # Filter up to id ---------------------------------------------------------
 
    output$fam_filter <- renderUI({
@@ -299,7 +294,7 @@ server <- function(input,output,session){
          filter(species ==  input$sp_choice) %>%
          mutate(done = if_else(is.na(phenophase), 0, 1)) %>%
          group_by(id) %>%
-         summarise(n = sum(done) / 50 *100) %>%
+         summarise(n = sum(done) / length(unique(data_labeling$date)) *100) %>%
          mutate(id_choice = if_else(!is.na(id) & id == input$id_choice,'red','grey')) %>%
          mutate(not_done = 100- n)
 

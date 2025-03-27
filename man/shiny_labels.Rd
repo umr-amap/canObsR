@@ -4,10 +4,12 @@
 \alias{shiny_labels}
 \title{Labeling shiny app}
 \usage{
-shiny_labels(data_labeling)
+shiny_labels(data_labeling, newFile, imgFolder)
 }
 \arguments{
-\item{data_labeling}{tibble. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}}
+\item{data_labeling}{chr. Path to crown images folder.}
+
+\item{newFile}{chr. Path to save the new labeling file.}
 }
 \description{
 Shiny app to do the labeling based on crowns images.

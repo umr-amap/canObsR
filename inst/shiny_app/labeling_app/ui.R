@@ -26,12 +26,12 @@ navbarPage(
 
                shiny::textInput(inputId = "new_filename",
                                 label = "New filename",
-                                value = paste0('MY-PATH-TO-FOLDER','/copy_labeling_file_',format(Sys.Date(), "%Y_%m_%d"),'.xlsx')
+                                value = .GlobalEnv$.aecay.newfile
                                 ),
 
                shiny::textInput(inputId = 'image_folder',
                                 label = 'Images folder',
-                                value = "MY-PATH-TO-THE-IMAGES-FOLDER"
+                                value = .GlobalEnv$.aecay.imgfolder
                                 )
             ),
 

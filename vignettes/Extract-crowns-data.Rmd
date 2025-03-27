@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 library(canObsR)
 library(tidyverse)
 library(sf)
+library(openxlsx)
 
 ############## Set variables -------------------------------------------------------------
 
@@ -118,12 +119,15 @@ rgb_data <- extract_rgbValues (
 
 ############## STEP 4 Create file to do the labeling  ------------------------------------
 
-labeling_file <- create_labelingFile(path_crowns = file.path(path,'crowns_rename.gpkg'),
+create_labelingFile(path_crowns = file.path(path,'crowns_rename.gpkg'),
                     site = 'Bouamir', 
                     dates = dates, 
                     out_dir_path = path)
 
-labeling_file$date <- as.Date(labeling_file$date,format="%Y_%m_%d")
-shiny_labels(data_labeling = labeling_file) # Tester app (text pheno et plot reste à faire)
+openxlsx::openXL(file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
+                 
+labeling_file <- openxlsx::read.xlsx(file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
 
+labeling_file$date <- as.Date(labeling_file$date, "%Y_%m_%d")
+shiny_labels(data_labeling = labeling_file) # Tester app (text pheno et plot reste à faire)
 ```
