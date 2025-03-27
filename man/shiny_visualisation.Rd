@@ -6,8 +6,12 @@
 \usage{
 shiny_visualisation(data_labeling)
 }
+\arguments{
+\item{data_labeling}{tibble. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}
+and modify from the \code{\link[canObsR]{shiny_labels}}}
+}
 \description{
-Shiny app to do the visualise the crowns data (labels and rgb indices).
+Shiny app to do the visualize the crowns data (labels and rgb indices).
 }
 \examples{
 
