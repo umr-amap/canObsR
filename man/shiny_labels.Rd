@@ -4,7 +4,7 @@
 \alias{shiny_labels}
 \title{Labeling shiny app}
 \usage{
-shiny_labels(data_labeling, newFile, imgFolder)
+shiny_labels(data_labeling, newFile = NULL, imgFolder = NULL)
 }
 \arguments{
 \item{data_labeling}{chr. Path to crown images folder.}

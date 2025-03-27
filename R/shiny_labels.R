@@ -21,13 +21,13 @@
 
 #https://deanattali.com/2015/04/21/r-package-shiny-app/
 
-shiny_labels <- function(data_labeling, newFile, imgFolder) {
+shiny_labels <- function(data_labeling, newFile = NULL, imgFolder = NULL) {
 
    .GlobalEnv$.aecay.labels <- data_labeling
    .GlobalEnv$.aecay.newfile <- newFile
    .GlobalEnv$.aecay.imgfolder <- imgFolder
 
-   on.exit(rm(c(.aecay.labels,.aecay.newfile,.aecay.imgfolder), envir=.GlobalEnv))
+   on.exit(rm(list = c('.aecay.labels','.aecay.newfile','.aecay.imgfolder'), envir=.GlobalEnv))
 
    # find and launch the app
    appDir <- system.file("shiny_app", "labeling_app", package = "canObsR")

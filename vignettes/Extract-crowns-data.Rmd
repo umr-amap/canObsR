@@ -126,8 +126,9 @@ create_labelingFile(path_crowns = file.path(path,'crowns_rename.gpkg'),
 
 openxlsx::openXL(file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
                  
-labeling_file <- openxlsx::read.xlsx(file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
+labeling_file <- openxlsx::read.xlsx(file.path(path,paste('Bouamir_labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
 
 labeling_file$date <- as.Date(labeling_file$date, "%Y_%m_%d")
-shiny_labels(data_labeling = labeling_file) # Tester app (text pheno et plot reste à faire)
+shiny_labels(data_labeling = labeling_file,
+             newFile = 'E:/new.xlsx') # Tester app (text pheno et plot reste à faire)
 ```
