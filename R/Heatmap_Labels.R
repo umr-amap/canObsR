@@ -14,7 +14,7 @@
 #'
 #'
 #' @export
-#' @importFrom stringr str_split
+#' @import stringr
 #' @import dplyr
 #' @import ggplot2
 

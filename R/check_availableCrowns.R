@@ -15,8 +15,7 @@
 #' @export
 #'
 #' @import sf
-#' @importFrom dplyr mutate
-#' @importFrom dplyr case_when
+#' @import dplyr
 #' @importFrom magrittr "%>%"
 #' @importFrom graphics dotchart
 

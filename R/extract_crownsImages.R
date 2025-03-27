@@ -41,10 +41,8 @@
 #' )
 #' }
 #'
-#'@importFrom stars st_as_stars
-#'@importFrom stars read_stars
-#'@importFrom terra rast
-#'@importFrom terra plotRGB
+#'@import stars
+#'@import terra
 #'@importFrom grDevices jpeg
 #'@importFrom grDevices dev.off
 #'@importFrom magrittr "%>%"

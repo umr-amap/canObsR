@@ -38,9 +38,9 @@
 #' }
 #'
 #' @importFrom exactextractr exact_extract
-#' @importFrom stars read_stars
-#' @importFrom terra rast
-#' @importFrom stats var
+#' @importFrom utils write.csv
+#' @import stars
+#' @import terra
 #' @importFrom openxlsx write.xlsx
 #' @import foreach
 #' @import parallel

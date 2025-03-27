@@ -6,7 +6,8 @@ utils::globalVariables(c(".", "type", "metric","band","value",'family','genus',
                          'PPrepro', 'PPfoliar1', 'PPfoliar2', 'PPFlo', 'PPfoliar2_uncertainty',
                          'highlight', 'y_lvl','grid_id','group_id','coverage_fraction',
                          'red','green','blue','gcc','rcc','gli','var','pixels','comments','gndvi',
-                         'sumrgb','PPFr','PPFlo_uncertainty','PPFr_uncertainty','desynchr'))
+                         'sumrgb','PPFr','PPFlo_uncertainty','PPFr_uncertainty','desynchr','path',
+                         'sites'))
 
 
 

@@ -14,8 +14,7 @@
 #'
 #'
 #' @export
-#' @importFrom terra rast
-#' @importFrom terra as.polygons
+#' @import terra
 #' @importFrom magrittr "%>%"
 #' @import sf
 #' @import dplyr
