@@ -16,14 +16,12 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     dplyr,
-    DT,
     doParallel,
     exactextractr,
     foreach,
     ggplot2,
     grDevices,
     magrittr,
-    readxl,
     reticulate,
     sf,
     shiny,
@@ -32,7 +30,6 @@ Imports:
     stringr,
     terra,
     tidyr,
-    writexl,
     openxlsx,
     colourpicker,
     shinyWidgets,
