@@ -1,6 +1,9 @@
 #' Visualisation shiny app
 #'
-#' @description Shiny app to do the visualise the crowns data (labels and rgb indices).
+#' @description Shiny app to do the visualize the crowns data (labels and rgb indices).
+#'
+#' @param data_labeling  tibble. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}
+#' and modify from the \code{\link[canObsR]{shiny_labels}}
 #'
 #' @export
 #'

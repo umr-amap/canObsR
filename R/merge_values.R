@@ -5,6 +5,8 @@
 #'
 #' @param data_labeling \code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.
 #' @param rgb_data \code{tibble} or \code{dataframe} with the rgb metrics values.
+#' @param out_dir_path chr. The path to the directory use to stored the file
+#' @param file_type chr. By default it is '.RData' but can be '.csv' or '.xlsx'
 #'
 #' @return A tibble with the variable site, id, date, family, genus, species, phenophase, type, metric, band, value, obs, comments, update, Usable_crown.
 #'

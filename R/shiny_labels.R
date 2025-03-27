@@ -4,7 +4,7 @@
 #'
 #' @param data_labeling  tibble. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}
 #' @param newFile  chr. Path to save the new labeling file.
-#' @param data_labeling  chr. Path to crown images folder.
+#' @param imgFolder  chr. Path to crown images folder.
 
 #' @export
 #'
