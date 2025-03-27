@@ -69,3 +69,10 @@ reference:
   - data_labeling
   - rgb_data
 
+articles:
+- title: Tutorials
+  contents:
+  - generate-and-align-ortomosaics
+  - Extract-crowns-data
+  - workflow
+

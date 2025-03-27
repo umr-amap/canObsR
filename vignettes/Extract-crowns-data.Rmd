@@ -14,13 +14,19 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r echo=FALSE, fig.show='hold',fig.align="center", message=FALSE, warning=FALSE, out.width='100%'}
+knitr::include_graphics("img/Image1.jpg")
+```
+
+Here is a short example to guide you step by step through the extraction of crown scale data. All you need to start it is a *RGB orthomosaics time serie* and a *shape file of the crown delineations*. To run the following code you can use the outputs of the of the [Generate ans align orthomosaics article ](https://umr-amap.github.io/canObsR/articles/generate-and-align-ortomosaics.html) or directly download the test data (link is coming).
+
 ```{r, eval=F, echo=T}
 library(canObsR)
 library(tidyverse)
 library(sf)
 library(openxlsx)
 
-############## Set variables -------------------------------------------------------------
+############## Set variables ---------------------------------------------------
 
 # Path to the main directory
 path = 'XXXX/canObsR_data'
@@ -29,10 +35,8 @@ path = 'XXXX/canObsR_data'
 imgs <- list.files(file.path(path,'3_orthomosaics_aligned'), full.names = T)
 
 # Extract the dates of the images
-dates <- extr_dates(names_img = basename(imgs), 
-                    n = 2, 
-                    sep = '_', 
-                    extension = '.gpkg')
+dates <- 
+   extr_dates(names_img = basename(imgs), n = 2, sep = '_', extension = '.gpkg')
 
 # Number of cores used for the paralelized functions
 N_cores = 10
@@ -43,7 +47,7 @@ N_cores = 10
 # the temporary files.
 Tmpfiles_directory = 'XXX/R_tmpdir' # NULL if you want to use the default folder
 
-############## STEP 1 Check and modify the crowns file  ----------------------------------
+############## STEP 1 Check and modify the crowns file  ------------------------
 
 # Check the crowns file compatibility
 
@@ -54,20 +58,20 @@ check_crownsFile(path_crowns = file.path(path,'crowns.gpkg'))
 sf::read_sf(file.path(path,'crowns.gpkg')) %>%  # Load the file
    
    rename(
-      family = tax_fam,    # Rename the corresponding variable as 'family'
-      genus = tax_gen,     # Rename the corresponding variable as 'genus'
-      species = tx_sp_lvl  # Rename the corresponding variable as 'species'
+      family = tax_fam,          # Rename the corresponding variable as 'family'
+      genus = tax_gen,            # Rename the corresponding variable as 'genus'
+      species = tx_sp_lvl       # Rename the corresponding variable as 'species'
    ) %>%
    
-   sf::write_sf(.,file.path(path,'crowns_rename.gpkg')) # And save the file
+   sf::write_sf(.,file.path(path,'crowns_corrected.gpkg')) # And save the file
 
 # Check the new crowns file compatibility
 
-check_crownsFile(path_crowns = file.path(path,'crowns_rename.gpkg'))
+check_crownsFile(path_crowns = file.path(path,'crowns_corrected.gpkg'))
 
 # Rename NA to 'indet'
 
-sf::read_sf(file.path(path,'crowns_rename.gpkg')) %>% # Load the new file
+sf::read_sf(file.path(path,'crowns_corrected.gpkg')) %>%     # Load the new file
    
    mutate(
       # Rename NA to 'indet' in the family variable
@@ -80,55 +84,75 @@ sf::read_sf(file.path(path,'crowns_rename.gpkg')) %>% # Load the new file
       species = case_when(is.na(species)~ paste(genus, 'indet'), TRUE ~ species)
       ) %>%
    
-   sf::write_sf(.,file.path(path,'crowns_rename.gpkg')) # And save the file
+   sf::write_sf(.,file.path(path,'crowns_corrected.gpkg')) # And save the file
 
 # Re-check the new crowns file compatibility
 
-check_crownsFile(path_crowns = file.path(path,'crowns_rename.gpkg'))
+check_crownsFile(path_crowns = file.path(path,'crowns_corrected.gpkg'))
 
 # File compatibility should be OK
 
 
-############## STEP 2 Extract crowns images ----------------------------------------------
+############## STEP 2 Extract crowns images ------------------------------------
 
 extract_crownsImages(
-   path_images = imgs,                                                   # Path to mosaics
-   path_crowns = file.path(path,'crowns_rename.gpkg'),    # Path to compatible crowns file
-   out_dir_path =  file.path(path,'4_crowns_img'),                   # Path to output folder
-   tempdir_custom = Tmpfiles_directory,                       # Path to tmp file directory
-   site = NULL,                            # If NULL, will be extract from the path_images
-   dates = NULL,                           # If NULL, will be extract from the path_images
-   N_cores = N_cores,                                                    # Number of cores 
-   width = 720,                                                     # By default it is 720 
-   height = 825                                                     # By default it is 720 
+   path_images = imgs,                                         # Path to mosaics
+   path_crowns = file.path(path,'crowns_corrected.gpkg'), # Path to  crowns file
+   out_dir_path =  file.path(path,'4_crowns_img'),       # Path to output folder
+   tempdir_custom = Tmpfiles_directory,             # Path to tmp file directory
+   site = NULL,                  # If NULL, will be extract from the path_images
+   dates = NULL,                 # If NULL, will be extract from the path_images
+   N_cores = N_cores,                                          # Number of cores 
+   width = 720,                                           # By default it is 720 
+   height = 825                                           # By default it is 720 
 )
 
-############## STEP 3 Extract spectral indices from mosaic at the crown scale ------------
+############## STEP 3 Extract spectral indices from mosaic at the crown scale --
 
 rgb_data <- extract_rgbValues (
-   path_images = imgs,                                                   # Path to mosaics
-   path_crowns = file.path(path,'crowns_rename.gpkg'),    # Path to compatible crowns file
-   out_dir_path =  path,                                           # Path to output folder
-   tempdir_custom = Tmpfiles_directory,                       # Path to tmp file directory
-   ncor = N_cores,                                                       # Number of cores 
-   sites = NULL,                           # If NULL, will be extract from the path_images
-   dates = NULL,                           # If NULL, will be extract from the path_images
-   file_type = '.xlsx'                             # Could be '.csv' or '.xlsx' or 'RData'
+   path_images = imgs,                                         # Path to mosaics
+   path_crowns = file.path(path,'crowns_corrected.gpkg'), # Path to  crowns file
+   out_dir_path =  path,                                 # Path to output folder
+   tempdir_custom = Tmpfiles_directory,             # Path to tmp file directory
+   ncor = N_cores,                                             # Number of cores 
+   sites = NULL,                 # If NULL, will be extract from the path_images
+   dates = NULL,                 # If NULL, will be extract from the path_images
+   file_type = '.xlsx'                   # Could be '.csv' or '.xlsx' or 'RData'
 )
 
 
-############## STEP 4 Create file to do the labeling  ------------------------------------
+############## STEP 4 Create file to do the labeling  --------------------------
 
-create_labelingFile(path_crowns = file.path(path,'crowns_rename.gpkg'),
-                    site = 'Bouamir', 
-                    dates = dates, 
-                    out_dir_path = path)
+create_labelingFile(
+   path_crowns = file.path(path,'crowns_corrected.gpkg'), # Path to  crowns file
+   site = 'Bouamir',                                                 # Site name
+   dates = dates,                                      # Dates of the RGB survey
+   out_dir_path = path)                                  # Path to output folder
 
-openxlsx::openXL(file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
-                 
-labeling_file <- openxlsx::read.xlsx(file.path(path,paste('Bouamir_labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
 
+# open it
+openXL(file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
+         
+
+############## STEP 5 Fill the labelingFile with shiny app  --------------------
+        
+# Import the labelingFile
+labeling_file <- read.xlsx(
+   file.path(
+      path,
+      paste(
+         'Bouamir_labelingFile',
+         paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), 
+         sep = '_' )
+      )
+   )
+
+# Start the app
 labeling_file$date <- as.Date(labeling_file$date, "%Y_%m_%d")
-shiny_labels(data_labeling = labeling_file,
-             newFile = 'E:/new.xlsx') # Tester app (text pheno et plot reste à faire)
+
+shiny_labels(
+   data_labeling = labeling_file,
+   newFile = 'E:/new.xlsx',
+   imgFolder = file.path(path,'4_crowns_img') # Path to the crowns images folder
+   ) 
 ```

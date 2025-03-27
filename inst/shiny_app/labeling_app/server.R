@@ -296,14 +296,14 @@ server <- function(input,output,session){
          group_by(id) %>%
          summarise(n = sum(done) / length(unique(data_labeling$date)) *100) %>%
          mutate(id_choice = if_else(!is.na(id) & id == input$id_choice,'red','grey')) %>%
-         mutate(not_done = 100- n)
+         mutate(not_done = 100 - n)
 
 
 
       barplot(n ~ id,
               data = ind_data,
               col = ind_data$id_choice,
-              ylab = 'Percentage done',
+              ylab = 'Percentage not done',
               ylim = c(0,100))
 
       abline(h = 100,  col = "red", lty = 1, lwd = 2)

@@ -53,6 +53,18 @@ functions.
 # Imports
 library(reticulate)
 library(canObsR)
+#> Warning: remplacement de l'importation précédente 'colourpicker::runExample'
+#> par 'shiny::runExample' lors du chargement de 'canObsR'
+#> Warning: remplacement de l'importation précédente 'dplyr::intersect' par
+#> 'terra::intersect' lors du chargement de 'canObsR'
+#> Warning: remplacement de l'importation précédente 'shinyWidgets::panel' par
+#> 'terra::panel' lors du chargement de 'canObsR'
+#> Warning: remplacement de l'importation précédente 'dplyr::union' par
+#> 'terra::union' lors du chargement de 'canObsR'
+#> Warning: remplacement de l'importation précédente 'terra::extract' par
+#> 'tidyr::extract' lors du chargement de 'canObsR'
+#> Warning: remplacement de l'importation précédente 'terra::quantile' par
+#> 'stats::quantile' lors du chargement de 'canObsR'
 ```
 
 ``` r
@@ -112,7 +124,7 @@ to align them in R, using Metashape and
 into the workflow, you should download the [test
 dataset](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
 and follow [the
-article](https://hugolblc.github.io/managecrownsdata/articles/generate_orthomosaics.html).
+article](https://umr-amap.github.io/canObsR/articles/generate-and-align-ortomosaics.html).
 
 <div class="figure" style="text-align: center">
 
