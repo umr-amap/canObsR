@@ -29,17 +29,17 @@ create_labelingFile <- function(
 
 # Check dates format ------------------------------------------------------
 
-   if (!is.na(as.Date(unique(dates), "%Y-%m-%d"))){
+   if (unique(!is.na(as.Date(unique(dates), "%Y-%m-%d")))){
 
       dates <- str_replace_all(dates,'-','_')
    }
 
-   if (!is.na(as.Date(unique(dates), "%Y%m%d"))){
+   if (unique(!is.na(as.Date(unique(dates), "%Y%m%d")))){
 
       dates <- paste(str_sub(dates,1,4),str_sub(dates,5,6),str_sub(dates,7,8),sep='_')
    }
 
-   if (is.na(as.Date(unique(dates), "%Y_%m_%d"))){
+   if (unique(is.na(as.Date(unique(dates), "%Y_%m_%d")))){
 
       stop(paste("Format of dates should be '%Y-%m-%d' or '%Y%m%d' or '%Y_%m_%d'"))
    }

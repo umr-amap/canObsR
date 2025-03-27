@@ -30,19 +30,36 @@ check_crownsFile <- function(path_crowns){
       '-                                           -'
    )
 
+   var_checkNA <- c(
+      '##########    NA VARIABLES CHECK   ##########',
+      '-                                           -'
+   )
+
    for (i in 1:length(var_needed)) {
 
       if (var_needed[i] %in% vars) {
 
          checki <- paste('--- OK ----  :  ',var_needed[i])
 
+         if(crownsFile %>% .[[var_needed[i]]] %>% is.na() %>% any()){
+
+            checkiNA <- paste("-- ERROR --  : Transform NA to 'indet' for the variable ->",var_needed[i])
+
+         } else {
+            checkiNA <- paste("--- OK ----  :  No NA for the variable ",var_needed[i])
+
+         }
+
       } else {
 
          checki <- paste('-- ERROR --  :  ',var_needed[i], 'variable missing or not well named')
+         checkiNA <- NULL
 
       }
 
       var_check <- c(var_check, checki)
+      var_checkNA <- c(var_checkNA, checkiNA)
+
 
    }
 
@@ -77,6 +94,8 @@ check_crownsFile <- function(path_crowns){
       cat(
          c(
             var_check,
+            '-                                           -',
+            var_checkNA,
             c('-                                           -',
               '-                                           -',
               '##########           CRS           ##########',

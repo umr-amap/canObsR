@@ -81,7 +81,7 @@ plot_nodata <- function() {
 extr_dates <- function(names_img, n = 2, sep = '_', extension = '.gpkg') {
    dates <- str_split(names_img, '_', simplify = TRUE)[,n] %>% str_remove(., extension)
    if(sep == '_'){
-      dates <- paste(str_sub(dates,1,4),str_sub(dates,5,6),str_sub(dates,7,8), sep = '_')
+      dates <- paste(str_sub(dates,1,4),str_sub(dates,5,6),str_sub(dates,7,8), sep = sep)
    }
    if(sep == ''){
       dates <- dates
