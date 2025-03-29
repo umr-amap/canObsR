@@ -90,33 +90,60 @@ the of the <a href="https://umr-amap.github.io/canObsR/articles/generate-and-ali
 ans align orthomosaics article</a> or directly download the test data
 (link is coming).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/umr-amap/canObsR" class="external-link">canObsR</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co">############## Load libraries --------------------------------------------------</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/umr-amap/canObsR" class="external-link">canObsR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ycphs.github.io/openxlsx/index.html" class="external-link">openxlsx</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">############## Set variables ---------------------------------------------------</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ycphs.github.io/openxlsx/index.html" class="external-link">openxlsx</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="set-parameters">Set parameters<a class="anchor" aria-label="anchor" href="#set-parameters"></a>
+</h2>
+<p>Set your parameters, the <em>path</em> to the CanObsR_data folder,
+the <em>Tmpfiles_directory</em> if you want to store the temporary files
+in a specific folder and <em>N_cores</em> the number of cores you want
+to allocate for the function <code><a href="../reference/extract_crownsImages.html">extract_crownsImages()</a></code> and
+<code><a href="../reference/extract_rgbValues.html">extract_rgbValues()</a></code>.</p>
+<p>Note : The functions <code><a href="../reference/extract_crownsImages.html">extract_crownsImages()</a></code> and
+<code><a href="../reference/extract_rgbValues.html">extract_rgbValues()</a></code> can produce a lot of temporary files
+and need several GB of memory depending on the size, the resolution and
+the number of mosaics. You can specify where you want to store the
+temporary files.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">############## Set variables ---------------------------------------------------</span></span>
 <span></span>
 <span><span class="co"># Path to the main directory</span></span>
 <span><span class="va">path</span> <span class="op">=</span> <span class="st">'XXXX/canObsR_data'</span></span>
 <span></span>
-<span><span class="co"># Path to the mosaics</span></span>
+<span><span class="co"># Path to store the temp files</span></span>
+<span><span class="va">Tmpfiles_directory</span> <span class="op">=</span> <span class="st">'XXX/R_tmpdir'</span> <span class="co"># NULL if you want to use the default folder</span></span>
+<span></span>
+<span><span class="co"># Number of cores used for the paralelized functions</span></span>
+<span><span class="va">N_cores</span> <span class="op">=</span> <span class="fl">10</span></span></code></pre></div>
+<p>If you are using the test data or if you follow the same files
+architecture just run the following code.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Path to the mosaics</span></span>
 <span><span class="va">imgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'3_orthomosaics_aligned'</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Extract the dates of the images</span></span>
 <span><span class="va">dates</span> <span class="op">&lt;-</span> </span>
-<span>   <span class="fu"><a href="../reference/extr_dates.html">extr_dates</a></span><span class="op">(</span>names_img <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">imgs</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">2</span>, sep <span class="op">=</span> <span class="st">'_'</span>, extension <span class="op">=</span> <span class="st">'.gpkg'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Number of cores used for the paralelized functions</span></span>
-<span><span class="va">N_cores</span> <span class="op">=</span> <span class="fl">10</span></span>
-<span></span>
-<span><span class="co"># The functions `extract_crownsImages()` and `extract_rgbValues()` can produce a </span></span>
-<span><span class="co"># lot of temporary files and need several GB of memory depending on the size, the </span></span>
-<span><span class="co"># resolution and the number of mosaics. You can specify where you want to store </span></span>
-<span><span class="co"># the temporary files.</span></span>
-<span><span class="va">Tmpfiles_directory</span> <span class="op">=</span> <span class="st">'XXX/R_tmpdir'</span> <span class="co"># NULL if you want to use the default folder</span></span>
-<span></span>
-<span><span class="co">############## STEP 1 Check and modify the crowns file  ------------------------</span></span>
+<span>   <span class="fu"><a href="../reference/extr_dates.html">extr_dates</a></span><span class="op">(</span>names_img <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">imgs</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">2</span>, sep <span class="op">=</span> <span class="st">'_'</span>, extension <span class="op">=</span> <span class="st">'.gpkg'</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="first-step-make-the-crowns-shape-file-compatible">First step : Make the crowns shape file compatible<a class="anchor" aria-label="anchor" href="#first-step-make-the-crowns-shape-file-compatible"></a>
+</h2>
+<p>The first step is to check the crowns file compatibility with the
+function <code>check_crownsFile</code>. To be compatible with the
+package functions the shape file must have :</p>
+<ul>
+<li>at least the variables ‘id’, ‘species’, ‘genus’ and ‘family’</li>
+<li>‘species’, ‘genus’ and ‘family’ should not have NA. Replce them by
+‘indet’</li>
+<li>‘id’ should not have duplicated values.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">############## STEP 1 Check and modify the crowns file  ------------------------</span></span>
 <span></span>
 <span><span class="co"># Check the crowns file compatibility</span></span>
 <span></span>
@@ -159,10 +186,9 @@ ans align orthomosaics article</a> or directly download the test data
 <span></span>
 <span><span class="fu"><a href="../reference/check_crownsFile.html">check_crownsFile</a></span><span class="op">(</span>path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># File compatibility should be OK</span></span>
-<span></span>
-<span></span>
-<span><span class="co">############## STEP 2 Extract crowns images ------------------------------------</span></span>
+<span><span class="co"># File compatibility should be OK</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">############## STEP 2 Extract crowns images ------------------------------------</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/extract_crownsImages.html">extract_crownsImages</a></span><span class="op">(</span></span>
 <span>   path_images <span class="op">=</span> <span class="va">imgs</span>,                                         <span class="co"># Path to mosaics</span></span>
@@ -217,14 +243,15 @@ ans align orthomosaics article</a> or directly download the test data
 <span>   <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Start the app</span></span>
-<span><span class="va">labeling_file</span><span class="op">$</span><span class="va">date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">labeling_file</span><span class="op">$</span><span class="va">date</span>, <span class="st">"%Y_%m_%d"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/shiny_labels.html">shiny_labels</a></span><span class="op">(</span></span>
 <span>   data_labeling <span class="op">=</span> <span class="va">labeling_file</span>,</span>
 <span>   newFile <span class="op">=</span> <span class="st">'E:/new.xlsx'</span>,</span>
 <span>   imgFolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'4_crowns_img'</span><span class="op">)</span> <span class="co"># Path to the crowns images folder</span></span>
 <span>   <span class="op">)</span> </span></code></pre></div>
-  </main>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
