@@ -3,7 +3,8 @@ server <- function(input,output,session){
 
 # Reactive values ---------------------------------------------------------
 
-   data <- reactiveVal(.GlobalEnv$.aecay.labels) # All data
+   data <- reactiveVal(.GlobalEnv$.aecay.labels) %>%
+      mutate (date = as.Date(date, "%Y_%m_%d"))
 
    input_values <- reactiveValues(
       fam_choice = '',

@@ -21,32 +21,62 @@ knitr::include_graphics("img/Image1.jpg")
 Here is a short example to guide you step by step through the extraction of crown scale data. All you need to start it is a *RGB orthomosaics time serie* and a *shape file of the crown delineations*. To run the following code you can use the outputs of the of the [Generate ans align orthomosaics article ](https://umr-amap.github.io/canObsR/articles/generate-and-align-ortomosaics.html) or directly download the test data (link is coming).
 
 ```{r, eval=F, echo=T}
+############## Load libraries --------------------------------------------------
+
 library(canObsR)
 library(tidyverse)
 library(sf)
 library(openxlsx)
+```
 
+# Set parameters
+
+Set your parameters, the *path* to the CanObsR_data folder, the *Tmpfiles_directory*
+if you want to store the temporary files in a specific folder and *N_cores* the number 
+of cores you want to allocate for the function  `extract_crownsImages()` and 
+`extract_rgbValues()`.
+
+Note : The functions `extract_crownsImages()` and `extract_rgbValues()` can produce a 
+lot of temporary files and need several GB of memory depending on the size, the 
+resolution and the number of mosaics. You can specify where you want to store 
+the temporary files.
+
+```{r, eval=F, echo=T}
 ############## Set variables ---------------------------------------------------
 
 # Path to the main directory
 path = 'XXXX/canObsR_data'
 
+# Path to store the temp files
+Tmpfiles_directory = 'XXX/R_tmpdir' # NULL if you want to use the default folder
+
+# Number of cores used for the paralelized functions
+N_cores = 10
+```
+
+If you are using the test data or if you follow the same files architecture just 
+run the following code.
+
+```{r, eval=F, echo=T}
 # Path to the mosaics
 imgs <- list.files(file.path(path,'3_orthomosaics_aligned'), full.names = T)
 
 # Extract the dates of the images
 dates <- 
    extr_dates(names_img = basename(imgs), n = 2, sep = '_', extension = '.gpkg')
+```
 
-# Number of cores used for the paralelized functions
-N_cores = 10
+# First step : Make the crowns shape file compatible
 
-# The functions `extract_crownsImages()` and `extract_rgbValues()` can produce a 
-# lot of temporary files and need several GB of memory depending on the size, the 
-# resolution and the number of mosaics. You can specify where you want to store 
-# the temporary files.
-Tmpfiles_directory = 'XXX/R_tmpdir' # NULL if you want to use the default folder
+The first step is to check the crowns file compatibility with the function 
+`check_crownsFile`. To be compatible with the package functions the shape file 
+must have :  
 
+* at least the variables 'id', 'species', 'genus' and 'family'
+* 'species', 'genus' and 'family' should not have NA. Replce them by 'indet'
+* 'id' should not have duplicated values.
+
+```{r, eval=F, echo=T}
 ############## STEP 1 Check and modify the crowns file  ------------------------
 
 # Check the crowns file compatibility
@@ -91,8 +121,10 @@ sf::read_sf(file.path(path,'crowns_corrected.gpkg')) %>%     # Load the new file
 check_crownsFile(path_crowns = file.path(path,'crowns_corrected.gpkg'))
 
 # File compatibility should be OK
+```
 
 
+```{r, eval=F, echo=T}
 ############## STEP 2 Extract crowns images ------------------------------------
 
 extract_crownsImages(
@@ -148,7 +180,6 @@ labeling_file <- read.xlsx(
    )
 
 # Start the app
-labeling_file$date <- as.Date(labeling_file$date, "%Y_%m_%d")
 
 shiny_labels(
    data_labeling = labeling_file,
