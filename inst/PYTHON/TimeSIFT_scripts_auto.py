@@ -1,6 +1,5 @@
 # This script is based on the following work :
-# Fabrice Vinatier, & Denis Feurer. (2023). Time-SIFT module for Agisoft Metashape software. Zenodo. https://doi.org/10.5281/zenodo.8359983
-# The code of the original plugin is available using the following DOI : 10.5281/zenodo.8359982
+# Fabrice Vinatier, & Denis Feurer. (2023). Time-SIFT module for Agisoft Metashape software. Zenodo. https://doi.org/10.5281/zenodo.8359982
 
 import os
 from os import path
@@ -291,7 +290,7 @@ def Time_SIFT_process(pathDIR,
     elif data_type == "MS" :
         add_all_MS_photos(doc, pathDIR = pathDIR)
         t_add_data = time.time()
-        print("Temps écoulé pour le chargement des photos : ", t_add_data - start_time)
+        print("Time spent loading and merging photos : ", t_add_data - start_time)
     """
     
     if sun_sensor and data_type=='MS':
@@ -302,10 +301,10 @@ def Time_SIFT_process(pathDIR,
     t_align = time.time()
     print(f"Time spent for the alignement : {t_align - t_add_data} seconds")
     
-    #The project needs to be saved before building DEMs and orthomosaics
+    # The project needs to be saved before building DEMs and orthomosaics
     doc.save(os.path.join(out_dir_ortho, '_temp_.psx'))
 
-    #Color calibration
+    # Color calibration
     if calibrate_col and (data_type=='RGB' or data_type=='MS'):
         TS_chunk = [chk for chk in doc.chunks if (re.search("TimeSIFT", chk.label) is not None)][0]
         TS_chunk.calibrateColors(scan.TiePointsData, white_balance=True)
@@ -316,7 +315,7 @@ def Time_SIFT_process(pathDIR,
     
     split_TimeSIFT_chunk(doc, group_by_flight = group_by_flight)
     t_split = time.time()
-    #print("Temps écoulé pour la division et regroupement par date : ", t_split - t_align)
+
     process_splited_TimeSIFT_chunks_one_by_one(doc, 
                                                out_dir_ortho = out_dir_ortho, 
                                                out_dir_DEM = out_dir_DEM, 

@@ -76,7 +76,7 @@ def compress_LZW(file_path):
 
 def harmonize_crs(input_path, ref_path, check_ref=True, compress_lzw=False):
     """
-    Forces two raster files to have the same coordinate system : takes the crs of the reference file and writes it into the input file. Also optionnally perform a LZW compression on the image(s)
+    Forces two raster files to have the same coordinate system : takes the crs of the reference file and writes it into the input file. Also optionnally performx a LZW compression on the image(s)
 
     Parameters:
     input file (str): 
@@ -84,9 +84,9 @@ def harmonize_crs(input_path, ref_path, check_ref=True, compress_lzw=False):
     ref_path (str): 
         Path to the second image (reference)
     check_ref (bool, optional):  
-        If True (default), perform an additional safety measure by rewriting the crs of the reference image aswell. May prevent errors if both files have their crs defined from different libraries (rasterio.CRS and pyproj.CRS)
+        If True (default), performs an additional safety measure by rewriting the crs of the reference image aswell. May prevent errors if both files have their crs defined from different libraries (rasterio.CRS and pyproj.CRS)
     compress_lzw (bool, optional):  
-        If True (default), perform a lzw compression on the image(s)
+        If True (default), performs a lzw compression on the image(s)
     """
     ref_compr = compress_lzw
     input_compr = compress_lzw
@@ -274,10 +274,10 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
         CR = COREG(path_ref, path_in, path_out=path_out, fmt_out="GTIFF", ws=(window_size, window_size), wp=window_pos, max_shift=max_shift, max_iter=max_iter, CPUs=CPUs)
         CR.correct_shifts()
         if save_data :
-            #shifts = CR.coreg_info['corrected_shifts_map']
-            #shift_x, shift_y = shifts['x'], shifts['y']
-            #df = pd.DataFrame({'Shift_X':[shift_x], 'Shift_Y':[shift_y]})
-            #df.to_csv(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_shift.csv'), index=False)
+            # shifts = CR.coreg_info['corrected_shifts_map']
+            # shift_x, shift_y = shifts['x'], shifts['y']
+            # df = pd.DataFrame({'Shift_X':[shift_x], 'Shift_Y':[shift_y]})
+            # df.to_csv(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_shift.csv'), index=False)
             with open(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_metadata.pkl'), 'wb') as file:
                 pickle.dump(CR.coreg_info, file)
 
@@ -301,6 +301,7 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
     else:
         return CR.coreg_info
 
+#TODO : correctly implement subprocessing
 def complete_arosics_process(path_in, 
                              ref_filepath, 
                              out_dir_path, 
