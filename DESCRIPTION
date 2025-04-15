@@ -2,8 +2,8 @@ Package: canObsR
 Title: Process repetead UAV survey
 Date: 2025-03-05
 Version: 0.0.0.9000
-Author: Hugo Leblanc, Hadrien Tulet, Pierre Ploton
-Maintainer: Hugo Leblanc <hugo.leblanc@ird.fr>
+Author: _
+Maintainer: _
 Description: Aims at streamlining, standardizing and facilitating processing of repetead UAV surveys.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -34,8 +34,8 @@ Imports:
     tidyr,
     writexl,
     openxlsx
-URL: https://github.com/umr-amap/canObsR,
-BugReports: https://github.com/umr-amap/canObsR/issues
+URL: _,
+BugReports: _,
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
