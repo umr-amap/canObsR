@@ -194,7 +194,7 @@ def to_GCPList(points_table, fill_val=-9999):
     
 
 
-def apply_saved_matrix(im_path, out_dir_path, metadata_path, GCP_path = None, suffix=""):
+def apply_saved_matrix(im_path, out_dir_path, metadata_path, suffix=""):
     """
     Calls arosics functions to perform a global or local co-registration between two images. Option to save the coregistrated image, and in the case of a local CoReg, the tie points data and the vector shift map.
 
@@ -209,22 +209,30 @@ def apply_saved_matrix(im_path, out_dir_path, metadata_path, GCP_path = None, su
     """
     corr_type = 'global'
     extensions = ('.tif', '.tiff', '.TIF', '.TIFF')
-    files = [file for file in sorted(os.listdir(im_path)) if file.endswith(extensions)]
-    print("files : ", files)
-    for file in files:
-        with open(metadata_path, 'rb') as file:
-            coreg_info = pickle.load(file)
-            file.close()
-        
-        if GCP_path is not None:
-            corr_type = 'local'
-            GCP_df = pd.read_csv(GCP_path)
-            coreg_info['GCPList'] = to_GCPList(GCP_df, -9999)
+    if os.path.isfile(im_path):
+        files = [im_path] if im_path.endswith(extensions) else []
+    
+    elif os.path.isdir(im_path):
+        files = [file for file in sorted(os.listdir(im_path)) if file.endswith(extensions)]
 
-        current_file_path = os.path.join(im_path, file)
-        path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")               #
-        CR = DESHIFTER(current_file_path, coreg_info, path_out=path_out, fmt_out="GTIFF")
-        CR.correct_shifts() 
+    if len(files)==0:
+        raise ValueError(f"The files must be of GeoTiff format")
+    
+    print("files : ", files)
+    with open(metadata_path, 'rb') as meta:
+        dict_metadata = pickle.load(meta)
+        coreg_info = dict_metadata["cor_info"]
+        
+        if dict_metadata['type']=="local":
+            coreg_info['GCPList'] = to_GCPList(dict_metadata['csv'], -9999)
+
+        for file in files:
+        
+            current_file_path = os.path.join(im_path, file)
+            path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")               #
+            CR = DESHIFTER(current_file_path, coreg_info, path_out=path_out, fmt_out="GTIFF")
+            CR.correct_shifts() 
+    meta.close()
 
 
 
@@ -278,8 +286,9 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
             # shift_x, shift_y = shifts['x'], shifts['y']
             # df = pd.DataFrame({'Shift_X':[shift_x], 'Shift_Y':[shift_y]})
             # df.to_csv(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_shift.csv'), index=False)
+            dict_metadata = dict({'type':"global", "cor_info":CR.coreg_info})
             with open(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_metadata.pkl'), 'wb') as file:
-                pickle.dump(CR.coreg_info, file)
+                pickle.dump(dict_metadata, file)
 
     elif corr_type=='local':
         CR = COREG_LOCAL(path_ref, path_in, path_out=path_out, fmt_out="GTIFF", window_size=(window_size, window_size), max_shift=max_shift, max_iter=max_iter, CPUs=CPUs, grid_res=grid_res, min_reliability = min_reliability)
@@ -289,8 +298,9 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
             df.to_csv(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_CoRegPoints_table.csv'), index=False)
             cor_info = CR.coreg_info
             del(cor_info['GCPList'])
+            dict_metadata = dict({'type':"local", 'csv':df, 'cor_info':cor_info})
             with open(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_metadata.pkl'), 'wb') as file:
-                pickle.dump(cor_info, file)
+                pickle.dump(dict_metadata, file)        #cor_info
         if save_vector_plot:
             DPI=300
             vector_scale=15
