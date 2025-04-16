@@ -125,6 +125,7 @@ into the workflow, you should download the [test
 dataset](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
 and follow [the
 article](https://umr-amap.github.io/canObsR/articles/generate-and-align-ortomosaics.html).
+
 The generation of orthomosaics is based on Fabrice Vinatier & Denis Feurer's work, [Time-SIFT module for Agisoft Metashape software](https://doi.org/10.5281/zenodo.8367318) (2023)
 
 <div class="figure" style="text-align: center">
