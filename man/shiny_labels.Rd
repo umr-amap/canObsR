@@ -4,7 +4,7 @@
 \alias{shiny_labels}
 \title{Labeling shiny app}
 \usage{
-shiny_labels(data_labeling, newFile = NULL, imgFolder = NULL)
+shiny_labels(data_labeling = NULL, newFile = NULL, imgFolder = NULL)
 }
 \arguments{
 \item{data_labeling}{tibble. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}}

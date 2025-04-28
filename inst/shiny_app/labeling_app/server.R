@@ -3,8 +3,12 @@ server <- function(input,output,session){
 
 # Reactive values ---------------------------------------------------------
 
-   data <- reactiveVal(.GlobalEnv$.aecay.labels) %>%
-      mutate (date = as.Date(date, "%Y_%m_%d"))
+   data <- reactive({
+      req(input$dataLabeling_file)
+      .GlobalEnv$.aecay.labels %>% openxlsx::read.xlsx() %>%
+         mutate (date = as.Date(date, "%Y_%m_%d"))
+   }
+   )
 
    input_values <- reactiveValues(
       fam_choice = '',
@@ -90,6 +94,7 @@ server <- function(input,output,session){
 # Filter up to id ---------------------------------------------------------
 
    output$fam_filter <- renderUI({
+      req(data())
       selectInput(
          "fam_choice",
          "Family :",
@@ -191,7 +196,7 @@ server <- function(input,output,session){
 
       reactive_excel_data() %>%
          arrange(date) %>%
-         mutate(r = 1:nrow(reactive_excel_data())) %>%
+         dplyr::mutate(r = 1:nrow(reactive_excel_data())) %>%
          datatable(options = list(pageLength = 50, autoWidth = TRUE))  %>%
          # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
          formatStyle(

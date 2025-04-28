@@ -1,5 +1,4 @@
 library(shiny)
-library(leaflet)
 library(DT)
 library(shinythemes)
 library(dplyr)
@@ -23,6 +22,11 @@ navbarPage(
             tabPanel(
                title = "Inputs",
                br(),
+
+               shiny::textInput(inputId = "dataLabeling_file",
+                                label = "Labeling data file",
+                                value = .GlobalEnv$.aecay.newfile
+               ),
 
                shiny::textInput(inputId = "new_filename",
                                 label = "New filename",
