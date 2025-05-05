@@ -17,6 +17,7 @@
 #' @param save_data logical. Saves the transformation metadata in a .pkl file, and the tie points data in a csv file. The latter only happens when performing local co-registration.
 #' @param save_vector_plot logical. saves the a map of the calculated tie point grid in a JPEG file. Has an effect only when performing local co-registration.
 #' @param apply_matrix logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently. Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created. We hope to change that soon ; until then, apply_matrix is disabled by default)
+#' @param suffix chr. Text to add at the end of the output filenames.
 #' @export
 #' @importFrom reticulate source_python
 #'
@@ -62,7 +63,7 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                           corr_type = "global", max_shift = 250L, max_iter = 100L,
                           min_reliability = 60, grid_res = 1000L, window_size = NULL,
                           window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE,
-                          save_vector_plot = FALSE, apply_matrix = FALSE) {
+                          save_vector_plot = FALSE, apply_matrix = FALSE, suffix = "_") {
 
    source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
 
@@ -80,7 +81,43 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                             save_data = save_data,
                             save_vector_plot = save_vector_plot,
                             apply_matrix = apply_matrix,
+                            suffix = suffix,
 
    )
 }
 
+#' Applies an already saved AROSICS transform to a new image
+#'
+#' @description
+#' Applies an already saved AROSICS transform to a new image
+#'
+#' @param im_path chr. Path to the target image, or to a folder containing multiple target images. Images must be of Geotiff format.
+#' @param out_dir_path chr. Directory where the outputs are saved.
+#' @param metadata_path chr. Path to the .pkl file containing info on the transform to apply. This file can be saved when applying the align_Mosa function with save_data set to TRUE.
+#' @param suffix chr. Text to add at the end of the output filenames.
+#' @export
+#' @importFrom reticulate source_python
+#'
+#' @return None
+#'
+#' @examples
+#'
+#' \dontrun{
+#' library(reticulate)
+#'
+#' apply_saved_matrix(im_path = "path_to_ortho.tif",
+#'                    out_dir_path = "my_output_dir",
+#'                    metadata_path = "my_ortho_metadata.pkl",
+#'                    )
+
+
+apply_saved_matrix <- function(im_path, out_dir_path, metadata_path, suffix="_") {
+
+   source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
+
+   apply_saved_matrix(im_path = im_path,
+                      out_dir_path = out_dir_path,
+                      metadata_path = metadata_path,
+                      suffix = suffix,
+   )
+}
