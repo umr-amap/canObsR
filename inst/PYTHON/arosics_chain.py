@@ -235,7 +235,7 @@ def apply_saved_matrix(im_path, out_dir_path, metadata_path, suffix=""):
 
 
 
-def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shift=250, max_iter=5, window_size=1500, window_pos = (None, None), mp=None, min_reliability = 60, grid_res=None, save_data = True, save_vector_plot = False, queue=None):
+def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shift=250, max_iter=5, window_size=256, window_pos = (None, None), mp=None, min_reliability = 60, grid_res=None, save_data = True, save_vector_plot = False, queue=None):
     """
     Calls arosics functions to perform a global or local co-registration between two images. Option to save the coregistrated image, and in the case of a local CoReg, the tie points data and the vector shift map.
 
@@ -373,11 +373,11 @@ def complete_arosics_process(path_in,
     #Set default values for window_size
     if corr_type == 'global':
         if window_size is None :
-            window_size = 1500
+            window_size = 512
         grid_res = ""
     elif corr_type == 'local':
         if window_size is None :
-            window_size = 4000 
+            window_size = 256 
 
     if not os.path.exists(out_dir_path):
         os.mkdir(out_dir_path)
