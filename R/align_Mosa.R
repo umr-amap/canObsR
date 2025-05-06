@@ -60,7 +60,7 @@
 
 
 align_Mosa <- function(path_in, ref_filepath, out_dir_path,
-                          corr_type = "global", max_shift = 250L, max_iter = 100L,
+                          corr_type = "global", max_shift = 250L, max_iter = 5L,
                           min_reliability = 60, grid_res = 1000L, window_size = NULL,
                           window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE,
                           save_vector_plot = FALSE, apply_matrix = FALSE, suffix = "_") {
