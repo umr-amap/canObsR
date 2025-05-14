@@ -3,8 +3,8 @@ server <- function(input,output,session){
 
 # Reactive values ---------------------------------------------------------
 
-   data <- reactive({
-      req(input$dataLabeling_file)
+   data <- reactiveVal({
+      # req(input$dataLabeling_file)
       .GlobalEnv$.aecay.labels %>% openxlsx::read.xlsx() %>%
          mutate (date = as.Date(date, "%Y_%m_%d"))
    }

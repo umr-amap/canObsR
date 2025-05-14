@@ -52,6 +52,9 @@ Tmpfiles_directory = 'XXX/R_tmpdir' # NULL if you want to use the default folder
 
 # Number of cores used for the paralelized functions
 N_cores = 10
+
+# Site
+site = 'Bouamir'
 ```
 
 If you are using the test data or if you follow the same files architecture just 
@@ -157,7 +160,7 @@ rgb_data <- extract_rgbValues (
 
 create_labelingFile(
    path_crowns = file.path(path,'crowns_corrected.gpkg'), # Path to  crowns file
-   site = 'Bouamir',                                                 # Site name
+   site = site,                                                 # Site name
    dates = dates,                                      # Dates of the RGB survey
    out_dir_path = path)                                  # Path to output folder
 
@@ -169,21 +172,20 @@ openXL(file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date()
 ############## STEP 5 Fill the labelingFile with shiny app  --------------------
         
 # Import the labelingFile
-labeling_file <- read.xlsx(
-   file.path(
-      path,
-      paste(
-         'Bouamir_labelingFile',
-         paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), 
+labeling_file <- file.path(
+   path,
+   paste('Bouamir_labelingFile',
+         paste0(
+            format(as.Date(Sys.Date(),format="%Y-%m-%d"), format ="%Y%m%d"),
+            '.xlsx'), 
          sep = '_' )
       )
-   )
 
 # Start the app
 
 shiny_labels(
    data_labeling = labeling_file,
-   newFile = 'E:/new.xlsx',
+   newFile = file.path(path,paste(site,'labelingFile_update.xlsx')),
    imgFolder = file.path(path,'4_crowns_img') # Path to the crowns images folder
    ) 
 ```
