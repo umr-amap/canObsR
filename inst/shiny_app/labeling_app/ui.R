@@ -25,7 +25,7 @@ navbarPage(
 
                shiny::textInput(inputId = "dataLabeling_file",
                                 label = "Labeling data file",
-                                value = .GlobalEnv$.aecay.newfile
+                                value = .GlobalEnv$.aecay.labels
                ),
 
                shiny::textInput(inputId = "new_filename",

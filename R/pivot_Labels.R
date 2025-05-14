@@ -23,7 +23,7 @@ pivot_Labels <- function(labels_path,
                          out_dir_path = NULL) {
 
    longLabels <- labels_path %>%
-      read.xlsx() %>%
+      openxlsx::read.xlsx() %>%
       gather(-c(id, obs, comments, update, Usable_crown, n, site, species, genus, family),
                     key = date,
                     value = phenophase) %>%
