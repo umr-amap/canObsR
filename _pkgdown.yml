@@ -72,6 +72,7 @@ reference:
 articles:
 - title: Tutorials
   contents:
+  - Complete-installation
   - generate-and-align-ortomosaics
   - Extract-crowns-data
   - workflow
