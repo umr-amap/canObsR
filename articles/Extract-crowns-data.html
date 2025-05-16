@@ -81,7 +81,7 @@
 
     
     
-<p><img src="img%2FImage1.jpg" width="100%" style="display: block; margin: auto;"></p>
+<p><img src="img/Image1.jpg" width="100%" style="display: block; margin: auto;"></p>
 <p>Here is a short example to guide you step by step through the
 extraction of crown scale data. All you need to start it is a <em>RGB
 orthomosaics time serie</em> and a <em>shape file of the crown
@@ -119,7 +119,10 @@ temporary files.</p>
 <span><span class="va">Tmpfiles_directory</span> <span class="op">=</span> <span class="st">'XXX/R_tmpdir'</span> <span class="co"># NULL if you want to use the default folder</span></span>
 <span></span>
 <span><span class="co"># Number of cores used for the paralelized functions</span></span>
-<span><span class="va">N_cores</span> <span class="op">=</span> <span class="fl">10</span></span></code></pre></div>
+<span><span class="va">N_cores</span> <span class="op">=</span> <span class="fl">10</span></span>
+<span></span>
+<span><span class="co"># Site</span></span>
+<span><span class="va">site</span> <span class="op">=</span> <span class="st">'Bouamir'</span></span></code></pre></div>
 <p>If you are using the test data or if you follow the same files
 architecture just run the following code.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -220,7 +223,7 @@ package functions the shape file must have :</p>
 <span></span>
 <span><span class="fu"><a href="../reference/create_labelingFile.html">create_labelingFile</a></span><span class="op">(</span></span>
 <span>   path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span>, <span class="co"># Path to  crowns file</span></span>
-<span>   site <span class="op">=</span> <span class="st">'Bouamir'</span>,                                                 <span class="co"># Site name</span></span>
+<span>   site <span class="op">=</span> <span class="va">site</span>,                                                 <span class="co"># Site name</span></span>
 <span>   dates <span class="op">=</span> <span class="va">dates</span>,                                      <span class="co"># Dates of the RGB survey</span></span>
 <span>   out_dir_path <span class="op">=</span> <span class="va">path</span><span class="op">)</span>                                  <span class="co"># Path to output folder</span></span>
 <span></span>
@@ -232,21 +235,20 @@ package functions the shape file must have :</p>
 <span><span class="co">############## STEP 5 Fill the labelingFile with shiny app  --------------------</span></span>
 <span>        </span>
 <span><span class="co"># Import the labelingFile</span></span>
-<span><span class="va">labeling_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">read.xlsx</a></span><span class="op">(</span></span>
-<span>   <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
-<span>      <span class="va">path</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span>
-<span>         <span class="st">'Bouamir_labelingFile'</span>,</span>
-<span>         <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,format<span class="op">=</span><span class="st">"%Y-%m-%d"</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"%Y%m%d"</span><span class="op">)</span>, <span class="st">'.xlsx'</span><span class="op">)</span>, </span>
+<span><span class="va">labeling_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
+<span>   <span class="va">path</span>,</span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">'Bouamir_labelingFile'</span>,</span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,format<span class="op">=</span><span class="st">"%Y-%m-%d"</span><span class="op">)</span>, format <span class="op">=</span><span class="st">"%Y%m%d"</span><span class="op">)</span>,</span>
+<span>            <span class="st">'.xlsx'</span><span class="op">)</span>, </span>
 <span>         sep <span class="op">=</span> <span class="st">'_'</span> <span class="op">)</span></span>
 <span>      <span class="op">)</span></span>
-<span>   <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Start the app</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/shiny_labels.html">shiny_labels</a></span><span class="op">(</span></span>
 <span>   data_labeling <span class="op">=</span> <span class="va">labeling_file</span>,</span>
-<span>   newFile <span class="op">=</span> <span class="st">'E:/new.xlsx'</span>,</span>
+<span>   newFile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">site</span>,<span class="st">'labelingFile_update.xlsx'</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>   imgFolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'4_crowns_img'</span><span class="op">)</span> <span class="co"># Path to the crowns images folder</span></span>
 <span>   <span class="op">)</span> </span></code></pre></div>
 </div>
@@ -261,7 +263,7 @@ package functions the shape file must have :</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>
