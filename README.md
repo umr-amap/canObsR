@@ -7,7 +7,6 @@
 - [Citation](#citation)
 - [Install](#install)
 - [Documentation](#documentation)
-- [How to use canObsR](#how-to-use-canObsR)
 - [Generate orthomosaics](#generate-orthomosaics)
 
 # The package
@@ -25,96 +24,35 @@ To cite ‘canObsR’, please use citation(‘canObsR’).
 
 # Installation
 
-``` r
-library(devtools)
-install_github("https://github.com/umr-amap/canObsR.git")
-```
+The installation of canObsR involves several steps that go beyond a
+typical R package. This is because the package acts as a bridge between
+different powerful tools used for processing imagery. Here’s why:
+
+Python integration: Some key processing steps rely on specialized Python
+libraries. To make this work seamlessly from R, we use the {reticulate}
+package, which requires setting up a Python environment via Miniconda.
+This allows us to run Python scripts directly from R functions.
+
+Environment setup: We provide a .yml file to create a dedicated Python
+environment with all the required dependencies. This ensures that the
+Python code used in the package runs reliably, regardless of the user’s
+system.
+
+Metashape integration: Some image processing steps rely on Agisoft
+Metashape, a commercial software. To use these features, Metashape must
+be installed, and a valid license key must be activated.
+
+Although the setup may seem complex at first, it ensures that once
+installed, all components work together smoothly to provide robust and
+reproducible results across platforms.
+
+[The full installation process
+here](https://umr-amap.github.io/canObsR/articles/Complete-installation.html)
 
 # Documentation
 
 In addition to the usual R package documentation, we also have extensive
 docs and examples [here](https://umr-amap.github.io/canObsR/)
-
-# How to use canObsR
-
-## Python environment
-
-First, make sure you have python\>3.9 and anaconda / miniconda installed
-on your device. If not, you can download them using the following links
-:
-
-<https://www.python.org/downloads/> <https://www.anaconda.com/download/>
-
-After completing the installation steps, you can create your own python
-environment that will contain everything you need to call this package’s
-functions.
-
-``` r
-# Imports
-library(reticulate)
-library(canObsR)
-#> Warning: remplacement de l'importation précédente 'colourpicker::runExample'
-#> par 'shiny::runExample' lors du chargement de 'canObsR'
-#> Warning: remplacement de l'importation précédente 'dplyr::intersect' par
-#> 'terra::intersect' lors du chargement de 'canObsR'
-#> Warning: remplacement de l'importation précédente 'shinyWidgets::panel' par
-#> 'terra::panel' lors du chargement de 'canObsR'
-#> Warning: remplacement de l'importation précédente 'dplyr::union' par
-#> 'terra::union' lors du chargement de 'canObsR'
-#> Warning: remplacement de l'importation précédente 'terra::extract' par
-#> 'tidyr::extract' lors du chargement de 'canObsR'
-#> Warning: remplacement de l'importation précédente 'terra::quantile' par
-#> 'stats::quantile' lors du chargement de 'canObsR'
-```
-
-``` r
-# Python env creation
-env_name <- "canObsR_env"   # use the name you want for your environment
-environment = file.path( system.file(package="canObsR"), 'PYTHON/environment.yaml')   # use the environment.yaml file included in the package
-
-conda_create(env_name, environment = environment)
-use_condaenv(env_name)
-```
-
-## Metashape
-
-The environment you just created contains already all necessary
-dependences but the Metashape python API, which is required to align
-photos using TimeSIFT. To install it, you first need to download a file
-from the Metashape website :
-<https://www.agisoft.com/downloads/installer/>. Go to the “Python 3
-module” section and click on the link corresponding to your operating
-system. This should download a file named “Metashape\[…\].whl”. Then,
-copy the path to the downloaded .whl file below
-
-``` r
-# Add metashape API to env
-path_to_whl_file <- "MYPATH/Metashape-2.1.3-cp37.cp38.cp39.cp310.cp311-none-win_amd64.whl"   #replace with your path
-
-py_install(path_to_whl_file, envname = env_name, pip=TRUE)
-```
-
-### Metashape license activation
-
-Your python environment should be ready for use now. However, Agisoft
-Metashape requires a paid license in order to access all its features.
-It is not necessary to have the Metashape application installed on your
-device in order for the python API to work, but whether or not the
-application is installed and/or activated, the API still needs to be
-activated using a license key (it can be the same used for the
-application if it is already installed).
-
-To activate the key, follow these steps :
-
-- Open an anaconda command prompt
-- Activate the environnement you just created : \$ conda activate
-  canObs_env
-- start python and activate the licence : \$ python \>\>\> import
-  Metashape \>\>\> Metashape.license.activate(“AAAA-BBBB-CCCC-DDDD”) \#
-  replace with your license key
-
-If that works, you can close the command prompt. You should be good to
-go !
 
 # Generate orthomosaics
 
@@ -126,7 +64,9 @@ dataset](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6
 and follow [the
 article](https://umr-amap.github.io/canObsR/articles/generate-and-align-ortomosaics.html).
 
-The generation of orthomosaics is based on Fabrice Vinatier & Denis Feurer's work, [Time-SIFT module for Agisoft Metashape software](https://doi.org/10.5281/zenodo.8367318) (2023)
+The generation of orthomosaics is based on Fabrice Vinatier & Denis
+Feurer’s work, [Time-SIFT module for Agisoft Metashape
+software](https://doi.org/10.5281/zenodo.8367318) (2023)
 
 <div class="figure" style="text-align: center">
 

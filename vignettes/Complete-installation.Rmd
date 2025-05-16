@@ -14,17 +14,26 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Why the installation process is more complex
 
+The installation of canObsR involves several steps that go beyond a typical R package. This is because the package acts as a bridge between different powerful tools used for processing imagery. Here's why:
+
+Python integration: Some key processing steps rely on specialized Python libraries. To make this work seamlessly from R, we use the {reticulate} package, which requires setting up a Python environment via Miniconda. This allows us to run Python scripts directly from R functions.
+
+Environment setup: We provide a .yml file to create a dedicated Python environment with all the required dependencies. This ensures that the Python code used in the package runs reliably, regardless of the user's system.
+
+Metashape integration: Some image processing steps rely on Agisoft Metashape, a commercial software. To use these features, Metashape must be installed, and a valid license key must be activated.
+
+Although the setup may seem complex at first, it ensures that once installed, all components work together smoothly to provide robust and reproducible results across platforms.
+
+canObsR is a R package 
 # 📥 Install R, Rtools et RStudio
 
-### 🔹 R
-Download and install the last version of R on the [CRAN R](https://cran.r-project.org/)
+### 🔹 R : Download and install the last version of R on the [CRAN R](https://cran.r-project.org/)
 
-### 🔹 Rtools
-Download and install [CRAN Rtools](https://cran.rstudio.com/)
+### 🔹 Rtools : Download and install [CRAN Rtools](https://cran.rstudio.com/)
 
-### 🔹 RStudio
-Download and install  [RStudio Desktop](https://posit.co/download/rstudio-desktop/)
+### 🔹 RStudio : Download and install  [RStudio Desktop](https://posit.co/download/rstudio-desktop/)
 
 ---
 
@@ -71,9 +80,13 @@ conda_install(
 ---
 
 # 🏗 Install de Metashape
+
+The environment you just created contains already all necessary dependences but the Metashape python API, which is required to align photos using TimeSIFT.
+
 🔻 Download the .whl file here : 
 https://www.agisoft.com/downloads/installer/
 
+Go to the "Python 3 module" section and click on the link corresponding to your operating system. This should download a file named "Metashape[...].whl". Then, copy the path to the downloaded .whl file below
 
 *In RStudio console*
 ```{r, eval=F, echo=T}
@@ -96,6 +109,11 @@ py_module_available("Metashape") # Should be TRUE
 ---
 
 # 🔑 Metashape license activation
+
+Your python environment should be ready for use now. However, Agisoft Metashape requires a paid license in order to access all its features.
+It is not necessary to have the Metashape application installed on your device in order for the python API to work, but whether or not the application is installed and/or activated, the API still needs to be activated using a license key (it can be the same used for the application if it is already installed).
+
+
 *In RStudio console*
 ```{r, eval=F, echo=T}
 install.packages("reticulate")
@@ -109,6 +127,21 @@ else:
     print('❌ Metashape License not activated.')
 ")
 ```
+
+
+Or you can also do it using the Anaconda command prompt
+
+To activate the key, follow these steps :
+
+- Open an anaconda command prompt
+- Activate the environnement you just created :
+$ conda activate canObs_env
+- start python and activate the licence :
+$ python
+>>> import Metashape
+>>> Metashape.license.activate("AAAA-BBBB-CCCC-DDDD")           # replace with your license key
+
+
 
 If that works, you can close the command prompt. You should be good to go ! 🎉
 
