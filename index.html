@@ -76,7 +76,6 @@
 <li><a href="#citation">Citation</a></li>
 <li><a href="#install">Install</a></li>
 <li><a href="#documentation">Documentation</a></li>
-<li><a href="#how-to-use-canObsR">How to use canObsR</a></li>
 <li><a href="#generate-orthomosaics">Generate orthomosaics</a></li>
 </ul>
 </div>
@@ -93,70 +92,17 @@
 <div class="section level1">
 <h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h1>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
-<span><span class="fu">install_github</span><span class="op">(</span><span class="st">"https://github.com/umr-amap/canObsR.git"</span><span class="op">)</span></span></code></pre></div>
+<p>The installation of canObsR involves several steps that go beyond a typical R package. This is because the package acts as a bridge between different powerful tools used for processing imagery. Here’s why:</p>
+<p>Python integration: Some key processing steps rely on specialized Python libraries. To make this work seamlessly from R, we use the {reticulate} package, which requires setting up a Python environment via Miniconda. This allows us to run Python scripts directly from R functions.</p>
+<p>Environment setup: We provide a .yml file to create a dedicated Python environment with all the required dependencies. This ensures that the Python code used in the package runs reliably, regardless of the user’s system.</p>
+<p>Metashape integration: Some image processing steps rely on Agisoft Metashape, a commercial software. To use these features, Metashape must be installed, and a valid license key must be activated.</p>
+<p>Although the setup may seem complex at first, it ensures that once installed, all components work together smoothly to provide robust and reproducible results across platforms.</p>
+<p><a href="https://umr-amap.github.io/canObsR/articles/Complete-installation.html">The full installation process here</a></p>
 </div>
 <div class="section level1">
 <h1 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h1>
 <p>In addition to the usual R package documentation, we also have extensive docs and examples <a href="https://umr-amap.github.io/canObsR/">here</a></p>
-</div>
-<div class="section level1">
-<h1 id="how-to-use-canobsr">How to use canObsR<a class="anchor" aria-label="anchor" href="#how-to-use-canobsr"></a>
-</h1>
-<div class="section level2">
-<h2 id="python-environment">Python environment<a class="anchor" aria-label="anchor" href="#python-environment"></a>
-</h2>
-<p>First, make sure you have python&gt;3.9 and anaconda / miniconda installed on your device. If not, you can download them using the following links :</p>
-<p><a href="https://www.python.org/downloads/" class="external-link uri">https://www.python.org/downloads/</a> <a href="https://www.anaconda.com/download/" class="external-link uri">https://www.anaconda.com/download/</a></p>
-<p>After completing the installation steps, you can create your own python environment that will contain everything you need to call this package’s functions.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Imports</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/umr-amap/canObsR" class="external-link">canObsR</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'colourpicker::runExample'</span></span>
-<span><span class="co">#&gt; par 'shiny::runExample' lors du chargement de 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'dplyr::intersect' par</span></span>
-<span><span class="co">#&gt; 'terra::intersect' lors du chargement de 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'shinyWidgets::panel' par</span></span>
-<span><span class="co">#&gt; 'terra::panel' lors du chargement de 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'dplyr::union' par</span></span>
-<span><span class="co">#&gt; 'terra::union' lors du chargement de 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'terra::extract' par</span></span>
-<span><span class="co">#&gt; 'tidyr::extract' lors du chargement de 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: remplacement de l'importation précédente 'terra::quantile' par</span></span>
-<span><span class="co">#&gt; 'stats::quantile' lors du chargement de 'canObsR'</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Python env creation</span></span>
-<span><span class="va">env_name</span> <span class="op">&lt;-</span> <span class="st">"canObsR_env"</span>   <span class="co"># use the name you want for your environment</span></span>
-<span><span class="va">environment</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package<span class="op">=</span><span class="st">"canObsR"</span><span class="op">)</span>, <span class="st">'PYTHON/environment.yaml'</span><span class="op">)</span>   <span class="co"># use the environment.yaml file included in the package</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/conda-tools.html" class="external-link">conda_create</a></span><span class="op">(</span><span class="va">env_name</span>, environment <span class="op">=</span> <span class="va">environment</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html" class="external-link">use_condaenv</a></span><span class="op">(</span><span class="va">env_name</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="metashape">Metashape<a class="anchor" aria-label="anchor" href="#metashape"></a>
-</h2>
-<p>The environment you just created contains already all necessary dependences but the Metashape python API, which is required to align photos using TimeSIFT. To install it, you first need to download a file from the Metashape website : <a href="https://www.agisoft.com/downloads/installer/" class="external-link uri">https://www.agisoft.com/downloads/installer/</a>. Go to the “Python 3 module” section and click on the link corresponding to your operating system. This should download a file named “Metashape[…].whl”. Then, copy the path to the downloaded .whl file below</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Add metashape API to env</span></span>
-<span><span class="va">path_to_whl_file</span> <span class="op">&lt;-</span> <span class="st">"MYPATH/Metashape-2.1.3-cp37.cp38.cp39.cp310.cp311-none-win_amd64.whl"</span>   <span class="co">#replace with your path</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_install.html" class="external-link">py_install</a></span><span class="op">(</span><span class="va">path_to_whl_file</span>, envname <span class="op">=</span> <span class="va">env_name</span>, pip<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="metashape-license-activation">Metashape license activation<a class="anchor" aria-label="anchor" href="#metashape-license-activation"></a>
-</h3>
-<p>Your python environment should be ready for use now. However, Agisoft Metashape requires a paid license in order to access all its features. It is not necessary to have the Metashape application installed on your device in order for the python API to work, but whether or not the application is installed and/or activated, the API still needs to be activated using a license key (it can be the same used for the application if it is already installed).</p>
-<p>To activate the key, follow these steps :</p>
-<ul>
-<li>Open an anaconda command prompt</li>
-<li>Activate the environnement you just created : $ conda activate canObs_env</li>
-<li>start python and activate the licence : $ python &gt;&gt;&gt; import Metashape &gt;&gt;&gt; Metashape.license.activate(“AAAA-BBBB-CCCC-DDDD”) # replace with your license key</li>
-</ul>
-<p>If that works, you can close the command prompt. You should be good to go !</p>
-</div>
-</div>
 </div>
 <div class="section level1">
 <h1 id="generate-orthomosaics">Generate orthomosaics<a class="anchor" aria-label="anchor" href="#generate-orthomosaics"></a>

@@ -82,24 +82,39 @@
     
     
 <div class="section level2">
-<h2 id="install-r-rtools-et-rstudio">📥 Install R, Rtools et RStudio<a class="anchor" aria-label="anchor" href="#install-r-rtools-et-rstudio"></a>
+<h2 id="why-the-installation-process-is-more-complex">Why the installation process is more complex<a class="anchor" aria-label="anchor" href="#why-the-installation-process-is-more-complex"></a>
 </h2>
+<p>The installation of canObsR involves several steps that go beyond a
+typical R package. This is because the package acts as a bridge between
+different powerful tools used for processing imagery. Here’s why:</p>
+<p>Python integration: Some key processing steps rely on specialized
+Python libraries. To make this work seamlessly from R, we use the
+{reticulate} package, which requires setting up a Python environment via
+Miniconda. This allows us to run Python scripts directly from R
+functions.</p>
+<p>Environment setup: We provide a .yml file to create a dedicated
+Python environment with all the required dependencies. This ensures that
+the Python code used in the package runs reliably, regardless of the
+user’s system.</p>
+<p>Metashape integration: Some image processing steps rely on Agisoft
+Metashape, a commercial software. To use these features, Metashape must
+be installed, and a valid license key must be activated.</p>
+<p>Although the setup may seem complex at first, it ensures that once
+installed, all components work together smoothly to provide robust and
+reproducible results across platforms.</p>
+<p>canObsR is a R package # 📥 Install R, Rtools et RStudio</p>
 <div class="section level4">
-<h4 id="r">🔹 R<a class="anchor" aria-label="anchor" href="#r"></a>
+<h4 id="r-download-and-install-the-last-version-of-r-on-the-cran-r">🔹 R : Download and install the last version of R on the <a href="https://cran.r-project.org/" class="external-link">CRAN R</a><a class="anchor" aria-label="anchor" href="#r-download-and-install-the-last-version-of-r-on-the-cran-r"></a>
 </h4>
-<p>Download and install the last version of R on the <a href="https://cran.r-project.org/" class="external-link">CRAN R</a></p>
 </div>
 <div class="section level4">
-<h4 id="rtools">🔹 Rtools<a class="anchor" aria-label="anchor" href="#rtools"></a>
+<h4 id="rtools-download-and-install-cran-rtools">🔹 Rtools : Download and install <a href="https://cran.rstudio.com/" class="external-link">CRAN Rtools</a><a class="anchor" aria-label="anchor" href="#rtools-download-and-install-cran-rtools"></a>
 </h4>
-<p>Download and install <a href="https://cran.rstudio.com/" class="external-link">CRAN
-Rtools</a></p>
 </div>
 <div class="section level4">
-<h4 id="rstudio">🔹 RStudio<a class="anchor" aria-label="anchor" href="#rstudio"></a>
+<h4 id="rstudio-download-and-install-rstudio-desktop">🔹 RStudio : Download and install <a href="https://posit.co/download/rstudio-desktop/" class="external-link">RStudio
+Desktop</a><a class="anchor" aria-label="anchor" href="#rstudio-download-and-install-rstudio-desktop"></a>
 </h4>
-<p>Download and install <a href="https://posit.co/download/rstudio-desktop/" class="external-link">RStudio
-Desktop</a></p>
 <hr>
 </div>
 </div>
@@ -148,7 +163,14 @@ Desktop</a></p>
 <div class="section level2">
 <h2 id="install-de-metashape">🏗 Install de Metashape<a class="anchor" aria-label="anchor" href="#install-de-metashape"></a>
 </h2>
+<p>The environment you just created contains already all necessary
+dependences but the Metashape python API, which is required to align
+photos using TimeSIFT.</p>
 <p>🔻 Download the .whl file here : <a href="https://www.agisoft.com/downloads/installer/" class="external-link uri">https://www.agisoft.com/downloads/installer/</a></p>
+<p>Go to the “Python 3 module” section and click on the link
+corresponding to your operating system. This should download a file
+named “Metashape[…].whl”. Then, copy the path to the downloaded .whl
+file below</p>
 <p><em>In RStudio console</em></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">whl_file</span> <span class="op">&lt;-</span> <span class="st">".../Metashape-2.2.1-cp37.cp38.cp39.cp310.cp311-none-win_amd64.whl"</span></span>
@@ -170,6 +192,13 @@ Desktop</a></p>
 <div class="section level2">
 <h2 id="metashape-license-activation">🔑 Metashape license activation<a class="anchor" aria-label="anchor" href="#metashape-license-activation"></a>
 </h2>
+<p>Your python environment should be ready for use now. However, Agisoft
+Metashape requires a paid license in order to access all its features.
+It is not necessary to have the Metashape application installed on your
+device in order for the python API to work, but whether or not the
+application is installed and/or activated, the API still needs to be
+activated using a license key (it can be the same used for the
+application if it is already installed).</p>
 <p><em>In RStudio console</em></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"reticulate"</span><span class="op">)</span></span>
@@ -182,6 +211,16 @@ Desktop</a></p>
 <span><span class="st">else:</span></span>
 <span><span class="st">    print('❌ Metashape License not activated.')</span></span>
 <span><span class="st">"</span><span class="op">)</span></span></code></pre></div>
+<p>Or you can also do it using the Anaconda command prompt</p>
+<p>To activate the key, follow these steps :</p>
+<ul>
+<li>Open an anaconda command prompt</li>
+<li>Activate the environnement you just created : $ conda activate
+canObs_env</li>
+<li>start python and activate the licence : $ python &gt;&gt;&gt; import
+Metashape &gt;&gt;&gt; Metashape.license.activate(“AAAA-BBBB-CCCC-DDDD”)
+# replace with your license key</li>
+</ul>
 <p>If that works, you can close the command prompt. You should be good
 to go ! 🎉</p>
 <hr>
