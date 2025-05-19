@@ -85,9 +85,9 @@ create_labelingFile <- function(
          if(!is.null(out_dir_path) ){
 
 
-            openxlsx::write.xlsx(labeling_file, file = file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
+            openxlsx::write.xlsx(labeling_file, file = file.path(out_dir_path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
 
-            print(paste('File has been written :',file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' ))))
+            print(paste('File has been written :',file.path(out_dir_path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' ))))
 
          }
 

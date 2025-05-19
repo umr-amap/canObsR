@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 The installation of canObsR involves several steps that go beyond a typical R package. This is because the package acts as a bridge between different powerful tools used for processing imagery. Here's why:
 
-Python integration: Some key processing steps rely on specialized Python libraries. To make this work seamlessly from R, we use the {reticulate} package, which requires setting up a Python environment via Miniconda. This allows us to run Python scripts directly from R functions.
+Python integration: Some key processing steps rely on specialized Python libraries. To make this work seamlessly from R, we use the reticulate package, which requires setting up a Python environment via Miniconda. This allows us to run Python scripts directly from R functions.
 
 Environment setup: We provide a .yml file to create a dedicated Python environment with all the required dependencies. This ensures that the Python code used in the package runs reliably, regardless of the user's system.
 

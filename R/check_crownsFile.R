@@ -9,7 +9,7 @@
 #'
 #' @return Text that give you informations about your file.
 #' Indicates whether your file will be compatible or not  for the other functions of the package.
-#' Pay attention to the line starting with '-- ERROR --'.
+#' Pay attention to the line starting with ❌ .
 #'
 #' @export
 #'
@@ -27,32 +27,32 @@ check_crownsFile <- function(path_crowns){
 
    var_check <- c(
       '##########     VARIABLES CHECK     ##########',
-      '-                                           -'
+      '                                             '
    )
 
    var_checkNA <- c(
       '##########    NA VARIABLES CHECK   ##########',
-      '-                                           -'
+      '                                             '
    )
 
    for (i in 1:length(var_needed)) {
 
       if (var_needed[i] %in% vars) {
 
-         checki <- paste('--- OK ----  :  ',var_needed[i])
+         checki <- paste('✅   ',var_needed[i])
 
          if(crownsFile %>% .[[var_needed[i]]] %>% is.na() %>% any()){
 
-            checkiNA <- paste("-- ERROR --  : Transform NA to 'indet' for the variable ->",var_needed[i])
+            checkiNA <- paste("❌  Transform NA to 'indet' for the variable ->",var_needed[i])
 
          } else {
-            checkiNA <- paste("--- OK ----  :  No NA for the variable ",var_needed[i])
+            checkiNA <- paste("✅   No NA for the variable ",var_needed[i])
 
          }
 
       } else {
 
-         checki <- paste('-- ERROR --  :  ',var_needed[i], 'variable missing or not well named')
+         checki <- paste('❌   ',var_needed[i], 'variable missing or not well named')
          checkiNA <- NULL
 
       }
@@ -73,11 +73,11 @@ check_crownsFile <- function(path_crowns){
 
    if (length(crownsFile$id[duplicated(crownsFile$id)]) == 0){
 
-      duplicat_id <- '--- OK ----  :  There is no duplicated id'
+      duplicat_id <- '✅   There is no duplicated id'
 
    } else {
 
-      duplicat_id <- c('-- ERROR --  :  The following id are duplicated :',
+      duplicat_id <- c('❌   The following id are duplicated :',
                        paste(crownsFile$id[duplicated(crownsFile$id)],
                              collapse = ','
                        )
@@ -94,19 +94,19 @@ check_crownsFile <- function(path_crowns){
       cat(
          c(
             var_check,
-            '-                                           -',
+            '                                             ',
             var_checkNA,
-            c('-                                           -',
-              '-                                           -',
+            c('                                             ',
+              '                                             ',
               '##########           CRS           ##########',
-              '-                                           -'
+              '                                             '
             ),
 
             paste(c('CRS', crs), collapse = ' : '),
-            c('-                                           -',
-              '-                                           -',
+            c('                                             ',
+              '                                             ',
               '##########   DUPLICATED ID CHECK   ##########',
-              '-                                           -'
+              '                                             '
             ),
             duplicat_id
          ),

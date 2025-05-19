@@ -14,11 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r echo=FALSE, fig.show='hold',fig.align="center", message=FALSE, warning=FALSE, out.width='100%'}
-knitr::include_graphics("img/Image1.jpg")
-```
-
-Here is a short example to guide you step by step through the extraction of crown scale data. All you need to start it is a *RGB orthomosaics time serie* and a *shape file of the crown delineations*. To run the following code you can use the outputs of the of the [Generate ans align orthomosaics article ](https://umr-amap.github.io/canObsR/articles/generate-and-align-ortomosaics.html) or directly download the test data (link is coming).
+Here is an aticle to guide you step by step through the extraction of crowns scale data. All you need to start it is a **RGB orthomosaics time serie** and a **shapefile of the crowns delineations**. To run the following code you have to download the test data (link is coming).
 
 ```{r, eval=F, echo=T}
 ############## Load libraries --------------------------------------------------
@@ -29,36 +25,36 @@ library(sf)
 library(openxlsx)
 ```
 
+---
+
 # Set parameters
 
-Set your parameters, the *path* to the CanObsR_data folder, the *Tmpfiles_directory*
-if you want to store the temporary files in a specific folder and *N_cores* the number 
-of cores you want to allocate for the function  `extract_crownsImages()` and 
-`extract_rgbValues()`.
+Set the **path** to the CanObsR_data folder, the **site** name, the **Tmpfiles_directory** if you want to store the temporary files in a specific folder and **N_cores** the number of cores you want to allocate for the parallelized functions*.
 
-Note : The functions `extract_crownsImages()` and `extract_rgbValues()` can produce a 
+Note* : The functions `extract_crownsImages()` and `extract_rgbValues()` can produce a 
 lot of temporary files and need several GB of memory depending on the size, the 
 resolution and the number of mosaics. You can specify where you want to store 
 the temporary files.
 
 ```{r, eval=F, echo=T}
-############## Set variables ---------------------------------------------------
+############## Set parameters --------------------------------------------------
 
 # Path to the main directory
 path = 'XXXX/canObsR_data'
+
+# Site
+site = 'Bouamir'
 
 # Path to store the temp files
 Tmpfiles_directory = 'XXX/R_tmpdir' # NULL if you want to use the default folder
 
 # Number of cores used for the paralelized functions
 N_cores = 10
-
-# Site
-site = 'Bouamir'
 ```
 
-If you are using the test data or if you follow the same files architecture just 
-run the following code.
+If you are using the test data just 
+run the following code to get the path to the RGB mosaics (**imgs**) and the 
+dates of the images (**dates**).
 
 ```{r, eval=F, echo=T}
 # Path to the mosaics
@@ -66,17 +62,19 @@ imgs <- list.files(file.path(path,'3_orthomosaics_aligned'), full.names = T)
 
 # Extract the dates of the images
 dates <- 
-   extr_dates(names_img = basename(imgs), n = 2, sep = '_', extension = '.gpkg')
+   extr_dates(names_img = basename(imgs), n = 2, sep = '', extension = '.tif')
 ```
 
-# First step : Make the crowns shape file compatible
+---
+
+# First step : Test the crowns shapefile compatible
 
 The first step is to check the crowns file compatibility with the function 
-`check_crownsFile`. To be compatible with the package functions the shape file 
+`check_crownsFile`. To be compatible with the package functions the shapefile 
 must have :  
 
 * at least the variables 'id', 'species', 'genus' and 'family'
-* 'species', 'genus' and 'family' should not have NA. Replce them by 'indet'
+* 'species', 'genus' and 'family' should not have NA. Replace them by 'indet'
 * 'id' should not have duplicated values.
 
 ```{r, eval=F, echo=T}
@@ -84,7 +82,12 @@ must have :
 
 # Check the crowns file compatibility
 
-check_crownsFile(path_crowns = file.path(path,'crowns.gpkg'))
+check_crownsFile(
+   path_crowns = file.path(path,'crowns.gpkg')
+   ) # Output : Image 1 (1)
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
 
 # Rename variables
 
@@ -100,7 +103,12 @@ sf::read_sf(file.path(path,'crowns.gpkg')) %>%  # Load the file
 
 # Check the new crowns file compatibility
 
-check_crownsFile(path_crowns = file.path(path,'crowns_corrected.gpkg'))
+check_crownsFile(
+   path_crowns = file.path(path,'crowns_corrected.gpkg')
+   ) # Output : Image 1 (2)
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
 
 # Rename NA to 'indet'
 
@@ -121,11 +129,26 @@ sf::read_sf(file.path(path,'crowns_corrected.gpkg')) %>%     # Load the new file
 
 # Re-check the new crowns file compatibility
 
-check_crownsFile(path_crowns = file.path(path,'crowns_corrected.gpkg'))
+check_crownsFile(
+   path_crowns = file.path(path,'crowns_corrected.gpkg')
+   ) # Output : Image 1 (3)
 
-# File compatibility should be OK
 ```
 
+
+```{r echo=FALSE, fig.show='hold',fig.align="center", message=FALSE, fig.cap="check_crownsFile outputs", warning=FALSE, out.width='100%'}
+knitr::include_graphics("img/file_compatibility.jpg")
+```
+
+---
+
+# Second step : Extract crowns images per date
+
+The second step is to extract individual crown images per date with the function
+`extract_crownsImages`. The function can be used in parallelization when N_cores
+is superior at 1 and can use a lot of memory (several GB). It is better to specify 
+where to store the temporary files to be sur to have enought space. If you use the 
+test data, it can take about 15 minutes (or more).
 
 ```{r, eval=F, echo=T}
 ############## STEP 2 Extract crowns images ------------------------------------
@@ -141,8 +164,19 @@ extract_crownsImages(
    width = 720,                                           # By default it is 720 
    height = 825                                           # By default it is 720 
 )
+```
 
-############## STEP 3 Extract spectral indices from mosaic at the crown scale --
+
+```{r echo=FALSE, fig.show='hold',fig.align="center", fig.cap="extract_crownsImages outputs files", message=FALSE, warning=FALSE, out.width='100%'}
+knitr::include_graphics("img/extract_crownsImages.jpg")
+```
+
+---
+
+# Third step : Extract crowns images per date
+
+```{r, eval=F, echo=T}
+############## STEP 3 Extract spectral indices from mosaics at the crown scale -
 
 rgb_data <- extract_rgbValues (
    path_images = imgs,                                         # Path to mosaics
@@ -155,19 +189,37 @@ rgb_data <- extract_rgbValues (
    file_type = '.xlsx'                   # Could be '.csv' or '.xlsx' or 'RData'
 )
 
+```
 
+
+```{r echo=FALSE, fig.show='hold',fig.align="center", fig.cap="extract_rgbValues outputs files", message=FALSE, warning=FALSE, out.width='100%'}
+knitr::include_graphics("img/extract_rgbValues.jpg")
+```
+
+---
+
+# Fouth step : Create the labeling file and label images
+
+`create_labelingFile` will create a xlsx file that can directly be used by a shiny
+application (`shiny_labels`) to do the labeling.
+
+```{r, eval=F, echo=T}
 ############## STEP 4 Create file to do the labeling  --------------------------
 
 create_labelingFile(
    path_crowns = file.path(path,'crowns_corrected.gpkg'), # Path to  crowns file
-   site = site,                                                 # Site name
+   site = site,                                                      # Site name
    dates = dates,                                      # Dates of the RGB survey
    out_dir_path = path)                                  # Path to output folder
 
 
 # open it
 openXL(file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date(),format="%Y-%m-%d"), format = "%Y%m%d"), '.xlsx'), sep = '_' )))
-         
+```
+
+---
+
+```{r, eval=F, echo=T}      
 
 ############## STEP 5 Fill the labelingFile with shiny app  --------------------
         
@@ -188,4 +240,9 @@ shiny_labels(
    newFile = file.path(path,paste(site,'labelingFile_update.xlsx')),
    imgFolder = file.path(path,'4_crowns_img') # Path to the crowns images folder
    ) 
+```
+
+
+```{r echo=FALSE, fig.show='hold',fig.align="center", fig.cap="shiny_visualisation", message=FALSE, warning=FALSE, out.width='100%'}
+knitr::include_graphics("img/shiny_visualisation.jpg")
 ```

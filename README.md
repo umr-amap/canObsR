@@ -4,8 +4,8 @@
 # canObsR
 
 - [The package](#the-package)
-- [Citation](#citation)
 - [Install](#install)
+- [Citation](#citation)
 - [Documentation](#documentation)
 - [Generate orthomosaics](#generate-orthomosaics)
 
@@ -18,36 +18,17 @@ state-of-the-art approaches, provides tools to generate reference
 labels, segment crowns (not now) and classify crown phenophases (not
 now).
 
-# Citation
-
-To cite ‘canObsR’, please use citation(‘canObsR’).
-
 # Installation
 
 The installation of canObsR involves several steps that go beyond a
-typical R package. This is because the package acts as a bridge between
-different powerful tools used for processing imagery. Here’s why:
+typical R package to ensure seamless integration between R, Python and
+Metashape. To avoid dependency conflicts and enabling the package’s full
+functionality you must follow [the full installation
+process](https://umr-amap.github.io/canObsR/articles/Complete-installation.html).
 
-Python integration: Some key processing steps rely on specialized Python
-libraries. To make this work seamlessly from R, we use the {reticulate}
-package, which requires setting up a Python environment via Miniconda.
-This allows us to run Python scripts directly from R functions.
+# Citation
 
-Environment setup: We provide a .yml file to create a dedicated Python
-environment with all the required dependencies. This ensures that the
-Python code used in the package runs reliably, regardless of the user’s
-system.
-
-Metashape integration: Some image processing steps rely on Agisoft
-Metashape, a commercial software. To use these features, Metashape must
-be installed, and a valid license key must be activated.
-
-Although the setup may seem complex at first, it ensures that once
-installed, all components work together smoothly to provide robust and
-reproducible results across platforms.
-
-[The full installation process
-here](https://umr-amap.github.io/canObsR/articles/Complete-installation.html)
+To cite ‘canObsR’, please use citation(‘canObsR’).
 
 # Documentation
 
