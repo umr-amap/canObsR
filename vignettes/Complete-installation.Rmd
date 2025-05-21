@@ -2,7 +2,7 @@
 title: "Complete-installation"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Complete-installation}
+  %\VignetteIndexEntry{Complete installation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,17 +16,16 @@ knitr::opts_chunk$set(
 
 # Why the installation process is more complex
 
-The installation of canObsR involves several steps that go beyond a typical R package. This is because the package acts as a bridge between different powerful tools used for processing imagery. Here's why:
+The installation of canObsR involves several steps that go beyond a typical R package. This is because the package acts as a bridge between different tools used for processing imagery. 
 
-Python integration: Some key processing steps rely on specialized Python libraries. To make this work seamlessly from R, we use the reticulate package, which requires setting up a Python environment via Miniconda. This allows us to run Python scripts directly from R functions.
+**Python integration**: Some key processing steps rely on specialized Python libraries. To make this work seamlessly from R, we use the reticulate package, which requires setting up a Python environment via Miniconda. This allows us to run Python scripts directly from R functions.
 
-Environment setup: We provide a .yml file to create a dedicated Python environment with all the required dependencies. This ensures that the Python code used in the package runs reliably, regardless of the user's system.
+**Environment setup**: We provide a .yml file to create a dedicated Python environment with all the required dependencies. This ensures that the Python code used in the package runs reliably, regardless of the user's system.
 
-Metashape integration: Some image processing steps rely on Agisoft Metashape, a commercial software. To use these features, Metashape must be installed, and a valid license key must be activated.
+**Metashape integration**: Some image processing steps rely on Agisoft Metashape, a commercial software. To use these features, Metashape must be installed, and a valid license key must be activated.
 
-Although the setup may seem complex at first, it ensures that once installed, all components work together smoothly to provide robust and reproducible results across platforms.
+Although the setup may seem complex at first, it ensures that once installed, all components work together smoothly.
 
-canObsR is a R package 
 # 📥 Install R, Rtools et RStudio
 
 ### 🔹 R : Download and install the last version of R on the [CRAN R](https://cran.r-project.org/)
@@ -147,7 +146,8 @@ If that works, you can close the command prompt. You should be good to go ! 🎉
 
 ---
 
-Re start R and  
+# 🔁 Re start R 
+
 *In RStudio console*
 ```{r, eval=F, echo=T}
 library(reticulate)
