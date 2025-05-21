@@ -27,6 +27,7 @@ Imports:
     shiny,
     stars,
     stats,
+    tibble,
     stringr,
     terra,
     tidyr,
