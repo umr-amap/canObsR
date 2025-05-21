@@ -9,7 +9,7 @@
 #'
 #' @return Text that give you informations about your file.
 #' Indicates whether your file will be compatible or not  for the other functions of the package.
-#' Pay attention to the line starting with [X].
+#' Pay attention to the line starting with 'X'.
 #'
 #' @export
 #'
