@@ -73,8 +73,8 @@
 </h1></div>
 <ul>
 <li><a href="#the-package">The package</a></li>
-<li><a href="#citation">Citation</a></li>
 <li><a href="#install">Install</a></li>
+<li><a href="#citation">Citation</a></li>
 <li><a href="#documentation">Documentation</a></li>
 <li><a href="#generate-orthomosaics">Generate orthomosaics</a></li>
 </ul>
@@ -85,19 +85,14 @@
 <p>canObsR aims at streamlining, standardizing and facilitating processing of repetead UAV surveys from R. It focuses on RGB data. It notably allows generating 3D and 4D mosaics &amp; mosaics spatial alignment using state-of-the-art approaches, provides tools to generate reference labels, segment crowns (not now) and classify crown phenophases (not now).</p>
 </div>
 <div class="section level1">
+<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
+<p>The installation of canObsR involves several steps that go beyond a typical R package to ensure seamless integration between R, Python and Metashape. To avoid dependency conflicts and enabling the package’s full functionality you must follow <a href="https://umr-amap.github.io/canObsR/articles/Complete-installation.html">the full installation process</a>.</p>
+</div>
+<div class="section level1">
 <h1 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h1>
 <p>To cite ‘canObsR’, please use citation(‘canObsR’).</p>
-</div>
-<div class="section level1">
-<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h1>
-<p>The installation of canObsR involves several steps that go beyond a typical R package. This is because the package acts as a bridge between different powerful tools used for processing imagery. Here’s why:</p>
-<p>Python integration: Some key processing steps rely on specialized Python libraries. To make this work seamlessly from R, we use the {reticulate} package, which requires setting up a Python environment via Miniconda. This allows us to run Python scripts directly from R functions.</p>
-<p>Environment setup: We provide a .yml file to create a dedicated Python environment with all the required dependencies. This ensures that the Python code used in the package runs reliably, regardless of the user’s system.</p>
-<p>Metashape integration: Some image processing steps rely on Agisoft Metashape, a commercial software. To use these features, Metashape must be installed, and a valid license key must be activated.</p>
-<p>Although the setup may seem complex at first, it ensures that once installed, all components work together smoothly to provide robust and reproducible results across platforms.</p>
-<p><a href="https://umr-amap.github.io/canObsR/articles/Complete-installation.html">The full installation process here</a></p>
 </div>
 <div class="section level1">
 <h1 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
