@@ -28,8 +28,8 @@ reference:
   - align_Mosa
 
 - title: Extract crowns data
-- subtitle: Check plot coordinates
   contents:
+  - check_crownsFile
   - create_labelingFile
   - extract_crownsImages
   - extract_rgbValues
@@ -45,18 +45,13 @@ reference:
 
 
 - title: Shiny applications
-  desc: >
-    xxxx
   contents:
   - shiny_labels
   - shiny_visualisation
 
 - title: Others functions
-  desc: >
-    xxxx.
   contents:
   - check_availableCrowns
-  - check_crownsFile
   - create_files_architecture
   - create_nonNA_bbox
   - extr_dates
