@@ -5,9 +5,9 @@
 \alias{rgb_data}
 \title{RGB indices data}
 \format{
-A data.frame with 263536 observations on the following 10 variables:
+A data.frame with 131,656 observations on the following 10 variables:
 \itemize{
-\item \code{site}: site
+\item \code{site}: site name
 \item \code{id}: Crown id
 \item \code{date}: date of the rgb survey
 \item \code{family}: family

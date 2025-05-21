@@ -5,9 +5,9 @@
 \alias{data_labeling}
 \title{Labeling data}
 \format{
-A data.frame with 189000 observations on the following 12 variables:
+A data.frame with 9,450 observations on the following 12 variables:
 \itemize{
-\item \code{site}: site
+\item \code{site}: site name
 \item \code{id}: Crown id
 \item \code{family}: family
 \item \code{genus}: genus

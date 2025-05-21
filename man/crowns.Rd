@@ -5,7 +5,7 @@
 \alias{crowns}
 \title{crowns delineation data}
 \format{
-A sf object with 378 observations on the following 5 variables:
+A sf object with 189 observations on the following 5 variables:
 \itemize{
 \item \code{id}: Crown id
 \item \code{family}: family
