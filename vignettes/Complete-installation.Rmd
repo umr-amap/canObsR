@@ -30,7 +30,7 @@ Although the setup may seem complex at first, it ensures that once installed, al
 
 ### 🔹 R : Download and install the last version of R on the [CRAN R](https://cran.r-project.org/)
 
-### 🔹 Rtools : Download and install [CRAN Rtools](https://cran.rstudio.com/)
+### 🔹 Rtools : Download and install [CRAN Rtools](https://cran.r-project.org/bin/windows/Rtools/)
 
 ### 🔹 RStudio : Download and install  [RStudio Desktop](https://posit.co/download/rstudio-desktop/)
 
