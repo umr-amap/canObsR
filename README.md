@@ -4,7 +4,7 @@
 # canObsR
 
 - [The package](#the-package)
-- [Install](#install)
+- [Installation](#installation)
 - [Citation](#citation)
 - [Documentation](#documentation)
 - [Generate orthomosaics](#generate-orthomosaics)
