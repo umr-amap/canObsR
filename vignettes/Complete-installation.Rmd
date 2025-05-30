@@ -83,7 +83,7 @@ Go to the "Python 3 module" section and click on the link corresponding to your 
 ```{r, eval=F, echo=T}
 whl_file <- ".../Metashape-2.2.1-cp37.cp38.cp39.cp310.cp311-none-win_amd64.whl"
 
-use_condaenv("canObsR-env", required = TRUE)
+use_condaenv(envname, required = TRUE)
 if (file.exists(whl_file)) {
   message("Installation of Metashape from the .whl file…")
   py_install(
@@ -142,5 +142,6 @@ If that works, you can close the command prompt. You should be good to go ! 🎉
 library(reticulate)
 library(canObsR)
 
-use_condaenv("CanObsR-env", required = TRUE)
+envname <- "canObsR-env"
+use_condaenv(envname, required = TRUE)
 ```
