@@ -63,10 +63,13 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                           corr_type = "global", max_shift = 250L, max_iter = 5L,
                           min_reliability = 60, grid_res = 1000L, window_size = NULL,
                           window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE,
-                          save_vector_plot = FALSE, apply_matrix = FALSE, suffix = "_") {
+                          save_vector_plot = FALSE, apply_matrix = FALSE, suffix = "_", do_subprocess = FALSE) {
 
    source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
-
+   if do_subprocess {
+     
+   }
+   else{
    complete_arosics_process(path_in = path_in,
                             ref_filepath = ref_filepath,
                             out_dir_path = out_dir_path,
@@ -82,8 +85,7 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                             save_vector_plot = save_vector_plot,
                             apply_matrix = apply_matrix,
                             suffix = suffix,
-
-   )
+   )}
 }
 
 #' Applies an already saved AROSICS transform to a new image

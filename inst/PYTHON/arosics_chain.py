@@ -37,6 +37,7 @@ parser.add_argument('--save_plot', default=False)
 parser.add_argument('--save_data', default=True)
 parser.add_argument('--compress_lzw', default=False)
 parser.add_argument('--suffix', type=str, default="")
+parser.add_argument('--subprocess', default=False)
 args = parser.parse_args()
 
 
@@ -311,7 +312,7 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
             vector_scale=15
             CR.view_CoRegPoints(shapes2plot = 'vectors', savefigPath = path_out.split('.')[0] + f"_vector_map_{DPI}DPI.JPEG", savefigDPI=DPI, vector_scale=vector_scale, backgroundIm='tgt')
         #compress_LZW(path_out)
-    if queue and corr_type=="global":
+    if queue : #and corr_type=="global":
         queue.put(CR.coreg_info)
     else:
         return CR.coreg_info
@@ -365,6 +366,7 @@ def complete_arosics_process(path_in,
     save_vector_plot = str2bool(save_vector_plot)
     save_data = str2bool(save_data)
     compress_lzw = str2bool(compress_lzw)
+    do_subprocess = str2bool(do_subprocess)
     mp = mp if mp is None else int(mp)
     grid_res = grid_res if grid_res is None else int(grid_res)
     window_size = window_size if window_size is None else int(window_size)
@@ -378,6 +380,9 @@ def complete_arosics_process(path_in,
     elif corr_type == 'local':
         if window_size is None :
             window_size = 256 
+
+    #if do_subprocess:
+        #multiprocessing.set_start_method('spawn')
 
     if not os.path.exists(out_dir_path):
         os.mkdir(out_dir_path)
@@ -425,38 +430,41 @@ def complete_arosics_process(path_in,
                 harmonize_crs(current_file_path, ref_filepath, check_ref = True if i==0 else False, compress_lzw=compress_lzw)
                 path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")
 
-                #if not do_subprocess:
-                CR_info = call_arosics(current_file_path, 
-                                        ref_filepath, 
-                                        path_out=path_out, 
-                                        corr_type=corr_type, 
-                                        mp=mp, 
-                                        window_size=window_size, 
-                                        window_pos=window_pos, 
-                                        max_shift=max_shift, 
-                                        max_iter=max_iter, 
-                                        min_reliability=min_reliability,
-                                        grid_res=grid_res, 
-                                        save_vector_plot=save_vector_plot, 
-                                        save_data=save_data)
-                """
+                if not do_subprocess:
+                    CR_info = call_arosics(current_file_path, 
+                                            ref_filepath, 
+                                            path_out=path_out, 
+                                            corr_type=corr_type, 
+                                            mp=mp, 
+                                            window_size=window_size, 
+                                            window_pos=window_pos, 
+                                            max_shift=max_shift, 
+                                            max_iter=max_iter, 
+                                            min_reliability=min_reliability,
+                                            grid_res=grid_res, 
+                                            save_vector_plot=save_vector_plot, 
+                                            save_data=save_data)
+                
                 else:
+                    #with multiprocessing.Pool(4) as pool:
+                        #pool.starmap(call_arosics, [(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, min_reliability, grid_res, save_data, save_vector_plot)])
                     queue = multiprocessing.Queue()
                     process = multiprocessing.Process(target=call_arosics, args=(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, min_reliability, grid_res, save_data, save_vector_plot, queue))
                     process.start()
                     process.join()     
-                    # Terminate the process if needed (ensure cleanup)
+
+                    """
                     if corr_type=='global':
                         CR_info = queue.get()
                     list_CR_info.append(CR_info)
-                    
+                    """
+
                     process.terminate()
 
                     if process.is_alive():         
                         raise TimeoutError("The arosics process is taking too much time and has been terminated")
                     else:
                         print("Process terminated successfully")
-                """
             return list_CR_info
           
         else:
@@ -570,4 +578,5 @@ if __name__ == '__main__':
                              save_vector_plot = args.save_plot,
                              compress_lzw = args.compress_lzw,
                              suffix = args.suffix,
+                             do_subprocess = args.subprocess,
                              )
