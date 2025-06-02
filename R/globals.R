@@ -52,8 +52,8 @@ create_bbox_shp <- function(shp) {
 #' This function automatically searches for available `conda` executables in common system paths.
 #' If none are found, it offers to install Miniconda using the `reticulate` package.
 #'
-#' @param verbose Logical. If `TRUE` (default), displays informational messages during execution.
-#' @param auto_select Logical. If `TRUE` (default), automatically selects the conda path if only one is found.
+#' @param verbose logical. If `TRUE` (default), displays informational messages during execution.
+#' @param auto_select logical. If `TRUE` (default), automatically selects the conda path if only one is found.
 #' @return A character string with the full path to the selected `conda` executable, or `NULL` if no conda was found and the user declined the Miniconda installation.
 #'
 #' @details
@@ -150,10 +150,10 @@ detect_conda <- function(verbose = TRUE, auto_select = TRUE) {
 
 
 #' Extract dates from files names
-#' @param names_img chr. The files basenames.
-#' @param n int. Will take the character string number n after the separation.
-#' @param sep chr. The separator
-#' @param extension chr. The extension of the file names to be removed.
+#' @param names_img character. The files basenames.
+#' @param n integer. Will take the character string number n after the separation.
+#' @param sep character. The separator
+#' @param extension character. The extension of the file names to be removed.
 #' @export
 #' @examples
 #' names_img <- c("crown_896_Hylodendron gabunense_20220427.jpeg",

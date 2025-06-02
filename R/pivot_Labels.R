@@ -2,10 +2,10 @@
 #'
 #' @description A function to format labels data from wide to long format
 #'
-#' @param labels_path chr. Path to the labeling file
-#' @param simplify_labels \code{logical} Decompose and simplify the labels when TRUE. By defaut it is FALSE.
-#' @param out_dir_path chr. The path to the directory use to stored the result.
-#' @return \code{tibble}
+#' @param labels_path character. Path to the labeling file
+#' @param simplify_labels logical. Decompose and simplify the labels when TRUE. By defaut it is FALSE.
+#' @param out_dir_path character. Directory where the outputs are saved.
+#' @return tbl_df
 #'
 #'
 #' @export

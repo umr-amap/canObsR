@@ -5,15 +5,14 @@
 #' at the crown scale using the \code{exactextractr::exact_extract}
 #' function. The mean and / or the variance can be extracted (see 'fun' parameter).
 #'
-#' @param path_images list with the full paths to the RGB rasters.
-#' @param path_crowns  chr. Path to the crown delinetion shapefile
-#' @param out_dir_path chr. The path to the directory use to stored the images
-#' @param ncor Number of cores use in the parallelisation proccess.
-#' @param sites chr. name of the site, p.e 'Mbalmayo'.
-#' @param dates chr. vector of dates (format should be 'YYYY_MM_DD', p.e '2022_09_25').
-#' The order of the dates should match with the order of the path_images !
-#' @param tempdir_custom chr. Path where to store temporary files
-#' @param file_type chr. By default it is '.RData' but can be '.csv' or '.xlsx'
+#' @param path_images character vector. Path to the target images. Images must be of Geotiff format.
+#' @param path_crowns  character. Path to the crowns polygons file.
+#' @param out_dir_path character. Directory where the outputs are saved.
+#' @param N_cores integer. Number of cores use in the parallelisation proccess.
+#' @param sites character. Name of the site, p.e 'Mbalmayo'.
+#' @param dates character vector. Dates (format of dates should be '%Y-%m-%d', '%Y%m%d' or '%Y_%m_%d').The order should match `path_images`.
+#' @param tempdir_custom character. Directory where the temporary files are saved.
+#' @param file_type character. By default it is '.RData' but can be '.csv' or '.xlsx'
 #'
 #' @export
 #'
@@ -31,7 +30,7 @@
 #'   path_images = imgs,
 #'   path_crowns = path_crowns,
 #'   out_dir_path = out_dir_path,
-#'   ncor = 10,
+#'   N_cores = 10,
 #'   sites = NULL,
 #'   dates = NULL
 #')
@@ -54,7 +53,7 @@ extract_rgbValues <-
       path_images,
       path_crowns,
       out_dir_path = NULL,
-      ncor = 1,
+      N_cores = 1,
       sites = NULL,
       dates = NULL,
       tempdir_custom = NULL,
@@ -164,7 +163,7 @@ extract_rgbValues <-
 
 # Prepare polygon groups for parallel computing ---------------------------
 
-      num_cores = ncor
+      num_cores = N_cores
       num_in_group <- floor(nrow(crowns_simplified) / num_cores)
       crowns_simplified <- crowns_simplified %>%
          mutate(

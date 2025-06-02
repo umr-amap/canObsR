@@ -2,8 +2,9 @@
 #'
 #'@description Create the recommended files architecture.
 #'
-#'@param path chr. The path where to create the main folder
-#'@param main_folder_name  chr. The name of the main folder
+#'@param main_folder_path Character. The path where to create the main folder
+#'@param main_folder_name  Character. The name of the main folder. Must be provided.
+#'
 #'
 #'
 #'@export
@@ -12,26 +13,41 @@
 create_files_architecture <-
 
    function(
-      path = NULL,
+      main_folder_path = getwd(),
       main_folder_name = NULL
       ){
 
-      # Create the main folder -----------------------------------------------
+      if (is.null(main_folder_name) || !nzchar(main_folder_name)) {
+         stop("Please provide a non-empty 'main_folder_name'.")
+      }
 
-      dir.create(paste(path,main_folder_name,sep='/'))
+      # Create main folder if it does not exist
+      if (!dir.exists(main_folder_path)) {
+         dir.create(main_folder_path, recursive = TRUE)
+         message("Created main folder: ", main_folder_path)
+      } else {
+         message("Main folder already exists: ", main_folder_path)
+      }
 
-      # Create secondary folders ------------------------------------------
+      # List of subfolders to create
+      subfolders <- c(
+         "1_my_drone_data",
+         "2_orthomosaics",
+         "3_orthomosaics_aligned",
+         "4_crowns_img"
+      )
 
-      dir.create(paste(path,main_folder_name,'1_drone_images',sep='/'))
-      dir.create(paste(path,main_folder_name,'2_drone_images_ref',sep='/'))
-      dir.create(paste(path,main_folder_name,'3_crowns',sep='/'))
-      dir.create(paste(path,main_folder_name,'4_Time_SIFT_output',sep='/'))
-      dir.create(paste(path,main_folder_name,'5_arosics_output',sep='/'))
-      dir.create(paste(path,main_folder_name,'6_bbox',sep='/'))
-      dir.create(paste(path,main_folder_name,'7_crownsImages',sep='/'))
-      dir.create(paste(path,main_folder_name,'8_labeling_file',sep='/'))
-      dir.create(paste(path,main_folder_name,'9_outputs',sep='/'))
+      # Create each subfolder if it does not exist
+      for (subfolder in subfolders) {
+         folder_path <- file.path(main_folder_path, subfolder)
+         if (!dir.exists(folder_path)) {
+            dir.create(folder_path)
+            message("Created folder: ", folder_path)
+         } else {
+            message("Folder already exists: ", folder_path)
+         }
+      }
 
-
+      invisible(NULL)
 
    }
