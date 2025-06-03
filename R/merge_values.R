@@ -3,10 +3,10 @@
 #' @description A function to merge the labels from long format and the rgb metrics
 #' values.
 #'
-#' @param data_labeling \code{tibble} or \code{dataframe} which contains the labels directly import from the xlsx file.
-#' @param rgb_data \code{tibble} or \code{dataframe} with the rgb metrics values.
-#' @param out_dir_path chr. The path to the directory use to stored the file
-#' @param file_type chr. By default it is '.RData' but can be '.csv' or '.xlsx'
+#' @param Labels tbl_df. Labels data
+#' @param rgb_data tbl_df. rgb metrics values.
+#' @param out_dir_path character. Directory where the outputs are saved.
+#' @param file_type character. By default it is '.RData' but can be '.csv' or '.xlsx'
 #'
 #' @return A tibble with the variable site, id, date, family, genus, species, phenophase, type, metric, band, value, obs, comments, update, Usable_crown.
 #'
@@ -14,9 +14,9 @@
 #'
 #' library(canObsR)
 #'
-#' data('"data_labeling"')
-#' data('data_labeling')
-#' merge_values(data_labeling,rgb_data)
+#' data('"Labels"')
+#' data('Labels')
+#' merge_values(Labels,rgb_data)
 #'
 #'
 #' @export
@@ -25,12 +25,12 @@
 #' @import tidyr
 #' @import stringr
 
-merge_values <- function(data_labeling,
+merge_values <- function(Labels,
                          rgb_data,
                          out_dir_path = NULL,
                          file_type = '.RData') {
 
-   data_labeling <- data_labeling %>% dplyr::mutate(phenophase = case_when(phenophase ==
+   Labels <- Labels %>% dplyr::mutate(phenophase = case_when(phenophase ==
                                                                                      "NA" ~ "no_obs", str_detect(phenophase, "Fr") ~ str_replace(phenophase, "Fr", "fr"), str_detect(phenophase, "Fl") ~ str_replace(phenophase, "Fl", "fl"), phenophase == "?" ~ NA, str_detect(phenophase, ",") ~ str_replace(phenophase, ",", "/"), str_detect(phenophase, "\\;$") ~
                                                                                      str_sub(phenophase, 1, nchar(phenophase) -
                                                                                                          1), TRUE ~ phenophase)) %>% mutate(phenophase1 = phenophase) %>%
@@ -98,7 +98,7 @@ merge_values <- function(data_labeling,
       ) %>%
       select(-c(site, family, genus, species))
 
-   merge_data <- left_join(rgb_data, data_labeling, by = c('id','date'), relationship = "many-to-one") %>%
+   merge_data <- left_join(rgb_data, Labels, by = c('id','date'), relationship = "many-to-one") %>%
       dplyr::select(site, id, date, family, genus, species, phenophase, type, metric, band, value,
                     PPfoliar1, PPfoliar2, PPFlo, PPFr, PPFlo_uncertainty, PPFr_uncertainty, desynchr, PPfoliar2_uncertainty, obs, comments, update, Usable_crown)
 

@@ -55,6 +55,7 @@ reference:
   - create_files_architecture
   - create_nonNA_bbox
   - extr_dates
+  - detect_conda
 
 - title: Datasets
   desc: >

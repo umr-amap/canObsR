@@ -7,13 +7,13 @@
 create_labelingFile(path_crowns, site, dates, out_dir_path = NULL)
 }
 \arguments{
-\item{path_crowns}{chr. Path to the crown delinetion shapefile}
+\item{path_crowns}{character. Path to the crown delinetion shapefile}
 
-\item{site}{chr. site name (p.e "Bouamir").}
+\item{site}{character. site name (p.e "Bouamir").}
 
-\item{dates}{chr. vector of dates (format should be '\%Y-\%m-\%d' or '\%Y\%m\%d' or '\%Y_\%m_\%d').}
+\item{dates}{character vector. Dates (format of dates should be '\%Y-\%m-\%d', '\%Y\%m\%d' or '\%Y_\%m_\%d').}
 
-\item{out_dir_path}{chr. The path to the directory used to store the images. By defaut it is NULL,
+\item{out_dir_path}{character. The path to the directory used to store the images. By defaut it is NULL,
 the data will not be saved but will be return as tibble. If it is not NULL, an xlsx file will be saved.}
 }
 \value{

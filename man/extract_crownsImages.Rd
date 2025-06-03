@@ -17,26 +17,23 @@ extract_crownsImages(
 )
 }
 \arguments{
-\item{path_images}{list with the full paths to the RGB rasters.}
+\item{path_images}{character vector. Path to the target images. Images must be of Geotiff format.}
 
-\item{path_crowns}{chr. Path to the crown delinetion shapefile}
+\item{path_crowns}{ccharacter. Path to the crowns polygons file.}
 
-\item{out_dir_path}{chr. The path to the directory use to stored the images. The
-function will create the folder, It doesn't need to exists.}
+\item{out_dir_path}{character. Directory where the outputs are saved.}
 
-\item{sites}{chr. name of the site, p.e 'Mbalmayo'.}
+\item{sites}{character. Name of the site, p.e 'Mbalmayo'.}
 
-\item{dates}{chr. Vector with dates (format should be '\%Y_\%m_\%d', p.e
-'2022_09_25'). The order of the dates should match with the order of the
-dates of the image in the path_images}
+\item{dates}{character vector. Dates (format of dates should be '\%Y-\%m-\%d', '\%Y\%m\%d' or '\%Y_\%m_\%d').The order should match \code{path_images}.}
 
-\item{tempdir_custom}{chr. Path where to store temporary files}
+\item{tempdir_custom}{character. Directory where the temporary files are saved.}
 
-\item{N_cores}{Number of cores use in the parallelisation proccess.}
+\item{N_cores}{integer. Number of cores use in the parallelisation proccess.}
 
-\item{width}{num. The width of the device}
+\item{width}{numeric. The width of the device. Defaut (825)}
 
-\item{height}{num. The height of the device}
+\item{height}{numeric. The height of the device. Defaut (720)}
 }
 \description{
 The function extracts and save .jpeg images for each crown at

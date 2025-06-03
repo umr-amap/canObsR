@@ -7,13 +7,11 @@
 create_nonNA_bbox(path_in, dates = NULL, out_dir_path = NULL, filename = NULL)
 }
 \arguments{
-\item{path_in}{chr. Path to the folder where the mosaics are located.}
+\item{path_in}{character. Path to the main folder of the target images. Images must be of Geotiff format.}
 
-\item{dates}{chr. Vector with dates (format should be '\%Y\%m\%d', p.e
-'20220925'). The order of the dates should match with the order of the
-dates of the mosaics in the path_in folder.}
+\item{dates}{character vector. Dates (format of dates should be '\%Y-\%m-\%d', '\%Y\%m\%d' or '\%Y_\%m_\%d').The order should match \code{path_in}.}
 
-\item{out_dir_path}{chr. Path to the directory used to export the vector files.
+\item{out_dir_path}{character. Directory where the outputs are saved.
 One file will be export per date. If NULL, the vector will not be exported.}
 
 \item{filename}{logical. Name of the files.}

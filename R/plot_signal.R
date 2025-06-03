@@ -2,17 +2,17 @@
 #'
 #' @description A fct function
 #'
-#' @param data \code{tibble} or \code{dataframe} of long data format for labels
-#' @param Species chr. Specifying the species you want to filter
-#' @param Genus chr. Specifying the genus you want to filter
-#' @param Family chr. Specifying the family(ies) you want to filter
-#' @param Type chr. Specifying the type(s) you want to filter
-#' @param Metric chr. Specifying the metric(s) you want to filter. By defaut 'mean'
-#' @param Band chr. Specifying the bande(s) you want to filter
-#' @param facet_by chr. Facetting by a variable. By defaut 'band'
-#' @param slcted_id num. Highlighting an id
+#' @param data tbl_df. Labels Labels
+#' @param Species character. Specifying the species you want to filter
+#' @param Genus character. Specifying the genus you want to filter
+#' @param Family character. Specifying the family(ies) you want to filter
+#' @param Type character. Specifying the type(s) you want to filter
+#' @param Metric character. Specifying the metric(s) you want to filter. By defaut 'mean'
+#' @param Band character. Specifying the bande(s) you want to filter
+#' @param facet_by character. Facetting by a variable. By defaut 'band'
+#' @param slcted_id numeric. Highlighting an id
 #' @param show_Labels logical. When TRUE, it shows the phenophase labels on the plot.
-#' @param title chr. The title of the plot
+#' @param title character. The title of the plot
 #'
 #' @return return a ggplot
 #'

@@ -5,20 +5,17 @@
 #' file must have at least the following variables 'id', 'family', 'genus' and 'species'
 #' and it should not have duplicated id.
 #'
-#' @param path_crowns  chr. Path to the crown delinetion shapefile
+#' @param path_crowns  Character. Path to the crown delinetion shapefile.
 #'
-#' @return Text that give you informations about your file.
-#' Indicates whether your file will be compatible or not  for the other functions of the package.
-#' Pay attention to the line starting with 'X'.
+#' @return NULL. Prints info messages about file compatibility.
 #'
 #' @export
-#'
 #' @import sf
 #'
 
 check_crownsFile <- function(path_crowns){
 
-   crownsFile <-  read_sf(path_crowns)
+   crownsFile <-  sf::read_sf(path_crowns)
 
    # Check variables names ---------------------------------------------------
 
@@ -89,9 +86,7 @@ check_crownsFile <- function(path_crowns){
 
    # Return ------------------------------------------------------------------
 
-   return(
-
-      cat(
+   cat(
          c(
             var_check,
             '                                             ',
@@ -111,9 +106,8 @@ check_crownsFile <- function(path_crowns){
             duplicat_id
          ),
          sep = "\n"
-
-      )
    )
 
+   invisible(NULL)
 
 }

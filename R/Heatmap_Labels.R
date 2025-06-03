@@ -3,14 +3,14 @@
 #' @description A fct function
 #'
 #'
-#' @param longLabels \code{tibble} or \code{dataframe} of long data format for labels
-#' @param Species chr. Specifying the species you want to filter
-#' @param Genus chr. Specifying the genus you want to filter
-#' @param Family chr. Specifying the family(ies) you want to filter
-#' @param title chr. The title of the plot
+#' @param Labels tbl_df.
+#' @param Species character. Specifying the species you want to filter
+#' @param Genus character. Specifying the genus you want to filter
+#' @param Family character. Specifying the family(ies) you want to filter
+#' @param title character. The title of the plot
 #' @param simplify logical. When TRUE, the plot will use simplified labels instead of raw labels.
 #' @param repro logical. When TRUE, the flowers and fruits observations will be add to the plot.
-#' @return return a ggplot
+#' @return ggplot
 #'
 #'
 #' @export
@@ -21,7 +21,7 @@
 
 heatmap_Labels <-
 
-   function(longLabels,
+   function(Labels,
             Species = NULL,
             Genus = NULL,
             Family = NULL,
@@ -31,16 +31,16 @@ heatmap_Labels <-
    ){
 
 
-      longLabels <- longLabels %>%
+      Labels <- Labels %>%
          { if (!is.null(Species)) dplyr::filter (., species == Species) else . } %>%
          { if (!is.null(Genus)) dplyr::filter (., genus == Genus) else . } %>%
          { if (!is.null(Family)) dplyr::filter (., family == Family) else . }
 
-      if (nrow(longLabels) == 0) {
+      if (nrow(Labels) == 0) {
          stop("This taxa does not exists in the data")
       }
 
-      longLabels <- longLabels %>%
+      Labels <- Labels %>%
          mutate(phenophase = case_when(phenophase == 'NA' ~ NA, TRUE ~ phenophase)) %>%
          dplyr::group_by(id) %>%
          mutate(na = case_when(length(unique(phenophase)) == 1 &
@@ -48,7 +48,7 @@ heatmap_Labels <-
          dplyr::filter(na == FALSE) %>%
          ungroup()
 
-      if (nrow(longLabels) == 0) {
+      if (nrow(Labels) == 0) {
          stop("No label for this taxa")
       }
 
@@ -56,16 +56,16 @@ heatmap_Labels <-
 
       if(!simplify) {
 
-         x <- str_split(longLabels$phenophase, '\\;', simplify = T)
+         x <- str_split(Labels$phenophase, '\\;', simplify = T)
 
-         longLabels$phenophase <- x[,1]
-         if (ncol(x) == 2) { longLabels$repro <- x[,2] }
+         Labels$phenophase <- x[,1]
+         if (ncol(x) == 2) { Labels$repro <- x[,2] }
          ncol = ncol(x)
 
       }else{
 
-         longLabels <-
-            longLabels %>% mutate(
+         Labels <-
+            Labels %>% mutate(
                repro = case_when(
                   PPFlo == 1  ~ 'fl',
                   PPFr == 1 ~ 'fr',
@@ -75,9 +75,9 @@ heatmap_Labels <-
       }
 
 
-      longLabels$id <- as.character(longLabels$id)
-      longLabels$phenophase <- as.factor(longLabels$phenophase)
-      longLabels$date <- as.factor(longLabels$date)
+      Labels$id <- as.character(Labels$id)
+      Labels$phenophase <- as.factor(Labels$phenophase)
+      Labels$date <- as.factor(Labels$date)
 
 
       if(is.null(title)) {
@@ -85,7 +85,7 @@ heatmap_Labels <-
       }
 
 
-     ggplot( longLabels, aes(date, id)) +
+     ggplot( Labels, aes(date, id)) +
 
          {if (!simplify)   geom_tile(aes( fill = phenophase))} +
          {if (simplify)   geom_tile(aes( fill = PPfoliar1))} +

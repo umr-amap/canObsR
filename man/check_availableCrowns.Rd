@@ -7,16 +7,14 @@
 check_availableCrowns(path_bbox, crownsFile, dates = NULL)
 }
 \arguments{
-\item{path_bbox}{The path to the non NA Bbox return by the function \code{extract_bboxImages()}}
+\item{path_bbox}{character vector. Path to the non NA Bbox return by the function \code{extract_bboxImages()}}
 
-\item{crownsFile}{\code{sf object}  for the crowns with an 'id' variable.}
+\item{crownsFile}{sf. Crowns polygons with an 'id' variable.}
 
-\item{dates}{chr. Vector with dates (format should be '\%Y\%m\%d', p.e
-'20220925'). The order of the dates should match with the order of the
-dates of the image in the path_bbox}
+\item{dates}{character vector. Dates (format '\%Y\%m\%d'), order matching \code{path_bbox}. If NULL, auto-generated.}
 }
 \value{
-\code{list} and \code{dotchart}
+A named list of vectors of crown IDs included in each image.
 }
 \description{
 As the extend of images can changed from one image to another, this function return

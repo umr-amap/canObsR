@@ -109,11 +109,26 @@ heatmap_Labels(data_labeling_simplify,
                simplify = TRUE)
 
 merge_data <- merge_values(data_labeling, rgb_data)
+```
 
+
+```{r, echo=T}
 plot_signal(data = merge_data, Genus = 'Desbordesia')
-plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 2614)
-plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 2614, Band = c('gndvi','gli'))
-plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 936, Band = c('gndvi','gli'), show_Labels = TRUE)
+```
+
+
+```{r, echo=T}
+plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 163)
+```
+
+
+```{r, echo=T}
+plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 163, Band = c('gndvi','gli'))
+```
+
+
+```{r, echo=T}
+plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 163, Band = c('gndvi','gli'), show_Labels = TRUE)
 
 ```
 

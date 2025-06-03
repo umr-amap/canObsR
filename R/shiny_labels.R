@@ -2,9 +2,9 @@
 #'
 #' @description Shiny app to do the labeling based on crowns images.
 #'
-#' @param data_labeling  tibble. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}
-#' @param newFile  chr. Path to save the new labeling file.
-#' @param imgFolder  chr. Path to crown images folder.
+#' @param data_labeling  tbl_df. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}
+#' @param newFile character. Path to save the new labeling file.
+#' @param imgFolder character. Path to crown images folder.
 
 #' @export
 #'
@@ -21,7 +21,7 @@
 #' @import shinythemes
 #' @import dplyr
 #' @import tibble
-#' @import openxlsx
+#' @importFrom openxlsx read.xlsx write.xlsx
 #' @import stringr
 
 shiny_labels <- function(data_labeling = NULL, newFile = NULL, imgFolder = NULL) {

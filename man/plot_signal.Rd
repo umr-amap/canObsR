@@ -19,27 +19,27 @@ plot_signal(
 )
 }
 \arguments{
-\item{data}{\code{tibble} or \code{dataframe} of long data format for labels}
+\item{data}{tbl_df. Labels Labels}
 
-\item{Species}{chr. Specifying the species you want to filter}
+\item{Species}{character. Specifying the species you want to filter}
 
-\item{Genus}{chr. Specifying the genus you want to filter}
+\item{Genus}{character. Specifying the genus you want to filter}
 
-\item{Family}{chr. Specifying the family(ies) you want to filter}
+\item{Family}{character. Specifying the family(ies) you want to filter}
 
-\item{Type}{chr. Specifying the type(s) you want to filter}
+\item{Type}{character. Specifying the type(s) you want to filter}
 
-\item{Metric}{chr. Specifying the metric(s) you want to filter. By defaut 'mean'}
+\item{Metric}{character. Specifying the metric(s) you want to filter. By defaut 'mean'}
 
-\item{Band}{chr. Specifying the bande(s) you want to filter}
+\item{Band}{character. Specifying the bande(s) you want to filter}
 
-\item{facet_by}{chr. Facetting by a variable. By defaut 'band'}
+\item{facet_by}{character. Facetting by a variable. By defaut 'band'}
 
-\item{slcted_id}{num. Highlighting an id}
+\item{slcted_id}{numeric. Highlighting an id}
 
 \item{show_Labels}{logical. When TRUE, it shows the phenophase labels on the plot.}
 
-\item{title}{chr. The title of the plot}
+\item{title}{character. The title of the plot}
 }
 \value{
 return a ggplot

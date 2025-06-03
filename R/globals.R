@@ -47,20 +47,113 @@ create_bbox_shp <- function(shp) {
 
 }
 
-plot_nodata <- function() {
+#' Detect conda installation or offer Miniconda installation
+#'
+#' This function automatically searches for available `conda` executables in common system paths.
+#' If none are found, it offers to install Miniconda using the `reticulate` package.
+#'
+#' @param verbose logical. If `TRUE` (default), displays informational messages during execution.
+#' @param auto_select logical. If `TRUE` (default), automatically selects the conda path if only one is found.
+#' @return A character string with the full path to the selected `conda` executable, or `NULL` if no conda was found and the user declined the Miniconda installation.
+#'
+#' @details
+#' The function first checks if `conda` is available in the system `PATH`. If not, it searches for common installation
+#' directories of Anaconda and Miniconda. If still no installation is found, the user is prompted to install Miniconda.
+#'
+#' Once a valid `conda` executable is found (or installed), its directory is added to the current R session `PATH`.
+#'
+#' @seealso [reticulate::install_miniconda()]
+#' @examples
+#' \dontrun{
+#' # Basic detection
+#' detect_conda()
+#'
+#' # Detection with interactive selection if multiple conda installations are found
+#' detect_conda(verbose = TRUE, auto_select = FALSE)
+#' }
+#' @export
 
-   base::plot(x = 0:10, y = 0:10, ann = F,bty = "n",type = "n",
-              xaxt = "n", yaxt = "n")
+detect_conda <- function(verbose = TRUE, auto_select = TRUE) {
+   conda_paths <- character()
 
-   graphics::text(x = 5,y = 5,"NO DATA", cex = 3, col = 'red')
+   default_conda <- Sys.which("conda")
+   if (nzchar(default_conda)) {
+      conda_paths <- c(conda_paths, default_conda)
+   }
 
+   possible_paths <- if (.Platform$OS.type == "windows") {
+      c(
+         "C:/ProgramData/Anaconda3/Scripts/conda.exe",
+         "C:/Users/%USERNAME%/Anaconda3/Scripts/conda.exe",
+         "C:/Users/%USERNAME%/Miniconda3/Scripts/conda.exe"
+      )
+   } else {
+      c(
+         "~/miniconda3/bin/conda",
+         "~/anaconda3/bin/conda",
+         "/opt/miniconda3/bin/conda"
+      )
+   }
+
+   possible_paths <- path.expand(gsub("%USERNAME%", Sys.getenv("USERNAME"), possible_paths))
+   found_raw <- c(conda_paths, possible_paths[file.exists(possible_paths)])
+   found_paths <- unique(normalizePath(found_raw, winslash = "/", mustWork = TRUE))
+
+   if (length(found_paths) == 0) {
+      if (verbose) message("❌ Aucun exécutable conda trouvé.")
+
+      answer <- readline("❓ Voulez-vous installer Miniconda maintenant ? (o/n) : ")
+      if (tolower(answer) %in% c("o", "y")) {
+         message("📥 Installation de Miniconda...")
+
+         if (!requireNamespace("reticulate", quietly = TRUE)) {
+            stop("Le package 'reticulate' est requis pour installer Miniconda. Veuillez l'installer.")
+         }
+
+         reticulate::install_miniconda()
+         message("✅ Miniconda installé.")
+
+         # Essayer de le retrouver après installation
+         return(detect_conda(verbose = verbose, auto_select = auto_select))
+      } else {
+         message("🚫 Miniconda non installé.")
+         return(NULL)
+      }
+   }
+
+   if (length(found_paths) == 1 && auto_select) {
+      selected_path <- found_paths[1]
+      if (verbose) message("✅ Conda trouvé à : ", selected_path)
+   } else {
+      cat("🔍 Plusieurs installations de conda ont été détectées :\n")
+      for (i in seq_along(found_paths)) {
+         cat(sprintf("[%d] %s\n", i, found_paths[i]))
+      }
+
+      repeat {
+         choice <- readline("👉 Entrez le numéro du chemin que vous souhaitez utiliser : ")
+         if (choice %in% as.character(seq_along(found_paths))) {
+            selected_path <- found_paths[as.integer(choice)]
+            break
+         } else {
+            cat("❌ Entrée invalide. Veuillez réessayer.\n")
+         }
+      }
+   }
+
+   bin_path <- dirname(selected_path)
+   Sys.setenv(PATH = paste(bin_path, Sys.getenv("PATH"), sep = .Platform$path.sep))
+
+   if (verbose) message("✅ Conda activé dans la session R.")
+   return(selected_path)
 }
 
+
 #' Extract dates from files names
-#' @param names_img chr. The files basenames.
-#' @param n int. Will take the character string number n after the separation.
-#' @param sep chr. The separator
-#' @param extension chr. The extension of the file names to be removed.
+#' @param names_img character. The files basenames.
+#' @param n integer. Will take the character string number n after the separation.
+#' @param sep character. The separator
+#' @param extension character. The extension of the file names to be removed.
 #' @export
 #' @examples
 #' names_img <- c("crown_896_Hylodendron gabunense_20220427.jpeg",
@@ -94,6 +187,7 @@ extr_sites <- function(names_img) {
    sites <- stringr::str_split(names_img, '_', simplify = TRUE)[,1]
    return((sites))
 }
+
 
 # Prepare function to extract raster values at polygon locations in a parallel fashion (function version based on exactextractr::exact_extract)
 fun_extract = function(i, path, crowns_simplified, date, site, tempdir_custom)
@@ -267,6 +361,15 @@ fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path, tempdi
 
 }
 
+
+plot_nodata <- function() {
+
+   base::plot(x = 0:10, y = 0:10, ann = F,bty = "n",type = "n",
+              xaxt = "n", yaxt = "n")
+
+   graphics::text(x = 5,y = 5,"NO DATA", cex = 3, col = 'red')
+
+}
 
 color_label <-
    c(

@@ -7,13 +7,13 @@
 extr_dates(names_img, n = 2, sep = "_", extension = ".gpkg")
 }
 \arguments{
-\item{names_img}{chr. The files basenames.}
+\item{names_img}{character. The files basenames.}
 
-\item{n}{int. Will take the character string number n after the separation.}
+\item{n}{integer. Will take the character string number n after the separation.}
 
-\item{sep}{chr. The separator}
+\item{sep}{character. The separator}
 
-\item{extension}{chr. The extension of the file names to be removed.}
+\item{extension}{character. The extension of the file names to be removed.}
 }
 \description{
 Extract dates from files names
