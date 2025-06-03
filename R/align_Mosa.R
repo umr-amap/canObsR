@@ -26,7 +26,6 @@
 #' @examples
 #'
 #' \dontrun{
-#' library(reticulate)
 #'
 #' align_Mosa(path_in = "path_to_ortho.tif",
 #'              ref_filepath = "ref_image.tif",
@@ -65,7 +64,7 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                           window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE,
                           save_vector_plot = FALSE, apply_matrix = FALSE) {
 
-   source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
+   reticulate::source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
 
    complete_arosics_process(path_in = path_in,
                             ref_filepath = ref_filepath,

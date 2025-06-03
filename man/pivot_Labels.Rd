@@ -7,14 +7,14 @@
 pivot_Labels(labels_path, simplify_labels = FALSE, out_dir_path = NULL)
 }
 \arguments{
-\item{labels_path}{chr. Path to the labeling file}
+\item{labels_path}{character. Path to the labeling file}
 
-\item{simplify_labels}{\code{logical} Decompose and simplify the labels when TRUE. By defaut it is FALSE.}
+\item{simplify_labels}{logical. Decompose and simplify the labels when TRUE. By defaut it is FALSE.}
 
-\item{out_dir_path}{chr. The path to the directory use to stored the result.}
+\item{out_dir_path}{character. Directory where the outputs are saved.}
 }
 \value{
-\code{tibble}
+tbl_df
 }
 \description{
 A function to format labels data from wide to long format

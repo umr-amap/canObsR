@@ -4,12 +4,12 @@
 \alias{create_files_architecture}
 \title{Create the recommended files architecture}
 \usage{
-create_files_architecture(path = NULL, main_folder_name = NULL)
+create_files_architecture(main_folder_path = getwd(), main_folder_name = NULL)
 }
 \arguments{
-\item{path}{chr. The path where to create the main folder}
+\item{main_folder_path}{Character. The path where to create the main folder}
 
-\item{main_folder_name}{chr. The name of the main folder}
+\item{main_folder_name}{Character. The name of the main folder. Must be provided.}
 }
 \description{
 Create the recommended files architecture.

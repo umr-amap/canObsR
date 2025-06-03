@@ -22,27 +22,27 @@ align_Mosa(
 )
 }
 \arguments{
-\item{path_in}{chr. Path to the target image, or to a folder containing multiple target images. Images must be of Geotiff format.}
+\item{path_in}{character. Path to the target images, or to a folder containing multiple target images. Images must be of Geotiff format.}
 
-\item{ref_filepath}{chr. Path to the reference image.}
+\item{ref_filepath}{character. Path to the reference image.}
 
-\item{out_dir_path}{chr. Directory where the outputs are saved.}
+\item{out_dir_path}{character. Directory where the outputs are saved.}
 
-\item{corr_type}{chr. Type of co-registration. Either 'global' (default) or 'local'.}
+\item{corr_type}{character. Type of co-registration. Either 'global' (default) or 'local'.}
 
-\item{max_shift}{int. Maximum shift distance in reference image pixel units}
+\item{max_shift}{integer. Maximum shift distance in reference image pixel units}
 
-\item{max_iter}{int. Maximum number of iterations for matching (default: 5).}
+\item{max_iter}{integer. Maximum number of iterations for matching (default: 5).}
 
-\item{min_reliability}{int. Minimum reliability threshold (in percents), below which tie points are marked as false-positives. Only applies to local co-registration.}
+\item{min_reliability}{integer. Minimum reliability threshold (in percents), below which tie points are marked as false-positives. Only applies to local co-registration.}
 
-\item{grid_res}{int. Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration.}
+\item{grid_res}{integer. Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration.}
 
-\item{window_size}{int. Custom matching window size (in pixels) as (X, Y) tuple (default: (1000, 1000)).}
+\item{window_size}{integer. Custom matching window size (in pixels) as (X, Y) tuple (default: (1000, 1000)).}
 
-\item{window_pos}{tuple. Custom matching window position as (X, Y) map coordinate in the same projection as the reference image (default: central position of image overlap). Only used when performing global co-registration.}
+\item{window_pos}{list. Custom matching window position as (X, Y) map coordinate in the same projection as the reference image (default: central position of image overlap). Only used when performing global co-registration.}
 
-\item{mp}{int. Number of CPUs to use. If None (default), all available CPUs are used. If mp=1, no multiprocessing is done.}
+\item{mp}{integer or NULL. Number of CPUs to use. If None (default), all available CPUs are used. If mp=1, no multiprocessing is done.}
 
 \item{save_data}{logical. Saves the transformation metadata in a .pkl file, and the tie points data in a csv file. The latter only happens when performing local co-registration.}
 
@@ -51,7 +51,7 @@ align_Mosa(
 \item{apply_matrix}{logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently. Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created. We hope to change that soon ; until then, apply_matrix is disabled by default)}
 }
 \value{
-None
+NULL (invisible)
 }
 \description{
 Implementation in R a pipeline that uses \href{https://github.com/GFZ/arosics}{AROSICS} to perform a global or local co-registration on a file or a group of files located inside a folder

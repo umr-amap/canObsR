@@ -8,7 +8,7 @@ extract_rgbValues(
   path_images,
   path_crowns,
   out_dir_path = NULL,
-  ncor = 1,
+  N_cores = 1,
   sites = NULL,
   dates = NULL,
   tempdir_custom = NULL,
@@ -16,22 +16,21 @@ extract_rgbValues(
 )
 }
 \arguments{
-\item{path_images}{list with the full paths to the RGB rasters.}
+\item{path_images}{character vector. Path to the target images. Images must be of Geotiff format.}
 
-\item{path_crowns}{chr. Path to the crown delinetion shapefile}
+\item{path_crowns}{character. Path to the crowns polygons file.}
 
-\item{out_dir_path}{chr. The path to the directory use to stored the images}
+\item{out_dir_path}{character. Directory where the outputs are saved.}
 
-\item{ncor}{Number of cores use in the parallelisation proccess.}
+\item{N_cores}{integer. Number of cores use in the parallelisation proccess.}
 
-\item{sites}{chr. name of the site, p.e 'Mbalmayo'.}
+\item{sites}{character. Name of the site, p.e 'Mbalmayo'.}
 
-\item{dates}{chr. vector of dates (format should be 'YYYY_MM_DD', p.e '2022_09_25').
-The order of the dates should match with the order of the path_images !}
+\item{dates}{character vector. Dates (format of dates should be '\%Y-\%m-\%d', '\%Y\%m\%d' or '\%Y_\%m_\%d').The order should match \code{path_images}.}
 
-\item{tempdir_custom}{chr. Path where to store temporary files}
+\item{tempdir_custom}{character. Directory where the temporary files are saved.}
 
-\item{file_type}{chr. By default it is '.RData' but can be '.csv' or '.xlsx'}
+\item{file_type}{character. By default it is '.RData' but can be '.csv' or '.xlsx'}
 }
 \value{
 A tibble with the variable site, id, date, family, genus, species, type, metric, band and value.
@@ -54,7 +53,7 @@ rgb_data <- extract_rgbValues (
   path_images = imgs,
   path_crowns = path_crowns,
   out_dir_path = out_dir_path,
-  ncor = 10,
+  N_cores = 10,
   sites = NULL,
   dates = NULL
 )

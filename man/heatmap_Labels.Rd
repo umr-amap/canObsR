@@ -5,7 +5,7 @@
 \title{Plot the heatmap of Labels}
 \usage{
 heatmap_Labels(
-  longLabels,
+  Labels,
   Species = NULL,
   Genus = NULL,
   Family = NULL,
@@ -15,22 +15,22 @@ heatmap_Labels(
 )
 }
 \arguments{
-\item{longLabels}{\code{tibble} or \code{dataframe} of long data format for labels}
+\item{Labels}{tbl_df.}
 
-\item{Species}{chr. Specifying the species you want to filter}
+\item{Species}{character. Specifying the species you want to filter}
 
-\item{Genus}{chr. Specifying the genus you want to filter}
+\item{Genus}{character. Specifying the genus you want to filter}
 
-\item{Family}{chr. Specifying the family(ies) you want to filter}
+\item{Family}{character. Specifying the family(ies) you want to filter}
 
-\item{title}{chr. The title of the plot}
+\item{title}{character. The title of the plot}
 
 \item{simplify}{logical. When TRUE, the plot will use simplified labels instead of raw labels.}
 
 \item{repro}{logical. When TRUE, the flowers and fruits observations will be add to the plot.}
 }
 \value{
-return a ggplot
+ggplot
 }
 \description{
 A fct function

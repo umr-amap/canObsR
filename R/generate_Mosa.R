@@ -19,7 +19,7 @@
 #' @param suffix character. Text to add at the end of the output filenames.
 #'
 #' @export
-#' @import reticulate
+#' @importFrom reticulate source_python
 #'
 #' @return None
 #'

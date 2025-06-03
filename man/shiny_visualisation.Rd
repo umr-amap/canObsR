@@ -7,7 +7,7 @@
 shiny_visualisation(data_labeling)
 }
 \arguments{
-\item{data_labeling}{tibble. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}
+\item{data_labeling}{tbl_df. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}
 and modify from the \code{\link[canObsR]{shiny_labels}}}
 }
 \description{

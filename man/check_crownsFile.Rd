@@ -7,12 +7,10 @@
 check_crownsFile(path_crowns)
 }
 \arguments{
-\item{path_crowns}{chr. Path to the crown delinetion shapefile}
+\item{path_crowns}{Character. Path to the crown delinetion shapefile.}
 }
 \value{
-Text that give you informations about your file.
-Indicates whether your file will be compatible or not  for the other functions of the package.
-Pay attention to the line starting with 'X'.
+NULL. Prints info messages about file compatibility.
 }
 \description{
 Check the crown file compatibility with the \code{canObsR} functions. Your crown

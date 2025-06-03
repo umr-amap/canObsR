@@ -21,7 +21,7 @@
 #' @import shinythemes
 #' @import dplyr
 #' @import tibble
-#' @import openxlsx
+#' @importFrom openxlsx read.xlsx write.xlsx
 #' @import stringr
 
 shiny_labels <- function(data_labeling = NULL, newFile = NULL, imgFolder = NULL) {

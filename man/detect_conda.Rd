@@ -7,9 +7,9 @@
 detect_conda(verbose = TRUE, auto_select = TRUE)
 }
 \arguments{
-\item{verbose}{Logical. If \code{TRUE} (default), displays informational messages during execution.}
+\item{verbose}{logical. If \code{TRUE} (default), displays informational messages during execution.}
 
-\item{auto_select}{Logical. If \code{TRUE} (default), automatically selects the conda path if only one is found.}
+\item{auto_select}{logical. If \code{TRUE} (default), automatically selects the conda path if only one is found.}
 }
 \value{
 A character string with the full path to the selected \code{conda} executable, or \code{NULL} if no conda was found and the user declined the Miniconda installation.
