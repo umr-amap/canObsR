@@ -71,7 +71,7 @@ function. The mean and / or the variance can be extracted (see 'fun' parameter).
 <span>  <span class="va">path_images</span>,</span>
 <span>  <span class="va">path_crowns</span>,</span>
 <span>  out_dir_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  ncor <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  N_cores <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  sites <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  dates <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  tempdir_custom <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -84,36 +84,35 @@ function. The mean and / or the variance can be extracted (see 'fun' parameter).
 
 
 <dl><dt id="arg-path-images">path_images<a class="anchor" aria-label="anchor" href="#arg-path-images"></a></dt>
-<dd><p>list with the full paths to the RGB rasters.</p></dd>
+<dd><p>character vector. Path to the target images. Images must be of Geotiff format.</p></dd>
 
 
 <dt id="arg-path-crowns">path_crowns<a class="anchor" aria-label="anchor" href="#arg-path-crowns"></a></dt>
-<dd><p>chr. Path to the crown delinetion shapefile</p></dd>
+<dd><p>character. Path to the crowns polygons file.</p></dd>
 
 
 <dt id="arg-out-dir-path">out_dir_path<a class="anchor" aria-label="anchor" href="#arg-out-dir-path"></a></dt>
-<dd><p>chr. The path to the directory use to stored the images</p></dd>
+<dd><p>character. Directory where the outputs are saved.</p></dd>
 
 
-<dt id="arg-ncor">ncor<a class="anchor" aria-label="anchor" href="#arg-ncor"></a></dt>
-<dd><p>Number of cores use in the parallelisation proccess.</p></dd>
+<dt id="arg-n-cores">N_cores<a class="anchor" aria-label="anchor" href="#arg-n-cores"></a></dt>
+<dd><p>integer. Number of cores use in the parallelisation proccess.</p></dd>
 
 
 <dt id="arg-sites">sites<a class="anchor" aria-label="anchor" href="#arg-sites"></a></dt>
-<dd><p>chr. name of the site, p.e 'Mbalmayo'.</p></dd>
+<dd><p>character. Name of the site, p.e 'Mbalmayo'.</p></dd>
 
 
 <dt id="arg-dates">dates<a class="anchor" aria-label="anchor" href="#arg-dates"></a></dt>
-<dd><p>chr. vector of dates (format should be 'YYYY_MM_DD', p.e '2022_09_25').
-The order of the dates should match with the order of the path_images !</p></dd>
+<dd><p>character vector. Dates (format of dates should be '%Y-%m-%d', '%Y%m%d' or '%Y_%m_%d').The order should match <code>path_images</code>.</p></dd>
 
 
 <dt id="arg-tempdir-custom">tempdir_custom<a class="anchor" aria-label="anchor" href="#arg-tempdir-custom"></a></dt>
-<dd><p>chr. Path where to store temporary files</p></dd>
+<dd><p>character. Directory where the temporary files are saved.</p></dd>
 
 
 <dt id="arg-file-type">file_type<a class="anchor" aria-label="anchor" href="#arg-file-type"></a></dt>
-<dd><p>chr. By default it is '.RData' but can be '.csv' or '.xlsx'</p></dd>
+<dd><p>character. By default it is '.RData' but can be '.csv' or '.xlsx'</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -134,7 +133,7 @@ The order of the dates should match with the order of the path_images !</p></dd>
 <span class="r-in"><span>  path_images <span class="op">=</span> <span class="va">imgs</span>,</span></span>
 <span class="r-in"><span>  path_crowns <span class="op">=</span> <span class="va">path_crowns</span>,</span></span>
 <span class="r-in"><span>  out_dir_path <span class="op">=</span> <span class="va">out_dir_path</span>,</span></span>
-<span class="r-in"><span>  ncor <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>  N_cores <span class="op">=</span> <span class="fl">10</span>,</span></span>
 <span class="r-in"><span>  sites <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>  dates <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>

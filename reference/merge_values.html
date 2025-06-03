@@ -61,32 +61,27 @@ values.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">merge_values</span><span class="op">(</span></span>
-<span>  <span class="va">data_labeling</span>,</span>
-<span>  <span class="va">rgb_data</span>,</span>
-<span>  out_dir_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  file_type <span class="op">=</span> <span class="st">".RData"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">merge_values</span><span class="op">(</span><span class="va">Labels</span>, <span class="va">rgb_data</span>, out_dir_path <span class="op">=</span> <span class="cn">NULL</span>, file_type <span class="op">=</span> <span class="st">".RData"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-data-labeling">data_labeling<a class="anchor" aria-label="anchor" href="#arg-data-labeling"></a></dt>
-<dd><p><code>tibble</code> or <code>dataframe</code> which contains the labels directly import from the xlsx file.</p></dd>
+<dl><dt id="arg-labels">Labels<a class="anchor" aria-label="anchor" href="#arg-labels"></a></dt>
+<dd><p>tbl_df. Labels data</p></dd>
 
 
 <dt id="arg-rgb-data">rgb_data<a class="anchor" aria-label="anchor" href="#arg-rgb-data"></a></dt>
-<dd><p><code>tibble</code> or <code>dataframe</code> with the rgb metrics values.</p></dd>
+<dd><p>tbl_df. rgb metrics values.</p></dd>
 
 
 <dt id="arg-out-dir-path">out_dir_path<a class="anchor" aria-label="anchor" href="#arg-out-dir-path"></a></dt>
-<dd><p>chr. The path to the directory use to stored the file</p></dd>
+<dd><p>character. Directory where the outputs are saved.</p></dd>
 
 
 <dt id="arg-file-type">file_type<a class="anchor" aria-label="anchor" href="#arg-file-type"></a></dt>
-<dd><p>chr. By default it is '.RData' but can be '.csv' or '.xlsx'</p></dd>
+<dd><p>character. By default it is '.RData' but can be '.csv' or '.xlsx'</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -99,28 +94,12 @@ values.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/umr-amap/canObsR" class="external-link">canObsR</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="data.html">data</a></span><span class="op">(</span><span class="st">'"data_labeling"'</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>data set ‘"data_labeling"’ not found</span>
-<span class="r-in"><span><span class="fu"><a href="data.html">data</a></span><span class="op">(</span><span class="st">'data_labeling'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">merge_values</span><span class="op">(</span><span class="va">data_labeling</span>,<span class="va">rgb_data</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 131,656 × 23</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    site       id date       family   genus species phenophase type  metric band </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Bouamir     1 2022-03-26 Fabaceae Pipt… Piptad… L          RGB   mean   red  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Bouamir     2 2022-03-26 Urticac… Musa… Musang… L          RGB   mean   red  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Bouamir     3 2022-03-26 Fabaceae Dist… Distem… L          RGB   mean   red  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Bouamir     4 2022-03-26 Cannaba… Celt… Celtis… L          RGB   mean   red  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Bouamir     5 2022-03-26 Fabaceae Dist… Distem… L          RGB   mean   red  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Bouamir     6 2022-03-26 Irvingi… Desb… Desbor… <span style="color: #BB0000;">NA</span>         RGB   mean   red  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Bouamir     7 2022-03-26 Sapotac… Mani… Manilk… <span style="color: #BB0000;">NA</span>         RGB   mean   red  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Bouamir     8 2022-03-26 Urticac… Musa… Musang… L          RGB   mean   red  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Bouamir     9 2022-03-26 Meliace… Enta… Entand… <span style="color: #BB0000;">NA</span>         RGB   mean   red  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Bouamir    10 2022-03-26 Meliace… Enta… Entand… <span style="color: #BB0000;">NA</span>         RGB   mean   red  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 131,646 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 13 more variables: value &lt;dbl&gt;, PPfoliar1 &lt;chr&gt;, PPfoliar2 &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PPFlo &lt;dbl&gt;, PPFr &lt;dbl&gt;, PPFlo_uncertainty &lt;dbl&gt;, PPFr_uncertainty &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   desynchr &lt;dbl&gt;, PPfoliar2_uncertainty &lt;dbl&gt;, obs &lt;chr&gt;, comments &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   update &lt;chr&gt;, Usable_crown &lt;chr&gt;</span></span>
+<span class="r-in"><span><span class="fu"><a href="data.html">data</a></span><span class="op">(</span><span class="st">'"Labels"'</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>data set ‘"Labels"’ not found</span>
+<span class="r-in"><span><span class="fu"><a href="data.html">data</a></span><span class="op">(</span><span class="st">'Labels'</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>data set ‘Labels’ not found</span>
+<span class="r-in"><span><span class="fu">merge_values</span><span class="op">(</span><span class="va">Labels</span>,<span class="va">rgb_data</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'Labels' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
