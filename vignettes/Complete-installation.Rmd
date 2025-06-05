@@ -49,9 +49,10 @@ install_github("https://github.com/umr-amap/canObsR.git")
 # ⚙️ Install Miniconda
 *In RStudio console*
 ```{r, eval=F, echo=T}
-install.packages("reticulate")
 library(reticulate)
 reticulate::install_miniconda()
+library(reticulate)
+use_condaenv("r-reticulate", required = TRUE)
 ```
 
 ---
@@ -88,7 +89,7 @@ if (file.exists(whl_file)) {
   message("Installation of Metashape from the .whl file…")
   py_install(
     packages = whl_file,
-    method = "pip"
+    pip = TRUE
   )
 } else {
   warning("❌️ File .whl not found : ", whl_file)
@@ -124,13 +125,16 @@ Or you can also do it using the Anaconda command prompt
 To activate the key, follow these steps :
 
 - Open an anaconda command prompt
-- Activate the environnement you just created :
-$ conda activate canObs_env
-- start python and activate the licence :
-$ python
->>> import Metashape
->>> Metashape.license.activate("AAAA-BBBB-CCCC-DDDD")           # replace with your license key
-
+- Activate the environnement you just created, and start python :
+```{bash, eval=FALSE}
+conda activate canObs_env
+python
+```
+Now you can activate the licence (replace with your license key):
+```{bash, eval=FALSE}
+import Metashape
+Metashape.license.activate("AAAA-BBBB-CCCC-DDDD")
+```
 If that works, you can close the command prompt. You should be good to go ! 🎉
 
 ---
