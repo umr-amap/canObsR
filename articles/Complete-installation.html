@@ -137,9 +137,10 @@ Desktop</a><a class="anchor" aria-label="anchor" href="#rstudio-download-and-ins
 </h2>
 <p><em>In RStudio console</em></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"reticulate"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
+<span><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/install_miniconda.html" class="external-link">install_miniconda</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
-<span><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/install_miniconda.html" class="external-link">install_miniconda</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html" class="external-link">use_condaenv</a></span><span class="op">(</span><span class="st">"r-reticulate"</span>, required <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">
@@ -176,7 +177,7 @@ file below</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Installation of Metashape from the .whl file…"</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_install.html" class="external-link">py_install</a></span><span class="op">(</span></span>
 <span>    packages <span class="op">=</span> <span class="va">whl_file</span>,</span>
-<span>    method <span class="op">=</span> <span class="st">"pip"</span></span>
+<span>    pip <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning</a></span><span class="op">(</span><span class="st">"❌️ File .whl not found : "</span>, <span class="va">whl_file</span><span class="op">)</span></span>
@@ -211,12 +212,13 @@ application if it is already installed).</p>
 <p>To activate the key, follow these steps :</p>
 <ul>
 <li>Open an anaconda command prompt</li>
-<li>Activate the environnement you just created : $ conda activate
-canObs_env</li>
-<li>start python and activate the licence : $ python &gt;&gt;&gt; import
-Metashape &gt;&gt;&gt; Metashape.license.activate(“AAAA-BBBB-CCCC-DDDD”)
-# replace with your license key</li>
+<li>Activate the environnement you just created, and start python :</li>
 </ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">conda</span> activate canObs_env</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">python</span></span></code></pre></div>
+<p>Now you can activate the licence (replace with your license key):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">import</span> Metashape</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">Metashape.license.activate</span><span class="er">(</span><span class="st">"AAAA-BBBB-CCCC-DDDD"</span><span class="kw">)</span></span></code></pre></div>
 <p>If that works, you can close the command prompt. You should be good
 to go ! 🎉</p>
 <hr>
@@ -225,7 +227,7 @@ to go ! 🎉</p>
 <h2 id="restart-r">🔁 Restart R<a class="anchor" aria-label="anchor" href="#restart-r"></a>
 </h2>
 <p><em>In RStudio console</em></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/umr-amap/canObsR" class="external-link">canObsR</a></span><span class="op">)</span></span>
 <span></span>
