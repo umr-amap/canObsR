@@ -8,6 +8,7 @@ docs
 inst/doc
 inst/xlsx/*
 inst/crowns/*
+inst/PYTHON/canObsR_env
 test_data/*
 *.md
 pandoc*
