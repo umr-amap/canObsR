@@ -238,7 +238,7 @@ extract_crownsImages outputs files
 <hr>
 </div>
 <div class="section level2">
-<h2 id="third-step-extract-crowns-images-per-date">Third step : Extract crowns images per date<a class="anchor" aria-label="anchor" href="#third-step-extract-crowns-images-per-date"></a>
+<h2 id="third-step-extract-crowns-rgb-indices-per-date">Third step : Extract crowns rgb indices per date<a class="anchor" aria-label="anchor" href="#third-step-extract-crowns-rgb-indices-per-date"></a>
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">############## STEP 3 Extract spectral indices from mosaics at the crown scale -</span></span>
@@ -248,10 +248,10 @@ extract_crownsImages outputs files
 <span>   path_crowns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'crowns_corrected.gpkg'</span><span class="op">)</span>, <span class="co"># Path to  crowns file</span></span>
 <span>   out_dir_path <span class="op">=</span>  <span class="va">path</span>,                                 <span class="co"># Path to output folder</span></span>
 <span>   tempdir_custom <span class="op">=</span> <span class="va">Tmpfiles_directory</span>,             <span class="co"># Path to tmp file directory</span></span>
-<span>   ncor <span class="op">=</span> <span class="va">N_cores</span>,                                             <span class="co"># Number of cores </span></span>
+<span>   N_cores <span class="op">=</span> <span class="va">N_cores</span>,                                             <span class="co"># Number of cores </span></span>
 <span>   sites <span class="op">=</span> <span class="cn">NULL</span>,                 <span class="co"># If NULL, will be extract from the path_images</span></span>
 <span>   dates <span class="op">=</span> <span class="cn">NULL</span>,                 <span class="co"># If NULL, will be extract from the path_images</span></span>
-<span>   file_type <span class="op">=</span> <span class="st">'.xlsx'</span>                   <span class="co"># Could be '.csv' or '.xlsx' or 'RData'</span></span>
+<span>   file_type <span class="op">=</span> <span class="st">'.csv'</span>                   <span class="co"># Could be '.csv' or '.xlsx' or 'RData'</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="img/extract_rgbValues.jpg" alt="extract_rgbValues outputs files" width="100%"><p class="caption">
@@ -293,7 +293,7 @@ do the labeling.</p>
 <span>         sep <span class="op">=</span> <span class="st">'_'</span> <span class="op">)</span></span>
 <span>      <span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Start the app</span></span>
+<span><span class="co"># Start the labeling app</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/shiny_labels.html">shiny_labels</a></span><span class="op">(</span></span>
 <span>   data_labeling <span class="op">=</span> <span class="va">labeling_file</span>,</span>
@@ -305,6 +305,15 @@ do the labeling.</p>
 shiny_visualisation
 </p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="start-the-visualisation-app">Start the visualisation app<a class="anchor" aria-label="anchor" href="#start-the-visualisation-app"></a>
+</h2>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">=</span> <span class="fu">canObsR</span><span class="fu">::</span><span class="va"><a href="../reference/data.html">data</a></span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">data</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path</span>,<span class="st">'full_data.csv'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/shiny_visualisation.html">shiny_visualisation</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
