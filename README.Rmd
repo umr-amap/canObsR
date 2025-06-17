@@ -15,6 +15,15 @@ knitr::opts_chunk$set(
 canObsR
 ================
 
+# canObsR
+
+[![R-CMD-check](https://github.com/umr-amap/canObsR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/umr-amap/canObsR/actions/workflows/R-CMD-check.yaml)
+[![Licence MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
+[![version](https://img.shields.io/github/r-package-version/umr-amap/canObsR)](https://github.com/umr-amap/canObsR)
+[![downloads](https://badgen.net/cran/dl-total/canObsR)](https://cran.r-project.org/package=canObsR)
+
+================
+
   - [The package](#the-package)
   - [Installation](#installation)
   - [Citation](#citation)
@@ -46,6 +55,6 @@ One of the main functions of the package is to generate orthomosaics and to alig
 
 The generation of orthomosaics is based on Fabrice Vinatier & Denis Feurer's work, [Time-SIFT module for Agisoft Metashape software](https://doi.org/10.5281/zenodo.8367318) (2023)
 ```{r echo=FALSE, fig.show='hold',fig.align="center",fig.cap="Generate orthomosaics", message=FALSE, warning=FALSE, out.width='100%'}
-knitr::include_graphics("man/figures/generate_mosaics.JPG")
+#knitr::include_graphics("man/figures/generate_mosaics.JPG")
 ```
 

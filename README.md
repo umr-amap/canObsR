@@ -3,6 +3,16 @@
 
 # canObsR
 
+# canObsR
+
+[![R-CMD-check](https://github.com/umr-amap/canObsR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/umr-amap/canObsR/actions/workflows/R-CMD-check.yaml)
+[![Licence
+MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
+[![version](https://img.shields.io/github/r-package-version/umr-amap/canObsR)](https://github.com/umr-amap/canObsR)
+[![downloads](https://badgen.net/cran/dl-total/canObsR)](https://cran.r-project.org/package=canObsR)
+
+================
+
 - [The package](#the-package)
 - [Installation](#installation)
 - [Citation](#citation)
@@ -48,12 +58,3 @@ article](https://umr-amap.github.io/canObsR/articles/generate-and-align-ortomosa
 The generation of orthomosaics is based on Fabrice Vinatier & Denis
 Feurer’s work, [Time-SIFT module for Agisoft Metashape
 software](https://doi.org/10.5281/zenodo.8367318) (2023)
-
-<div class="figure" style="text-align: center">
-
-<img src="man/figures/generate_mosaics.JPG" alt="Generate orthomosaics" width="100%" />
-<p class="caption">
-Generate orthomosaics
-</p>
-
-</div>
