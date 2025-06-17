@@ -59,7 +59,6 @@ Implementation in R a pipeline that uses \href{https://github.com/GFZ/arosics}{A
 \examples{
 
 \dontrun{
-library(reticulate)
 
 align_Mosa(path_in = "path_to_ortho.tif",
              ref_filepath = "ref_image.tif",

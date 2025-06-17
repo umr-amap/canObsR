@@ -173,7 +173,7 @@ knitr::include_graphics("img/extract_crownsImages.jpg")
 
 ---
 
-# Third step : Extract crowns images per date
+# Third step : Extract crowns rgb indices per date
 
 ```{r, eval=F, echo=T}
 ############## STEP 3 Extract spectral indices from mosaics at the crown scale -
@@ -183,10 +183,10 @@ rgb_data <- extract_rgbValues (
    path_crowns = file.path(path,'crowns_corrected.gpkg'), # Path to  crowns file
    out_dir_path =  path,                                 # Path to output folder
    tempdir_custom = Tmpfiles_directory,             # Path to tmp file directory
-   ncor = N_cores,                                             # Number of cores 
+   N_cores = N_cores,                                             # Number of cores 
    sites = NULL,                 # If NULL, will be extract from the path_images
    dates = NULL,                 # If NULL, will be extract from the path_images
-   file_type = '.xlsx'                   # Could be '.csv' or '.xlsx' or 'RData'
+   file_type = '.csv'                   # Could be '.csv' or '.xlsx' or 'RData'
 )
 
 ```
@@ -233,7 +233,7 @@ labeling_file <- file.path(
          sep = '_' )
       )
 
-# Start the app
+# Start the labeling app
 
 shiny_labels(
    data_labeling = labeling_file,
@@ -246,3 +246,13 @@ shiny_labels(
 ```{r echo=FALSE, fig.show='hold',fig.align="center", fig.cap="shiny_visualisation", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("img/shiny_visualisation.jpg")
 ```
+
+# Start the visualisation app
+
+```{r, eval=F, echo=T}
+data = canObsR::data
+
+write.csv(data, file = file.path(path,'full_data.csv'))
+shiny_visualisation()
+```
+

@@ -15,6 +15,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r echo=FALSE, fig.show='hold',fig.align="center", message=FALSE, warning=FALSE, out.width='100%'}
+#| fig.alt: >
+#|   In progress
 knitr::include_graphics("img/Image1.jpg")
 ```
 
