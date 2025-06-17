@@ -272,7 +272,7 @@ server <- function(input,output,session){
       sp_data <- data() %>%
          group_by(id) %>%
          mutate(na = case_when(length(unique(phenophase)) == 1 &
-                                                NA %in% (unique(phenophase)) ~ TRUE, TRUE ~ FALSE)) %>%
+                                                NA %in% (unique(phenophase)) ~ 1, TRUE ~ 0)) %>%
          summarise(n = sum(na) / n(),
                    species = unique(species)) %>%
          ungroup() %>%
@@ -288,7 +288,10 @@ server <- function(input,output,session){
               space = .5,
               names.arg = sp_data$species,
               col = sp_data$sp_choice,
-              main = 'Crowns done per species')
+              main = 'Crowns done per species',
+              cex.names = 0.5,
+              las = 2,
+              ylim = c(0,100))
 
    })
 
