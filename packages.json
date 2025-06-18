@@ -1,5 +1,6 @@
 [
-    "canObsR": {
-    	"url": "https://github.com/umr-amap/canObsR"
-    	}
+  {
+    "package": "canObsR",
+    "url": "https://github.com/umr-amap/canObsR"
+  }
 ]
