@@ -3,10 +3,7 @@
 
 # canObsR
 
-[![R-CMD-check](https://github.com/umr-amap/canObsR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/umr-amap/canObsR/actions/workflows/R-CMD-check.yaml)
-[![Licence
-MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
-================
+# [![Licence MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 
 - [The package](#the-package)
 - [Installation](#installation)
