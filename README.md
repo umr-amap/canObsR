@@ -3,14 +3,9 @@
 
 # canObsR
 
-# canObsR
-
 [![R-CMD-check](https://github.com/umr-amap/canObsR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/umr-amap/canObsR/actions/workflows/R-CMD-check.yaml)
 [![Licence
 MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
-[![version](https://img.shields.io/github/r-package-version/umr-amap/canObsR)](https://github.com/umr-amap/canObsR)
-[![downloads](https://badgen.net/cran/dl-total/canObsR)](https://cran.r-project.org/package=canObsR)
-
 ================
 
 - [The package](#the-package)

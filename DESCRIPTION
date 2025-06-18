@@ -37,7 +37,7 @@ Imports:
     RColorBrewer,
     shinythemes,
     DT
-URL: https://github.com/umr-amap/canObsR,
+URL: https://umr-amap.github.io/canObsR/, https://github.com/umr-amap/canObsR/
 BugReports: https://github.com/umr-amap/canObsR/issues
 VignetteBuilder: knitr
 Depends: 

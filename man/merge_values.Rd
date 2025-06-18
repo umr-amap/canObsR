@@ -26,9 +26,9 @@ values.
 
 library(canObsR)
 
-data('"Labels"')
-data('Labels')
-merge_values(Labels,rgb_data)
+data_labeling = canObsR::data_labeling
+rgb_data = canObsR::rgb_data
+merge_values(data_labeling,rgb_data)
 
 
 }
