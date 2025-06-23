@@ -1,9 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-canObsR
-<img src="man/figures/logo.png" align="right" alt="" width="150" />
-=================
+# canObsR
 
 [![Licence
 MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
