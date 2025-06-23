@@ -113,7 +113,7 @@ reticulate::py_run_string("
 import Metashape
 # Replace 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX' with your key
 license_key = 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX'
-if Metashape.license().activate(license_key):
+if Metashape.License().activate(license_key):
     print('✅ Metashape Licence activated with success.')
 else:
     print('❌ Metashape License not activated.')
