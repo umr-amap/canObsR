@@ -1,27 +1,24 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# canObsR
+canObsR
+<img src="man/figures/logo.png" align="right" alt="" width="150" />
+=================
 
 [![Licence
 MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10213689.svg)](https://zenodo.org/records/14748367?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjY3MjE2Y2M1LTY4NjctNDEwNS1hMTViLTkwNmMzNGM0YzA5NCIsImRhdGEiOnt9LCJyYW5kb20iOiJkYjhlMWZhMDZiYmNkNTg2YzA4OGYxMTg0ODE3MmI3YiJ9.xKZdG_R2NvApekkLM4FanVbM-ZWbGqNjXYucPKydbzeLdur08A69N9ROgeTdPR42PP_OrL4eF_hljxh3wQHfwA)
-================
 
-- [The package](#the-package)
-- [Installation](#installation)
-- [Citation](#citation)
-- [Documentation](#documentation)
-- [Generate orthomosaics](#generate-orthomosaics)
+# Overview
 
-# The package
-
-canObsR aims at streamlining, standardizing and facilitating processing
-of repetead UAV surveys from R. It focuses on RGB data. It notably
-allows generating 3D and 4D mosaics & mosaics spatial alignment using
-state-of-the-art approaches, provides tools to generate reference
-labels, segment crowns (not now) and classify crown phenophases (not
-now).
+canObsR is a R package which aims at streamlining, standardizing and
+facilitating processing of repetead UAV surveys. It notably allows
+generating 3D and 4D mosaics & mosaics spatial alignment using
+state-of-the-art approaches. canObsR is also used to do phenological
+monitoring at the individual tree level. It gives tools to build a
+database with pictures of individual crown overtime, spectral indices of
+crowns overtime, add labels to classify pictures and analyse the
+phenological and the spectral data.
 
 # Installation
 
