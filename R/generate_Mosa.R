@@ -60,7 +60,7 @@ generate_Mosa <- function(path_in, out_dir_ortho, out_dir_DEM = NULL, out_dir_pr
                        suffix = "_") {
 
 
-   #source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
+   source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
 
    Time_SIFT_process(pathDIR = path_in,
                      out_dir_ortho = out_dir_ortho,
