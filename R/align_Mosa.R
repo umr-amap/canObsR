@@ -65,7 +65,7 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                           window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE,
                           save_vector_plot = FALSE, apply_matrix = FALSE, suffix = "_", do_subprocess = FALSE) {
 
-   #reticulate::source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
+   reticulate::source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
    if (do_subprocess) {
    launch_arosics_in_subproc(path_in = path_in, 
                              ref_filepath = ref_filepath, 
