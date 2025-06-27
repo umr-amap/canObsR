@@ -70,6 +70,7 @@
 <span>  calibrate_col <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  sun_sensor <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  group_by_flight <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  from_mesh <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  downscale_factor_alignement <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  downscale_factor_depth_map <span class="op">=</span> <span class="fl">2L</span>,</span>
 <span>  suffix <span class="op">=</span> <span class="st">"_"</span></span>
@@ -122,6 +123,10 @@
 
 <dt id="arg-group-by-flight">group_by_flight<a class="anchor" aria-label="anchor" href="#arg-group-by-flight"></a></dt>
 <dd><p>logical. Regroups data by flight (i.e. one orthomosaic for each subfolder of the input folder containing images). If FALSE, regroups it by date (default).</p></dd>
+
+
+<dt id="arg-from-mesh">from_mesh<a class="anchor" aria-label="anchor" href="#arg-from-mesh"></a></dt>
+<dd><p>logiclal. Generates the orthomosaics based on the mesh model rather than the DEM. In this case, the DEM will not be created.</p></dd>
 
 
 <dt id="arg-downscale-factor-alignement">downscale_factor_alignement<a class="anchor" aria-label="anchor" href="#arg-downscale-factor-alignement"></a></dt>

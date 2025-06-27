@@ -72,7 +72,8 @@
 <span>  mp <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  save_data <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  save_vector_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  apply_matrix <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  apply_matrix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  suffix <span class="op">=</span> <span class="st">""</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -109,7 +110,7 @@
 
 
 <dt id="arg-grid-res">grid_res<a class="anchor" aria-label="anchor" href="#arg-grid-res"></a></dt>
-<dd><p>integer. Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration.</p></dd>
+<dd><p>integer. Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration. By default, generates a 25*25 points grid</p></dd>
 
 
 <dt id="arg-window-size">window_size<a class="anchor" aria-label="anchor" href="#arg-window-size"></a></dt>
@@ -134,6 +135,10 @@
 
 <dt id="arg-apply-matrix">apply_matrix<a class="anchor" aria-label="anchor" href="#arg-apply-matrix"></a></dt>
 <dd><p>logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently. Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created. We hope to change that soon ; until then, apply_matrix is disabled by default)</p></dd>
+
+
+<dt id="arg-suffix">suffix<a class="anchor" aria-label="anchor" href="#arg-suffix"></a></dt>
+<dd><p>character. Text to add at the end of the output filenames.</p></dd>
 
 </dl></div>
     <div class="section level2">
