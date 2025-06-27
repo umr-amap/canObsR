@@ -9,8 +9,8 @@
 #    }
 # }
 
-# .onLoad <- function(libname, pkgname) {
-#    library(reticulate)
-#
-#    source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
-# }
+.onLoad <- function(libname, pkgname) {
+   library(reticulate)
+
+   source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
+}

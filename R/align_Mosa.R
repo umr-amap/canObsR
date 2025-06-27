@@ -65,7 +65,7 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                           window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE,
                           save_vector_plot = FALSE, apply_matrix = FALSE, suffix = "_", do_subprocess = FALSE) {
 
-   source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
+   source_python(system.file("PYTHON/arosics_chain.py", package = "canObsR"))
    if (do_subprocess) {
      
    }
