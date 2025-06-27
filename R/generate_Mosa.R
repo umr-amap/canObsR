@@ -14,6 +14,7 @@
 #' @param calibrate_col logical. Applies white balance.
 #' @param sun_sensor logical. Calibrates the reflectance using the sun sensor. Only applies to multispectral images.
 #' @param group_by_flight logical. Regroups data by flight (i.e. one orthomosaic for each subfolder of the input folder containing images). If FALSE, regroups it by date (default).
+#' @param from_mesh logiclal. Generates the orthomosaics based on the mesh model rather than the DEM. In this case, the DEM will not be created.
 #' @param downscale_factor_alignement integer. Alignment accuracy (0 - Highest, 1 - High, 2 - Medium, 4 - Low, 8 - Lowest). Defaults to 1.
 #' @param downscale_factor_depth_map integer. Depth map quality (1 - Ultra high, 2 - High, 4 - Medium, 8 - Low, 16 - Lowest). Defaults to 2.
 #' @param suffix character. Text to add at the end of the output filenames.
@@ -54,8 +55,9 @@
 generate_Mosa <- function(path_in, out_dir_ortho, out_dir_DEM = NULL, out_dir_project = NULL,
                        data_type = "RGB", resol_ref = 0.05, crs = "EPSG::32622",
                        site_name = "", calibrate_col = TRUE, sun_sensor = FALSE,
-                       group_by_flight = FALSE, downscale_factor_alignement = 1L,
-                       downscale_factor_depth_map = 2L, suffix = "_") {
+                       group_by_flight = FALSE, from_mesh = FALSE,
+                       downscale_factor_alignement = 1L, downscale_factor_depth_map = 2L, 
+                       suffix = "_") {
 
 
    source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
@@ -71,6 +73,7 @@ generate_Mosa <- function(path_in, out_dir_ortho, out_dir_DEM = NULL, out_dir_pr
                      calibrate_col = calibrate_col,
                      sun_sensor = sun_sensor,
                      group_by_flight = group_by_flight,
+                     from_mesh = from_mesh,
                      downscale_factor_alignement = downscale_factor_alignement,
                      downscale_factor_depth_map = downscale_factor_depth_map,
                      suffix = suffix)

@@ -10,6 +10,7 @@ import warnings
 from osgeo import gdal
 import pickle
 from shapely.geometry import Polygon
+import shutil
 import multiprocessing
 
 def parse_tuple(arg):
@@ -26,16 +27,17 @@ parser.add_argument('--out_dir_path', type=str)
 parser.add_argument('--corr_type', type=str, default='global')
 parser.add_argument('--mp', default=None)
 parser.add_argument('--max_shift', type=int, default=250)
-parser.add_argument('--max_iter', type=int, default=100)
+parser.add_argument('--max_iter', type=int, default=5)
 parser.add_argument('--ws', default=None)
 parser.add_argument('--wp', type=parse_tuple, default=(None, None))
 parser.add_argument('--min_reliability', type=int, default=60)
-parser.add_argument('--grid_res', type=int, default=1000)
+parser.add_argument('--grid_res', type=int, default=None)
 parser.add_argument('--apply_matrix', default=False)
 parser.add_argument('--save_plot', default=False)
 parser.add_argument('--save_data', default=True)
 parser.add_argument('--compress_lzw', default=False)
 parser.add_argument('--suffix', type=str, default="")
+parser.add_argument('--subprocess', default=False)
 args = parser.parse_args()
 
 
@@ -76,7 +78,7 @@ def compress_LZW(file_path):
 
 def harmonize_crs(input_path, ref_path, check_ref=True, compress_lzw=False):
     """
-    Forces two raster files to have the same coordinate system : takes the crs of the reference file and writes it into the input file. Also optionnally perform a LZW compression on the image(s)
+    Forces two raster files to have the same coordinate system : takes the crs of the reference file and writes it into the input file. Also optionnally performx a LZW compression on the image(s)
 
     Parameters:
     input file (str): 
@@ -84,9 +86,9 @@ def harmonize_crs(input_path, ref_path, check_ref=True, compress_lzw=False):
     ref_path (str): 
         Path to the second image (reference)
     check_ref (bool, optional):  
-        If True (default), perform an additional safety measure by rewriting the crs of the reference image aswell. May prevent errors if both files have their crs defined from different libraries (rasterio.CRS and pyproj.CRS)
+        If True (default), performs an additional safety measure by rewriting the crs of the reference image aswell. May prevent errors if both files have their crs defined from different libraries (rasterio.CRS and pyproj.CRS)
     compress_lzw (bool, optional):  
-        If True (default), perform a lzw compression on the image(s)
+        If True (default), performs a lzw compression on the image(s)
     """
     ref_compr = compress_lzw
     input_compr = compress_lzw
@@ -194,41 +196,47 @@ def to_GCPList(points_table, fill_val=-9999):
     
 
 
-def apply_saved_matrix(im_path, out_dir_path, metadata_path, GCP_path = None, suffix=""):
+def apply_saved_matrix(im_path, out_dir_path, metadata_path, suffix=""):
     """
-    Calls arosics functions to perform a global or local co-registration between two images. Option to save the coregistrated image, and in the case of a local CoReg, the tie points data and the vector shift map.
+    Applies a saved arosics transformation to a file or a group of files located inside a folder
 
     Parameters:
         :param str im_path: Path to the target image, or to a folder containing multiple target images. Images must be of Geotiff format.
         :param str out_dir_path: Directory where the outputs will be saved.
         :param str metadata_path: path to the .pkl file where the metadata of the specified tranformation have been saved.
-        :param str GCP_path: path to the .csv file containing the results of the desired local coregistration. Defaults to None. If the desired transform is a result of a global co-registration, leave it that way.
         
     Returns:
         Nothing
     """
-    corr_type = 'global'
     extensions = ('.tif', '.tiff', '.TIF', '.TIFF')
-    files = [file for file in sorted(os.listdir(im_path)) if file.endswith(extensions)]
+    if os.path.isfile(im_path):
+        files = [im_path] if im_path.endswith(extensions) else []
+    
+    elif os.path.isdir(im_path):
+        files = [file for file in sorted(os.listdir(im_path)) if file.endswith(extensions)]
+
+    if len(files)==0:
+        raise ValueError(f"The files must be of GeoTiff format")
+    
     print("files : ", files)
-    for file in files:
-        with open(metadata_path, 'rb') as file:
-            coreg_info = pickle.load(file)
-            file.close()
+    with open(metadata_path, 'rb') as meta:
+        dict_metadata = pickle.load(meta)
+        coreg_info = dict_metadata["cor_info"]
         
-        if GCP_path is not None:
-            corr_type = 'local'
-            GCP_df = pd.read_csv(GCP_path)
-            coreg_info['GCPList'] = to_GCPList(GCP_df, -9999)
+        if dict_metadata['type']=="local":
+            coreg_info['GCPList'] = to_GCPList(dict_metadata['csv'], -9999)
 
-        current_file_path = os.path.join(im_path, file)
-        path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")               #
-        CR = DESHIFTER(current_file_path, coreg_info, path_out=path_out, fmt_out="GTIFF")
-        CR.correct_shifts() 
+        for file in files:
+        
+            current_file_path = os.path.join(im_path, file)
+            path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")               #
+            CR = DESHIFTER(current_file_path, coreg_info, path_out=path_out, fmt_out="GTIFF")
+            CR.correct_shifts() 
+    meta.close()
 
 
 
-def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shift=250, max_iter=100, window_size=1500, window_pos = (None, None), mp=None, min_reliability = 60, grid_res=1000, save_data = True, save_vector_plot = False, queue=None):
+def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shift=250, max_iter=5, window_size=256, window_pos = (None, None), mp=None, min_reliability = 60, grid_res=None, save_data = True, save_vector_plot = False, queue=None):
     """
     Calls arosics functions to perform a global or local co-registration between two images. Option to save the coregistrated image, and in the case of a local CoReg, the tie points data and the vector shift map.
 
@@ -252,7 +260,7 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
         min_reliability (int):
             minimum reliability threshold (in %), below which tie points are marked as false-positives. Only applies to local co-registration
         grid_res (int): 
-            tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration
+            tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration. By default, generates a 25*25 points grid.
         mp (int): 
             Number of CPUs to use. If None (default), all available CPUs are used. If mp=1, no multiprocessing is done. 
         save_data (bool): 
@@ -274,14 +282,21 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
         CR = COREG(path_ref, path_in, path_out=path_out, fmt_out="GTIFF", ws=(window_size, window_size), wp=window_pos, max_shift=max_shift, max_iter=max_iter, CPUs=CPUs)
         CR.correct_shifts()
         if save_data :
-            #shifts = CR.coreg_info['corrected_shifts_map']
-            #shift_x, shift_y = shifts['x'], shifts['y']
-            #df = pd.DataFrame({'Shift_X':[shift_x], 'Shift_Y':[shift_y]})
-            #df.to_csv(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_shift.csv'), index=False)
+            # shifts = CR.coreg_info['corrected_shifts_map']
+            # shift_x, shift_y = shifts['x'], shifts['y']
+            # df = pd.DataFrame({'Shift_X':[shift_x], 'Shift_Y':[shift_y]})
+            # df.to_csv(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_shift.csv'), index=False)
+            dict_metadata = dict({'type':"global", "cor_info":CR.coreg_info})
             with open(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_metadata.pkl'), 'wb') as file:
-                pickle.dump(CR.coreg_info, file)
+                pickle.dump(dict_metadata, file)
 
     elif corr_type=='local':
+        if grid_res is None:
+            rast = rasterio.open(path_in)
+            meta = rast.meta.copy()
+            grid_res = int(np.max((meta['height']//25, meta['width']//25)))
+            print(grid_res)
+            rast.close()
         CR = COREG_LOCAL(path_ref, path_in, path_out=path_out, fmt_out="GTIFF", window_size=(window_size, window_size), max_shift=max_shift, max_iter=max_iter, CPUs=CPUs, grid_res=grid_res, min_reliability = min_reliability)
         CR.correct_shifts()
         if save_data:
@@ -289,26 +304,28 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
             df.to_csv(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_CoRegPoints_table.csv'), index=False)
             cor_info = CR.coreg_info
             del(cor_info['GCPList'])
+            dict_metadata = dict({'type':"local", 'csv':df, 'cor_info':cor_info})
             with open(os.path.join(os.path.dirname(path_out), os.path.basename(path_out).split('.')[0] + '_metadata.pkl'), 'wb') as file:
-                pickle.dump(cor_info, file)
+                pickle.dump(dict_metadata, file)        #cor_info
         if save_vector_plot:
             DPI=300
             vector_scale=15
             CR.view_CoRegPoints(shapes2plot = 'vectors', savefigPath = path_out.split('.')[0] + f"_vector_map_{DPI}DPI.JPEG", savefigDPI=DPI, vector_scale=vector_scale, backgroundIm='tgt')
         #compress_LZW(path_out)
-    if queue and corr_type=="global":
+    if queue : #and corr_type=="global":
         queue.put(CR.coreg_info)
     else:
         return CR.coreg_info
 
+#TODO : correctly implement subprocessing
 def complete_arosics_process(path_in, 
                              ref_filepath, 
                              out_dir_path, 
                              corr_type = 'global', 
                              max_shift=250,
-                             max_iter=100, 
+                             max_iter=5, 
                              min_reliability=60,
-                             grid_res=1000, 
+                             grid_res=None, 
                              window_size=None, 
                              window_pos = (None, None), 
                              mp=None, 
@@ -349,19 +366,20 @@ def complete_arosics_process(path_in,
     save_vector_plot = str2bool(save_vector_plot)
     save_data = str2bool(save_data)
     compress_lzw = str2bool(compress_lzw)
+    do_subprocess = str2bool(do_subprocess)
     mp = mp if mp is None else int(mp)
-    grid_res = int(grid_res)
+    grid_res = grid_res if grid_res is None else int(grid_res)
     window_size = window_size if window_size is None else int(window_size)
     max_iter = int(max_iter)
     max_shift = int(max_shift)
     #Set default values for window_size
     if corr_type == 'global':
         if window_size is None :
-            window_size = 1500
+            window_size = 512
         grid_res = ""
     elif corr_type == 'local':
         if window_size is None :
-            window_size = 4000 
+            window_size = 256 
 
     if not os.path.exists(out_dir_path):
         os.mkdir(out_dir_path)
@@ -409,38 +427,41 @@ def complete_arosics_process(path_in,
                 harmonize_crs(current_file_path, ref_filepath, check_ref = True if i==0 else False, compress_lzw=compress_lzw)
                 path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")
 
-                #if not do_subprocess:
-                CR_info = call_arosics(current_file_path, 
-                                        ref_filepath, 
-                                        path_out=path_out, 
-                                        corr_type=corr_type, 
-                                        mp=mp, 
-                                        window_size=window_size, 
-                                        window_pos=window_pos, 
-                                        max_shift=max_shift, 
-                                        max_iter=max_iter, 
-                                        min_reliability=min_reliability,
-                                        grid_res=grid_res, 
-                                        save_vector_plot=save_vector_plot, 
-                                        save_data=save_data)
-                """
+                if not do_subprocess:
+                    CR_info = call_arosics(current_file_path, 
+                                            ref_filepath, 
+                                            path_out=path_out, 
+                                            corr_type=corr_type, 
+                                            mp=mp, 
+                                            window_size=window_size, 
+                                            window_pos=window_pos, 
+                                            max_shift=max_shift, 
+                                            max_iter=max_iter, 
+                                            min_reliability=min_reliability,
+                                            grid_res=grid_res, 
+                                            save_vector_plot=save_vector_plot, 
+                                            save_data=save_data)
+                
                 else:
+                    #with multiprocessing.Pool(4) as pool:
+                        #pool.starmap(call_arosics, [(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, min_reliability, grid_res, save_data, save_vector_plot)])
                     queue = multiprocessing.Queue()
                     process = multiprocessing.Process(target=call_arosics, args=(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, min_reliability, grid_res, save_data, save_vector_plot, queue))
                     process.start()
                     process.join()     
-                    # Terminate the process if needed (ensure cleanup)
+
+                    """
                     if corr_type=='global':
                         CR_info = queue.get()
                     list_CR_info.append(CR_info)
-                    
+                    """
+
                     process.terminate()
 
                     if process.is_alive():         
                         raise TimeoutError("The arosics process is taking too much time and has been terminated")
                     else:
                         print("Process terminated successfully")
-                """
             return list_CR_info
           
         else:
@@ -458,19 +479,22 @@ def complete_arosics_process(path_in,
             If the images don't all have the same extent, add padding so they do
             """
             if not (all(x == hlist[0] for x in hlist) and all(x == glist[0] for x in glist)):
-                rm_temp_files=True
                 mask_coords = [np.min(glist), np.min(blist), np.max(dlist), np.max(hlist)]
                 geom = Polygon([(mask_coords[0], mask_coords[1]), (mask_coords[0], mask_coords[3]), (mask_coords[2], mask_coords[3]), (mask_coords[2], mask_coords[1])])
                 num_cols = int(np.ceil((mask_coords[2]-mask_coords[0]) / tf[0]))
                 num_rows = int(np.ceil((mask_coords[1]-mask_coords[3]) / tf[4]))
-                print("mask dimensions : ", (num_cols, num_rows))
-                print("Mask : ", geom.bounds)
-                #All images are padded to fit the geometry of the mask
+                #print("mask dimensions : ", (num_cols, num_rows))
+                #print("Mask : ", geom.bounds)
+                # All images are padded to fit the geometry of the mask
+                if not os.path.exists(os.path.join(path_in, "temp")):
+                    os.mkdir(os.path.join(path_in, "temp"))
+                elif os.path.exists(os.path.join(path_in, "temp")) and len(os.path.join(path_in, "temp")) != 0:
+                    raise ValueError(f"Attempting to create a temp folder in {path_in} but a non-empty folder named 'temp' already exists. Please empty it or rename it")
                 for i in range(len(files)) :
                     file = files[i]
                     rast = rasterio.open(os.path.join(path_in, file))
                     img = rast.read()
-                    print("image shape : ", img.shape)
+                    #print("image shape : ", img.shape)
 
                     padded_data = np.ones((band_count[i], num_rows, num_cols), dtype=img.dtype)*255
                     
@@ -488,18 +512,20 @@ def complete_arosics_process(path_in,
                     profile = rast.profile
                     profile.update(width=padded_data.shape[2], height=padded_data.shape[1], transform=target_tf,
                                     bounds=geom.bounds, count = band_count[i])
-                    print("padded img shape : ", padded_data.shape)
-                    out_path = os.path.join(path_in, f"{file.split('.')[0]}_temp.tif")
-                    files[i] = f"{file.split('.')[0]}_temp.tif"
+                    #print("padded img shape : ", padded_data.shape)
+                    out_path = os.path.join(path_in, "temp/", f"{file.split('.')[0]}.tif")
+                    #files[i] = f"{file.split('.')[0]}_temp.tif"
                     rast.close()
                     # Write the padded data to a new raster file
                     with rasterio.open(out_path, "w", **profile) as dst:
                         dst.write(padded_data)
                         dst.close()
+                path_in = os.path.join(path_in, "temp/")
+                rm_temp_files=True
             try:
                 first_file = files[0]
                 harmonize_crs(os.path.join(path_in, first_file), ref_filepath, compress_lzw=compress_lzw)
-                path_out = os.path.join(out_dir_path, first_file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")
+                path_out = os.path.join(out_dir_path, first_file.split('.')[0] + f"{suffix}.tif")
                 CR_info = call_arosics(os.path.join(path_in, first_file), ref_filepath, path_out=path_out, corr_type=corr_type, mp=mp, window_size=window_size, window_pos=window_pos, max_shift=max_shift, max_iter=max_iter, min_reliability=min_reliability, grid_res=grid_res, save_vector_plot=save_vector_plot, save_data=save_data)
                 """"
                 queue = multiprocessing.Queue()
@@ -519,15 +545,13 @@ def complete_arosics_process(path_in,
                 for file in files[1:]:
                     current_file_path = os.path.join(path_in, file)
                     harmonize_crs(current_file_path, ref_filepath, check_ref=False, compress_lzw=compress_lzw)
-                    path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")              #f'_aligned_{corr_type}.tif'
+                    path_out = os.path.join(out_dir_path, file.split('.')[0] + f"{suffix}.tif")              #f'_aligned_{corr_type}.tif'
                     DS = DESHIFTER(current_file_path, CR_info, path_out=path_out, fmt_out="GTIFF")
                     DS.correct_shifts()
             finally:
                 # Deletes temp files even if an error occurs
-                if rm_temp_files:
-                    for file in files:
-                        if "_temp.tif" in file:
-                            os.remove(os.path.join(path_in, file)) 
+                if rm_temp_files and "temp" in path_in:             # additionnal verif just to be sure
+                    shutil.rmtree(path_in)
             return CR_info
     
     else:
@@ -553,4 +577,5 @@ if __name__ == '__main__':
                              save_vector_plot = args.save_plot,
                              compress_lzw = args.compress_lzw,
                              suffix = args.suffix,
+                             do_subprocess = args.subprocess,
                              )
