@@ -64,10 +64,25 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                           min_reliability = 60, grid_res = 1000L, window_size = NULL,
                           window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE,
                           save_vector_plot = FALSE, apply_matrix = FALSE, suffix = "_", do_subprocess = FALSE) {
-
-   source_python(system.file("PYTHON/arosics_chain.py", package = "canObsR"))
+   reticulate::source_python(system.file("PYTHON/arosics_chain.py", package = "canObsR"))
+   reticulate::source_python(system.file("PYTHON/arosics_subprocess.py", package = "canObsR"))
    if (do_subprocess) {
-     
+   launch_arosics_in_subproc(path_in = path_in, 
+                              ref_filepath = ref_filepath, 
+                              out_dir_path = out_dir_path, 
+                              corr_type = corr_type, 
+                              max_shift = max_shift,
+                              max_iter = max_iter, 
+                              min_reliability = min_reliability,
+                              grid_res = grid_res, 
+                              window_size = window_size, 
+                              window_pos = window_pos,    #(None, None), 
+                              mp = mp, 
+                              #compress_lzw=False, 
+                              save_data = save_data, 
+                              save_vector_plot = save_vector_plot, 
+                              apply_matrix = apply_matrix, 
+                              suffix = suffix,)
    }
    else{
    complete_arosics_process(path_in = path_in,
@@ -115,7 +130,7 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
 
 apply_saved_matrix <- function(im_path, out_dir_path, metadata_path, suffix="_") {
 
-   source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
+   reticulate::source_python(system.file("PYTHON/_arosics_chain.py", package = "canObsR"))
 
    apply_saved_matrix(im_path = im_path,
                       out_dir_path = out_dir_path,
