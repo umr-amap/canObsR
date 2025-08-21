@@ -264,103 +264,90 @@ fun_extract = function(i, path, crowns_simplified, date, site, tempdir_custom)
    return(res)
 }
 
-fun_extract_img = function(i, img_group, crowns_simplified, out_dir_path, tempdir_custom){
+fun_extract_img <- function(i, img_group, crowns_simplified, out_dir_path, tempdir_custom = NULL) {
 
-
+   # --- Config temporaire ---
    if(!is.null(tempdir_custom)) {
-
-      # Pour R (impacte tous les packages)
       Sys.setenv(TMPDIR = tempdir_custom)
-
-      # Pour terra
       terra::terraOptions(tempdir = tempdir_custom)
-
-      # Pour stars (via GDAL)
       Sys.setenv(GDAL_TEMP = tempdir_custom)
       Sys.setenv(GDAL_PAM_PROXY_DIR = tempdir_custom)
    }
 
-
+   # Subset images pour ce worker
    img_group_i <- dplyr::filter(img_group, group_id == i)
 
-   for (l in 1:nrow(img_group_i)){
+   for (l in 1:nrow(img_group_i)) {
 
-      path = img_group_i[l,"img"]
+      path_img <- img_group_i[l, "img"]
+      date_img <- img_group_i[l, "date"]
+      width_img <- img_group_i[l, "width"]
+      height_img <- img_group_i[l, "height"]
 
-      print(paste(basename(path), 'in progress...'))
+      # Lire l'image une seule fois
+      r <- rast(path_img)
+      ext_r <- ext(r)
 
-      r = terra::rast(path, lyrs = 1)
-      r[[1]][r[[1]] == 255 ] = NA
-      r[[1]][!is.na(r[[1]])] = 1
+      # Traiter polygone par polygone
+      for (k in 1:nrow(crowns_simplified)) {
 
-      poly <- terra::as.polygons(r[[1]])
-      bbox <- sf::st_as_sf(poly) %>%
-         sf::st_boundary() %>%
-         dplyr::filter(!sf::st_is_empty(.)) %>%
-         sf::st_combine() %>%
-         sf::st_convex_hull() %>%
-         sf::st_as_sf() %>%
-         dplyr::rename("geometry" = "x") %>%
-         sf::st_cast(.,"POLYGON") %>%
-         sf::st_transform(crs = sf::st_crs(r))
+         poly <- crowns_simplified[k, ]
+         tmp_id <- poly$id
+         tmp_sp <- poly$species
+         if (is.null(tmp_sp) & !is.null(poly$genus)) tmp_sp <- poly$genus
 
-      for(k in 1:nrow(crowns_simplified)){
+         tmp_dir <- file.path(out_dir_path, paste0("crown_", tmp_id, "_", tmp_sp))
+         if(!dir.exists(tmp_dir)) dir.create(tmp_dir, recursive = TRUE)
 
-         # Extract data for each id and create the folder for the outputs ----------
+         # Créer bbox élargie
+         poly_ext <- create_bbox_shp(poly)
+         poly_vect <- vect(poly)
+         poly_ext_vect <- vect(poly_ext)
 
-         tmp_id <- crowns_simplified$id[k]
-         tmp_sp <- crowns_simplified$species[k]
-         tmp_crown <- crowns_simplified[k, ]
-         tmp_dir <- paste0(out_dir_path, "/crown_", tmp_id, "_", tmp_sp)
+         # Vérifier intersection
+         if (relate(poly_ext_vect, ext_r, relation = "intersects")) {
 
-         crown_bbox <- create_bbox_shp (shp = tmp_crown)
+            cropped <- crop(r, poly_ext_vect)
 
-
-         # Define the file and the image size for the export -----------------------
-
-         grDevices::jpeg(file = file.path(
-            paste0(tmp_dir, "/crown_", tmp_id, "_", tmp_sp, "_", img_group_i[l,"date"], ".jpeg")
-         ),
-         width = img_group_i[l,"width"],
-         height = img_group_i[l,"height"])
-
-         if (as.logical(sf::st_contains(bbox, crown_bbox, sparse = F))) {
-            # If data are available, plot the crown -----------------------------------
-
-            x <- stars::read_stars(path, proxy = T)[crown_bbox][, , , 1:3]
+            grDevices::jpeg(
+               filename = file.path(tmp_dir, paste0("crown_", tmp_id, "_", tmp_sp, "_", date_img, ".jpeg")),
+               width = width_img, height = height_img
+            )
 
             terra::plotRGB(
-               terra::rast(x),
-               main = paste(img_group_i[l,"date"], "|", tmp_sp, "| id =", tmp_id),
-               ext = sf::st_as_sf(crown_bbox),
-               axes = T,
+               cropped,
+               main = paste(date_img, "|", tmp_sp, "| id =", tmp_id),
+               ext = sf::st_as_sf(poly_ext),
+               axes = TRUE,
                mar = 2
             )
-            base::plot(
-               tmp_crown$geometry,
-               border = "red",
-               lwd = 2,
-               add = T
-            )
 
+            plot(poly$geometry, border = "red", lwd = 2, add = TRUE)
+            grDevices::dev.off()
+
+            # Libération mémoire
+            rm(cropped)
+            gc()
 
          } else {
-            # If data are not available, plot "NO DATA" -------------------------------
-
+            # Si pas d'intersection, créer un JPEG "NO DATA"
+            grDevices::jpeg(
+               filename = file.path(tmp_dir, paste0("crown_", tmp_id, "_", tmp_sp, "_", date_img, ".jpeg")),
+               width = width_img, height = height_img
+            )
             plot_nodata()
-
+            grDevices::dev.off()
          }
 
-         grDevices::dev.off()
+      } # fin loop polygone
 
+      # Supprimer raster de l'image courante
+      rm(r)
+      gc()
 
-      }
-
-      print(paste('----',basename(path), 'DONE','----'))
-   }
+   } # fin loop image
 
 }
-
 
 plot_nodata <- function() {
 
@@ -450,3 +437,74 @@ color_pheno <- c('fl' = "yellow",
 shape_pheno <- c('fl' = 8,
                  "fl?" = 17,
                  "fr" = 21)
+
+
+fun_extract_img_future <- function(path_img,
+                                   date,
+                                   crowns_simplified,
+                                   out_dir_path,
+                                   width = 720, height = 825,
+                                   tempdir_custom = NULL) {
+
+   message(sprintf("Traitement de %s avec %d polygones", basename(path_img), nrow(crowns_simplified)))
+
+   # Config temp
+   if(!is.null(tempdir_custom)) {
+      Sys.setenv(TMPDIR = tempdir_custom)
+      terra::terraOptions(tempdir = tempdir_custom)
+      Sys.setenv(GDAL_TEMP = tempdir_custom)
+      Sys.setenv(GDAL_PAM_PROXY_DIR = tempdir_custom)
+   }
+
+
+   # Lire raster
+   r <- terra::rast(path_img)
+   ext_r <- terra::ext(r)
+
+   # Parcourir polygones
+   for (k in 1:nrow(crowns_simplified)) {
+
+      poly <- crowns_simplified[k, ]
+      tmp_id <- poly$id
+      tmp_sp <- poly$species
+      if (is.null(tmp_sp) & !is.null(poly$genus)) tmp_sp <- poly$genus
+
+      tmp_dir <- file.path(out_dir_path, paste0("crown_", tmp_id, "_", tmp_sp))
+      if(!dir.exists(tmp_dir)) dir.create(tmp_dir, recursive = TRUE)
+
+      poly_ext <- create_bbox_shp(poly)
+      poly_ext_vect <- terra::vect(poly_ext)
+
+      if(terra::relate(poly_ext_vect, ext_r, relation = "intersects")) {
+
+         cropped <- terra::crop(r, poly_ext_vect)
+
+         grDevices::jpeg(
+            filename = file.path(tmp_dir, paste0("crown_", tmp_id, "_", tmp_sp, "_", date, ".jpeg")),
+            width = width, height = height
+         )
+         terra::plotRGB(
+            cropped,
+            main = paste(date, "|", tmp_sp, "| id =", tmp_id),
+            ext = sf::st_as_sf(poly_ext),
+            axes = TRUE,
+            mar = 2
+         )
+         plot(poly$geometry, border = "red", lwd = 2, add = TRUE)
+         grDevices::dev.off()
+
+         rm(cropped)
+         gc()
+
+      } else {
+         grDevices::jpeg(
+            filename = file.path(tmp_dir, paste0("crown_", tmp_id, "_", tmp_sp, "_", date, ".jpeg")),
+            width = width, height = height
+         )
+         plot_nodata()
+         grDevices::dev.off()
+      }
+   }
+
+   rm(r); gc()
+}
