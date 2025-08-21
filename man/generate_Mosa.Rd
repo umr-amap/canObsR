@@ -16,6 +16,7 @@ generate_Mosa(
   calibrate_col = TRUE,
   sun_sensor = FALSE,
   group_by_flight = FALSE,
+  from_mesh = FALSE,
   downscale_factor_alignement = 1L,
   downscale_factor_depth_map = 2L,
   suffix = "_"
@@ -43,6 +44,8 @@ generate_Mosa(
 \item{sun_sensor}{logical. Calibrates the reflectance using the sun sensor. Only applies to multispectral images.}
 
 \item{group_by_flight}{logical. Regroups data by flight (i.e. one orthomosaic for each subfolder of the input folder containing images). If FALSE, regroups it by date (default).}
+
+\item{from_mesh}{logiclal. Generates the orthomosaics based on the mesh model rather than the DEM. In this case, the DEM will not be created.}
 
 \item{downscale_factor_alignement}{integer. Alignment accuracy (0 - Highest, 1 - High, 2 - Medium, 4 - Low, 8 - Lowest). Defaults to 1.}
 
