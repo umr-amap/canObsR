@@ -37,7 +37,6 @@ Imports:
     RColorBrewer,
     shinythemes,
     DT,
-    writexl,
     furrr,
     future
 URL: https://umr-amap.github.io/canObsR/, https://github.com/umr-amap/canObsR/
