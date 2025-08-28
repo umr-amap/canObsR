@@ -10,6 +10,7 @@
 <url><loc>https://umr-amap.github.io/canObsR/authors.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/index.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/align_Mosa.html</loc></url>
+<url><loc>https://umr-amap.github.io/canObsR/reference/apply_saved_matrix.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/check_availableCrowns.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/check_crownsFile.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/color_label.html</loc></url>
@@ -21,7 +22,7 @@
 <url><loc>https://umr-amap.github.io/canObsR/reference/data_labeling.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/detect_conda.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/extr_dates.html</loc></url>
-<url><loc>https://umr-amap.github.io/canObsR/reference/extract_crownsImages.html</loc></url>
+<url><loc>https://umr-amap.github.io/canObsR/reference/extract_crownImages.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/extract_rgbValues.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/generate_Mosa.html</loc></url>
 <url><loc>https://umr-amap.github.io/canObsR/reference/heatmap_Labels.html</loc></url>

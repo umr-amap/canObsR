@@ -85,6 +85,11 @@
 
     
     
+<div style="padding:10px; background-color:#f0f8ff; border-left:5px solid #4682b4; font-size: 1.1em;">
+<p>📺 Pour plus d’informations sur l’installation, consultez la vidéo
+:<br><a href="https://www.youtube.com/@canObsR" target="_blank" class="external-link">https://www.youtube.com/<span class="citation">@canObsR</span></a></p>
+</div>
+<hr>
 <div class="section level2">
 <h2 id="why-the-installation-process-is-more-complex">Why the installation process is more complex<a class="anchor" aria-label="anchor" href="#why-the-installation-process-is-more-complex"></a>
 </h2>
@@ -106,6 +111,11 @@ Metashape must be installed, and a valid license key must be
 activated.</p>
 <p>Although the setup may seem complex at first, it ensures that once
 installed, all components work together smoothly.</p>
+<div class="figure" style="text-align: center">
+<img src="img/install_process.jpg" alt="Fig 1 : Installation proccess" width="100%"><p class="caption">
+Fig 1 : Installation proccess
+</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="install-r-rtools-et-rstudio">📥 Install R, Rtools et RStudio<a class="anchor" aria-label="anchor" href="#install-r-rtools-et-rstudio"></a>
@@ -127,12 +137,23 @@ Desktop</a><a class="anchor" aria-label="anchor" href="#rstudio-download-and-ins
 </div>
 </div>
 <div class="section level2">
-<h2 id="install-canobsr">📦 Install <strong>canObsR</strong><a class="anchor" aria-label="anchor" href="#install-canobsr"></a>
+<h2 id="install-devtools-and-reticulate">📦 Install devtools and reticulate<a class="anchor" aria-label="anchor" href="#install-devtools-and-reticulate"></a>
 </h2>
 <p><em>In RStudio console</em></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"reticulate"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
+<span><span class="fu">install_github</span><span class="op">(</span><span class="st">"https://github.com/umr-amap/canObsR.git"</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="install-canobsr">📦 Install canObsR<a class="anchor" aria-label="anchor" href="#install-canobsr"></a>
+</h2>
+<p><em>In RStudio console</em></p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
 <span><span class="fu">install_github</span><span class="op">(</span><span class="st">"https://github.com/umr-amap/canObsR.git"</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
@@ -140,7 +161,7 @@ Desktop</a><a class="anchor" aria-label="anchor" href="#rstudio-download-and-ins
 <h2 id="install-miniconda">⚙️ Install Miniconda<a class="anchor" aria-label="anchor" href="#install-miniconda"></a>
 </h2>
 <p><em>In RStudio console</em></p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
 <span><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/install_miniconda.html" class="external-link">install_miniconda</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
@@ -151,13 +172,12 @@ Desktop</a><a class="anchor" aria-label="anchor" href="#rstudio-download-and-ins
 <h2 id="create-and-configurate-the-conda-environment">🏗 Create and configurate the conda environment<a class="anchor" aria-label="anchor" href="#create-and-configurate-the-conda-environment"></a>
 </h2>
 <p><em>In RStudio console</em></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://umr-amap.github.io/canObsR/">canObsR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">YAML_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"PYTHON/environment.yaml"</span>, package <span class="op">=</span> <span class="st">"canObsR"</span><span class="op">)</span></span>
 <span><span class="va">envname</span> <span class="op">&lt;-</span> <span class="st">"canObsR-env"</span></span>
 <span><span class="va">conda_exe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/detect_conda.html">detect_conda</a></span><span class="op">(</span>auto_select <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system2.html" class="external-link">system2</a></span><span class="op">(</span><span class="va">conda_exe</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"env"</span>, <span class="st">"create"</span>, <span class="st">"-n"</span>, <span class="va">envname</span>, <span class="st">"--file"</span>, <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="va">YAML_file</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
@@ -171,9 +191,8 @@ photos using TimeSIFT.</p>
 <p>Go to the “Python 3 module” section and click on the link
 corresponding to your operating system. This should download a file
 named “Metashape[…].whl”. Then, copy the path to the downloaded .whl
-file below</p>
-<p><em>In RStudio console</em></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+file below<br><br><em>In RStudio console</em></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">whl_file</span> <span class="op">&lt;-</span> <span class="st">".../Metashape-2.2.1-cp37.cp38.cp39.cp310.cp311-none-win_amd64.whl"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html" class="external-link">use_condaenv</a></span><span class="op">(</span><span class="va">envname</span>, required <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -200,38 +219,74 @@ device in order for the python API to work, but whether or not the
 application is installed and/or activated, the API still needs to be
 activated using a license key (it can be the same used for the
 application if it is already installed).</p>
-<p><em>In RStudio console</em></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"reticulate"</span><span class="op">)</span></span>
-<span><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_run.html" class="external-link">py_run_string</a></span><span class="op">(</span><span class="st">"</span></span>
-<span><span class="st">import Metashape</span></span>
-<span><span class="st"># Replace 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX' with your key</span></span>
-<span><span class="st">license_key = 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX'</span></span>
-<span><span class="st">if Metashape.License().activate(license_key):</span></span>
-<span><span class="st">    print('✅ Metashape Licence activated with success.')</span></span>
-<span><span class="st">else:</span></span>
-<span><span class="st">    print('❌ Metashape License not activated.')</span></span>
-<span><span class="st">"</span><span class="op">)</span></span></code></pre></div>
-<p>Or you can also do it using the Anaconda command prompt</p>
 <p>To activate the key, follow these steps :</p>
 <ul>
 <li>Open an anaconda command prompt</li>
-<li>Activate the environnement you just created, and start python :</li>
+<li>Activate the environnement “canObsR-env”, and start python
+:<br><br>
+</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">conda</span> activate canObs_env</span>
+<p><em>In Anaconda prompt</em></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">conda</span> activate canObs-env</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">python</span></span></code></pre></div>
-<p>Now you can activate the licence (replace with your license key):</p>
+<p>Now you can activate the licence (replace with your license
+key):<br><br></p>
+<p><em>In Anaconda prompt</em></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">import</span> Metashape</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">Metashape.license.activate</span><span class="er">(</span><span class="st">"AAAA-BBBB-CCCC-DDDD"</span><span class="kw">)</span></span></code></pre></div>
-<p>If that works, you can close the command prompt. You should be good
-to go ! 🎉</p>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">Metashape.license.activate</span><span class="er">(</span><span class="st">"AAAA-BBBB-CCCC-DDDD"</span><span class="kw">)</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">exit()</span></span></code></pre></div>
+<p>If that works, you can close the command prompt.</p>
 <hr>
+</div>
+<div class="section level2">
+<h2 id="check-the-version-of-arosics-and-gdal">🆚 Check the version of arosics and gdal<a class="anchor" aria-label="anchor" href="#check-the-version-of-arosics-and-gdal"></a>
+</h2>
+<p>The version should be : arosics=1.12 and gdal=3.10. If you have older
+versions, upgrade them.<br><br></p>
+<p><em>In RStudio console</em></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_list_packages.html" class="external-link">py_list_packages</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">package</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'arosics'</span>, <span class="st">'gdal'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="if-you-need-to-ugrade-arosics">If you need to ugrade arosics :<a class="anchor" aria-label="anchor" href="#if-you-need-to-ugrade-arosics"></a>
+</h3>
+<ul>
+<li>Open an anaconda command prompt</li>
+<li>Activate the environnement “canObsR-env”, and upgrade :
+<br><br>
+</li>
+</ul>
+<p><em>In Anaconda prompt</em></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="ex">conda</span> activate canObs-env</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="ex">pip</span> install arosics <span class="at">--upgrade</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="if-you-need-to-ugrade-gdal">If you need to ugrade gdal :<a class="anchor" aria-label="anchor" href="#if-you-need-to-ugrade-gdal"></a>
+</h3>
+<p>🔻 Windows : Download GDAL-3.10.1-cp311-cp311-win_amd64.whl 🔻 Mac :
+Download gdal-3.10.1-cp311-cp311-macosx_13_0_x86_64.whl 🔻 Linux :
+Downloadgdal-3.10.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+<br><br></p>
+<ul>
+<li>Open an anaconda command prompt</li>
+<li>Activate the environnement “canObsR-env”</li>
+<li>Install gdal from the GDAL-3.10.1 whl file <br><br>
+</li>
+</ul>
+<p><em>In Anaconda prompt</em></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">conda</span> activate canObs-env</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="ex">pip</span> install your-path-to-gdal.whl</span></code></pre></div>
+<p><br><br></p>
+<p>You should be good to go now ! 🎉 <br><br></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="restart-r">🔁 Restart R<a class="anchor" aria-label="anchor" href="#restart-r"></a>
 </h2>
 <p><em>In RStudio console</em></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://umr-amap.github.io/canObsR/">canObsR</a></span><span class="op">)</span></span>
 <span></span>
