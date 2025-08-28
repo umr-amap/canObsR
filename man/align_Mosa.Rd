@@ -10,7 +10,7 @@ align_Mosa(
   out_dir_path,
   corr_type = "global",
   max_shift = 250L,
-  max_iter = 100L,
+  max_iter = 5L,
   min_reliability = 60,
   grid_res = 1000L,
   window_size = NULL,
@@ -19,7 +19,8 @@ align_Mosa(
   save_data = TRUE,
   save_vector_plot = FALSE,
   apply_matrix = FALSE,
-  suffix = ""
+  suffix = "_",
+  do_subprocess = FALSE
 )
 }
 \arguments{
@@ -51,7 +52,7 @@ align_Mosa(
 
 \item{apply_matrix}{logical. When correcting multiple images, applies the shifts computed for the first image to all the remaining ones, instead of computing the shifts independently. Allows for better alignement and faster computing time. WARNING : Currently, if inputs images don't all have the same extent, temporary padded images need to be created. We hope to change that soon ; until then, apply_matrix is disabled by default)}
 
-\item{suffix}{character. Text to add at the end of the output filenames.}
+\item{suffix}{chr. Text to add at the end of the output filenames.}
 }
 \value{
 NULL (invisible)

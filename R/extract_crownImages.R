@@ -4,9 +4,11 @@
 #'each date.
 #'
 #'@param path_images character vector. Path to the target images. Images must be of Geotiff format.
-#'@param path_crowns  ccharacter. Path to the crowns polygons file.
+#'@param path_crowns  character. Path to the crowns polygons file.
 #'@param out_dir_path character. Directory where the outputs are saved.
 #'@param dates character vector. Dates (format of dates should be '%Y-%m-%d', '%Y%m%d' or '%Y_%m_%d').The order should match `path_images`.
+#'@param update logical. If FALSE (by default), it will generate and save all the images for each crown at
+#'each date. If TRUE, it will update the folder by generating and saving only the images which do not already exist in the folder.
 #'@param tempdir_custom character. Directory where the temporary files are saved.
 #'@param N_cores integer. Number of cores use in the parallelisation proccess.
 #'@param width numeric. The width of the device. Defaut (825)
@@ -48,6 +50,7 @@ extract_crownImages <-
       path_crowns,
       out_dir_path,
       dates = NULL,
+      update = FALSE,
       tempdir_custom = NULL,
       N_cores = 1,
       width = 720,
@@ -170,13 +173,14 @@ extract_crownImages <-
                                       fun <- fun_extract_img_future
                                       function(path_img, date_img) {
                                          fun(
-                                            path_img,
-                                            date_img,
-                                            crowns_simplified,
-                                            out_dir_path,
-                                            width,
-                                            height,
-                                            tempdir_custom
+                                            path_img = path_img,
+                                            date = date_img,
+                                            crowns_simplified = crowns_simplified,
+                                            out_dir_path = out_dir_path,
+                                            update = update,
+                                            width = width,
+                                            height = height,
+                                            tempdir_custom = tempdir_custom
                                          )
                                       }
                                    }),

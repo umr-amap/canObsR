@@ -31,7 +31,7 @@ reference:
   contents:
   - check_crownsFile
   - create_labelingFile
-  - extract_crownsImages
+  - extract_crownImages
   - extract_rgbValues
   - merge_values
   - pivot_Labels
@@ -51,6 +51,7 @@ reference:
 
 - title: Others functions
   contents:
+  - apply_saved_matrix
   - check_availableCrowns
   - create_files_architecture
   - create_nonNA_bbox

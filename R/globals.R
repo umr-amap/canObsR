@@ -443,10 +443,13 @@ fun_extract_img_future <- function(path_img,
                                    date,
                                    crowns_simplified,
                                    out_dir_path,
-                                   width = 720, height = 825,
+                                   update = FALSE,
+                                   width = 720,
+                                   height = 825,
                                    tempdir_custom = NULL) {
 
-   message(sprintf("Traitement de %s avec %d polygones", basename(path_img), nrow(crowns_simplified)))
+
+   n = 0
 
    # Config temp
    if(!is.null(tempdir_custom)) {
@@ -472,6 +475,14 @@ fun_extract_img_future <- function(path_img,
       tmp_dir <- file.path(out_dir_path, paste0("crown_", tmp_id, "_", tmp_sp))
       if(!dir.exists(tmp_dir)) dir.create(tmp_dir, recursive = TRUE)
 
+      # Check if the file exists and do not generate it when update = TRUE
+      out_file <- file.path(tmp_dir, paste0("crown_", tmp_id, "_", tmp_sp, "_", date, ".jpeg"))
+      if (file.exists(out_file)) {
+         next
+      }
+
+      n = n+1
+
       poly_ext <- create_bbox_shp(poly)
       poly_ext_vect <- terra::vect(poly_ext)
 
@@ -480,7 +491,7 @@ fun_extract_img_future <- function(path_img,
          cropped <- terra::crop(r, poly_ext_vect)
 
          grDevices::jpeg(
-            filename = file.path(tmp_dir, paste0("crown_", tmp_id, "_", tmp_sp, "_", date, ".jpeg")),
+            filename = out_file,
             width = width, height = height
          )
          terra::plotRGB(
@@ -498,13 +509,15 @@ fun_extract_img_future <- function(path_img,
 
       } else {
          grDevices::jpeg(
-            filename = file.path(tmp_dir, paste0("crown_", tmp_id, "_", tmp_sp, "_", date, ".jpeg")),
+            filename = out_file,
             width = width, height = height
          )
          plot_nodata()
          grDevices::dev.off()
       }
    }
+
+   message(sprintf("Image %s and %d polygones done", basename(path_img), n))
 
    rm(r); gc()
 }

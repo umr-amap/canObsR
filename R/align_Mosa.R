@@ -67,21 +67,21 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
 
    reticulate::source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
    if (do_subprocess) {
-   launch_arosics_in_subproc(path_in = path_in, 
-                             ref_filepath = ref_filepath, 
-                             out_dir_path = out_dir_path, 
-                             corr_type = corr_type, 
+   launch_arosics_in_subproc(path_in = path_in,
+                             ref_filepath = ref_filepath,
+                             out_dir_path = out_dir_path,
+                             corr_type = corr_type,
                              max_shift = max_shift,
-                             max_iter = max_iter, 
+                             max_iter = max_iter,
                              min_reliability = min_reliability,
-                             grid_res = grid_res, 
-                             window_size = window_size, 
-                             window_pos = window_pos,    #(None, None), 
-                             mp = mp, 
-                             #compress_lzw=False, 
-                             save_data = save_data, 
-                             save_vector_plot = save_vector_plot, 
-                             apply_matrix = apply_matrix, 
+                             grid_res = grid_res,
+                             window_size = window_size,
+                             window_pos = window_pos,    #(None, None),
+                             mp = mp,
+                             #compress_lzw=False,
+                             save_data = save_data,
+                             save_vector_plot = save_vector_plot,
+                             apply_matrix = apply_matrix,
                              suffix = suffix,)
    }
    else{
@@ -126,6 +126,7 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
 #'                    out_dir_path = "my_output_dir",
 #'                    metadata_path = "my_ortho_metadata.pkl",
 #'                    )
+#'                    }
 
 
 apply_saved_matrix <- function(im_path, out_dir_path, metadata_path, suffix="_") {
