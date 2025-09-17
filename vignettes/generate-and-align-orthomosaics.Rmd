@@ -33,16 +33,17 @@ data contains, 3 sets of drones images from the same area obtained from 3 differ
 library(canObsR)
 library(reticulate)
 
-use_condaenv('canObsR_env')
+use_condaenv('canObsR-env')
 
-my_path <- 'XXXX/canObsR_data'
+my_path <- 'my-path-to/canObsR_data' # Add your path to the canObsR_data directory
+crs = "EPSG:32633"
 
 generate_Mosa(path_in = file.path(my_path, '1_my_drone_data'),
           out_dir_ortho = file.path(my_path, '2_orthomosaics'),
           data_type = "RGB",
           resol_ref = 0.5,
           site_name = "Bouamir",
-          crs = "EPSG:32633",
+          crs = crs
 ) 
 
 align_Mosa(path_in = file.path(my_path, '2_orthomosaics'),
@@ -53,7 +54,8 @@ align_Mosa(path_in = file.path(my_path, '2_orthomosaics'),
         window_size = 500,
         window_pos = list(258131, 352973),
         apply_matrix = TRUE,
-        save_data = FALSE
+        save_data = FALSE,
+        mp = NULL # You can manually choose the number of cores
 )
 
 
@@ -100,7 +102,8 @@ for(i in 1:nrow(PATHs.df))
         grid_res = 200,
         window_size = 500,
         apply_matrix = FALSE,
-        save_data = TRUE
+        save_data = TRUE,
+        mp = NULL # You can manually choose the number of cores
         )
  
   print("<!> DONE <!>")
