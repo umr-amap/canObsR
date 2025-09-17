@@ -71,7 +71,7 @@ articles:
   contents:
   - Installation-guide
   - Prepare-database
-  - Generate-and-align-orthomosaics
+  - "Generate-and-align-orthomosaics"
   - Extract-crown-data
   - workflow
 
