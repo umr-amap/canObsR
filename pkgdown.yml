@@ -2,12 +2,11 @@ pandoc: 3.1.11
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
-  Data-structure-and-files-organization: Data-structure-and-files-organization.html
   Extract-crown-data: Extract-crown-data.html
-  generate-and-align-orthomosaics: generate-and-align-orthomosaics.html
   Installation-guide: Installation-guide.html
+  Prepare-database: Prepare-database.html
   workflow: workflow.html
-last_built: 2025-09-17T12:50Z
+last_built: 2025-09-17T16:50Z
 urls:
   reference: https://umr-amap.github.io/canObsR/reference
   article: https://umr-amap.github.io/canObsR/articles
