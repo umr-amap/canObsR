@@ -24,7 +24,7 @@ The installation of canObsR involves several steps that go beyond a
 typical R package to ensure seamless integration between R, Python and
 Metashape. To avoid dependency conflicts and enabling the package’s full
 functionality you must follow [the full installation
-process](https://umr-amap.github.io/canObsR/articles/Complete-installation.html).
+process](https://umr-amap.github.io/canObsR/articles/Installation-guide.html).
 
 # Documentation
 

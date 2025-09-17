@@ -1,8 +1,8 @@
 ---
-title: "Extract crown data"
+title: "Extract-crown-data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Extract crown data}
+  %\VignetteIndexEntry{Extract-crown-data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -136,7 +136,7 @@ check_crownsFile(
 ```
 
 
-```{r echo=FALSE, fig.show='hold',fig.align="center", message=FALSE, fig.cap="check_crownsFile outputs", warning=FALSE, out.width='100%'}
+```{r, eval=F, echo=FALSE, fig.show='hold',fig.align="center", message=FALSE, fig.cap="check_crownsFile outputs", warning=FALSE, out.width='100%'}
 knitr::include_graphics("img/file_compatibility.jpg")
 ```
 
@@ -167,7 +167,7 @@ extract_crownsImages(
 ```
 
 
-```{r echo=FALSE, fig.show='hold',fig.align="center", fig.cap="extract_crownsImages outputs files", message=FALSE, warning=FALSE, out.width='100%'}
+```{r, eval=F, echo=FALSE, fig.show='hold',fig.align="center", fig.cap="extract_crownsImages outputs files", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("img/extract_crownsImages.jpg")
 ```
 
@@ -192,7 +192,7 @@ rgb_data <- extract_rgbValues (
 ```
 
 
-```{r echo=FALSE, fig.show='hold',fig.align="center", fig.cap="extract_rgbValues outputs files", message=FALSE, warning=FALSE, out.width='100%'}
+```{r, eval=F, echo=FALSE, fig.show='hold',fig.align="center", fig.cap="extract_rgbValues outputs files", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("img/extract_rgbValues.jpg")
 ```
 
@@ -243,7 +243,7 @@ shiny_labels(
 ```
 
 
-```{r echo=FALSE, fig.show='hold',fig.align="center", fig.cap="shiny_visualisation", message=FALSE, warning=FALSE, out.width='100%'}
+```{r, eval=F, echo=FALSE, fig.show='hold',fig.align="center", fig.cap="shiny_visualisation", message=FALSE, warning=FALSE, out.width='100%'}
 knitr::include_graphics("img/shiny_visualisation.jpg")
 ```
 
