@@ -1,8 +1,8 @@
 ---
-title: "Generate and align ortomosaics"
+title: "Generate-and-align-orthomosaics"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Generate and align ortomosaics}
+  %\VignetteIndexEntry{Generate-and-align-orthomosaics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -115,5 +115,4 @@ knitr::include_graphics("img/dynamicCorr.gif")
 ```
 
 Note : in this case, both the input and reference images are potentially heavy mosaics. Depending on their size, it may be useful to downgrade their resolution to get a faster result without much impact on quality.  
-
 

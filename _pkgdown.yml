@@ -70,8 +70,8 @@ articles:
 - title: Tutorials
   contents:
   - Installation-guide
-  - Data-structure-and-files-organization
-  - generate-and-align-orthomosaics
+  - Prepare-database
+  - Generate-and-align-orthomosaics
   - Extract-crown-data
   - workflow
 

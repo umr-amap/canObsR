@@ -1,8 +1,8 @@
 ---
-title: "Data-structure-and-files-organization"
+title: "Prepare-database"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data-structure-and-files-organization}
+  %\VignetteIndexEntry{Prepare-database}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,4 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-
+```{r setup}
+library(canObsR)
+```
