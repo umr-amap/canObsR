@@ -248,6 +248,7 @@ fun_extract = function(i, path, crowns_simplified, date, site, tempdir_custom)
          gcc = var(gcc, na.rm=T),
          rcc = var(rcc, na.rm=T),
          gli = var(gli, na.rm=T),
+         gndvi =  var(gndvi, na.rm=T),
          type = 'RGB',
          metric = 'var',
          date = date,

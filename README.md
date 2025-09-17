@@ -26,14 +26,18 @@ Metashape. To avoid dependency conflicts and enabling the package’s full
 functionality you must follow [the full installation
 process](https://umr-amap.github.io/canObsR/articles/Complete-installation.html).
 
+# Documentation
+
+All the R package documentation is available
+[here](https://umr-amap.github.io/canObsR/). The [Articles
+section](https://umr-amap.github.io/canObsR/articles/index.html) stores
+the different tutorials and the [Reference
+section](https://umr-amap.github.io/canObsR/reference/index.html) stores
+all the documentation about the functions.
+
 # Citation
 
 To cite ‘canObsR’, please use citation(‘canObsR’).
-
-# Documentation
-
-In addition to the usual R package documentation, we also have extensive
-docs and examples [here](https://umr-amap.github.io/canObsR/)
 
 # Generate orthomosaics
 
@@ -43,7 +47,7 @@ to align them in R, using Metashape and
 into the workflow, you should download the [test
 dataset](https://zenodo.org/uploads/14748367?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImVhNjBlZWM5LWYwZTEtNGUxNS04ZDRmLWI3MTAwZTdiMTdmNSIsImRhdGEiOnt9LCJyYW5kb20iOiIzYmViYTgxNWE2OGNlYTA1Zjc1YzdmMWUzZTdjZTVkMSJ9.pzx-dAnjJXNp34OIpqfibrHxZxSUSj8FvdLPGd6r4IaJSa5sAW-eme_EenQr0bLPUAjFGhKrZ-OqrVOQ7bLKBw)
 and follow [the
-article](https://umr-amap.github.io/canObsR/articles/generate-and-align-ortomosaics.html).
+article](https://umr-amap.github.io/canObsR/articles/generate-and-align-orthomosaics.html).
 
 The generation of orthomosaics is based on Fabrice Vinatier & Denis
 Feurer’s work, [Time-SIFT module for Agisoft Metashape

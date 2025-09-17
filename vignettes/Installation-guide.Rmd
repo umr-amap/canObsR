@@ -1,8 +1,8 @@
 ---
-title: "Complete installation"
+title: "Installation-guide"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Complete installation}
+  %\VignetteIndexEntry{Installation-guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,15 +15,15 @@ knitr::opts_chunk$set(
 ```
 
 
-<div style="padding:10px; background-color:#f0f8ff; border-left:5px solid #4682b4; font-size: 1.1em;">
-📺 Pour plus d'informations sur l'installation, consultez la vidéo :  
+<div style="padding:10px; background-color:#b5d0f5; border-left:5px solid #4682b4; font-size: 1.1em;">
+📺 Video tutorial available here :  
 <a href="https://www.youtube.com/@canObsR" target="_blank">https://www.youtube.com/@canObsR</a>
 </div>
 
 ---
 
 
-# Why the installation process is more complex
+# Why the installation process is a bit more complex ? 
 
 The installation of canObsR involves several steps that go beyond a typical R package. This is because the package acts as a bridge between different tools used for processing imagery. 
 
@@ -54,9 +54,6 @@ knitr::include_graphics("img/install_process.jpg")
 ```{r, eval=F, echo=T}
 install.packages("devtools")
 install.packages("reticulate")
-
-library(devtools)
-install_github("https://github.com/umr-amap/canObsR.git")
 ```
 
 ---
@@ -75,9 +72,7 @@ install_github("https://github.com/umr-amap/canObsR.git")
 *In RStudio console*
 ```{r, eval=F, echo=T}
 library(reticulate)
-reticulate::install_miniconda()
-library(reticulate)
-use_condaenv("r-reticulate", required = TRUE)
+install_miniconda()
 ```
 
 ---
@@ -89,13 +84,14 @@ library(canObsR)
 
 YAML_file <- system.file("PYTHON/environment.yaml", package = "canObsR")
 envname <- "canObsR-env"
-conda_exe <- detect_conda(auto_select = FALSE)
+# detect_conda() Automatically detecting your conda (for windows only)
+conda_exe <- detect_conda(auto_select = FALSE) 
 system2(conda_exe, args = c("env", "create", "-n", envname, "--file", shQuote(YAML_file)))
 ```
 
 ---
 
-# 🏗 Install de Metashape
+# ⚙️ Install de Metashape
 
 The environment you just created contains already all necessary dependences but the Metashape python API, which is required to align photos using TimeSIFT.
 
@@ -108,6 +104,7 @@ Go to the "Python 3 module" section and click on the link corresponding to your 
 whl_file <- ".../Metashape-2.2.1-cp37.cp38.cp39.cp310.cp311-none-win_amd64.whl"
 
 use_condaenv(envname, required = TRUE)
+
 if (file.exists(whl_file)) {
   message("Installation of Metashape from the .whl file…")
   py_install(
@@ -132,28 +129,26 @@ It is not necessary to have the Metashape application installed on your device i
 To activate the key, follow these steps :
 
 - Open an anaconda command prompt
-- Activate the environnement "canObsR-env", and start python :<br><br>
+- Activate the environnement "canObsR-env", and start python 
+- Activate the licence (replace "AAAA-BBBB-CCCC-DDDD" with your license key):<br><br>
 
 *In Anaconda prompt*
 ```{bash, eval=FALSE}
 conda activate canObs-env
 python
-```
-Now you can activate the licence (replace with your license key):<br><br>
-
-*In Anaconda prompt*
-```{bash, eval=FALSE}
 import Metashape
 Metashape.license.activate("AAAA-BBBB-CCCC-DDDD")
 exit()
 ```
+
 If that works, you can close the command prompt. 
 
 ---
 
 # 🆚 Check the version of arosics and gdal
 
-The version should be : arosics=1.12 and gdal=3.10. If you have older versions, upgrade them.<br><br>
+The conda environment you just created may contain incompatible arosics and gdal version.
+You need arosics 1.12 and gdal 3.10. Run the following code to check the versions you have and if you have older versions, upgrade them.<br><br>
 
 *In RStudio console*
 ```{r, eval=F, echo=T}
@@ -196,16 +191,3 @@ pip install your-path-to-gdal.whl
 
 You should be good to go now ! 🎉
 <br><br>
-
-
-# 🔁 Restart R 
-
-*In RStudio console*
-```{r, eval=F, echo=T}
-library(reticulate)
-library(canObsR)
-
-envname <- "canObsR-env"
-use_condaenv(envname, required = TRUE)
-```
-

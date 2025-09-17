@@ -1,8 +1,8 @@
 ---
-title: "Extract-crowns-data"
+title: "Extract crown data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Extract-crowns-data}
+  %\VignetteIndexEntry{Extract crown data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
