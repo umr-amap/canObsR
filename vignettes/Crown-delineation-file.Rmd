@@ -1,0 +1,31 @@
+---
+title: "Crown-delineation-file"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Crown-delineation-file}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Requirements
+
+The extraction of crown images and crown indices requires a compatible crown delineation file. The function [`check_crownsFile()`](https://umr-amap.github.io/canObsR/reference/check_crownsFile.html) tests each requirement of the file and return the necessary modifications to do to make the file compatible.  
+
+To be compatible with the package functions the crown delineation file must have :  
+- at least the variables ‘id’, ‘species’, ‘genus’ and ‘family’  
+- ‘species’, ‘genus’ and ‘family’ should not have NA. Replace them by ‘indet’  
+- ‘id’ should not have duplicated values.  
+
+# Check the compatibility and adapt the file
+
+The following example use the crown delineation file from the test data, but the process is the same for any crown delineation file. 
+
+Add crownfile to test data and continue the article
+...

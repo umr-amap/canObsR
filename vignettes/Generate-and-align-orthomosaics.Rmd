@@ -65,7 +65,7 @@ align_Mosa(path_in = file.path(my_path, '2_orthomosaics'),
         window_pos = list(258131, 352973),
         apply_matrix = TRUE,
         save_data = FALSE
-) # Write aligned orthomosaics in 2_orthomosaics folder
+) # Write aligned orthomosaics in 3_orthomosaics_aligned folder
 
 
 ```
