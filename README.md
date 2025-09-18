@@ -18,6 +18,23 @@ database with pictures of individual crown overtime, spectral indices of
 crowns overtime, add labels to classify pictures and analyse the
 phenological and the spectral data.
 
+# Installation
+
+The installation of canObsR involves several steps that go beyond a
+typical R package to ensure seamless integration between R, Python and
+Metashape. To avoid dependency conflicts and enabling the package’s full
+functionality you must follow [the installation
+guide](https://umr-amap.github.io/canObsR/articles/Installation-guide.html).
+
+Installations steps :  
+- Install R, Rstudio, Rtools  
+- Install reticulate package in R  
+- Install canObsR package in R  
+- Install miniconda or Anaconda  
+- Create conda environment from “canobsR/PYTHON/environment.yaml”  
+- Install Metashape python API  
+- Activate Metashape in your conda environment
+
 # Workflow
 
 canObsR workflow is represented by the Fig.1. The documentation
@@ -51,23 +68,6 @@ data](https://umr-amap.github.io/canObsR/articles/Extract-crown-data.html)
 And the [Reference
 section](https://umr-amap.github.io/canObsR/reference/index.html) stores
 all the documentation about the functions.
-
-# Installation
-
-The installation of canObsR involves several steps that go beyond a
-typical R package to ensure seamless integration between R, Python and
-Metashape. To avoid dependency conflicts and enabling the package’s full
-functionality you must follow [the full installation
-process](https://umr-amap.github.io/canObsR/articles/Installation-guide.html).
-
-Installations steps :  
-- Install R, Rstudio, Rtools  
-- Install reticulate package in R  
-- Install canObsR package in R  
-- Install miniconda or Anaconda  
-- Create conda environment from “canobsR/PYTHON/environment.yaml” -
-Install Metashape python API  
-- Activate Metashape in your conda environment
 
 # Citation
 
