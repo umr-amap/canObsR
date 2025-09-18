@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 # Summary 
 
-The files architecture described below must be adopted to avoid any issue when using canObsR, especially for the functions generate_Mosa() and align_Mosa(). The create_files_architecture() functions generate the folders (Fig.1, step 1) and then you should manually add your drone images into the folder '1_my_drone_data' and the lidar reference directly to the root folder (Fig. 1, step 2).  
+The files architecture described below must be adopted to avoid any issue when using canObsR, especially for the functions [`generate_Mosa()`](https://umr-amap.github.io/canObsR/reference/generate_Mosa.html) and [`align_Mosa()`](https://umr-amap.github.io/canObsR/reference/align_Mosa.html). The [`create_files_architecture()`](https://umr-amap.github.io/canObsR/reference/create_files_architecture.html) functions generate the folders (Fig.1, step 1) and then you should manually add your drone images into the folder '1_my_drone_data' and the lidar reference directly to the root folder (Fig. 1, step 2).  
 
 
 ```{r echo=FALSE, fig.show='hold',fig.align="center", message=FALSE, fig.cap="Fig 1 : Prepare database", warning=FALSE, out.width='100%'}
