@@ -85,25 +85,45 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://umr-amap.github.io/canObsR/">canObsR</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'colourpicker::runExample' by</span></span>
-<span><span class="co">#&gt; 'shiny::runExample' when loading 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'DT::dataTableOutput' by</span></span>
-<span><span class="co">#&gt; 'shiny::dataTableOutput' when loading 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'DT::renderDataTable' by</span></span>
-<span><span class="co">#&gt; 'shiny::renderDataTable' when loading 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'dplyr::intersect' by 'terra::intersect'</span></span>
-<span><span class="co">#&gt; when loading 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'shinyWidgets::panel' by 'terra::panel' when</span></span>
-<span><span class="co">#&gt; loading 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'dplyr::union' by 'terra::union' when</span></span>
-<span><span class="co">#&gt; loading 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'terra::extract' by 'tidyr::extract' when</span></span>
-<span><span class="co">#&gt; loading 'canObsR'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'terra::quantile' by 'stats::quantile' when</span></span>
-<span><span class="co">#&gt; loading 'canObsR'</span></span></code></pre></div>
-  </main>
+<hr>
+<div class="section level2">
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h2>
+<p>The files architecture described below must be adopted to avoid any
+issue when using canObsR, especially for the functions generate_Mosa()
+and align_Mosa(). The create_files_architecture() functions generate the
+folders (Fig.1, step 1) and then you should manually add your drone
+images into the folder ‘1_my_drone_data’ and the lidar reference
+directly to the root folder (Fig. 1, step 2).</p>
+<div class="figure" style="text-align: center">
+<img src="img/prepare_database.JPG" alt="Fig 1 : Prepare database" width="100%"><p class="caption">
+Fig 1 : Prepare database
+</p>
+</div>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="structure-of-1_my_drone_data">Structure of ‘1_my_drone_data’<a class="anchor" aria-label="anchor" href="#structure-of-1_my_drone_data"></a>
+</h2>
+<p>The structure of the data in ‘1_my_drone_data’ should be in one of
+the following ways :</p>
+<ul>
+<li>place one folder by date in ‘1_my_drone_data’, each consisting of
+subdirectories for each flight (Fig.2, left)</li>
+<li>place one folder by flight in ‘1_my_drone_data’ (Fig.2, center)</li>
+<li>place one folder by date in ‘1_my_drone_data’, and add all the
+images concerned by the date directly in the folder (Fig.2, left)</li>
+</ul>
+<p>In both cases, the date must be indicated in the name of the folders
+directly containing images, in the YYYYMMDD or YYYYMM formats.</p>
+<div class="figure" style="text-align: center">
+<img src="img/drone_data.JPG" alt="Fig 2 : Structure of the drone data" width="100%"><p class="caption">
+Fig 2 : Structure of the drone data
+</p>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
