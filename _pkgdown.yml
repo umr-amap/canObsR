@@ -29,7 +29,7 @@ reference:
 
 - title: Extract crowns data
   contents:
-  - check_crownsFile
+  - check_crownFile
   - create_labelingFile
   - extract_crownImages
   - extract_rgbValues
