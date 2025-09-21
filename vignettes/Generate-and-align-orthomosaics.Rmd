@@ -51,7 +51,7 @@ my_path <- 'XXXX/canObsR_data'
 generate_Mosa(path_in = file.path(my_path, '1_my_drone_data'),
           out_dir_ortho = file.path(my_path, '2_orthomosaics'),
           data_type = "RGB",
-          resol_ref = 0.5,
+          resol_ref = 0.05,
           site_name = "Bouamir",
           crs = "EPSG:32633",
 ) # Write orthomosaics in 2_orthomosaics folder

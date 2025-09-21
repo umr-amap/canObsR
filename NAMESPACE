@@ -3,7 +3,7 @@
 export(align_Mosa)
 export(apply_saved_matrix)
 export(check_availableCrowns)
-export(check_crownsFile)
+export(check_crownFile)
 export(create_files_architecture)
 export(create_labelingFile)
 export(create_nonNA_bbox)

@@ -5,7 +5,7 @@
 #' file must have at least the following variables 'id', 'family', 'genus' and 'species'
 #' and it should not have duplicated id.
 #'
-#' @param path_crowns  Character. Path to the crown delinetion shapefile.
+#' @param crownFile  sf Crown delinetion shapefile.
 #'
 #' @return NULL. Prints info messages about file compatibility.
 #'
@@ -13,13 +13,11 @@
 #' @import sf
 #'
 
-check_crownsFile <- function(path_crowns){
-
-   crownsFile <-  sf::read_sf(path_crowns)
+check_crownFile <- function(crownFile){
 
    # Check variables names ---------------------------------------------------
 
-   vars <- names(crownsFile)
+   vars <- names(crownFile)
    var_needed <- c('id', 'family', 'genus', 'species')
 
    var_check <- c(
@@ -38,7 +36,7 @@ check_crownsFile <- function(path_crowns){
 
          checki <- paste('\u2705   ',var_needed[i])
 
-         if(crownsFile %>% .[[var_needed[i]]] %>% is.na() %>% any()){
+         if(crownFile %>% .[[var_needed[i]]] %>% is.na() %>% any()){
 
             checkiNA <- paste('\u274C   ',"Transform NA to 'indet' for the variable ->",var_needed[i])
 
@@ -63,19 +61,19 @@ check_crownsFile <- function(path_crowns){
 
    # Check crs ---------------------------------------------------------------
 
-   crs <- sf::st_crs(crownsFile)$input
+   crs <- sf::st_crs(crownFile)$input
 
 
    # Check double id ---------------------------------------------------------
 
-   if (length(crownsFile$id[duplicated(crownsFile$id)]) == 0){
+   if (length(crownFile$id[duplicated(crownFile$id)]) == 0){
 
       duplicat_id <- '\u2705  There is no duplicated id'
 
    } else {
 
       duplicat_id <- c('\u274C   The following id are duplicated :',
-                       paste(crownsFile$id[duplicated(crownsFile$id)],
+                       paste(crownFile$id[duplicated(crownFile$id)],
                              collapse = ','
                        )
       )
@@ -87,25 +85,25 @@ check_crownsFile <- function(path_crowns){
    # Return ------------------------------------------------------------------
 
    cat(
-         c(
-            var_check,
-            '                                             ',
-            var_checkNA,
-            c('                                             ',
-              '                                             ',
-              '##########           CRS           ##########',
-              '                                             '
-            ),
-
-            paste(c('CRS', crs), collapse = ' : '),
-            c('                                             ',
-              '                                             ',
-              '##########   DUPLICATED ID CHECK   ##########',
-              '                                             '
-            ),
-            duplicat_id
+      c(
+         var_check,
+         '                                             ',
+         var_checkNA,
+         c('                                             ',
+           '                                             ',
+           '##########           CRS           ##########',
+           '                                             '
          ),
-         sep = "\n"
+
+         paste(c('CRS', crs), collapse = ' : '),
+         c('                                             ',
+           '                                             ',
+           '##########   DUPLICATED ID CHECK   ##########',
+           '                                             '
+         ),
+         duplicat_id
+      ),
+      sep = "\n"
    )
 
    invisible(NULL)

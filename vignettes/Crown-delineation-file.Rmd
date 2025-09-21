@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # Requirements
 
-The extraction of crown images and crown indices requires a compatible crown delineation file. The function [`check_crownsFile()`](https://umr-amap.github.io/canObsR/reference/check_crownsFile.html) tests each requirement of the file and return the necessary modifications to do to make the file compatible.  
+The extraction of crown images and crown indices requires a compatible crown delineation file. The function [`check_crownFile()`](https://umr-amap.github.io/canObsR/reference/check_crownFile.html) tests each requirement of the file and return the necessary modifications to do to make the file compatible.  
 
 To be compatible with the package functions the crown delineation file must have :  
 - at least the variables ‘id’, ‘species’, ‘genus’ and ‘family’  
@@ -29,3 +29,34 @@ The following example use the crown delineation file from the test data, but the
 
 Add crownfile to test data and continue the article
 ...
+
+```{r, include = FALSE}
+library(canObsR)
+
+data(crownFile)
+
+check_crownFile(crownFile)
+
+crownFile = crownFile %>% 
+   rename(
+      family = tax_fam,         # Rename the corresponding variable as 'family'
+      genus = tax_gen,          # Rename the corresponding variable as 'genus'
+      species = tx_sp_lvl       # Rename the corresponding variable as 'species'
+   )
+
+check_crownFile(crownFile)
+
+
+crownFile = crownFile %>% mutate(
+      # Rename NA to 'indet' in the family variable
+      family = case_when(is.na(family)~ 'indet', TRUE ~ family),
+      
+      # Same for genus
+      genus = case_when(is.na(genus)~ 'indet', TRUE ~ genus),
+      
+      # Same for species
+      species = case_when(is.na(species)~ paste(genus, 'indet'), TRUE ~ species)
+      )
+
+check_crownFile(crownFile)
+```
