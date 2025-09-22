@@ -72,7 +72,7 @@ articles:
   - Installation-guide
   - Prepare-database
   - Generate-and-align-orthomosaics
-  - Crown-delineation-file
+  - Create-compatible-crown-delineation-file
   - Extract-crown-data
   - workflow
 

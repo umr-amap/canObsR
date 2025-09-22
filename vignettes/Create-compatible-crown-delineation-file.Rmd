@@ -1,8 +1,8 @@
 ---
-title: "Crown-delineation-file"
+title: "Create-compatible-crown-delineation-file"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Crown-delineation-file}
+  %\VignetteIndexEntry{Create-compatible-crown-delineation-file}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -33,11 +33,13 @@ library(canObsR)
 library(dplyr)
 
 data(crownFile)
-str(crownFile)
-plot(crownFile$geom)
+glimpse(crownFile)
+plot(crownFile$geom, col = 'red')
 ```
 
 # Adjust the variable names
+
+Check if the variables ‘id’, ‘species’, ‘genus’ and ‘family’ are in the file. Change the variable names or create empty variables if you do not have the information. id must be <int> or <num> and ‘species’, ‘genus’ and ‘family’ must be <chr>.
 
 ```{r, message=FALSE, warning=FALSE}
 check_crownFile(crownFile)
@@ -52,6 +54,8 @@ crownFile = crownFile %>%
 
 # Replace NA by 'indet'
 
+Check if you have NA in ‘id’, ‘species’, ‘genus’ and ‘family’ variables. NA from ‘species’, ‘genus’ and ‘family’ must be replace by 'indet' and just NA from 'id'.
+
 ```{r, message=FALSE, warning=FALSE}
 check_crownFile(crownFile)
 
@@ -63,13 +67,14 @@ crownFile = crownFile %>% mutate(
       genus = case_when(is.na(genus)~ 'indet', TRUE ~ genus),
       # Same for species
       species = case_when(is.na(species)~ paste(genus, 'indet'), TRUE ~ species)
-      )
+      ) %>% 
+   filter(!is.na(id))
 ```
 
 # Last check
 
+When the function does not indicate error, the file is compatible !
 ```{r, message=FALSE, warning=FALSE}
 check_crownFile(crownFile)
 ```
 
-Now the file is compatible !
