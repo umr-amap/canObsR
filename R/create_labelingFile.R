@@ -98,12 +98,13 @@ create_labelingFile <- function(
             obs = NA,
             Usable_crown = NA
          )%>%
+         mutate(!!!setNames(rep(list(NA), length(dates)), dates)) %>%
          dplyr::group_by(species, genus, family) %>%
-         dplyr::mutate(n = dplyr::n() / length(dates)) %>%
+         dplyr::mutate(n = dplyr::n()) %>%
          dplyr::arrange(desc(n), species, genus, family, id) %>%
          dplyr::mutate(site = site) %>%
          dplyr::ungroup() %>%
-         dplyr::select(site, id, family, genus, species, n, obs, update, dplyr::everything())
+         dplyr::select(site, id, family, genus, species, n, obs, update, all_of(dates), dplyr::everything())
 
    }
    # Save as xlsx if requested --------------------------------------------------
