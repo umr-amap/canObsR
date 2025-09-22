@@ -102,16 +102,33 @@ file must have :<br>
 <div class="section level2">
 <h2 id="check-the-compatibility-and-adapt-the-file">Check the compatibility and adapt the file<a class="anchor" aria-label="anchor" href="#check-the-compatibility-and-adapt-the-file"></a>
 </h2>
-<p>The following example use the crown delineation file from the test
-data, but the process is the same for any crown delineation file.</p>
-<p>Add crownfile to test data and continue the article …</p>
+<p>The following example shows how to adjust the crown delineation file
+to make it compatible. It uses data from the</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://umr-amap.github.io/canObsR/">canObsR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/data.html">data</a></span><span class="op">(</span><span class="va">crownFile</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/check_crownFile.html">check_crownFile</a></span><span class="op">(</span><span class="va">crownFile</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">crownFile</span><span class="op">)</span></span>
+<span><span class="co">#&gt; sf [189 × 5] (S3: sf/tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;  $ id       : int [1:189] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span><span class="co">#&gt;  $ tx_sp_lvl: chr [1:189] "Piptadeniastrum africanum" "Musanga cecropioides" "Distemonanthus benthamianus" "Celtis tessmannii" ...</span></span>
+<span><span class="co">#&gt;  $ tax_gen  : chr [1:189] "Piptadeniastrum" "Musanga" "Distemonanthus" "Celtis" ...</span></span>
+<span><span class="co">#&gt;  $ tax_fam  : chr [1:189] "Fabaceae" "Urticaceae" "Fabaceae" "Cannabaceae" ...</span></span>
+<span><span class="co">#&gt;  $ geom     :sfc_POLYGON of length 189; first list element: List of 1</span></span>
+<span><span class="co">#&gt;   ..$ : num [1:17, 1:2] 257776 257779 257783 257787 257789 ...</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "class")= chr [1:3] "XY" "POLYGON" "sfg"</span></span>
+<span><span class="co">#&gt;  - attr(*, "sf_column")= chr "geom"</span></span>
+<span><span class="co">#&gt;  - attr(*, "agr")= Factor w/ 3 levels "constant","aggregate",..: NA NA NA NA</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "id" "tx_sp_lvl" "tax_gen" "tax_fam"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crownFile</span><span class="op">$</span><span class="va">geom</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Crown-delineation-file_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+</div>
+<div class="section level2">
+<h2 id="adjust-the-variable-names">Adjust the variable names<a class="anchor" aria-label="anchor" href="#adjust-the-variable-names"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_crownFile.html">check_crownFile</a></span><span class="op">(</span><span class="va">crownFile</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ##########     VARIABLES CHECK     ##########</span></span>
 <span><span class="co">#&gt;                                              </span></span>
 <span><span class="co">#&gt; ✅    id</span></span>
@@ -138,9 +155,13 @@ data, but the process is the same for any crown delineation file.</p>
 <span>      family <span class="op">=</span> <span class="va">tax_fam</span>,         <span class="co"># Rename the corresponding variable as 'family'</span></span>
 <span>      genus <span class="op">=</span> <span class="va">tax_gen</span>,          <span class="co"># Rename the corresponding variable as 'genus'</span></span>
 <span>      species <span class="op">=</span> <span class="va">tx_sp_lvl</span>       <span class="co"># Rename the corresponding variable as 'species'</span></span>
-<span>   <span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/check_crownFile.html">check_crownFile</a></span><span class="op">(</span><span class="va">crownFile</span><span class="op">)</span></span>
+<span>   <span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="replace-na-by-indet">Replace NA by ‘indet’<a class="anchor" aria-label="anchor" href="#replace-na-by-indet"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_crownFile.html">check_crownFile</a></span><span class="op">(</span><span class="va">crownFile</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ##########     VARIABLES CHECK     ##########</span></span>
 <span><span class="co">#&gt;                                              </span></span>
 <span><span class="co">#&gt; ✅    id</span></span>
@@ -173,9 +194,13 @@ data, but the process is the same for any crown delineation file.</p>
 <span>      genus <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">genus</span><span class="op">)</span><span class="op">~</span> <span class="st">'indet'</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">genus</span><span class="op">)</span>,</span>
 <span>      <span class="co"># Same for species</span></span>
 <span>      species <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">genus</span>, <span class="st">'indet'</span><span class="op">)</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">species</span><span class="op">)</span></span>
-<span>      <span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/check_crownFile.html">check_crownFile</a></span><span class="op">(</span><span class="va">crownFile</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="last-check">Last check<a class="anchor" aria-label="anchor" href="#last-check"></a>
+</h2>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_crownFile.html">check_crownFile</a></span><span class="op">(</span><span class="va">crownFile</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ##########     VARIABLES CHECK     ##########</span></span>
 <span><span class="co">#&gt;                                              </span></span>
 <span><span class="co">#&gt; ✅    id</span></span>
@@ -199,6 +224,7 @@ data, but the process is the same for any crown delineation file.</p>
 <span><span class="co">#&gt; ##########   DUPLICATED ID CHECK   ##########</span></span>
 <span><span class="co">#&gt;                                              </span></span>
 <span><span class="co">#&gt; ✅  There is no duplicated id</span></span></code></pre></div>
+<p>Now the file is compatible !</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
