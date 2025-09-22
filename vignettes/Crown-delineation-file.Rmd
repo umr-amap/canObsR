@@ -30,8 +30,9 @@ The following example use the crown delineation file from the test data, but the
 Add crownfile to test data and continue the article
 ...
 
-```{r, include = FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(canObsR)
+library(dplyr)
 
 data(crownFile)
 
@@ -50,10 +51,8 @@ check_crownFile(crownFile)
 crownFile = crownFile %>% mutate(
       # Rename NA to 'indet' in the family variable
       family = case_when(is.na(family)~ 'indet', TRUE ~ family),
-      
       # Same for genus
       genus = case_when(is.na(genus)~ 'indet', TRUE ~ genus),
-      
       # Same for species
       species = case_when(is.na(species)~ paste(genus, 'indet'), TRUE ~ species)
       )
