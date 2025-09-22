@@ -28,7 +28,7 @@ To be compatible with the package functions the crown delineation file must have
 The following example shows how to adjust the crown delineation file to make it 
 compatible. It uses data from the 
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, fig.alt="Crown delineation file", fig.cap="Crown delineation file"}
 library(canObsR)
 library(dplyr)
 
