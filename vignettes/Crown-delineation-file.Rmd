@@ -25,17 +25,21 @@ To be compatible with the package functions the crown delineation file must have
 
 # Check the compatibility and adapt the file
 
-The following example use the crown delineation file from the test data, but the process is the same for any crown delineation file. 
-
-Add crownfile to test data and continue the article
-...
+The following example shows how to adjust the crown delineation file to make it 
+compatible. It uses data from the 
 
 ```{r, message=FALSE, warning=FALSE}
 library(canObsR)
 library(dplyr)
 
 data(crownFile)
+str(crownFile)
+plot(crownFile$geom)
+```
 
+# Adjust the variable names
+
+```{r, message=FALSE, warning=FALSE}
 check_crownFile(crownFile)
 
 crownFile = crownFile %>% 
@@ -44,7 +48,11 @@ crownFile = crownFile %>%
       genus = tax_gen,          # Rename the corresponding variable as 'genus'
       species = tx_sp_lvl       # Rename the corresponding variable as 'species'
    )
+```
 
+# Replace NA by 'indet'
+
+```{r, message=FALSE, warning=FALSE}
 check_crownFile(crownFile)
 
 
@@ -56,6 +64,12 @@ crownFile = crownFile %>% mutate(
       # Same for species
       species = case_when(is.na(species)~ paste(genus, 'indet'), TRUE ~ species)
       )
+```
 
+# Last check
+
+```{r, message=FALSE, warning=FALSE}
 check_crownFile(crownFile)
 ```
+
+Now the file is compatible !
