@@ -73,6 +73,7 @@ articles:
   - Prepare-database
   - Generate-and-align-orthomosaics
   - Create-compatible-crown-delineation-file
+  - Generate-crown-labels
   - Extract-crown-data
   - workflow
 
