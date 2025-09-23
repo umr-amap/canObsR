@@ -162,7 +162,7 @@ temporary files.</p>
 <span><span class="va">site</span> <span class="op">=</span> <span class="st">'Bouamir'</span></span>
 <span></span>
 <span><span class="co"># Path to the mosaics</span></span>
-<span><span class="va">mosa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">timeserie_path</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">mosa_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">mosa_path</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
 <p>Check the crown file compatibility (Fig 2), <a href="https://umr-amap.github.io/canObsR/reference/Create-compatible-crown-delineation-file.html">(more
 details here)</a></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -179,7 +179,7 @@ folder. For the test dataset it can take fiew minutes.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/extract_crownImages.html">extract_crownImages</a></span><span class="op">(</span></span>
-<span>   path_images <span class="op">=</span> <span class="va">mosa</span>,                                         <span class="co"># Path to mosaics</span></span>
+<span>   path_images <span class="op">=</span> <span class="va">mosa_path</span>,                                         <span class="co"># Path to mosaics</span></span>
 <span>   path_crowns <span class="op">=</span> <span class="va">crownFile_path</span>,                          <span class="co"># Path to  crowns file</span></span>
 <span>   out_dir_path <span class="op">=</span>  <span class="va">imgs_folder</span>,                         <span class="co"># Path to output folder</span></span>
 <span>   tempdir_custom <span class="op">=</span> <span class="va">Tmpfiles_directory</span>,             <span class="co"># Path to tmp file directory</span></span>
