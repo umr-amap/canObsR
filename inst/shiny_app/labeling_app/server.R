@@ -1,32 +1,116 @@
-server <- function(input,output,session){
+server <- function(input, output, session) {
+
+   # 🆕 Toggle pour afficher/masquer le panneau des chemins ----
+   observeEvent(input$all_settings, {toggle(id = "all_sett", anim = TRUE, animType = "slide")})
+   observeEvent(input$labels_settings, {toggle(id = "lab_settings", anim = TRUE, animType = "slide")})
+   observeEvent(input$inputs_settings, {toggle(id = "inp_settings", anim = TRUE, animType = "slide")})
+   # 🆕 ----
+
+   # ---- Gestion data ----
+
+   data <- reactiveVal({NULL})
+
+   # Ici il faut gérer les formats long et width
+   observeEvent(input$load_data,{
+      req(input$dataLabeling_file)
+
+      if(input$xlsx_format == 'width') {
+         data(
+            input$dataLabeling_file %>% openxlsx::read.xlsx())
+      }
+
+      if(input$xlsx_format == 'long') {
+         data(
+            input$dataLabeling_file %>% openxlsx::read.xlsx()
+
+         )
+      }
+   })
+
+   ## --- Table éditable filtrée sur l’ID sélectionné ------------------------
+
+   output$contents <- DT::renderDataTable({
+      req(data())
+      req(input$id_choice)   # attendre qu’un ID soit choisi
+
+      # détecte dynamiquement toutes les colonnes de type date
+      date_cols <- sort(grep("^\\d{4}_\\d{2}_\\d{2}$", names(data()), value = TRUE))
+
+      data() %>%
+         dplyr::filter(id == input$id_choice) %>%   # ne garder que l’ID sélectionné
+         dplyr::mutate(r = 1:n()) %>%
+         dplyr::mutate(across(all_of(date_cols), as.character)) %>%
+         datatable(
+            options = list(pageLength = 50, autoWidth = TRUE),
+            editable = TRUE          # <- rend le tableau éditable
+         )%>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = date_cols,
+            fontWeight = "bold",
+            # target = 'row',
+            backgroundColor = styleEqual(c(
+               "L", "L?", "L/F", "F/L", "L/F?", "F/L?", "L;fl", "L;fr",
+               "L;fl?", "L;fr?", "L*F/L", "L*L/D", "L*D", "L*D?"
+            ), rep("green4", 14))) %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = date_cols,
+            # target = 'row',
+            backgroundColor = styleEqual(c("F", "F?", "F;fl", "F;fr", "F;fl?", "F;fr?",
+                                           "F*L/D?", "F*L?", "F*L"), c("green"))) %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = date_cols,
+            # target = 'row',
+            backgroundColor = styleEqual(c(
+               "L/D", "D/L", "L/D?", "D/L?", "L/D;fr", "L/D;fr?", "L/D;fl", "L/D;fl?"), c("lightgreen"))) %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = date_cols,
+            # target = 'row',
+            backgroundColor = styleEqual(c(
+               'D/F', "F/D", 'D/F?', "F/D?"), c("green3"))) %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = date_cols,
+            # target = 'row',
+            backgroundColor = styleEqual(c("D", "D?", "D*L", "D*L?"), c("red"))) %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = date_cols,
+            # target = 'row',
+            backgroundColor = styleEqual(c( "D*F","D*F?","F*D","F*D?"), c("cyan4"))) %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = date_cols,
+            # target = 'row',
+            backgroundColor = styleEqual(c("L*F?","L*F"), c("cyan3")))  %>%
+         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
+         formatStyle(
+            columns = date_cols,
+            # target = 'row',
+            backgroundColor = styleEqual(c("L/D*F","L/D*F?","F*L/D?","F*L/D?"), c("lightblue")))
+   })
+
+   ## ------------------------------------------------------------------------
 
 
-# Reactive values ---------------------------------------------------------
 
-   data <- reactiveVal({
-      # req(input$dataLabeling_file)
-      .GlobalEnv$.aecay.labels %>% openxlsx::read.xlsx() %>%
-         mutate (date = as.Date(date, "%Y_%m_%d"))
-   }
-   )
+
+   # ----
+
+   # ---- Gestion des inputs de filtre ----
 
    input_values <- reactiveValues(
       fam_choice = '',
-      gen_choice = '',
       sp_choice = '',
       id_choice = NULL
-   ) # To handle and keep input after saving file
-
-
-   # Valeur réactive pour garder la position de l'image affichée
-   current_index <- reactiveVal(1) # To handle date
+   )
 
    # Mettre à jour les reactiveValues lorsque les inputs changent
    observeEvent(input$fam_choice, {
       input_values$fam_choice <- input$fam_choice
-   })
-   observeEvent(input$gen_choice, {
-      input_values$gen_choice <- input$gen_choice
    })
    observeEvent(input$sp_choice, {
       input_values$sp_choice <- input$sp_choice
@@ -34,64 +118,24 @@ server <- function(input,output,session){
    observeEvent(input$id_choice, {
       input_values$id_choice <- input$id_choice
    })
-
-   selected_gen <- reactive({
-      req(input$fam_choice)
-      c('',sort(unique(data()$genus[data()$family == input$fam_choice])))
+   observeEvent(input$date_choice, {
+      input_values$date_choice <- input$date_choice
    })
 
    selected_sp <- reactive({
-      req(input$gen_choice)
-      c('',sort(unique(data()$species[data()$family == input$fam_choice & data()$genus == input$gen_choice])))
+      req(input$fam_choice)
+      c('',sort(unique(data()$species[data()$family == input$fam_choice])))
    })
 
    selected_id <- reactive({
       req(input$sp_choice)
-      sort(unique(data()$id[data()$family == input$fam_choice & data()$species == input$sp_choice & data()$genus == input$gen_choice]))
-
+      sort(unique(data()$id[data()$family == input$fam_choice & data()$species == input$sp_choice]))
    })
 
-
-   # Réactive pour récupérer la liste des images de l'arbre sélectionné
-   images_list <- reactive({
-
-      req(input$id_choice, input$sp_choice)
-      # Construire le chemin du dossier de l'arbre
-      # Attention : le nom du dossier est constitué de "crown", l'id, et l'espèce séparés par '_'
-      # Si le dossier est nommé "crown_1_Pycnanthus angolensis", adaptez la chaine de caractères.
-      tree_folder <- file.path(input$image_folder, paste0("crown_", input$id_choice, "_", input$sp_choice))
-      if (!dir.exists(tree_folder)) {
-         showNotification(paste("Le dossier", tree_folder, "n'existe pas."), type = "error")
-         return(NULL)
-      }
-      imgs <- list.files(tree_folder, pattern = "\\.jpeg$", full.names = TRUE)
-      if (length(imgs) == 0) {
-         showNotification("Aucune image trouvée dans le dossier.", type = "error")
-         return(NULL)
-      }
-      # Optionnel : trier les images par date en extrayant la date du nom de fichier.
-      # On suppose ici que le nom est de la forme "crow_id_species_date.jpeg"
-      # On extrait la date en découpant la chaîne.
-      imgs <- data.frame(
-         path = imgs,
-         date = extr_dates(basename(imgs), n =4, extension = '.jpeg') %>% as.Date(., "%Y_%m_%d"),
-         row = 1:length(imgs)
-      ) %>%
-         arrange(date)
-
-      return(imgs)
-   })
-
-   # To plot the table
-   reactive_excel_data <- reactive({
-      # req(input$file)
-      data() %>%
-         filter(id == input$id_choice)
-   })
-
-
-
-# Filter up to id ---------------------------------------------------------
+   # selected_date <- reactive({
+   #    req(input$id_choice)
+   #    sort(grep("^\\d{4}_\\d{2}_\\d{2}$", names(data()), value = TRUE))
+   # })
 
    output$fam_filter <- renderUI({
       req(data())
@@ -103,14 +147,6 @@ server <- function(input,output,session){
       )
    })
 
-   output$gen_filter <- renderUI({
-      selectInput(
-         "gen_choice",
-         "Genre :",
-         choices = selected_gen(),
-         selected = input_values$gen_choice  # Utiliser la valeur stockée
-      )
-   })
 
    output$sp_filter <- renderUI({
       selectInput(
@@ -130,260 +166,239 @@ server <- function(input,output,session){
       )
    })
 
-
-
-
-   # Mettre à jour l'index si un nouvel arbre est sélectionné
-   observeEvent(input$id_choice, {
-      current_index(1)
+   output$date_filter <- renderUI({
+      selectInput(
+         "date_choice",
+         "Date :",
+         choices = sort(grep("^\\d{4}_\\d{2}_\\d{2}$", names(data()), value = TRUE)),
+         # selected = input_values$date_choice  # Utiliser la valeur stockée
+      )
    })
 
-   # Affichage d'informations sur l'image
-   output$image_info <- renderText({
-      imgs <- images_list()$path
-      req(imgs)
-      idx <- current_index()
-      paste("Image", idx, "sur", length(imgs))
+   # ----
+
+   # ---- Gestion des labels ----
+
+   # Fonction pour transformer la chaîne en vecteur de choix
+   parse_labels <- function(x) {
+      x %>%
+         stringr::str_split("-", simplify = TRUE) %>%
+         as.vector() %>%
+         stringr::str_trim() %>%
+         discard(~ .x == "")           # retire les vides
+   }
+
+   # Observateurs pour mettre à jour chaque groupe
+   observe({
+      ch <- parse_labels(input$labels1)
+      updateRadioButtons(session, "interpretation_1",
+                         choices = c("", ch), selected = "")
+   })
+   observe({
+      ch <- parse_labels(input$labels2)
+      updateRadioButtons(session, "interpretation_2",
+                         choices = c("", ch), selected = "")
+   })
+   observe({
+      ch <- parse_labels(input$labels3)
+      updateRadioButtons(session, "interpretation_3",
+                         choices = c("", ch), selected = "")
    })
 
-   # Affichage de l'image
-   output$img <- renderImage({
-      imgs <- images_list()$path
-      req(imgs)
-      idx <- current_index()
-      # Vérifier que l'index est dans les bornes
-      if (idx < 1 || idx > length(imgs)) {
-         return(NULL)
-      }
-      # Pour Shiny, il faut retourner une liste avec le chemin de l'image, son type, et éventuellement alt text
-      list(src = imgs[idx],
-           contentType = "image/jpeg",
-           alt = paste("Image", idx),
-           width = 750,
-           height = 750)
-   }, deleteFile = FALSE)
+   # Rendu initial (vide) des radioButtons
+   output$interp1 <- renderUI({
+      radioButtons("interpretation_1", "Pheno 1 :", choices = c(""), selected = "", inline = TRUE)
+   })
+   output$interp2 <- renderUI({
+      radioButtons("interpretation_2", "Pheno 2 :", choices = c(""), selected = "", inline = TRUE)
+   })
+   output$interp3 <- renderUI({
+      radioButtons("interpretation_3", "Pheno 3 :", choices = c(""), selected = "", inline = TRUE)
+   })
 
-   # Bouton pour passer à l'image suivante
-   observeEvent(input$next_date, {
-      imgs <- images_list()$path
-      req(imgs)
-      idx <- current_index()
-      if (idx < length(imgs)) {
-         current_index(idx + 1)
+   # ----
+
+
+
+   render_jpeg <- function(path){
+      if (!is.null(path) && file.exists(path)) {
+         list(src = path, contentType = 'image/jpeg')
       } else {
-         showNotification("Dernière image atteinte.", type = "message")
+         list(src = file.path(input$path_jpeg, 'placeholder.png'),
+              contentType = 'image/png')
       }
+   }
+
+   update_jpeg <- function(date){
+
+      req(input$id_choice, date)
+
+      base <- file.path(input$image_folder, paste0('crown_', input$id_choice, '_', input$sp_choice))
+      p2 <- file.path(base, paste0('crown_', input$id_choice, '_', input$sp_choice, '_', str_remove_all(input$date_choice,'_'), '.jpeg'))
+
+      output$jpeg_image2 <- renderImage({
+         print(p2)
+         render_jpeg(p2) }, deleteFile = FALSE)
+
+   }
+
+
+
+   observeEvent(c(input$date_choice,input$id_choice), {
+      update_jpeg(input$date_choice)
    })
 
-   # Bouton pour revenir à l'image précédente
+
+
+   ## --- AJOUT navigation précédente / suivante -----------------------------
+
+   ## Famille
+   observeEvent(input$prev_fam, {
+      req(input$fam_choice)
+      ch <- c('', sort(unique(data()$family)))
+      pos <- match(input$fam_choice, ch)
+      if (!is.na(pos) && pos > 1) updateSelectInput(session, "fam_choice", selected = ch[pos - 1])
+   })
+   observeEvent(input$next_fam, {
+      req(input$fam_choice)
+      ch <- c('', sort(unique(data()$family)))
+      pos <- match(input$fam_choice, ch)
+      if (!is.na(pos) && pos < length(ch)) updateSelectInput(session, "fam_choice", selected = ch[pos + 1])
+   })
+
+   ## Espèce
+   observeEvent(input$prev_sp, {
+      req(input$sp_choice)
+      ch <- c('', sort(unique(data()$species[data()$family == input$fam_choice])))
+      pos <- match(input$sp_choice, ch)
+      if (!is.na(pos) && pos > 1) updateSelectInput(session, "sp_choice", selected = ch[pos - 1])
+   })
+   observeEvent(input$next_sp, {
+      req(input$sp_choice)
+      ch <- c('', sort(unique(data()$species[data()$family == input$fam_choice])))
+      pos <- match(input$sp_choice, ch)
+      if (!is.na(pos) && pos < length(ch)) updateSelectInput(session, "sp_choice", selected = ch[pos + 1])
+   })
+
+   ## ID
+   observeEvent(input$prev_id, {
+      req(input$id_choice)
+      ch <- sort(unique(data()$id[data()$family == input$fam_choice &
+                                     data()$species == input$sp_choice]))
+      pos <- match(input$id_choice, ch)
+      if (!is.na(pos) && pos > 1) updateSelectInput(session, "id_choice", selected = ch[pos - 1])
+   })
+   observeEvent(input$next_id, {
+      req(input$id_choice)
+      ch <- sort(unique(data()$id[data()$family == input$fam_choice &
+                                     data()$species == input$sp_choice]))
+      pos <- match(input$id_choice, ch)
+      if (!is.na(pos) && pos < length(ch)) updateSelectInput(session, "id_choice", selected = ch[pos + 1])
+   })
+
+   ## Date
    observeEvent(input$prev_date, {
-      imgs <- images_list()$path
-      req(imgs)
-      idx <- current_index()
-      if (idx > 1) {
-         current_index(idx - 1)
+      req(input$date_choice)
+      ch <- sort(grep("^\\d{4}_\\d{2}_\\d{2}$", names(data()), value = TRUE))
+      pos <- match(input$date_choice, ch)
+      if (!is.na(pos) && pos > 1) updateSelectInput(session, "date_choice", selected = ch[pos - 1])
+   })
+   observeEvent(input$next_date, {
+      req(input$date_choice)
+      ch <- sort(grep("^\\d{4}_\\d{2}_\\d{2}$", names(data()), value = TRUE))
+      pos <- match(input$date_choice, ch)
+      if (!is.na(pos) && pos < length(ch)) updateSelectInput(session, "date_choice", selected = ch[pos + 1])
+   })
+   ## -------------------------------------------------------------------------
+
+
+   ## --- Messages limites navigation date -----------------------------------
+   observeEvent(input$prev_date, {
+      req(input$date_choice)
+      ch <- sort(grep("^\\d{4}_\\d{2}_\\d{2}$", names(data()), value = TRUE))
+      pos <- match(input$date_choice, ch)
+      if (!is.na(pos) && pos > 1) {
+         updateSelectInput(session, "date_choice", selected = ch[pos - 1])
       } else {
-         showNotification("Première image déjà affichée.", type = "message")
+         showNotification("Vous êtes déjà sur la première date.",
+                          type = "warning", duration = 3)
       }
    })
 
-
-
-
-   # Affiche les données dans l'onglet "Détails des points"
-   output$contents <- DT::renderDataTable({
-      req(reactive_excel_data(), current_index())
-
-      reactive_excel_data() %>%
-         arrange(date) %>%
-         dplyr::mutate(r = 1:nrow(reactive_excel_data())) %>%
-         datatable(options = list(pageLength = 50, autoWidth = TRUE))  %>%
-         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
-         formatStyle(
-            columns = 'phenophase',
-            fontWeight = "bold",
-            # target = 'row',
-            backgroundColor = styleEqual(c(
-               "L", "L?", "L/F", "F/L", "L/F?", "F/L?", "L;fl", "L;fr",
-               "L;fl?", "L;fr?", "L*F/L", "L*L/D", "L*D", "L*D?"
-            ), c("green4"))) %>%
-         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
-         formatStyle(
-            columns = 'phenophase',
-            # target = 'row',
-            backgroundColor = styleEqual(c("F", "F?", "F;fl", "F;fr", "F;fl?", "F;fr?",
-                                           "F*L/D?", "F*L?", "F*L"), c("green"))) %>%
-         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
-         formatStyle(
-            columns = 'phenophase',
-            # target = 'row',
-            backgroundColor = styleEqual(c(
-               "L/D", "D/L", "L/D?", "D/L?", "L/D;fr", "L/D;fr?", "L/D;fl", "L/D;fl?"), c("lightgreen"))) %>%
-         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
-         formatStyle(
-            columns = 'phenophase',
-            # target = 'row',
-            backgroundColor = styleEqual(c(
-               'D/F', "F/D", 'D/F?', "F/D?"), c("green3"))) %>%
-         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
-         formatStyle(
-            columns = 'phenophase',
-            # target = 'row',
-            backgroundColor = styleEqual(c("D", "D?", "D*L", "D*L?"), c("red"))) %>%
-         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
-         formatStyle(
-            columns = 'phenophase',
-            # target = 'row',
-            backgroundColor = styleEqual(c( "D*F","D*F?","F*D","F*D?"), c("cyan4"))) %>%
-         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
-         formatStyle(
-            columns = 'phenophase',
-            # target = 'row',
-            backgroundColor = styleEqual(c("L*F?","L*F"), c("cyan3")))  %>%
-         # Mise en forme de la couleur du texte dans la colonne Nom si la valeur est "Exemple"
-         formatStyle(
-            columns = 'phenophase',
-            # target = 'row',
-            backgroundColor = styleEqual(c("L/D*F","L/D*F?","F*L/D?","F*L/D?"), c("lightblue"))) %>%
-         formatStyle(
-            # On peut appliquer le style à toutes les colonnes avec target = 'row'
-            columns = 'date',
-            target = 'row',
-            backgroundColor = styleEqual(c(images_list()$date[current_index()]), c("lightblue"))
-         )
-   })
-
-   output$pheno_data <- renderText({
-
-      req(input$id_choice, current_index())
-
-      pheno_x <- reactive_excel_data() %>% filter(id == as.numeric(input$id_choice) & date == images_list()$date[current_index()]) %>% .[['phenophase']] %>% as.character()
-
-      if(is.na(pheno_x) | is.null(pheno_x)){x <- 'Not interpreted'}else{x <- pheno_x}
-
-      x
-   })
-
-
-   output$plot1 <- renderPlot({
-
-      req(input$id_choice, current_index())
-
-      sp_data <- data() %>%
-         group_by(id) %>%
-         mutate(na = case_when(length(unique(phenophase)) == 1 &
-                                                NA %in% (unique(phenophase)) ~ 1, TRUE ~ 0)) %>%
-         summarise(n = sum(na) / n(),
-                   species = unique(species)) %>%
-         ungroup() %>%
-         group_by(species) %>%
-         summarise(n=1 - (sum(n)/n())) %>%
-         mutate(sp_choice = if_else(!is.na(species) & species == input$sp_choice,'red','grey')) %>%
-         filter(n>0) %>%
-         rbind(., data.frame(species = 'Other', n= 0, sp_choice = 'grey')) %>%
-         arrange(desc(n))
-
-      barplot(height = sp_data$n * 100,
-              ylab = 'Percentage done',
-              space = .5,
-              names.arg = sp_data$species,
-              col = sp_data$sp_choice,
-              main = 'Crowns done per species',
-              cex.names = 0.5,
-              las = 2,
-              ylim = c(0,100))
-
-   })
-
-   output$plot2 <- renderPlot({
-
-      req(input$id_choice, current_index())
-
-      ind_data <- data_labeling %>%
-         filter(species ==  input$sp_choice) %>%
-         mutate(done = if_else(is.na(phenophase), 0, 1)) %>%
-         group_by(id) %>%
-         summarise(n = sum(done) / length(unique(data_labeling$date)) *100) %>%
-         mutate(id_choice = if_else(!is.na(id) & id == input$id_choice,'red','grey')) %>%
-         mutate(not_done = 100 - n)
-
-
-
-      barplot(n ~ id,
-              data = ind_data,
-              col = ind_data$id_choice,
-              ylab = 'Percentage not done',
-              ylim = c(0,100))
-
-      abline(h = 100,  col = "red", lty = 1, lwd = 2)
-
-   })
-
-   observeEvent(input$save_label,{
-
-      if (input$interpretation_1_doubt) { doubt1 <- '?' } else {doubt1 <- ''}
-      if (input$interpretation_2_doubt) { doubt2 <- '?' } else {doubt2 <- ''}
-      if (input$interpretation_3_doubt) { doubt3 <- '?' } else {doubt3 <- ''}
-
-      if(input$interpretation_2 == '' & doubt2 == '' & input$interpretation_3 == '' & doubt3 == '') {
-
-         tmp_pheno <- paste0( input$interpretation_1, doubt1 )
-
-      } else if(input$interpretation_2 != '' & input$interpretation_3 == '' & doubt3 == '') {
-
-         tmp_pheno <- paste0( input$interpretation_1, doubt1, "*", input$interpretation_2, doubt2)
-
-      } else if(input$interpretation_2 != '' & input$interpretation_3 != '') {
-
-         tmp_pheno <- paste0( input$interpretation_1, doubt1, "*", input$interpretation_2, doubt2, ';', input$interpretation_3, doubt3)
-
-      } else if(input$interpretation_2 == '' & doubt2 == '' & input$interpretation_3 != '') {
-
-         tmp_pheno <- paste0( input$interpretation_1, doubt1, ";", input$interpretation_3, doubt3)
-
-      } else {tmp_pheno <- NA}
-
-      tree_id <- as.numeric(input$id_choice)
-
-      output$test <- renderText({paste(tree_id, images_list()$date[current_index()], tmp_pheno,input$Comments_input, sep = '  |  ')})
-
-      updated_data <- data() %>%
-         dplyr::mutate(phenophase = ifelse(id == tree_id & date == images_list()$date[current_index()],
-                                           as.character(tmp_pheno), as.character(phenophase)),
-                       comments = ifelse(id == tree_id & date == images_list()$date[current_index()],
-                                         input$Comments_input, as.character(comments)),
-                       obs = ifelse(id == tree_id & date == images_list()$date[current_index()],
-                                         input$encoder, as.character(obs)),
-                       update = ifelse(id == tree_id & date == images_list()$date[current_index()],
-                                       format(Sys.Date(),"%Y_%m_%d"), update),
-                       Usable_crown = ifelse(id == tree_id & date == images_list()$date[current_index()] & input$usable_crown,
-                                       1, Usable_crown)) %>%
-         dplyr::arrange(desc(n),id,date) %>%
-         dplyr::select(site, id, family, genus, species, n, obs, update, everything())
-
-      save_data <- updated_data %>%
-         dplyr::mutate(date = paste(stringr::str_sub(as.character(date),1,4),str_sub(date,6,7),str_sub(date,9,10), sep = '_'))
-
-      openxlsx::write.xlsx(save_data,input$new_filename, overwrite = TRUE)
-      data(updated_data)
-
-      showNotification("Label enregistré avec succès !", type = "message")
-
-      imgs <- images_list()$path
-      req(imgs)
-      idx <- current_index()
-      if (idx < length(imgs)) {
-         current_index(idx + 1)
+   observeEvent(input$next_date, {
+      req(input$date_choice)
+      ch <- sort(grep("^\\d{4}_\\d{2}_\\d{2}$", names(data()), value = TRUE))
+      pos <- match(input$date_choice, ch)
+      if (!is.na(pos) && pos < length(ch)) {
+         updateSelectInput(session, "date_choice", selected = ch[pos + 1])
       } else {
-         showNotification("Dernière image atteinte.", type = "message")
+         showNotification("Vous êtes déjà sur la dernière date.",
+                          type = "warning", duration = 3)
+      }
+   })
+   ## ------------------------------------------------------------------------
+
+
+   ## --- Sauvegarde du fichier Excel avec mise à jour des colonnes ---------
+   observeEvent(input$save_label, {
+
+      req(data())
+      req(input$id_choice)
+      req(input$date_choice)
+
+      # --- calcul de tmp_pheno identique à avant ----------------------------
+      doubt1 <- ifelse(isTRUE(input$interpretation_1_doubt), "?", "")
+      doubt2 <- ifelse(isTRUE(input$interpretation_2_doubt), "?", "")
+      doubt3 <- ifelse(isTRUE(input$interpretation_3_doubt), "?", "")
+
+      tmp_pheno <- if (input$interpretation_2 == "" && input$interpretation_3 == "") {
+         paste0(input$interpretation_1, doubt1)
+      } else if (input$interpretation_2 != "" && input$interpretation_3 == "" && doubt3 == "") {
+         paste0(input$interpretation_1, doubt1, "*", input$interpretation_2, doubt2)
+      } else if (input$interpretation_2 != "" && input$interpretation_3 != "") {
+         paste0(input$interpretation_1, doubt1, "*", input$interpretation_2, doubt2, ";", input$interpretation_3, doubt3)
+      } else if (input$interpretation_2 == "" && doubt2 == "" && input$interpretation_3 != "") {
+         paste0(input$interpretation_1, doubt1, ";", input$interpretation_3, doubt3)
+      } else { NA }
+
+      # --- mise à jour des colonnes pour l'ID sélectionné -------------------
+      d <- data()
+      row_sel <- which(d$id == input$id_choice)
+      if (length(row_sel) == 1) {
+         d[row_sel, "comments"]        <- input$Comments_input
+         d[row_sel, "obs"]             <- input$encoder
+         d[row_sel, "Usable_crown"]    <- input$usable_crown
+         d[row_sel, input$date_choice] <- tmp_pheno
+         data(d)
       }
 
-      # Conserver les valeurs des inputs
-      updateSelectInput(session, "fam_choice", selected = input$fam_choice)
-      updateSelectInput(session, "gen_choice", selected = input$gen_choice)
-      updateSelectInput(session, "sp_choice", selected = input$sp_choice)
-      updateSelectInput(session, "id_choice", selected = input$id_choice)
+      # --- écriture du fichier Excel ----------------------------------------
+      openxlsx::write.xlsx(d, input$dataLabeling_file, overwrite = TRUE)
+      showNotification("Fichier mis à jour, passage à la date suivante…", type = "message", duration = 4)
 
+      # --- passage automatique à la date suivante ---------------------------
+      ch <- sort(grep("^\\d{4}_\\d{2}_\\d{2}$", names(data()), value = TRUE))
+      pos <- match(input$date_choice, ch)
+      if (!is.na(pos) && pos < length(ch)) {
+         updateSelectInput(session, "date_choice", selected = ch[pos + 1])
+      } else {
+         showNotification("Vous êtes déjà sur la dernière date.",
+                          type = "warning", duration = 3)
+      }
+
+   })
+
+   ## -----------------------------------------------------------------------
+
+   observeEvent(input$load_data, {
+      req(data())
+      date_cols <- sort(grep("^\\d{4}_\\d{2}_\\d{2}$", names(data()), value = TRUE))
+      cat("date_cols:", paste(date_cols, collapse = ", "), "\n")
+      # classes
+      print(sapply(data()[, date_cols, drop = FALSE], class))
+      # montrer quelques valeurs uniques (trimées) pour chaque colonne
+      u <- lapply(data()[, date_cols, drop = FALSE], function(x) unique(trimws(as.character(x))))
+      print(lapply(u, function(x) if(length(x) > 10) head(x, 10) else x))
    })
 
 }

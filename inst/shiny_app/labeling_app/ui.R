@@ -6,183 +6,216 @@ library(tibble)
 library(openxlsx)
 library(stringr)
 library(canObsR)
+library(shinyjs) # 🆕 Pour cacher/afficher les inputs
+library(purrr)
 
 
-navbarPage(
+fluidPage(
 
-   title = "Labeling app",
-   theme = shinythemes::shinytheme('united'),
-   tabPanel(title = "Image Panel",
-   fluidRow(
-      column(
-         width = 3,
-         align = 'center',
+   # 🆕 Activer shinyjs (barre retractable chemins fichiers)
+   useShinyjs(),
 
-         tabsetPanel(
-            tabPanel(
-               title = "Inputs",
-               br(),
+   theme = bslib::bs_theme(version = 5),
+   titlePanel("🌳 Crown labelling app "),
 
-               shiny::textInput(inputId = "dataLabeling_file",
-                                label = "Labeling data file",
-                                value = .GlobalEnv$.aecay.labels
-               ),
+   # ✅ Paramètres de style,  notamment pour l'affichage des 3 images ----
+   tags$style(
+      "
+   .input-panel {
+   background-color: #f9f9f9;
+   padding: 10px;
+   border-radius: 10px;
+   margin-bottom: 10px;
+   border: 1px solid #ddd;
+   }
+   .btn {
+   width: 100%;
+   margin-bottom: 10px;
+   }
+   .form-group {
+   margin-bottom: 10px;
+   }
+   .shiny-image-output img {
+      max-width: 100%;
+      max-height: 600px;
+      width: auto;
+      height: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 100px;
+    }
+          /* ✅ cadre rouge autour de l'image centrale */
+   #jpeg_image2 img {
+     border: 5px solid red;
+     border-radius: 10px;
+     padding: 2px;
+   }
+    /* Encadré personnalisé */
+  .input-group-box {
+    border: 3px solid #4CAF50;       /* vert forêt */
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 5px;
+    background: linear-gradient(135deg, #f0fff0 0%, #e6ffe6 100%);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    margin-top: 0;
+  }
+  .input-group-box h4 {
+    font-weight: 600;
+    color: #2e7d32;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  "
+   ),
+   # ----
 
-               shiny::textInput(inputId = "new_filename",
-                                label = "New filename",
-                                value = .GlobalEnv$.aecay.newfile
-                                ),
+   br(),
 
-               shiny::textInput(inputId = 'image_folder',
-                                label = 'Images folder',
-                                value = .GlobalEnv$.aecay.imgfolder
-                                )
-            ),
-
-            tabPanel(
-               title = "Filter",
-
-               fluidPage(
-                  title = "Interpretation",
-
-                  shiny::radioButtons("filter_trees",
-                                      "Filter :",
-                                      choices = c("All", "Not all labels", "No label"),
-                                      inline = TRUE
-                                      ),
-
-                  shiny::uiOutput("fam_filter"),
-                  shiny::uiOutput("gen_filter"),
-                  shiny::uiOutput("sp_filter"),
-                  shiny::uiOutput("id_filter"),
-                  shiny::br(),
-                  shiny::h4("Add / Change label"),
-
-                  fluidPage(
+   # Labels settings ----
+   actionButton("all_settings", "Hide / Show settings", class = "btn btn-secondary"),
+   div(
+      id = "all_sett",
+      actionButton("labels_settings", "🌳 Hide / Show Labels settings"),
+      div(
+         class = "input-group-box",
+         id = "lab_settings",
+         style = "display: none;", # 🆕 masqué par défaut
+         br(),
+         fluidRow(
+            column(
+               width = 12,
+               wellPanel(
+                  fluidRow(
                      column(
                         width = 4,
-
-                        radioButtons(inputId = "interpretation_1",
-                                     label = "Pheno 1 :",
-                                     choices = c('', 'L', 'L/D', 'D', 'D/F', 'F', 'F/L', 'P'),
-                                     selected = '',
-                                     width = "100%"
-                                     )
-                        ),
-
-                     column(
-                        width = 4,
-
-                        radioButtons(inputId = "interpretation_2",
-                                     label = "Pheno 2 :",
-                                     choices = c('', 'L', 'L/D', 'D', 'D/F', 'F', 'F/L'),
-                                     selected = '',
-                                     width = "100%"
-                                     )
-                        ),
-
-                     column(
-                        width = 4,
-
-                        radioButtons(inputId = "interpretation_3",
-                                     label = "Pheno 3 :",
-                                     choices = c('', 'fl', 'fr'),
-                                     selected = '',
-                                     width = "100%"
-                                     )
-                        )
+                        textInput("labels1", "Labels 1",
+                                  value = .GlobalEnv$.aecay.labels1)
                      ),
-
-                  fluidPage(
-
                      column(
                         width = 4,
-
-                        checkboxInput("interpretation_1_doubt",
-                                      "?",
-                                      value = FALSE,
-                                      width = NULL
-                                      )
-                        ),
-
-                     column(
-                        width = 4,
-
-                        checkboxInput("interpretation_2_doubt",
-                                      "?",
-                                      value = FALSE,
-                                      width = NULL
-                                      )
-                        ),
-
-                     column(
-                        width = 4,
-
-                        checkboxInput("interpretation_3_doubt",
-                                      "?",
-                                      value = FALSE,
-                                      width = NULL
-                                      )
-                        )
+                        textInput("labels2", "Labels 2",
+                                  value = .GlobalEnv$.aecay.labels2)
                      ),
-
-                  shiny::textInput(inputId = "encoder",
-                                   label = "Encoder"
-                                   ),
-
-                  shiny::checkboxInput("usable_crown",
-                                       "Usable crown",
-                                       value = FALSE,
-                                       width = NULL
-                                       ),
-
-                  textAreaInput(inputId = 'Comments_input',
-                                label = 'Comments',
-                                value = "",
-                                rows = 3,
-                                placeholder = NULL,
-                                resize = NULL
-                                ),
-
-                  shiny::actionButton("save_label", "Save label")
-
+                     column(
+                        width = 4,
+                        textInput("labels3", "Labels 3",
+                                  value = .GlobalEnv$.aecay.labels3)
+                     )
                   )
                )
-         )
+            )),
+         br(),
       ),
+      # ----
 
-      column(
-         width = 8,
-         align = "center",
-         h4(textOutput("image_info")),
-         h4(textOutput("test")),
-         imageOutput('img', height = "650px"),
-         textOutput("title"),
-         span(
-            textOutput("pheno_data"),
-            style = "color: red;
-            position: relative;
-            text-align: center;
-            top: -560px;
-            font-size: 60px;"
-            ),
+      # Inputs settings ----
 
+      actionButton("inputs_settings", "⚙️ Hide / Show Inputs settings"),
+      div(
+
+         class = "input-group-box",
+         id = "inp_settings",
+         style = "display: none;", # 🆕 masqué par défaut
+         br(),
          fluidRow(
+            column(
+               width = 12,
+               wellPanel(
+                  fluidRow(
+                     column(
+                        width = 4,
+                        radioButtons(inputId = "xlsx_format", label = "Labelling file format :", choices = c('width', 'long'), selected = 'width', width = "100%", inline = TRUE),
+                        shiny::textInput(inputId = "dataLabeling_file", label = "Labeling data file", value = .GlobalEnv$.aecay.labelingFile)
+                     ),
+                     column(
+                        width = 4,
+                        shiny::textInput(inputId = "new_filename", label = "New filename", value = .GlobalEnv$.aecay.newfile),
+                        shiny::textInput(inputId = 'image_folder', label = 'Images folder', value = .GlobalEnv$.aecay.imgfolder)
+                     ),
+                     column(
+                        width = 4,
+                        br(),
+                        checkboxInput(inputId = "filter_data", label = "Uniquement les données non faites", value = TRUE),
+                        br(),
+                        actionButton("load_data", "Load data", class = "btn-primary btn-block")
+                     )
+                  )
+               )
+            )),
+         br(),
 
-            column(6,actionButton("prev_date", "Date précédente", width = "100%")),
+      ),
+      # ----
 
-            column(6, actionButton("next_date", "Date suivante", width = "100%")
-                   )
-            )
+      hr(),
+      # Filters ----
 
-         ),
-   )
+      fluidRow(
+         column(5, actionButton("prev_fam", "⬅️ Famille Précédent", class = "btn btn-outline-primary")),
+         column(2, uiOutput("fam_filter")),
+         column(5, actionButton("next_fam", "➡️ Famille Suivant", class = "btn btn-outline-primary")   )
+      ),
+      fluidRow(
+         column(5, actionButton("prev_sp", "⬅️ Espece Précédent", class = "btn btn-outline-primary")),
+         column(2, uiOutput("sp_filter")),
+         column(5,actionButton("next_sp", "➡️ Espece Suivant", class = "btn btn-outline-primary"))
+      ),
+      fluidRow(
+         column(5, actionButton("prev_id", "⬅️ ID Précédent", class = "btn btn-outline-primary")),
+         column(2, uiOutput("id_filter")),
+         column(5,actionButton("next_id", "➡️ ID Suivant", class = "btn btn-outline-primary"))
+      ),
    ),
 
-   tabPanel("Table panel", shiny::mainPanel(DTOutput("contents"))),
+   fluidRow(
+      column(5,actionButton("prev_date", "⬅️ Date Précédente", class = "btn btn-secondary")),
+      column(2, uiOutput("date_filter")),
+      column(5, actionButton("next_date", "➡️ Date Suivante", class = "btn btn-secondary")
+      )),
 
-   tabPanel("Plot panel",plotOutput('plot1'),plotOutput('plot2'))
+   # ----
+
+   br(),
+
+   # ---- Ajout des interprétations ----
+   fluidRow(
+
+      column(3,
+             wellPanel(uiOutput("interp1")),
+             wellPanel(uiOutput("interp2")),
+             wellPanel(uiOutput("interp3")),
+             shiny::textInput(inputId = "encoder",label = "Encoder"),
+             textAreaInput(inputId = 'Comments_input',
+                           label = 'Comments',
+                           value = "",
+                           rows = 3,
+                           placeholder = NULL,
+                           resize = NULL
+             )),
+      column(1,
+             fluidRow(
+                class = "input-group-box",
+                checkboxInput("interpretation_1_doubt","?",value = FALSE,width = NULL),br(),br(),br(),br(),br(),br(),
+                checkboxInput("interpretation_2_doubt","?",value = FALSE,width = NULL),br(),br(),br(),br(),br(),br(),
+                checkboxInput("interpretation_3_doubt","?",value = FALSE,width = NULL),
+             ),
+             br(),br(),br(),br(),
+             shiny::checkboxInput("usable_crown","UC",value = FALSE,width = NULL),
+      ),
+      column(8, imageOutput('jpeg_image2'))
+   ),
+   # ----
+
+   br(),br(),br(),br(),br(),br(),
+
+   shiny::actionButton("save_label", "Save label"), hr(),
+
+   shiny::mainPanel(DTOutput("contents"))
+
 )
-
 
 

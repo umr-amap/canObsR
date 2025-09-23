@@ -4,14 +4,27 @@
 \alias{shiny_labels}
 \title{Labeling shiny app}
 \usage{
-shiny_labels(data_labeling = NULL, newFile = NULL, imgFolder = NULL)
+shiny_labels(
+  labelingFile = NULL,
+  newFile = NULL,
+  imgFolder = NULL,
+  labels1 = c(" ", "L", "L/D", "D", "D/F", "F", "F/L", "P"),
+  labels2 = c(" ", "L", "L/D", "D", "D/F", "F", "F/L"),
+  labels3 = c(" ", "fl", "fr")
+)
 }
 \arguments{
-\item{data_labeling}{tbl_df. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}}
-
 \item{newFile}{character. Path to save the new labeling file.}
 
 \item{imgFolder}{character. Path to crown images folder.}
+
+\item{labels1}{character. Vector of the label1 inputs}
+
+\item{labels2}{character. Vector of the label2 inputs}
+
+\item{labels3}{character. Vector of the label3 inputs}
+
+\item{data_labeling}{tbl_df. Labeling file resulting from the \code{\link[canObsR]{create_labelingFile}}}
 }
 \description{
 Shiny app to do the labeling based on crowns images.
