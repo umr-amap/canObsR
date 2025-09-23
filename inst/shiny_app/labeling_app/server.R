@@ -14,17 +14,8 @@ server <- function(input, output, session) {
    observeEvent(input$load_data,{
       req(input$dataLabeling_file)
 
-      if(input$xlsx_format == 'width') {
-         data(
-            input$dataLabeling_file %>% openxlsx::read.xlsx())
-      }
+      data(input$dataLabeling_file %>% openxlsx::read.xlsx())
 
-      if(input$xlsx_format == 'long') {
-         data(
-            input$dataLabeling_file %>% openxlsx::read.xlsx()
-
-         )
-      }
    })
 
    ## --- Table éditable filtrée sur l’ID sélectionné ------------------------

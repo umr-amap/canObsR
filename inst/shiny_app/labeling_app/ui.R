@@ -127,19 +127,20 @@ fluidPage(
                wellPanel(
                   fluidRow(
                      column(
-                        width = 4,
-                        radioButtons(inputId = "xlsx_format", label = "Labelling file format :", choices = c('width', 'long'), selected = 'width', width = "100%", inline = TRUE),
+                        width = 3,
                         shiny::textInput(inputId = "dataLabeling_file", label = "Labeling data file", value = .GlobalEnv$.aecay.labelingFile)
                      ),
                      column(
-                        width = 4,
-                        shiny::textInput(inputId = "new_filename", label = "New filename", value = .GlobalEnv$.aecay.newfile),
+                        width = 3,
                         shiny::textInput(inputId = 'image_folder', label = 'Images folder', value = .GlobalEnv$.aecay.imgfolder)
                      ),
                      column(
-                        width = 4,
+                        width = 3,
                         br(),
                         checkboxInput(inputId = "filter_data", label = "Uniquement les données non faites", value = TRUE),
+                     ),
+                     column(
+                        width = 3,
                         br(),
                         actionButton("load_data", "Load data", class = "btn-primary btn-block")
                      )

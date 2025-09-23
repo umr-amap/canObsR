@@ -37,7 +37,7 @@ shiny_labels <- function(labelingFile = NULL,
                          labels3 = c(" ","fl","fr")
                          ) {
 
-   .GlobalEnv$.aecay.labelingFile <- data_labeling
+   .GlobalEnv$.aecay.labelingFile <- labelingFile
    .GlobalEnv$.aecay.newfile <- newFile
    .GlobalEnv$.aecay.imgfolder <- imgFolder
    .GlobalEnv$.aecay.labels1 <- paste(labels1, collapse = '-')
