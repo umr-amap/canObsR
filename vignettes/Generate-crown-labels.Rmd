@@ -84,7 +84,7 @@ N_cores = 10
 site = 'Bouamir'
 
 # Path to the mosaics
-mosa <- list.files(timeserie_path, full.names = T)
+mosa_path <- list.files(mosa_path, full.names = T)
 ```
 
 Check the crown file compatibility (Fig 2), [(more details here)](https://umr-amap.github.io/canObsR/reference/Create-compatible-crown-delineation-file.html) 
@@ -104,7 +104,7 @@ Extract individual crown images to the 'canObsR_data2/4_crowns_img' folder. For 
 ```{r, eval=F, echo=T}
 
 extract_crownImages(
-   path_images = mosa,                                         # Path to mosaics
+   path_images = mosa_path,                                         # Path to mosaics
    path_crowns = crownFile_path,                          # Path to  crowns file
    out_dir_path =  imgs_folder,                         # Path to output folder
    tempdir_custom = Tmpfiles_directory,             # Path to tmp file directory
