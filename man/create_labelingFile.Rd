@@ -4,18 +4,10 @@
 \alias{create_labelingFile}
 \title{Create xlsx labeling file}
 \usage{
-create_labelingFile(
-  path_crowns,
-  format = "width",
-  site,
-  dates,
-  out_dir_path = NULL
-)
+create_labelingFile(crownFile, site = NULL, dates, out_dir_path = NULL)
 }
 \arguments{
-\item{path_crowns}{character. Path to the crown delinetion shapefile}
-
-\item{format}{character. Table format to return. By default 'width', can be 'long'}
+\item{crownFile}{sf. crownFile}
 
 \item{site}{character. site name (p.e "Bouamir").}
 

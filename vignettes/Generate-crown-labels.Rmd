@@ -115,8 +115,9 @@ extract_crownImages(
 ```{r, eval=F, echo=T}
 create_labelingFile(
    path_crowns = crownFile_path,          # Path to  crowns file
+   format = 'long',                       # 'long' or 'width' format
    site = site,                           # Site name
    dates = dates,                         # Dates of the RGB survey
    out_dir_path = 'XXXX/canObsR_data2')   # Path to output folder
 ```
-
+ 

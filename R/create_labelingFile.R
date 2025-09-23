@@ -2,8 +2,7 @@
 #'
 #' @description A function to create the xlsx file where to encode the phenophase.
 #'
-#' @param path_crowns  character. Path to the crown delinetion shapefile
-#' @param format  character. Table format to return. By default 'width', can be 'long'
+#' @param crownFile  sf. crownFile
 #' @param site character. site name (p.e "Bouamir").
 #' @param dates character vector. Dates (format of dates should be '%Y-%m-%d', '%Y%m%d' or '%Y_%m_%d').
 #' @param out_dir_path character. The path to the directory used to store the images. By defaut it is NULL,
@@ -20,9 +19,8 @@
 #' @importFrom magrittr "%>%"
 
 create_labelingFile <- function(
-      path_crowns,
-      format = 'width',
-      site,
+      crownFile,
+      site = NULL,
       dates,
       out_dir_path = NULL
    ){
@@ -51,7 +49,7 @@ create_labelingFile <- function(
 
    # Read crowns shapefile -----------------------------------------------------
 
-   crownsFile <- sf::read_sf(crownFile_path) %>%
+   crownFile <- crownFile %>%
       dplyr::group_by(id) %>%
       dplyr::summarise(
          species = dplyr::first(species),
@@ -64,64 +62,37 @@ create_labelingFile <- function(
 
    # Create the labeling dataframe ----------------------------------------------
 
-   if(format == 'long'){
+   labeling_file <- crownFile %>%
+      dplyr::mutate(
+         comments = NA,
+         update = NA,
+         obs = NA,
+         Usable_crown = NA
+      )%>%
+      mutate(!!!setNames(rep(list(NA), length(dates)), dates)) %>%
+      dplyr::group_by(species, genus, family) %>%
+      dplyr::mutate(n = dplyr::n()) %>%
+      dplyr::arrange(desc(n), species, genus, family, id) %>%
+      dplyr::mutate(site = site) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(site, id, family, genus, species, n, obs, update, all_of(dates), dplyr::everything())
 
-      labeling_file <- expand.grid(
-         id = crownsFile$id,
-         date = dates,
-         stringsAsFactors = FALSE
-      ) %>%
-         dplyr::mutate(
-            phenophase = NA,
-            comments = NA,
-            update = NA,
-            obs = NA,
-            Usable_crown = NA
-         ) %>%
-         dplyr::left_join(crownsFile, by = "id") %>%
-         dplyr::group_by(species, genus, family) %>%
-         dplyr::mutate(n = dplyr::n() / length(dates)) %>%
-         dplyr::arrange(desc(n), species, genus, family, id) %>%
-         dplyr::mutate(site = site) %>%
-         dplyr::ungroup() %>%
-         dplyr::select(site, id, family, genus, species, n, obs, update, dplyr::everything())
 
-   }
-
-   if (format == 'width') {
-
-      labeling_file <- crownsFile %>%
-         dplyr::mutate(
-            phenophase = NA,
-            comments = NA,
-            update = NA,
-            obs = NA,
-            Usable_crown = NA
-         )%>%
-         mutate(!!!setNames(rep(list(NA), length(dates)), dates)) %>%
-         dplyr::group_by(species, genus, family) %>%
-         dplyr::mutate(n = dplyr::n()) %>%
-         dplyr::arrange(desc(n), species, genus, family, id) %>%
-         dplyr::mutate(site = site) %>%
-         dplyr::ungroup() %>%
-         dplyr::select(site, id, family, genus, species, n, obs, update, all_of(dates), dplyr::everything())
-
-   }
    # Save as xlsx if requested --------------------------------------------------
 
    if (!is.null(out_dir_path)) {
+
       if (!dir.exists(out_dir_path)) {
          stop("The folder does not exist: ", out_dir_path)
       }
 
-      out_file <- file.path(
-         out_dir_path,
-         paste0(site, "_labelingFile_", format(Sys.Date(), "%Y%m%d"), ".xlsx")
-      )
+      out_file = file.path(out_dir_path, paste0(site, "_WideLabels_", format(Sys.Date(), "%Y%m%d"), ".xlsx"))
 
       openxlsx::write.xlsx(labeling_file, file = out_file)
       message("File has been written: ", out_file)
    }
+
    return(labeling_file)
+
    }
 

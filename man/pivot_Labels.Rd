@@ -4,14 +4,21 @@
 \alias{pivot_Labels}
 \title{Format labels values from wide data to long data}
 \usage{
-pivot_Labels(labels_path, simplify_labels = FALSE, out_dir_path = NULL)
+pivot_Labels(
+  labels,
+  pivot_to = "longer",
+  simplify_labels = FALSE,
+  out_dir_path = NULL
+)
 }
 \arguments{
-\item{labels_path}{character. Path to the labeling file}
+\item{pivot_to}{character. How to pivot label data. By defaut 'longer' and can be 'wider'}
 
 \item{simplify_labels}{logical. Decompose and simplify the labels when TRUE. By defaut it is FALSE.}
 
 \item{out_dir_path}{character. Directory where the outputs are saved.}
+
+\item{labels_path}{character. Path to the labeling file}
 }
 \value{
 tbl_df
