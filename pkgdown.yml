@@ -5,10 +5,11 @@ articles:
   Create-compatible-crown-delineation-file: Create-compatible-crown-delineation-file.html
   Extract-crown-data: Extract-crown-data.html
   Generate-and-align-orthomosaics: Generate-and-align-orthomosaics.html
+  Generate-crown-labels: Generate-crown-labels.html
   Installation-guide: Installation-guide.html
   Prepare-database: Prepare-database.html
   workflow: workflow.html
-last_built: 2025-09-22T04:17Z
+last_built: 2025-09-23T09:11Z
 urls:
   reference: https://umr-amap.github.io/canObsR/reference
   article: https://umr-amap.github.io/canObsR/articles
