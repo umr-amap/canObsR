@@ -74,6 +74,8 @@ articles:
   - Generate-and-align-orthomosaics
   - Create-compatible-crown-delineation-file
   - Generate-crown-labels
+  - Generate-crown-indices
+  - Visualize-data
   - Extract-crown-data
   - workflow
 
