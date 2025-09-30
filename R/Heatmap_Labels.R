@@ -27,9 +27,15 @@ heatmap_Labels <-
             Family = NULL,
             title = NULL,
             simplify = FALSE,
-            repro = FALSE
+            repro = FALSE,
+            col_label = NULL,
+            col_pheno = NULL,
+            shp_pheno = NULL
    ){
 
+      if(is.null(col_label)){col_label = color_label}
+      if(is.null(col_pheno)){col_pheno = color_pheno}
+      if(is.null(shp_pheno)){shp_pheno = shape_pheno}
 
       Labels <- Labels %>%
          { if (!is.null(Species)) dplyr::filter (., species == Species) else . } %>%
@@ -96,9 +102,9 @@ heatmap_Labels <-
          {if (simplify)   geom_point ( aes(date, id, shape = repro, color = repro), size = 2 )} +
          {if (simplify)    scale_size(guide = 'none') } +
 
-        scale_fill_manual ( values = color_label ) +
-        scale_color_manual ( values = color_pheno ) +
-        scale_shape_manual ( values = shape_pheno ) +
+        scale_fill_manual ( values = col_label ) +
+        scale_color_manual ( values = col_pheno ) +
+        scale_shape_manual ( values = shp_pheno ) +
 
         ggtitle(title) +
 
