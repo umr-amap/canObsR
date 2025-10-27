@@ -19,7 +19,7 @@ generate_Mosa(
   from_mesh = FALSE,
   downscale_factor_alignement = 1L,
   downscale_factor_depth_map = 2L,
-  suffix = "_"
+  suffix = ""
 )
 }
 \arguments{
@@ -68,7 +68,7 @@ generate_Mosa(path_in = "path_to_my_drone_data",
                out_dir_ortho = "my_output_folder/ORTHO",
                #out_dir_DEM = "my_output_folder/DEM",
                data_type = "RGB",
-               resol_ref = 0.5,
+               resol_ref = 0.05,
                site_name = "Bouamir",
                crs = "EPSG::32633"
                )

@@ -11,7 +11,7 @@ align_Mosa(
   corr_type = "global",
   max_shift = 250L,
   max_iter = 5L,
-  min_reliability = 60,
+  min_reliability = 60L,
   grid_res = 1000L,
   window_size = NULL,
   window_pos = list(NULL, NULL),
@@ -19,7 +19,7 @@ align_Mosa(
   save_data = TRUE,
   save_vector_plot = FALSE,
   apply_matrix = FALSE,
-  suffix = "_",
+  suffix = "",
   do_subprocess = FALSE
 )
 }
@@ -40,7 +40,7 @@ align_Mosa(
 
 \item{grid_res}{integer. Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration. By default, generates a 25*25 points grid}
 
-\item{window_size}{integer. Custom matching window size (in pixels) as (X, Y) tuple (default: (1000, 1000)).}
+\item{window_size}{integer. Custom matching window size (in pixels) as (X, Y) tuple (default: (512, 512) for global co-registration ; (256, 256) for local).}
 
 \item{window_pos}{list. Custom matching window position as (X, Y) map coordinate in the same projection as the reference image (default: central position of image overlap). Only used when performing global co-registration.}
 
@@ -69,6 +69,8 @@ align_Mosa(path_in = "path_to_ortho.tif",
              out_dir_path = "my_output_dir",
              corr_type = "local",
              grid_res = 500,
+             ws = 200,
+             mp = 5,
              save_data = TRUE,
              save_vector_plot = TRUE
              )
@@ -79,8 +81,6 @@ align_Mosa(path_in = "path_to_input_folder",
              corr_type = "local",
              grid_res = 500,
              save_data = FALSE,
-             mp = 5,
-
              )
 
 align_Mosa(path_in = "path_to_input_folder",

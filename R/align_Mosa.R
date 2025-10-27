@@ -11,7 +11,7 @@
 #' @param max_iter integer. Maximum number of iterations for matching (default: 5).
 #' @param min_reliability integer. Minimum reliability threshold (in percents), below which tie points are marked as false-positives. Only applies to local co-registration.
 #' @param grid_res integer. Tie point grid resolution in pixels of the target image (x-direction). Only applies to local co-registration. By default, generates a 25*25 points grid
-#' @param window_size integer. Custom matching window size (in pixels) as (X, Y) tuple (default: (1000, 1000)).
+#' @param window_size integer. Custom matching window size (in pixels) as (X, Y) tuple (default: (512, 512) for global co-registration ; (256, 256) for local).
 #' @param window_pos list. Custom matching window position as (X, Y) map coordinate in the same projection as the reference image (default: central position of image overlap). Only used when performing global co-registration.
 #' @param mp integer or NULL. Number of CPUs to use. If None (default), all available CPUs are used. If mp=1, no multiprocessing is done.
 #' @param save_data logical. Saves the transformation metadata in a .pkl file, and the tie points data in a csv file. The latter only happens when performing local co-registration.
@@ -33,6 +33,8 @@
 #'              out_dir_path = "my_output_dir",
 #'              corr_type = "local",
 #'              grid_res = 500,
+#'              ws = 200,
+#'              mp = 5,
 #'              save_data = TRUE,
 #'              save_vector_plot = TRUE
 #'              )
@@ -43,8 +45,6 @@
 #'              corr_type = "local",
 #'              grid_res = 500,
 #'              save_data = FALSE,
-#'              mp = 5,
-#'
 #'              )
 #'
 #' align_Mosa(path_in = "path_to_input_folder",
@@ -61,9 +61,9 @@
 
 align_Mosa <- function(path_in, ref_filepath, out_dir_path,
                           corr_type = "global", max_shift = 250L, max_iter = 5L,
-                          min_reliability = 60, grid_res = 1000L, window_size = NULL,
+                          min_reliability = 60L, grid_res = 1000L, window_size = NULL,
                           window_pos = list(NULL, NULL), mp = NULL, save_data = TRUE,
-                          save_vector_plot = FALSE, apply_matrix = FALSE, suffix = "_", do_subprocess = FALSE) {
+                          save_vector_plot = FALSE, apply_matrix = FALSE, suffix = "", do_subprocess = FALSE) {
 
    reticulate::source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
    if (do_subprocess) {
@@ -129,7 +129,7 @@ align_Mosa <- function(path_in, ref_filepath, out_dir_path,
 #'                    }
 
 
-apply_saved_matrix <- function(im_path, out_dir_path, metadata_path, suffix="_") {
+apply_saved_matrix <- function(im_path, out_dir_path, metadata_path, suffix="") {
 
    source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
 
