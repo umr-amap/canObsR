@@ -122,6 +122,18 @@ for(i in 1:nrow(PATHs.df))
 knitr::include_graphics("img/dynamicCorr.gif")
 ```
 
-Note : in this case, both the input and reference images are potentially heavy mosaics. Depending on their size, it may be useful to downgrade their resolution to get a faster result without much impact on quality.  
+Note : In this case, both the input and reference images are potentially heavy mosaics. Depending on their size, it may be useful to downgrade their resolution to get a faster result without much impact on quality.  
 
 
+It is also possible to save the transform applied to an image, and to later apply it to another one, using the [`apply_saved_matrix()`](https://umr-amap.github.io/canObsR/reference/apply_saved_matrix.html) function.
+
+```{r, eval=F, echo=T}
+my_path <- 'XXXX/canObsR_data'
+
+apply_saved_matrix(im_path = file.path(my_path, '2_orthomosaics', 'additional_ortho.tif'),
+                   out_dir_path = file.path(my_path, '3_orthomosaics_aligned'),
+                   metadata_path = file.path(my_path, '3_orthomosaics_aligned', 'Bouamir_20220511_metadata.pkl') 
+                   )
+```
+
+Note : Use this only if both images have the same extent.
