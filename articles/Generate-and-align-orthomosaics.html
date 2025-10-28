@@ -206,10 +206,21 @@ reference.</p>
 Dynamic process of generating and aligning orthomosaics with test data
 </p>
 </div>
-<p>Note : in this case, both the input and reference images are
+<p>Note : In this case, both the input and reference images are
 potentially heavy mosaics. Depending on their size, it may be useful to
 downgrade their resolution to get a faster result without much impact on
 quality.</p>
+<p>It is also possible to save the transform applied to an image, and to
+later apply it to another one, using the <a href="https://umr-amap.github.io/canObsR/reference/apply_saved_matrix.html"><code>apply_saved_matrix()</code></a>
+function.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_path</span> <span class="op">&lt;-</span> <span class="st">'XXXX/canObsR_data'</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/apply_saved_matrix.html">apply_saved_matrix</a></span><span class="op">(</span>im_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'2_orthomosaics'</span>, <span class="st">'additional_ortho.tif'</span><span class="op">)</span>,</span>
+<span>                   out_dir_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'3_orthomosaics_aligned'</span><span class="op">)</span>,</span>
+<span>                   metadata_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">my_path</span>, <span class="st">'3_orthomosaics_aligned'</span>, <span class="st">'Bouamir_20220511_metadata.pkl'</span><span class="op">)</span> </span>
+<span>                   <span class="op">)</span></span></code></pre></div>
+<p>Note : Use this only if both images have the same extent.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
