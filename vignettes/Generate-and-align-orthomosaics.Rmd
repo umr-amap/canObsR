@@ -74,6 +74,8 @@ align_Mosa(path_in = file.path(my_path, '2_orthomosaics'),
 knitr::include_graphics("img/generate_align_orthomosaics.gif")
 ```
 
+# Additional utils
+
 When aligning a long time serie of mosaics, you may want to dynamically register each mosaic to the previous one instead of keeping one reference for the whole serie, in order to limit the time difference between a mosaic and its reference. 
 
 Here follows a snippet of code that allows you to do just that : the first image is aligned using the specified reference file, and then each subsequent image N uses the aligned version of the image N-1 as a reference.
@@ -123,6 +125,7 @@ knitr::include_graphics("img/dynamicCorr.gif")
 ```
 
 Note : In this case, both the input and reference images are potentially heavy mosaics. Depending on their size, it may be useful to downgrade their resolution to get a faster result without much impact on quality.  
+
 
 
 It is also possible to save the transform applied to an image, and to later apply it to another one, using the [`apply_saved_matrix()`](https://umr-amap.github.io/canObsR/reference/apply_saved_matrix.html) function.
