@@ -60,7 +60,7 @@ generate_Mosa <- function(path_in, out_dir_ortho, out_dir_DEM = NULL, out_dir_pr
                        suffix = "") {
 
 
-   source_python(system.file("PYTHON/__init__.py", package = "canObsR"))
+   reticulate::source_python(system.file("PYTHON/TimeSIFT_scripts_auto.py", package = "canObsR"))
 
    Time_SIFT_process(pathDIR = path_in,
                      out_dir_ortho = out_dir_ortho,
