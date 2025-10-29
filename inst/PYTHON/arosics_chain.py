@@ -11,7 +11,7 @@ from osgeo import gdal
 import pickle
 from shapely.geometry import Polygon
 import shutil
-import multiprocessing
+import warnings
 
 def parse_tuple(arg):
     try:
@@ -37,7 +37,6 @@ parser.add_argument('--save_plot', default=False)
 parser.add_argument('--save_data', default=True)
 parser.add_argument('--compress_lzw', default=False)
 parser.add_argument('--suffix', type=str, default="")
-parser.add_argument('--subprocess', default=False)
 args = parser.parse_args()
 
 
@@ -236,7 +235,7 @@ def apply_saved_matrix(im_path, out_dir_path, metadata_path, suffix=""):
 
 
 
-def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shift=250, max_iter=5, window_size=256, window_pos = (None, None), mp=None, min_reliability = 60, grid_res=None, save_data = True, save_vector_plot = False, queue=None):
+def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shift=250, max_iter=5, window_size=256, window_pos = (None, None), mp=None, min_reliability = 60, grid_res=None, save_data = True, save_vector_plot = False):
     """
     Calls arosics functions to perform a global or local co-registration between two images. Option to save the coregistrated image, and in the case of a local CoReg, the tie points data and the vector shift map.
 
@@ -312,12 +311,8 @@ def call_arosics(path_in, path_ref, path_out=None, corr_type = 'global', max_shi
             vector_scale=15
             CR.view_CoRegPoints(shapes2plot = 'vectors', savefigPath = path_out.split('.')[0] + f"_vector_map_{DPI}DPI.JPEG", savefigDPI=DPI, vector_scale=vector_scale, backgroundIm='tgt')
         #compress_LZW(path_out)
-    if queue : #and corr_type=="global":
-        queue.put(CR.coreg_info)
-    else:
-        return CR.coreg_info
+    return CR.coreg_info
 
-#TODO : correctly implement subprocessing
 def complete_arosics_process(path_in, 
                              ref_filepath, 
                              out_dir_path, 
@@ -333,7 +328,6 @@ def complete_arosics_process(path_in,
                              save_data = True, 
                              save_vector_plot = False, 
                              apply_matrix=False, 
-                             do_subprocess=False, 
                              suffix = "",
                              ):
     """
@@ -366,7 +360,6 @@ def complete_arosics_process(path_in,
     save_vector_plot = str2bool(save_vector_plot)
     save_data = str2bool(save_data)
     compress_lzw = str2bool(compress_lzw)
-    do_subprocess = str2bool(do_subprocess)
     mp = mp if mp is None else int(mp)
     grid_res = grid_res if grid_res is None else int(grid_res)
     window_size = window_size if window_size is None else int(window_size)
@@ -396,19 +389,32 @@ def complete_arosics_process(path_in,
         else:
             harmonize_crs(path_in, ref_filepath, compress_lzw=compress_lzw)
             path_out = os.path.join(out_dir_path, path_in.split('/')[-1].split('\\')[-1].split('.')[0] + f"{suffix}.tif")           #f'_aligned_{corr_type}.tif'
-            CR_info = call_arosics(path_in, 
-                                   ref_filepath, 
-                                   path_out=path_out, 
-                                   corr_type=corr_type, 
-                                   mp=mp, 
-                                   window_size=window_size, 
-                                   window_pos=window_pos, 
-                                   max_shift=max_shift, 
-                                   max_iter=max_iter, 
-                                   min_reliability=min_reliability, 
-                                   grid_res=grid_res, 
-                                   save_vector_plot=save_vector_plot, 
-                                   save_data=save_data)
+            warnings_list = []
+            with warnings.catch_warnings(record=True) as w:
+                warnings.simplefilter("always")
+                try:
+                    CR_info = call_arosics(path_in,
+                                        ref_filepath,
+                                        path_out=path_out, 
+                                        corr_type=corr_type, 
+                                        mp=mp, 
+                                        window_size=window_size, 
+                                        window_pos=window_pos, 
+                                        max_shift=max_shift, 
+                                        max_iter=max_iter, 
+                                        min_reliability=min_reliability, 
+                                        grid_res=grid_res, 
+                                        save_vector_plot=save_vector_plot, 
+                                        save_data=save_data)
+                except Exception as e:
+                    print(f"\n\nAn error occurred trying to align the image {os.path.basename(path_in)} : {str(e)}")
+                for warning in w:
+                    warnings_list.append(str(warning.message))
+                if not warnings_list:
+                    print(f"\n\nThe image {os.path.basename(path_in)} finished processing, but with warning(s) : ")
+                    for warn in warnings_list:
+                        print(warn)
+
             return CR_info
             
     elif os.path.isdir(path_in):
@@ -421,47 +427,45 @@ def complete_arosics_process(path_in,
 
         elif not apply_matrix :
             list_CR_info = []
+            errors = []
+            warnings_list = []
             for i in range(len(files)):
                 file = files[i]
                 current_file_path = os.path.join(path_in, file)
                 harmonize_crs(current_file_path, ref_filepath, check_ref = True if i==0 else False, compress_lzw=compress_lzw)
                 path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")
+                with warnings.catch_warnings(record=True) as w:
+                    warnings.simplefilter("always")
+                    try:
+                        CR_info = call_arosics(current_file_path, 
+                                                ref_filepath, 
+                                                path_out=path_out, 
+                                                corr_type=corr_type, 
+                                                mp=mp, 
+                                                window_size=window_size, 
+                                                window_pos=window_pos, 
+                                                max_shift=max_shift, 
+                                                max_iter=max_iter, 
+                                                min_reliability=min_reliability,
+                                                grid_res=grid_res, 
+                                                save_vector_plot=save_vector_plot, 
+                                                save_data=save_data)
+                    except Exception as e:
+                        errors.append((os.path.basename(current_file_path), str(e)))
+                    for warning in w:
+                        warnings_list.append((os.path.basename(current_file_path), str(warning.message)))
+                list_CR_info.append(CR_info)
 
-                if not do_subprocess:
-                    CR_info = call_arosics(current_file_path, 
-                                            ref_filepath, 
-                                            path_out=path_out, 
-                                            corr_type=corr_type, 
-                                            mp=mp, 
-                                            window_size=window_size, 
-                                            window_pos=window_pos, 
-                                            max_shift=max_shift, 
-                                            max_iter=max_iter, 
-                                            min_reliability=min_reliability,
-                                            grid_res=grid_res, 
-                                            save_vector_plot=save_vector_plot, 
-                                            save_data=save_data)
-                
-                else:
-                    #with multiprocessing.Pool(4) as pool:
-                        #pool.starmap(call_arosics, [(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, min_reliability, grid_res, save_data, save_vector_plot)])
-                    queue = multiprocessing.Queue()
-                    process = multiprocessing.Process(target=call_arosics, args=(current_file_path, ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, min_reliability, grid_res, save_data, save_vector_plot, queue))
-                    process.start()
-                    process.join()     
-
-                    """
-                    if corr_type=='global':
-                        CR_info = queue.get()
-                    list_CR_info.append(CR_info)
-                    """
-
-                    process.terminate()
-
-                    if process.is_alive():         
-                        raise TimeoutError("The arosics process is taking too much time and has been terminated")
-                    else:
-                        print("Process terminated successfully")
+            if errors:
+                print(f"\n\nThe following {len(errors)} files caused an error : ")
+                for file, err in errors:
+                    print(f"\n - {file} : {err}")
+            if warnings_list:
+                print(f"\n\nThe following {len(warnings_list)} files finished processing, but with a warning : ")
+                for file, warn in warnings_list:
+                    print(f"\n - {file} : {warn}")
+            elif not errors and not warnings_list:
+                print("All objects processed successfully!")
             return list_CR_info
           
         else:
@@ -527,21 +531,7 @@ def complete_arosics_process(path_in,
                 harmonize_crs(os.path.join(path_in, first_file), ref_filepath, compress_lzw=compress_lzw)
                 path_out = os.path.join(out_dir_path, first_file.split('.')[0] + f"{suffix}.tif")
                 CR_info = call_arosics(os.path.join(path_in, first_file), ref_filepath, path_out=path_out, corr_type=corr_type, mp=mp, window_size=window_size, window_pos=window_pos, max_shift=max_shift, max_iter=max_iter, min_reliability=min_reliability, grid_res=grid_res, save_vector_plot=save_vector_plot, save_data=save_data)
-                """"
-                queue = multiprocessing.Queue()
-                process = multiprocessing.Process(target=call_arosics, args=(os.path.join(path_in, first_file), ref_filepath, path_out, corr_type, max_shift, max_iter, window_size, window_pos, mp, min_reliability, grid_res, save_data, save_vector_plot, queue))
-                process.start()
-                process.join()    
-                # Terminate the process if needed (ensure cleanup)
-                CR_info = queue.get()
 
-                process.terminate()
-
-                if process.is_alive():
-                    raise TimeoutError("The arosics process is taking too much time and has been terminated")
-                else:
-                    print("Process terminated successfully")
-                """
                 for file in files[1:]:
                     current_file_path = os.path.join(path_in, file)
                     harmonize_crs(current_file_path, ref_filepath, check_ref=False, compress_lzw=compress_lzw)
@@ -577,5 +567,4 @@ if __name__ == '__main__':
                              save_vector_plot = args.save_plot,
                              compress_lzw = args.compress_lzw,
                              suffix = args.suffix,
-                             do_subprocess = args.subprocess,
                              )
