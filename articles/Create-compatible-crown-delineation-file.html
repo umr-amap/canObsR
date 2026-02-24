@@ -119,7 +119,7 @@ to make it compatible. It uses data from the</p>
 <span><span class="co">#&gt; $ geom      <span style="color: #949494; font-style: italic;">&lt;POLYGON [m]&gt;</span> POLYGON ((257776.3 352837.7...<span style="color: #949494;">, </span>POLYGON ((257817.3 3…</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crownFile</span><span class="op">$</span><span class="va">geom</span>, col <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="Create-compatible-crown-delineation-file_files/figure-html/unnamed-chunk-2-1.png" alt="Crown delineation file" width="700"><p class="caption">
+<img src="Create-compatible-crown-delineation-file_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="Crown delineation file" width="700"><p class="caption">
 Crown delineation file
 </p>
 </div>
@@ -196,11 +196,11 @@ variables. NA from ‘species’, ‘genus’ and ‘family’ must be replace b
 <span></span>
 <span><span class="va">crownFile</span> <span class="op">=</span> <span class="va">crownFile</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>      <span class="co"># Rename NA to 'indet' in the family variable</span></span>
-<span>      family <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">family</span><span class="op">)</span><span class="op">~</span> <span class="st">'indet'</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">family</span><span class="op">)</span>,</span>
+<span>      family <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">family</span><span class="op">)</span><span class="op">~</span> <span class="st">'indet'</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">family</span><span class="op">)</span>,</span>
 <span>      <span class="co"># Same for genus</span></span>
-<span>      genus <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">genus</span><span class="op">)</span><span class="op">~</span> <span class="st">'indet'</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">genus</span><span class="op">)</span>,</span>
+<span>      genus <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">genus</span><span class="op">)</span><span class="op">~</span> <span class="st">'indet'</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">genus</span><span class="op">)</span>,</span>
 <span>      <span class="co"># Same for species</span></span>
-<span>      species <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">genus</span>, <span class="st">'indet'</span><span class="op">)</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">species</span><span class="op">)</span></span>
+<span>      species <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">genus</span>, <span class="st">'indet'</span><span class="op">)</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">species</span><span class="op">)</span></span>
 <span>      <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -246,7 +246,7 @@ variables. NA from ‘species’, ‘genus’ and ‘family’ must be replace b
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

@@ -1,0 +1,40 @@
+# Prepare-database
+
+------------------------------------------------------------------------
+
+## Summary
+
+The files architecture described below must be adopted to avoid any
+issue when using canObsR, especially for the functions
+[`generate_Mosa()`](https://umr-amap.github.io/canObsR/reference/generate_Mosa.html)
+and
+[`align_Mosa()`](https://umr-amap.github.io/canObsR/reference/align_Mosa.html).
+The
+[`create_files_architecture()`](https://umr-amap.github.io/canObsR/reference/create_files_architecture.html)
+functions generate the folders (Fig.1, step 1) and then you should
+manually add your drone images into the folder ‘1_my_drone_data’ and the
+lidar reference directly to the root folder (Fig. 1, step 2).
+
+![Fig 1 : Prepare database](img/prepare_database.JPG)
+
+Fig 1 : Prepare database
+
+------------------------------------------------------------------------
+
+## Structure of ‘1_my_drone_data’
+
+The structure of the data in ‘1_my_drone_data’ should be in one of the
+following ways :
+
+- place one folder by date in ‘1_my_drone_data’, each consisting of
+  subdirectories for each flight (Fig.2, left)
+- place one folder by flight in ‘1_my_drone_data’ (Fig.2, center)
+- place one folder by date in ‘1_my_drone_data’, and add all the images
+  concerned by the date directly in the folder (Fig.2, left)
+
+In both cases, the date must be indicated in the name of the folders
+directly containing images, in the YYYYMMDD or YYYYMM formats.
+
+![Fig 2 : Structure of the drone data](img/drone_data.JPG)
+
+Fig 2 : Structure of the drone data

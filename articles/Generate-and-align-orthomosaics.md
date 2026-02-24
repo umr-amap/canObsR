@@ -1,0 +1,154 @@
+# Generate-and-align-orthomosaics
+
+------------------------------------------------------------------------
+
+## Summary
+
+The generate and align orthomosaics article describes the process to
+generate aligned orthomosaics from repeated UAV survey.
+
+![Fig 1 : Generate and align orthomosaics](img/generate_mosaics.JPG)
+
+Fig 1 : Generate and align orthomosaics
+
+------------------------------------------------------------------------
+
+## Requirements
+
+This step-by-step guide requires :  
+- canObsR well installed, the conda environment well configurated and
+the Metashape license activated. Check [the installation
+guide](https://umr-amap.github.io/canObsR/reference/Installation-guide.html)  
+- Repeated UAV surveys database well structured. Check [the prepare
+database
+article](https://umr-amap.github.io/canObsR/reference/Prepare-database.html)
+to organize your data or download and unzip
+[‘canObsR_data.zip’](https://zenodo.org/records/14748367?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjY3MjE2Y2M1LTY4NjctNDEwNS1hMTViLTkwNmMzNGM0YzA5NCIsImRhdGEiOnt9LCJyYW5kb20iOiJkYjhlMWZhMDZiYmNkNTg2YzA4OGYxMTg0ODE3MmI3YiJ9.xKZdG_R2NvApekkLM4FanVbM-ZWbGqNjXYucPKydbzeLdur08A69N9ROgeTdPR42PP_OrL4eF_hljxh3wQHfwA).Test
+data contains, 3 sets of drones images from the same area obtained from
+3 different dates and a **CHM** canopy height model from the area which
+is the reference.
+
+------------------------------------------------------------------------
+
+## Step-by-step exemple
+
+Here is a short example to guide you step by step through the
+orthomosaic generating process and their alignment with the functions
+[`generate_Mosa()`](https://umr-amap.github.io/canObsR/reference/generate_Mosa.html)
+and
+[`align_Mosa()`](https://umr-amap.github.io/canObsR/reference/align_Mosa.html).
+These functions required, arosics(AROSICS), the Metashape python API and
+a valid Metashape license.
+
+``` r
+library(canObsR)
+library(reticulate)
+
+use_condaenv('canObsR-env')
+
+my_path <- 'XXXX/canObsR_data'
+
+generate_Mosa(path_in = file.path(my_path, '1_my_drone_data'),
+          out_dir_ortho = file.path(my_path, '2_orthomosaics'),
+          data_type = "RGB",
+          resol_ref = 0.05,
+          site_name = "Bouamir",
+          crs = "EPSG:32633",
+) # Write orthomosaics in 2_orthomosaics folder
+
+align_Mosa(path_in = file.path(my_path, '2_orthomosaics'),
+        ref_filepath = file.path(my_path, 'Bouamir_LiDAR_ref.tif'),
+        out_dir_path = file.path(my_path, '3_orthomosaics_aligned'),
+        corr_type = "global",
+        #grid_res = 200,
+        window_size = 500,
+        window_pos = list(258131, 352973),
+        apply_matrix = TRUE,
+        save_data = FALSE
+) # Write aligned orthomosaics in 3_orthomosaics_aligned folder
+```
+
+![Non dynamic process of generating and aligning orthomosaics with test
+data](img/generate_align_orthomosaics.gif)
+
+Non dynamic process of generating and aligning orthomosaics with test
+data
+
+## Additional utils
+
+When aligning a long time serie of mosaics, you may want to dynamically
+register each mosaic to the previous one instead of keeping one
+reference for the whole serie, in order to limit the time difference
+between a mosaic and its reference.
+
+Here follows a snippet of code that allows you to do just that : the
+first image is aligned using the specified reference file, and then each
+subsequent image N uses the aligned version of the image N-1 as a
+reference.
+
+``` r
+dir_mosa = file.path(my_path, '2_orthomosaics')
+out_dir_path = file.path(my_path, '3_orthomosaics_aligned')
+
+
+PATHs.df = data.frame(
+   path.in = dir(dir_mosa, full.names = T),
+   output_mosa_name = basename(dir(dir_mosa, full.names = T)),
+   path_ref = NA
+)
+
+# Add reference used for each mosaic
+for(i in 1:nrow(PATHs.df))                      
+{
+  if (i==1){
+     PATHs.df$path_ref[i] = file.path(my_path, 'Bouamir_LiDAR_ref.tif')
+  }else{
+     PATHs.df$path_ref[i] = paste0(out_dir_path, PATHs.df$output_mosa_name[i-1]) 
+  }
+}
+
+# Do the alignement with the dynamic alignment process
+for(i in 1:nrow(PATHs.df)) 
+{
+  path_in = PATHs.df$path_in[i]
+  ref_filepath = PATHs.df$path_ref[i]
+  
+  align_Mosa(path_in = path_in,
+        ref_filepath = ref_filepath,
+        out_dir_path = out_dir_path,
+        corr_type = "local",
+        grid_res = 200,
+        window_size = 500,
+        apply_matrix = FALSE,
+        save_data = TRUE
+        )
+ 
+  print("<!> DONE <!>")
+  print("######################################")
+}
+```
+
+![Dynamic process of generating and aligning orthomosaics with test
+data](img/dynamicCorr.gif)
+
+Dynamic process of generating and aligning orthomosaics with test data
+
+Note : In this case, both the input and reference images are potentially
+heavy mosaics. Depending on their size, it may be useful to downgrade
+their resolution to get a faster result without much impact on quality.
+
+It is also possible to save the transform applied to an image, and to
+later apply it to another one, using the
+[`apply_saved_matrix()`](https://umr-amap.github.io/canObsR/reference/apply_saved_matrix.html)
+function.
+
+``` r
+my_path <- 'XXXX/canObsR_data'
+
+apply_saved_matrix(im_path = file.path(my_path, '2_orthomosaics', 'additional_ortho.tif'),
+                   out_dir_path = file.path(my_path, '3_orthomosaics_aligned'),
+                   metadata_path = file.path(my_path, '3_orthomosaics_aligned', 'Bouamir_20220511_metadata.pkl') 
+                   )
+```
+
+Note : Use this only if both images have the same extent.

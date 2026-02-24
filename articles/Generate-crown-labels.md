@@ -1,0 +1,137 @@
+# Generate-crown-labels
+
+## Summary
+
+------------------------------------------------------------------------
+
+The ‘Generate crown labels’ article describes the process for (1)
+extracting crown images from the othomosaics and (2) add labels to each
+images (Fig 1).
+
+![Fig 1 : Generate crown labels process](img/Generate-crown-labels.png)
+
+Fig 1 : Generate crown labels process
+
+## Requirements
+
+------------------------------------------------------------------------
+
+This step-by-step process requires :  
+- crown delineation file compatible with the canObsR functions. Check
+[the Create compatible crowndelineation file
+article](https://umr-amap.github.io/canObsR/reference/Create-compatible-crown-delineation-file.html)
+for more details.  
+- Orthomosaics time-serie. Check [the Generate and align orthomosaics
+article](https://umr-amap.github.io/canObsR/reference/Generate-and-align-orthomosaics.html)
+for more details.
+
+To run the following code you can download and unzip
+[‘canObsR_data2.zip’](https://zenodo.org/records/14748367?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjY3MjE2Y2M1LTY4NjctNDEwNS1hMTViLTkwNmMzNGM0YzA5NCIsImRhdGEiOnt9LCJyYW5kb20iOiJkYjhlMWZhMDZiYmNkNTg2YzA4OGYxMTg0ODE3MmI3YiJ9.xKZdG_R2NvApekkLM4FanVbM-ZWbGqNjXYucPKydbzeLdur08A69N9ROgeTdPR42PP_OrL4eF_hljxh3wQHfwA).
+
+## Step-by-step exemple
+
+------------------------------------------------------------------------
+
+### Extract crown images
+
+Set the **mosa_path** to the time series orthomosaics folder, the
+**crownFile_path** to the crown delineation file, the **site** name, the
+**Tmpfiles_directory** if you want to store the temporary files in a
+specific folder and **N_cores** the number of cores you want to allocate
+for the parallelized functions\*.
+
+Note\* : If you are using you own data, the function
+`extract_crownsImages()` can produce a lot of temporary files and need
+several GB of memory depending on the size, the resolution and the
+number of mosaics. You can specify where you want to store the temporary
+files.
+
+``` r
+############## Load libraries --------------------------------------------------
+
+library(canObsR)
+library(tidyverse)
+library(sf)
+library(openxlsx)
+
+############## Set parameters --------------------------------------------------
+
+canObsR_data2_folder = 'XXXXX/canObsR_data2'
+
+# Path to the time-serie main directory
+mosa_path = file.path(canObsR_data2_folder, '3_orthomosaics_aligned')
+
+# Path to the crown delineation file
+crownFile_path = file.path(canObsR_data2_folder, 'crowns.gpkg')
+
+# Path to the crown delineation file
+imgs_folder = file.path(canObsR_data2_folder, '4_crowns_img')
+
+# Path to store the temp files
+Tmpfiles_directory = NULL # if NULL it use the default folder for tmp file. You can specify any folder
+
+# Dates of time-serie images
+dates <- c("20220427", "20220511", "20220525")
+
+# Number of cores used for the paralelized functions
+N_cores = 10
+
+# Site name
+site = 'Bouamir'
+
+# Path to the mosaics
+mosa_path <- list.files(mosa_path, full.names = T)
+```
+
+Check the crown file compatibility (Fig 2), [(more details
+here)](https://umr-amap.github.io/canObsR/reference/Create-compatible-crown-delineation-file.html)
+
+``` r
+crownFile <- read_sf(crownFile_path)
+
+check_crownFile(crownFile)
+```
+
+![Fig 2 : Crown file compatibility](img/file_compatibility.jpg)
+
+Fig 2 : Crown file compatibility
+
+Extract individual crown images to the ‘canObsR_data2/4_crowns_img’
+folder. For the test dataset it can take fiew minutes.
+
+``` r
+
+extract_crownImages(
+   path_images = mosa_path,                                         # Path to mosaics
+   path_crowns = crownFile_path,                          # Path to  crowns file
+   out_dir_path =  imgs_folder,                         # Path to output folder
+   tempdir_custom = Tmpfiles_directory,             # Path to tmp file directory
+   dates = dates,                                  # dates of time series images
+   N_cores = N_cores,                                          # Number of cores 
+   width = 720,                                           # By default it is 720 
+   height = 825                                           # By default it is 720 
+)
+```
+
+### Create labeling file
+
+``` r
+create_labelingFile(
+   crownFile = crownFile,          # Path to  crown file
+   site = site,                           # Site name
+   dates = dates,                         # Dates of the RGB survey
+   out_dir_path = canObsR_data2_folder)   # Path to output folder
+```
+
+### Do labeling with the app
+
+``` r
+
+shiny_labels(
+   labelingFile = file.path(
+      canObsR_data2_folder, 
+      paste0(site, "_WideLabels_", format(Sys.Date(), "%Y%m%d"), ".xlsx")
+      ),
+   imgFolder = imgs_folder
+)
+```

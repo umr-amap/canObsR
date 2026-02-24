@@ -1,0 +1,216 @@
+# Installation-guide
+
+📺 Video tutorial available here :  
+[https://www.youtube.com/@canObsR](https://www.youtube.com/@canObsR)
+
+------------------------------------------------------------------------
+
+## Why the installation process is a bit more complex ?
+
+The installation of canObsR involves several steps that go beyond a
+typical R package because the package acts as a bridge between different
+tools used for processing imagery.
+
+**Python integration**: Some key processing steps rely on specialized
+Python libraries. To make this work seamlessly from R, we use the
+reticulate package, which requires setting up a Python environment via
+Miniconda. This allows us to run Python scripts directly from R
+functions.
+
+**Environment setup**: We provide a .yml file to create a dedicated
+Python environment with all the required dependencies. This ensures that
+the Python code used in the package runs reliably, regardless of the
+user’s system.
+
+**Metashape integration**: Some image processing steps rely on Agisoft
+Metashape, a commercial software. To use these features, Metashape must
+be installed, and a valid license key must be activated.
+
+Although the setup may seem complex at first, it ensures that once
+installed, all components work together smoothly.
+
+![Fig 1 : Installation proccess](img/install_process.jpg)
+
+Fig 1 : Installation proccess
+
+## 📥 Install R, Rtools et RStudio
+
+#### 🔹 R : Download and install the last version of R on the [CRAN R](https://cran.r-project.org/)
+
+#### 🔹 Rtools : Download and install [CRAN Rtools](https://cran.r-project.org/bin/windows/Rtools/)
+
+#### 🔹 RStudio : Download and install [RStudio Desktop](https://posit.co/download/rstudio-desktop/)
+
+------------------------------------------------------------------------
+
+## 📦 Install devtools and reticulate
+
+*In RStudio console*
+
+``` r
+install.packages("devtools")
+install.packages("reticulate")
+```
+
+------------------------------------------------------------------------
+
+## 📦 Install canObsR
+
+*In RStudio console*
+
+``` r
+library(devtools)
+install_github("https://github.com/umr-amap/canObsR.git")
+```
+
+------------------------------------------------------------------------
+
+## ⚙️ Install Miniconda
+
+*In RStudio console*
+
+``` r
+library(reticulate)
+install_miniconda()
+```
+
+------------------------------------------------------------------------
+
+## 🏗 Create and configurate the conda environment
+
+*In RStudio console*
+
+``` r
+library(canObsR)
+
+YAML_file <- system.file("PYTHON/environment.yaml", package = "canObsR")
+envname <- "canObsR-env"
+# detect_conda() Automatically detecting your conda (for windows only)
+conda_exe <- detect_conda(auto_select = FALSE) 
+system2(conda_exe, args = c("env", "create", "-n", envname, "--file", shQuote(YAML_file)))
+```
+
+------------------------------------------------------------------------
+
+## ⚙️ Install de Metashape
+
+The environment you just created contains already all necessary
+dependences but the Metashape python API, which is required to align
+photos using TimeSIFT.
+
+🔻 Download the .whl file here :
+<https://www.agisoft.com/downloads/installer/>
+
+Go to the “Python 3 module” section and click on the link corresponding
+to your operating system. This should download a file named
+“Metashape\[…\].whl”. Then, copy the path to the downloaded .whl file
+below  
+  
+*In RStudio console*
+
+``` r
+whl_file <- ".../Metashape-2.2.1-cp37.cp38.cp39.cp310.cp311-none-win_amd64.whl"
+
+use_condaenv(envname, required = TRUE)
+
+if (file.exists(whl_file)) {
+  message("Installation of Metashape from the .whl file…")
+  py_install(
+    packages = whl_file,
+    pip = TRUE
+  )
+} else {
+  warning("❌️ File .whl not found : ", whl_file)
+}
+
+py_module_available("Metashape") # Should be TRUE
+```
+
+------------------------------------------------------------------------
+
+## 🔑 Metashape license activation
+
+Your python environment should be ready for use now. However, Agisoft
+Metashape requires a paid license in order to access all its features.
+It is not necessary to have the Metashape application installed on your
+device in order for the python API to work, but whether or not the
+application is installed and/or activated, the API still needs to be
+activated using a license key (it can be the same used for the
+application if it is already installed).
+
+To activate the key, follow these steps :
+
+- Open an anaconda command prompt
+- Activate the environnement “canObsR-env”, and start python
+- Activate the licence (replace “AAAA-BBBB-CCCC-DDDD” with your license
+  key):  
+    
+
+*In Anaconda prompt*
+
+``` bash
+conda activate canObs-env
+python
+import Metashape
+Metashape.license.activate("AAAA-BBBB-CCCC-DDDD")
+exit()
+```
+
+If that works, you can close the command prompt.
+
+------------------------------------------------------------------------
+
+## 🆚 Check the version of arosics and gdal
+
+The conda environment you just created may contain incompatible arosics
+and gdal version. You need arosics 1.12 and gdal 3.10. Run the following
+code to check the versions you have and if you have older versions,
+upgrade them.  
+  
+
+*In RStudio console*
+
+``` r
+library(dplyr)
+
+reticulate::py_list_packages() %>% 
+  filter(package %in% c('arosics', 'gdal'))
+```
+
+### If you need to ugrade arosics :
+
+- Open an anaconda command prompt
+- Activate the environnement “canObsR-env”, and upgrade :  
+    
+
+*In Anaconda prompt*
+
+``` bash
+conda activate canObs-env
+pip install arosics --upgrade
+```
+
+### If you need to ugrade gdal :
+
+🔻 Windows : Download GDAL-3.10.1-cp311-cp311-win_amd64.whl 🔻 Mac :
+Download gdal-3.10.1-cp311-cp311-macosx_13_0_x86_64.whl 🔻 Linux :
+Downloadgdal-3.10.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl  
+  
+
+- Open an anaconda command prompt
+- Activate the environnement “canObsR-env”
+- Install gdal from the GDAL-3.10.1 whl file  
+    
+
+*In Anaconda prompt*
+
+``` bash
+conda activate canObs-env
+pip install your-path-to-gdal.whl
+```
+
+  
+  
+
+You should be good to go now ! 🎉  
+  

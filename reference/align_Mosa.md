@@ -1,0 +1,149 @@
+# Align orthomosaics by using AROSICS in R
+
+Implementation in R a pipeline that uses
+[AROSICS](https://github.com/GFZ/arosics) to perform a global or local
+co-registration on a file or a group of files located inside a folder
+
+## Usage
+
+``` r
+align_Mosa(
+  path_in,
+  ref_filepath,
+  out_dir_path,
+  corr_type = "global",
+  max_shift = 250L,
+  max_iter = 5L,
+  min_reliability = 60L,
+  grid_res = 1000L,
+  window_size = NULL,
+  window_pos = list(NULL, NULL),
+  mp = NULL,
+  save_data = TRUE,
+  save_vector_plot = FALSE,
+  apply_matrix = FALSE,
+  suffix = "",
+  do_subprocess = FALSE
+)
+```
+
+## Arguments
+
+- path_in:
+
+  character. Path to the target images, or to a folder containing
+  multiple target images. Images must be of Geotiff format.
+
+- ref_filepath:
+
+  character. Path to the reference image.
+
+- out_dir_path:
+
+  character. Directory where the outputs are saved.
+
+- corr_type:
+
+  character. Type of co-registration. Either 'global' (default) or
+  'local'.
+
+- max_shift:
+
+  integer. Maximum shift distance in reference image pixel units
+
+- max_iter:
+
+  integer. Maximum number of iterations for matching (default: 5).
+
+- min_reliability:
+
+  integer. Minimum reliability threshold (in percents), below which tie
+  points are marked as false-positives. Only applies to local
+  co-registration.
+
+- grid_res:
+
+  integer. Tie point grid resolution in pixels of the target image
+  (x-direction). Only applies to local co-registration. By default,
+  generates a 25\*25 points grid
+
+- window_size:
+
+  integer. Custom matching window size (in pixels) as (X, Y) tuple
+  (default: (512, 512) for global co-registration ; (256, 256) for
+  local).
+
+- window_pos:
+
+  list. Custom matching window position as (X, Y) map coordinate in the
+  same projection as the reference image (default: central position of
+  image overlap). Only used when performing global co-registration.
+
+- mp:
+
+  integer or NULL. Number of CPUs to use. If None (default), all
+  available CPUs are used. If mp=1, no multiprocessing is done.
+
+- save_data:
+
+  logical. Saves the transformation metadata in a .pkl file, and the tie
+  points data in a csv file. The latter only happens when performing
+  local co-registration.
+
+- save_vector_plot:
+
+  logical. saves the a map of the calculated tie point grid in a JPEG
+  file. Has an effect only when performing local co-registration.
+
+- apply_matrix:
+
+  logical. When correcting multiple images, applies the shifts computed
+  for the first image to all the remaining ones, instead of computing
+  the shifts independently. Allows for better alignement and faster
+  computing time. WARNING : Currently, if inputs images don't all have
+  the same extent, temporary padded images need to be created. We hope
+  to change that soon ; until then, apply_matrix is disabled by default)
+
+- suffix:
+
+  chr. Text to add at the end of the output filenames.
+
+## Value
+
+NULL (invisible)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+align_Mosa(path_in = "path_to_ortho.tif",
+             ref_filepath = "ref_image.tif",
+             out_dir_path = "my_output_dir",
+             corr_type = "local",
+             grid_res = 500,
+             ws = 200,
+             mp = 5,
+             save_data = TRUE,
+             save_vector_plot = TRUE
+             )
+
+align_Mosa(path_in = "path_to_input_folder",
+             ref_filepath = "ref_image.tif",
+             out_dir_path = "my_output_dir",
+             corr_type = "local",
+             grid_res = 500,
+             save_data = FALSE,
+             )
+
+align_Mosa(path_in = "path_to_input_folder",
+             ref_filepath = "ref_image.tif",
+             out_dir_path = "my_output_dir",
+             corr_type = "global",
+             max_shift = 200,
+             save_data = TRUE,
+             apply_matrix = TRUE,
+             mp = 1
+             )
+             } # }
+```
