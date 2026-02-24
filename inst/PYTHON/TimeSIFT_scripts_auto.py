@@ -13,12 +13,12 @@ import shutil
 #scan.License().activate('your_license_key')
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--crs', type=str, default="EPSG::32622")
+parser.add_argument('--crs', type=str, default="EPSG::4326")
 parser.add_argument('--pathDIR', type=str)
 parser.add_argument('--out_dir_ortho', type=str)
 parser.add_argument('--out_dir_dem', type=str, default = None,)
 parser.add_argument('--out_dir_project', type=str, default = None)
-parser.add_argument('--resol_ref', type=float, default = 0.05)
+parser.add_argument('--resol_ref', type=float, default = 0)
 parser.add_argument('--data_type', type=str, default = 'RGB')
 parser.add_argument('--site_name', type=str, default = "")
 parser.add_argument('--calibrate_col', default = True)
@@ -56,7 +56,7 @@ def add_all_chunks(doc, pathDIR=None):
     epochs = [d for d in os.listdir(pathDIR) if os.path.isdir(os.path.join(pathDIR, d))]
     #epochs = os.listdir(pathDIR)
     print("epochs : ", epochs)
-    
+
     # We remove all existing chunks and add them one by one
     for chk in doc.chunks:
         doc.remove(chk)
@@ -157,7 +157,7 @@ def split_TimeSIFT_chunk(doc, group_by_flight = False):
             NewChunk.remove(list_cameras)
     
 
-def process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = None, out_dir_DEM = None, site_name="", resol_ref = None, crs = None, from_mesh=False, downscale_factor_depth_map = 2, suffix = ""):
+def process_splited_TimeSIFT_chunks_one_by_one(doc, out_dir_ortho = None, out_dir_DEM = None, site_name="", resol_ref = 0, crs = None, from_mesh=False, downscale_factor_depth_map = 2, suffix = ""):
     """
     Generate depth map, dense cloud, DEM and orthomosaic for one image. Always saves orthomosaic and saves DEM if specified. Can also create orthomosaic based on the mesh model, 
     in which case the DEM will not be generated.
@@ -223,8 +223,8 @@ def Time_SIFT_process(pathDIR,
                       out_dir_DEM=None,      
                       out_dir_project=None,   
                       data_type="RGB",
-                      resol_ref=0.05, 
-                      crs="EPSG::32622", 
+                      resol_ref=0, 
+                      crs="EPSG::4326", 
                       site_name = "",
                       calibrate_col = True,
                       sun_sensor = False,
@@ -243,8 +243,8 @@ def Time_SIFT_process(pathDIR,
     :param str out_dir_DEM: Folder where the DEMs are saved. If no path is specified, the DEMs are not saved by default.
     :param str out_dir_project: Folder where the Metashape project is saved. If no path is specified, the project is not saved by default.
     :param str data_type: The type of the data used. Either 'RGB' (default) or 'MS' (for multispectral images).
-    :param float resol_ref: The resolution (in meters) used to generate DEMs and orthomosaics. Defaults to 0.05.
-    :param str crs: Coordinate system used, in a string format. Example: crs="EPSG::32622" (default value).
+    :param float resol_ref: The resolution (in meters) used to generate DEMs and orthomosaics. By default, metashape will compute it.
+    :param str crs: Coordinate system used, in a string format. Example: crs="EPSG::4326" (default value).
     :param str site_name: Adds the data site name into the names of all created folders and files, to better separate generated data from different projects. If not specified, the names will stay generic.
     :param bool calibrate_col: Whether or not to apply white balance. Defaults to True.
     :param bool sun_sensor: Whether or not to calibrate the reflectance using the sun sensor. Only applies to multispectral images. Defaults to False.
@@ -277,7 +277,6 @@ def Time_SIFT_process(pathDIR,
             out_dir_DEM = os.path.abspath(out_dir_DEM)
             if not os.path.exists(out_dir_DEM):           
                 os.mkdir(out_dir_DEM)
-
     #TODO : store all times into log file, or add progress bars
     start_time = time.time()
     if data_type == "RGB" or data_type == "MS":
@@ -308,8 +307,6 @@ def Time_SIFT_process(pathDIR,
     if calibrate_col and (data_type=='RGB' or data_type=='MS'):
         TS_chunk = [chk for chk in doc.chunks if (re.search("TimeSIFT", chk.label) is not None)][0]
         TS_chunk.calibrateColors(scan.TiePointsData, white_balance=True)
-    
-
 
     doc.save(os.path.join(out_dir_ortho, '_temp_.psx'))
     

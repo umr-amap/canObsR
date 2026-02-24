@@ -7,6 +7,8 @@
 docs
 inst/doc
 inst/xlsx/*
+utils.ipynb
+multiple_sites_auto.R
 inst/crowns/*
 inst/PYTHON/canObsR_env
 test_data/*
