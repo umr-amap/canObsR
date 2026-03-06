@@ -25,6 +25,7 @@ parser.add_argument('--calibrate_col', default = True)
 parser.add_argument('--sun_sensor', default = False)
 parser.add_argument('--group_by_flight', default = False)
 parser.add_argument('--from_mesh', default = False)
+parser.add_argument('--folder_names', default = None)
 parser.add_argument('--downscale_factor_alignement', type=int, default = 1)
 parser.add_argument('--downscale_factor_depth_map', type=int, default = 2)
 parser.add_argument('--suffix', type=str, default = "")
@@ -47,14 +48,16 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
 
-def add_all_chunks(doc, pathDIR=None):
+def add_all_chunks(doc, pathDIR=None, folder_names=None):
     """
     Loads all RGB photos into the project, one chunk per subfolder in pathDIR
     """
     print(pathDIR)
     #os.chdir(pathDIR)
-    epochs = [d for d in os.listdir(pathDIR) if os.path.isdir(os.path.join(pathDIR, d))]
-    #epochs = os.listdir(pathDIR)
+    if folder_names is not None:
+        epochs = [d for d in folder_names]
+    else:
+        epochs = [d for d in os.listdir(pathDIR) if os.path.isdir(os.path.join(pathDIR, d))]
     print("epochs : ", epochs)
 
     # We remove all existing chunks and add them one by one
@@ -233,6 +236,7 @@ def Time_SIFT_process(pathDIR,
                       downscale_factor_alignement = 1,
                       downscale_factor_depth_map = 2,
                       suffix = "",
+                      folder_names = None,
                       ):
     """
     Executes the complete Time_SIFT process : Loads all photos from the input folder and its subdirectories into a Metashape project . These photos will then be merged, aligned,
@@ -267,20 +271,18 @@ def Time_SIFT_process(pathDIR,
     sun_sensor = str2bool(sun_sensor)
     group_by_flight = str2bool(group_by_flight)
 
-    if not os.path.exists(out_dir_ortho):
-        os.mkdir(out_dir_ortho)
+    os.makedirs(out_dir_ortho, exist_ok=True)
     
     if out_dir_DEM is not None:  
         if out_dir_DEM == "" :
            out_dir_DEM = os.path.join(os.path.dirname(out_dir_ortho), "DEM")
         else:
             out_dir_DEM = os.path.abspath(out_dir_DEM)
-            if not os.path.exists(out_dir_DEM):           
-                os.mkdir(out_dir_DEM)
+            os.makedirs(out_dir_DEM, exist_ok=True)
     #TODO : store all times into log file, or add progress bars
     start_time = time.time()
     if data_type == "RGB" or data_type == "MS":
-        add_all_chunks(doc, pathDIR = os.path.abspath(pathDIR))
+        add_all_chunks(doc, pathDIR = os.path.abspath(pathDIR), folder_names = folder_names)
         merge_chunk_TimeSIFT(doc)
         t_add_data = time.time()
         print(f"Time spent loading and merging photos : {t_add_data - start_time} seconds")
@@ -331,8 +333,7 @@ def Time_SIFT_process(pathDIR,
             out_dir_project = out_dir_ortho
         else:
             out_dir_project = os.path.abspath(out_dir_project)
-            if not os.path.exists(out_dir_project):
-                os.mkdir(out_dir_project)
+            os.makedirs(out_dir_project, exist_ok=True)
         doc.save(os.path.join(out_dir_project, f"Metashape_Project_{site_name}.psx"))
     
     doc.clear()
@@ -361,4 +362,5 @@ if __name__ == '__main__':
                       downscale_factor_alignement = args.downscale_factor_alignement,
                       downscale_factor_depth_map = args.downscale_factor_depth_map,
                       suffix = args.suffix,
+                      folder_names = args.folder_names,
                       )

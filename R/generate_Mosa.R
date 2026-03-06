@@ -57,7 +57,7 @@ generate_Mosa <- function(path_in, out_dir_ortho, out_dir_DEM = NULL, out_dir_pr
                        site_name = "", calibrate_col = TRUE, sun_sensor = FALSE,
                        group_by_flight = FALSE, from_mesh = FALSE,
                        downscale_factor_alignement = 1L, downscale_factor_depth_map = 2L, 
-                       suffix = "") {
+                       suffix = "", folder_names = NULL) {
 
 
    reticulate::source_python(system.file("PYTHON/TimeSIFT_scripts_auto.py", package = "canObsR"))
@@ -76,5 +76,7 @@ generate_Mosa <- function(path_in, out_dir_ortho, out_dir_DEM = NULL, out_dir_pr
                      from_mesh = from_mesh,
                      downscale_factor_alignement = downscale_factor_alignement,
                      downscale_factor_depth_map = downscale_factor_depth_map,
-                     suffix = suffix)
+                     suffix = suffix,
+                     folder_names = folder_names
+                     )
 }
