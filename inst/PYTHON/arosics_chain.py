@@ -19,25 +19,6 @@ def parse_tuple(arg):
         return tuple(map(int, arg.strip("()").split(",")))
     except ValueError:
         raise argparse.ArgumentTypeError(f"Invalid tuple format: '{arg}'. Expected format: '(int,int)'")
-    
-parser = argparse.ArgumentParser()
-parser.add_argument('--path_in', type=str)
-parser.add_argument('--ref_filepath',type=str)
-parser.add_argument('--out_dir_path', type=str)
-parser.add_argument('--corr_type', type=str, default='global')
-parser.add_argument('--mp', default=None)
-parser.add_argument('--max_shift', type=int, default=250)
-parser.add_argument('--max_iter', type=int, default=5)
-parser.add_argument('--ws', default=None)
-parser.add_argument('--wp', type=parse_tuple, default=(None, None))
-parser.add_argument('--min_reliability', type=int, default=60)
-parser.add_argument('--grid_res', type=int, default=None)
-parser.add_argument('--apply_matrix', default=False)
-parser.add_argument('--save_plot', default=False)
-parser.add_argument('--save_data', default=True)
-parser.add_argument('--compress_lzw', default=False)
-parser.add_argument('--suffix', type=str, default="")
-args = parser.parse_args()
 
 
 def str2bool(v):
@@ -550,6 +531,25 @@ def complete_arosics_process(path_in,
     
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--path_in', type=str)
+    parser.add_argument('--ref_filepath',type=str)
+    parser.add_argument('--out_dir_path', type=str)
+    parser.add_argument('--corr_type', type=str, default='global')
+    parser.add_argument('--mp', default=None)
+    parser.add_argument('--max_shift', type=int, default=250)
+    parser.add_argument('--max_iter', type=int, default=5)
+    parser.add_argument('--ws', default=None)
+    parser.add_argument('--wp', type=parse_tuple, default=(None, None))
+    parser.add_argument('--min_reliability', type=int, default=60)
+    parser.add_argument('--grid_res', type=int, default=None)
+    parser.add_argument('--apply_matrix', default=False)
+    parser.add_argument('--save_plot', default=False)
+    parser.add_argument('--save_data', default=True)
+    parser.add_argument('--compress_lzw', default=False)
+    parser.add_argument('--suffix', type=str, default="")
+    args = parser.parse_args()
+
     print(args)
     complete_arosics_process(path_in = args.path_in,
                              ref_filepath = args.ref_filepath, 
