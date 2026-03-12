@@ -87,11 +87,11 @@ def harmonize_crs(input_path, ref_path, check_ref=True, compress_lzw=False):
                 print(f"No compression needed for reference image : {ref_path}")
         
         with rasterio.open(input_path) as ds_in:
-            img_in = ds_in.read()
             metadata_in = ds_in.meta.copy()
             correction_needed = metadata_in['crs']!=metadata_ref['crs']
             print("harmonization needed : ", correction_needed)
             if correction_needed:
+                img_in = ds_in.read()
                 metadata_in['crs'] = crs_ref
             
             if compress_lzw:
