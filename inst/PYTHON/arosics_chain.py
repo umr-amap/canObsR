@@ -70,17 +70,14 @@ def harmonize_crs(input_path, ref_path, check_ref=True, compress_lzw=False):
     compress_lzw (bool, optional):  
         If True (default), performs a lzw compression on the image(s)
     """
-    ref_compr = compress_lzw
-    input_compr = compress_lzw
 
     with rasterio.open(ref_path) as ds_ref:
         metadata_ref = ds_ref.meta.copy()
         crs_ref = metadata_ref['crs']
 
-        if compress_lzw:
+        if compress_lzw and check_ref:
             if ds_ref.profile.get('compress', 'Uncompressed')!='lzw':
                 pass
-                ref_compr = False
                 metadata_ref.update(compress='lzw', bigtiff=True)
                 print(f"Reference image {ref_path} will be compressed")
             else:
@@ -94,18 +91,16 @@ def harmonize_crs(input_path, ref_path, check_ref=True, compress_lzw=False):
                 img_in = ds_in.read()
                 metadata_in['crs'] = crs_ref
             
-            if compress_lzw:
-                if ds_in.profile.get('compress', 'Uncompressed')!='lzw':
-                    input_compr = False
-                    metadata_in.update(compress='lzw', bigtiff=True)
-                    print(f"Input image {input_path} will be compressed")
-                else:
-                    print(f"No compression needed for input image : {input_path}")
+                if compress_lzw:
+                    if ds_in.profile.get('compress', 'Uncompressed')!='lzw':
+                        metadata_in.update(compress='lzw', bigtiff=True)
+                        print(f"Input image {input_path} will be compressed")
+                    else:
+                        print(f"No compression needed for input image : {input_path}")
 
-            ds_in.close() 
+                ds_in.close() 
 
-
-        if check_ref and (correction_needed or not ref_compr):
+        if check_ref and correction_needed:
             metadata_ref['crs'] = crs_ref
             img_ref = ds_ref.read()
             ds_ref.close()
@@ -113,7 +108,7 @@ def harmonize_crs(input_path, ref_path, check_ref=True, compress_lzw=False):
                 ds_ref_out.write(img_ref)
                 ds_ref_out.close()     
         ds_ref.close()
-    if correction_needed or not input_compr:
+    if correction_needed :
         with rasterio.open(input_path, "w", **metadata_in) as ds_out:
             ds_out.write(img_in)
             ds_out.close()
