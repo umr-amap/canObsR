@@ -66,6 +66,7 @@ metric, band and value.
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 
 imgs = list.files('my-path-to-images', full.names = T)

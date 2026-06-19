@@ -20,6 +20,7 @@ shiny_visualisation(data_labeling)
 ## Examples
 
 ``` r
+
 library(canObsR)
 
 # shiny_visualisation() # Run it

@@ -41,6 +41,7 @@ These functions required, arosics(AROSICS), the Metashape python API and
 a valid Metashape license.
 
 ``` r
+
 library(canObsR)
 library(reticulate)
 
@@ -87,6 +88,7 @@ subsequent image N uses the aligned version of the image N-1 as a
 reference.
 
 ``` r
+
 dir_mosa = file.path(my_path, '2_orthomosaics')
 out_dir_path = file.path(my_path, '3_orthomosaics_aligned')
 
@@ -143,6 +145,7 @@ later apply it to another one, using the
 function.
 
 ``` r
+
 my_path <- 'XXXX/canObsR_data'
 
 apply_saved_matrix(im_path = file.path(my_path, '2_orthomosaics', 'additional_ortho.tif'),

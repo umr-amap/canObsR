@@ -36,6 +36,7 @@ Usable_crown.
 ## Examples
 
 ``` r
+
 library(canObsR)
 
 data_labeling = canObsR::data_labeling

@@ -6,6 +6,7 @@ serie** and a **shapefile of the crowns delineations**. To run the
 following code you have to download the test data (link is coming).
 
 ``` r
+
 ############## Load libraries --------------------------------------------------
 
 library(canObsR)
@@ -30,6 +31,7 @@ depending on the size, the resolution and the number of mosaics. You can
 specify where you want to store the temporary files.
 
 ``` r
+
 ############## Set parameters --------------------------------------------------
 
 # Path to the main directory
@@ -50,6 +52,7 @@ path to the RGB mosaics (**imgs**) and the dates of the images
 (**dates**).
 
 ``` r
+
 # Path to the mosaics
 imgs <- list.files(file.path(path,'3_orthomosaics_aligned'), full.names = T)
 
@@ -72,6 +75,7 @@ the shapefile must have :
 - ‘id’ should not have duplicated values.
 
 ``` r
+
 ############## STEP 1 Check and modify the crowns file  ------------------------
 
 # Check the crowns file compatibility
@@ -140,6 +144,7 @@ temporary files to be sur to have enought space. If you use the test
 data, it can take about 15 minutes (or more).
 
 ``` r
+
 ############## STEP 2 Extract crowns images ------------------------------------
 
 extract_crownsImages(
@@ -160,6 +165,7 @@ extract_crownsImages(
 ## Third step : Extract crowns rgb indices per date
 
 ``` r
+
 ############## STEP 3 Extract spectral indices from mosaics at the crown scale -
 
 rgb_data <- extract_rgbValues (
@@ -182,6 +188,7 @@ rgb_data <- extract_rgbValues (
 by a shiny application (`shiny_labels`) to do the labeling.
 
 ``` r
+
 ############## STEP 4 Create file to do the labeling  --------------------------
 
 create_labelingFile(
@@ -198,6 +205,7 @@ openXL(file.path(path,paste(site,'labelingFile',paste0(format(as.Date(Sys.Date()
 ------------------------------------------------------------------------
 
 ``` r
+
 
 ############## STEP 5 Fill the labelingFile with shiny app  --------------------
         
@@ -223,6 +231,7 @@ shiny_labels(
 ## Start the visualisation app
 
 ``` r
+
 data = canObsR::data
 
 write.csv(data, file = file.path(path,'full_data.csv'))

@@ -75,6 +75,7 @@ height and width parameters.
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 
 imgs = list.files('my-path-to-images', full.names = T)

@@ -115,6 +115,7 @@ NULL (invisible)
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 
 align_Mosa(path_in = "path_to_ortho.tif",

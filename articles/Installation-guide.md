@@ -48,6 +48,7 @@ Fig 1 : Installation proccess
 *In RStudio console*
 
 ``` r
+
 install.packages("devtools")
 install.packages("reticulate")
 ```
@@ -59,6 +60,7 @@ install.packages("reticulate")
 *In RStudio console*
 
 ``` r
+
 library(devtools)
 install_github("https://github.com/umr-amap/canObsR.git")
 ```
@@ -70,6 +72,7 @@ install_github("https://github.com/umr-amap/canObsR.git")
 *In RStudio console*
 
 ``` r
+
 library(reticulate)
 install_miniconda()
 ```
@@ -81,6 +84,7 @@ install_miniconda()
 *In RStudio console*
 
 ``` r
+
 library(canObsR)
 
 YAML_file <- system.file("PYTHON/environment.yaml", package = "canObsR")
@@ -109,6 +113,7 @@ below
 *In RStudio console*
 
 ``` r
+
 whl_file <- ".../Metashape-2.2.1-cp37.cp38.cp39.cp310.cp311-none-win_amd64.whl"
 
 use_condaenv(envname, required = TRUE)
@@ -171,6 +176,7 @@ upgrade them.
 *In RStudio console*
 
 ``` r
+
 library(dplyr)
 
 reticulate::py_list_packages() %>% 

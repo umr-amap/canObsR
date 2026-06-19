@@ -1,6 +1,7 @@
 # Generate-crown-indices
 
 ``` r
+
 library(canObsR)
 #> Warning: replacing previous import 'foreach::when' by 'purrr::when' when
 #> loading 'canObsR'

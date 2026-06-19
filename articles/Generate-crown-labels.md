@@ -47,6 +47,7 @@ number of mosaics. You can specify where you want to store the temporary
 files.
 
 ``` r
+
 ############## Load libraries --------------------------------------------------
 
 library(canObsR)
@@ -87,6 +88,7 @@ Check the crown file compatibility (Fig 2), [(more details
 here)](https://umr-amap.github.io/canObsR/reference/Create-compatible-crown-delineation-file.html)
 
 ``` r
+
 crownFile <- read_sf(crownFile_path)
 
 check_crownFile(crownFile)
@@ -100,6 +102,7 @@ Extract individual crown images to the ‘canObsR_data2/4_crowns_img’
 folder. For the test dataset it can take fiew minutes.
 
 ``` r
+
 
 extract_crownImages(
    path_images = mosa_path,                                         # Path to mosaics
@@ -116,6 +119,7 @@ extract_crownImages(
 ### Create labeling file
 
 ``` r
+
 create_labelingFile(
    crownFile = crownFile,          # Path to  crown file
    site = site,                           # Site name
@@ -126,6 +130,7 @@ create_labelingFile(
 ### Do labeling with the app
 
 ``` r
+
 
 shiny_labels(
    labelingFile = file.path(

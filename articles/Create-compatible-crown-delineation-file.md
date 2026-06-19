@@ -21,6 +21,7 @@ The following example shows how to adjust the crown delineation file to
 make it compatible. It uses data from the
 
 ``` r
+
 library(canObsR)
 library(dplyr)
 
@@ -49,6 +50,7 @@ have the information. id must be or and ‘species’, ‘genus’ and ‘family
 must be .
 
 ``` r
+
 check_crownFile(crownFile)
 #> ##########     VARIABLES CHECK     ##########
 #>                                              
@@ -86,6 +88,7 @@ NA from ‘species’, ‘genus’ and ‘family’ must be replace by ‘indet�
 just NA from ‘id’.
 
 ``` r
+
 check_crownFile(crownFile)
 #> ##########     VARIABLES CHECK     ##########
 #>                                              
@@ -128,6 +131,7 @@ crownFile = crownFile %>% mutate(
 When the function does not indicate error, the file is compatible !
 
 ``` r
+
 check_crownFile(crownFile)
 #> ##########     VARIABLES CHECK     ##########
 #>                                              

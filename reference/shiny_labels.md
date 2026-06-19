@@ -45,6 +45,7 @@ shiny_labels(
 ## Examples
 
 ``` r
+
 library(canObsR)
 
 data(data_labeling)

@@ -3,6 +3,7 @@
 ![In progress](img/Image1.jpg)
 
 ``` r
+
 library(canObsR)
 #> Warning: replacing previous import 'foreach::when' by 'purrr::when' when
 #> loading 'canObsR'
@@ -135,6 +136,7 @@ heatmap_Labels(data_labeling,
 
 ``` r
 
+
 heatmap_Labels(data_labeling_simplify,
                Specie = NULL,
                Genus = 'Desbordesia',
@@ -149,16 +151,19 @@ heatmap_Labels(data_labeling_simplify,
 
 ``` r
 
+
 merge_data <- merge_values(data_labeling, rgb_data)
 ```
 
 ``` r
+
 plot_signal(data = merge_data, Genus = 'Desbordesia')
 ```
 
 ![](workflow_files/figure-html/unnamed-chunk-4-1.png)
 
 ``` r
+
 plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 163)
 #> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 #> ℹ Please use `linewidth` instead.
@@ -172,12 +177,14 @@ plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 163)
 ![](workflow_files/figure-html/unnamed-chunk-5-1.png)
 
 ``` r
+
 plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 163, Band = c('gndvi','gli'))
 ```
 
 ![](workflow_files/figure-html/unnamed-chunk-6-1.png)
 
 ``` r
+
 plot_signal(data = merge_data, Genus = 'Desbordesia', slcted_id = 163, Band = c('gndvi','gli'), show_Labels = TRUE)
 #> Warning in geom_point(data = dplyr::filter(data, highlight ==
 #> paste(slcted_id)), : Ignoring unknown parameters: `fontface`
