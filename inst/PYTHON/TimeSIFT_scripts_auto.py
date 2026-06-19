@@ -1,6 +1,7 @@
 # This script is based on the following work :
 # Fabrice Vinatier, & Denis Feurer. (2023). Time-SIFT module for Agisoft Metashape software. Zenodo. https://doi.org/10.5281/zenodo.8359982
 
+import sys
 import os
 from os import path
 import re
@@ -344,21 +345,22 @@ if __name__ == '__main__':
     parser.add_argument('--suffix', type=str, default = "")
     args = parser.parse_args()
 
-    print("args : ", args)
-    Time_SIFT_process(pathDIR = args.pathDIR, 
-                      out_dir_ortho = args.out_dir_ortho, 
-                      out_dir_DEM = args.out_dir_dem, 
-                      out_dir_project = args.out_dir_project,
-                      data_type = args.data_type, 
-                      resol_ref = args.resol_ref, 
-                      crs = args.crs,
-                      site_name = args.site_name,
-                      calibrate_col = args.calibrate_col,
-                      sun_sensor = args.sun_sensor,
-                      group_by_flight = args.group_by_flight,
-                      from_mesh = args.from_mesh,
-                      downscale_factor_alignement = args.downscale_factor_alignement,
-                      downscale_factor_depth_map = args.downscale_factor_depth_map,
-                      suffix = args.suffix,
-                      folder_names = args.folder_names,
-                      )
+    if len(sys.argv) > 1:
+        print("args : ", args)
+        Time_SIFT_process(pathDIR = args.pathDIR, 
+                        out_dir_ortho = args.out_dir_ortho, 
+                        out_dir_DEM = args.out_dir_dem, 
+                        out_dir_project = args.out_dir_project,
+                        data_type = args.data_type, 
+                        resol_ref = args.resol_ref, 
+                        crs = args.crs,
+                        site_name = args.site_name,
+                        calibrate_col = args.calibrate_col,
+                        sun_sensor = args.sun_sensor,
+                        group_by_flight = args.group_by_flight,
+                        from_mesh = args.from_mesh,
+                        downscale_factor_alignement = args.downscale_factor_alignement,
+                        downscale_factor_depth_map = args.downscale_factor_depth_map,
+                        suffix = args.suffix,
+                        folder_names = args.folder_names,
+                        )

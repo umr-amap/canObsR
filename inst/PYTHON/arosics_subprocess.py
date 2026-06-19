@@ -1,5 +1,6 @@
 import logging 
 import subprocess
+import sys
 import os
 import argparse
 
@@ -78,21 +79,22 @@ if __name__ == '__main__':
     parser.add_argument('--subprocess', default=False)
     args = parser.parse_args()
     
-    print(args)
-    launch_arosics_in_subproc(path_in = args.path_in,
-                              ref_filepath = args.ref_filepath, 
-                              out_dir_path = args.out_dir_path, 
-                              corr_type = args.corr_type, 
-                              mp = args.mp,
-                              max_shift = args.max_shift,
-                              max_iter = args.max_iter,
-                              grid_res = args.grid_res,
-                              min_reliability = args.min_reliability,
-                              window_pos = args.wp,
-                              window_size = args.ws,
-                              apply_matrix = args.apply_matrix,
-                              save_data = args.save_data,
-                              save_vector_plot = args.save_plot,
-                              compress_lzw = args.compress_lzw,
-                              suffix = args.suffix,
-                              )
+    if len(sys.argv) > 1:
+        print(args)
+        launch_arosics_in_subproc(path_in = args.path_in,
+                                ref_filepath = args.ref_filepath, 
+                                out_dir_path = args.out_dir_path, 
+                                corr_type = args.corr_type, 
+                                mp = args.mp,
+                                max_shift = args.max_shift,
+                                max_iter = args.max_iter,
+                                grid_res = args.grid_res,
+                                min_reliability = args.min_reliability,
+                                window_pos = args.wp,
+                                window_size = args.ws,
+                                apply_matrix = args.apply_matrix,
+                                save_data = args.save_data,
+                                save_vector_plot = args.save_plot,
+                                compress_lzw = args.compress_lzw,
+                                suffix = args.suffix,
+                                )
