@@ -413,6 +413,7 @@ def complete_arosics_process(path_in,
                 path_out = os.path.join(out_dir_path, file.split('.')[0].replace("_temp", "") + f"{suffix}.tif")
                 with warnings.catch_warnings(record=True) as w:
                     warnings.simplefilter("always")
+                    CR_info = None
                     try:
                         CR_info = call_arosics(current_file_path, 
                                                 ref_filepath, 
